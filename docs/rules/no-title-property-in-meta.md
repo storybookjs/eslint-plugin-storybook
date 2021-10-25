@@ -11,7 +11,7 @@ Examples of **incorrect** code for this rule:
 ```js
 
 export default { 
-  title: 'Components|Forms/Input,
+  title: 'Components|Forms/Input',
   component: Input
 }
 ```
