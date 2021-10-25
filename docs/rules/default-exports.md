@@ -19,7 +19,7 @@ Examples of **correct** code for this rule:
 
 ```js
 export default { 
-  title: 'Button,
+  title: 'Button',
   args: { primary: true },
   component: Button
 }
