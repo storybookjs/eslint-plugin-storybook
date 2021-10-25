@@ -25,8 +25,8 @@ Examples of **correct** code for this rule:
 
 ```js
 import Button from '../components/Button';
+
 export default = {
-  title: 'Button',
   component: Button
 }
 
