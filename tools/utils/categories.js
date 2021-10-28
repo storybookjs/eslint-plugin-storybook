@@ -2,7 +2,7 @@
 
 const rules = require('./rules')
 
-const categories = {
+const categoriesConfig = {
   csf: {
     text: 'CSF Rules',
   },
@@ -14,10 +14,10 @@ const categories = {
   },
 }
 
-const categoryIds = Object.keys(categories)
+const categoryIds = Object.keys(categoriesConfig)
 
 for (const categoryId of categoryIds) {
-  categories[categoryId].rules = []
+  categoriesConfig[categoryId].rules = []
 
   for (const rule of rules) {
     const ruleCategories = rule.meta.docs.categories
@@ -27,19 +27,30 @@ for (const categoryId of categoryIds) {
     }
 
     if (ruleCategories.includes(categoryId)) {
-      categories[categoryId].rules.push(rule)
+      categoriesConfig[categoryId].rules.push(rule)
     }
   }
 }
 
-module.exports = categoryIds
+const categories = categoryIds
   .map((categoryId) => {
+    if (!categoriesConfig[categoryId].rules.length) {
+      throw new Error(
+        `Category "${categoryId}" has no rules. Make sure that at least one rule is linked to this category.`
+      )
+    }
+
     return {
       categoryId,
-      title: categories[categoryId],
-      rules: (categories[categoryId].rules || []).filter((rule) => !rule.meta.deprecated),
+      title: categoriesConfig[categoryId],
+      rules: categoriesConfig[categoryId].rules.filter((rule) => !rule.meta.deprecated),
     }
   })
   .filter((category) => {
     return category.rules.length >= 1
   })
+
+module.exports = {
+  categories,
+  categoryIds,
+}

@@ -8,7 +8,7 @@ const fs = require('fs')
 const path = require('path')
 const { format } = require('prettier')
 const prettierConfig = require('../.prettierrc')
-const categories = require('./utils/categories')
+const { categories } = require('./utils/categories')
 
 const extendsCategories = {
   csf: null,
@@ -34,7 +34,6 @@ function formatRules(rules) {
 
 function formatCategory(category) {
   const extendsCategoryId = extendsCategories[category.categoryId]
-  console.log({ category })
   if (extendsCategoryId == null) {
     return `/*
       * IMPORTANT!

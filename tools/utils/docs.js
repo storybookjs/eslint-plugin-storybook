@@ -1,16 +1,16 @@
 const { readFileSync, writeFileSync } = require('fs')
 const { resolve } = require('path')
 const { format, resolveConfig } = require('prettier')
+const { categoryIds } = require('./categories')
 
 const prettierConfig = resolveConfig.sync(__dirname)
 const readmePath = resolve(__dirname, `../../README.md`)
 
-const CONFIGURATIONS = ['csf', 'csf-strict', 'recommended']
-
-const configBadges = CONFIGURATIONS.reduce(
-  (badges, framework) => ({
+const configBadges = categoryIds.reduce(
+  (badges, category) => ({
     ...badges,
-    [framework]: `![${framework}-badge][]`,
+    // in case we ever want to add nice looking badges. Not in use at the moment
+    [category]: `![${category}-badge][]`,
   }),
   {}
 )
