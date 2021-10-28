@@ -4,8 +4,8 @@ Please describe the origin of the rule here.
 
 For more details: https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#removed-hierarchy-separators
 
-
 To automatically migrate, run this codemod in the root folder of your project:
+
 ```sh
 npx sb@next migrate upgrade-hierarchy-separators --glob="*/**/*.stories.@(tsx|jsx|ts|js)"
 ```
@@ -17,8 +17,7 @@ This rule aims to...
 Examples of **incorrect** code for this rule:
 
 ```js
-
-export default { 
+export default {
   title: 'Components|Forms/Input,
   component: Input
 }
@@ -27,7 +26,7 @@ export default {
 Examples of **correct** code for this rule:
 
 ```js
-export default { 
+export default {
   title: 'Components/Forms/Input,
   component: Input
 }

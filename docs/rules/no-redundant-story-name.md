@@ -9,16 +9,17 @@ This rule aims to...
 Examples of **incorrect** code for this rule:
 
 ```js
-export const PrimaryButton = { 
-  name: 'The Primary Button' 
+export const PrimaryButton = {
+  // no need for this, as Storybook will resolve to this name already
+  name: 'Primary Button',
 }
 ```
 
 Examples of **correct** code for this rule:
 
 ```js
-export const PrimaryButton = { 
-  name: 'Primary Button'
+export const PrimaryButton = {
+  name: 'The Primary Button',
 }
 ```
 

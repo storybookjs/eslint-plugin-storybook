@@ -9,18 +9,17 @@ This rule aims to...
 Examples of **incorrect** code for this rule:
 
 ```js
-
-export default { 
-  title: 'Components|Forms/Input',
-  component: Input
+export default {
+  title: 'Components/Forms/Input',
+  component: Input,
 }
 ```
 
 Examples of **correct** code for this rule:
 
 ```js
-export default { 
-  component: Input
+export default {
+  component: Input,
 }
 ```
 

@@ -9,23 +9,23 @@ This rule aims to...
 Examples of **incorrect** code for this rule:
 
 ```js
-export default { 
-  title: 'Button',
-  args: { primary: true },
-  component: Button
+const title = 'Button'
+const args = { primary: true }
+
+export default {
+  title,
+  args,
+  component: Button,
 }
 ```
 
 Examples of **correct** code for this rule:
 
 ```js
-const title = 'Button'
-const args = { primary: true }
-
-export default { 
-  title,
-  args,
-  component: Button
+export default {
+  title: 'Button',
+  args: { primary: true },
+  component: Button,
 }
 ```
 
