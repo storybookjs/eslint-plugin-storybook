@@ -16,7 +16,7 @@ const rule = require('../../../lib/rules/no-title-property-in-meta'),
 //------------------------------------------------------------------------------
 
 ruleTester.run('no-title-property-in-meta', rule, {
-  valid: ["export default { component: Button }"],
+  valid: ['export default { component: Button }'],
   invalid: [
     {
       code: "export default { component: Button, title: 'Button' }",
@@ -25,7 +25,7 @@ ruleTester.run('no-title-property-in-meta', rule, {
           type: 'ExportDefaultDeclaration',
           suggestions: [
             {
-              output: "export default { component: Button,  }",
+              output: 'export default { component: Button,  }',
             },
           ],
         },

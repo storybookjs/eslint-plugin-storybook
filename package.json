@@ -15,12 +15,14 @@
     "url": "https://github.com/storybookjs/linter"
   },
   "scripts": {
-    "lint": "eslint .",
+    "lint": "eslint --fix .",
     "test": "mocha tests --recursive",
     "generate-rule": "npx -p yo -p generator-eslint -c 'yo eslint:rule'",
     "update-configs": "node ./tools/update-configs.js",
     "update-docs": "node ./tools/update-rules-list.js",
-    "update-all": "yarn update-configs && yarn update-docs"
+    "update-all": "yarn update-configs && yarn update-docs",
+    "prepare": "husky install",
+    "prettier": "prettier --write ."
   },
   "dependencies": {
     "requireindex": "^1.1.0"
@@ -28,8 +30,12 @@
   "devDependencies": {
     "@typescript-eslint/parser": "^4.31.0",
     "eslint": "^7.1.0",
+    "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-eslint-plugin": "^3.2.0",
     "eslint-plugin-node": "^11.0.0",
+    "eslint-plugin-prettier": "^4.0.0",
+    "husky": ">=6",
+    "lint-staged": ">=10",
     "mocha": "^9.0.0",
     "prettier": "^2.4.0",
     "typescript": "^4.4.3"
@@ -40,5 +46,9 @@
   "peerDependencies": {
     "eslint": ">=6"
   },
-  "license": "MIT"
+  "license": "MIT",
+  "lint-staged": {
+    "*.js": "eslint --cache --fix",
+    "*.{js,css,md}": "prettier --write"
+  }
 }

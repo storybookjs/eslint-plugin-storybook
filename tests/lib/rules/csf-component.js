@@ -2,21 +2,20 @@
  * @fileoverview Component property should be set
  * @author Yann Braga
  */
-"use strict";
+'use strict'
 
 //------------------------------------------------------------------------------
 // Requirements
 //------------------------------------------------------------------------------
 
-const rule = require("../../../lib/rules/csf-component"),
-  ruleTester = require("../../utils/rule-tester");
-
+const rule = require('../../../lib/rules/csf-component'),
+  ruleTester = require('../../utils/rule-tester')
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-ruleTester.run("csf-component", rule, {
+ruleTester.run('csf-component', rule, {
   valid: [
     "export default { title: 'Button', component: Button }",
     "export default { title: 'Button', component: Button } as ComponentMeta<typeof Button>",
@@ -25,11 +24,11 @@ ruleTester.run("csf-component", rule, {
   invalid: [
     {
       code: "export default { title: 'Button' }",
-      errors: [{ message: "Missing component property.", type: "ExportDefaultDeclaration" }],
+      errors: [{ message: 'Missing component property.', type: 'ExportDefaultDeclaration' }],
     },
     {
       code: "export default { title: 'Button' } as Meta<typeof Button>",
-      errors: [{ message: "Missing component property.", type: "ExportDefaultDeclaration" }],
+      errors: [{ message: 'Missing component property.', type: 'ExportDefaultDeclaration' }],
     },
   ],
-});
+})

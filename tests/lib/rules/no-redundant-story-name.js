@@ -28,7 +28,7 @@ ruleTester.run('no-redundant-story-name', rule, {
           type: 'Property',
           suggestions: [
             {
-              output: "export const PrimaryButton = {  }",
+              output: 'export const PrimaryButton = {  }',
             },
           ],
         },

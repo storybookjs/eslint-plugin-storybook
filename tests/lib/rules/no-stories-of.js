@@ -2,21 +2,20 @@
  * @fileoverview storiesOf is deprecated and should not be used
  * @author Yann Braga
  */
-"use strict";
+'use strict'
 
 //------------------------------------------------------------------------------
 // Requirements
 //------------------------------------------------------------------------------
 
-const rule = require("../../../lib/rules/no-stories-of"),
+const rule = require('../../../lib/rules/no-stories-of'),
   ruleTester = require('../../utils/rule-tester')
-
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-ruleTester.run("no-stories-of", rule, {
+ruleTester.run('no-stories-of', rule, {
   valid: [
     `
       import Button from '../components/Button';
@@ -26,7 +25,7 @@ ruleTester.run("no-stories-of", rule, {
       }
 
       export const Primary = () => <Button primary />
-    `
+    `,
   ],
 
   invalid: [
@@ -38,7 +37,9 @@ ruleTester.run("no-stories-of", rule, {
         storiesOf('Button', module)
           .add('primary', () => <Button primary />)
       `,
-      errors: [{ message: "storiesOf is deprecated and should not be used", type: "ImportSpecifier" }],
+      errors: [
+        { message: 'storiesOf is deprecated and should not be used', type: 'ImportSpecifier' },
+      ],
     },
   ],
-});
+})

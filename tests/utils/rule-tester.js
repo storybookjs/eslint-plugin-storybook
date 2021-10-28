@@ -1,4 +1,4 @@
-const RuleTester = require("eslint").RuleTester;
+const RuleTester = require('eslint').RuleTester
 
 module.exports = new RuleTester({
   // eslint-disable-next-line node/no-unpublished-require
@@ -6,6 +6,6 @@ module.exports = new RuleTester({
   parserOptions: {
     ecmaFeatures: { jsx: true },
     ecmaVersion: 8,
-    sourceType: 'module'
-  }
+    sourceType: 'module',
+  },
 })
