@@ -2,37 +2,44 @@
 
 const rules = require('./rules')
 
-const categoryTitles = {
+const categories = {
   csf: {
     text: 'CSF Rules',
   },
   'csf-strict': {
     text: 'Strict CSF Rules',
   },
+  recommended: {
+    text: 'Base rules recommended by Storybook',
+  },
 }
 
-const categoryIds = Object.keys(categoryTitles)
-const categoryRules = {}
+const categoryIds = Object.keys(categories)
 
-for (const rule of rules) {
-  const categories = rule.meta.docs.categories || ['uncategorized']
-  for (const categoryId of categories) {
-    // Throw if no title is defined for a category
-    if (categoryId !== 'uncategorized' && !categoryTitles[categoryId]) {
-      throw new Error(`Category "${categoryId}" does not have a title defined.`)
+for (const categoryId of categoryIds) {
+  categories[categoryId].rules = []
+
+  for (const rule of rules) {
+    const ruleCategories = rule.meta.docs.categories
+    // Throw if rule does not have a category
+    if (!ruleCategories.length) {
+      throw new Error(`Rule "${rule.ruleId}" does not have any category.`)
     }
-    const catRules =
-      categoryRules[categoryId] || (categoryRules[categoryId] = [])
-    catRules.push(rule)
+
+    if (ruleCategories.includes(categoryId)) {
+      categories[categoryId].rules.push(rule)
+    }
   }
 }
 
 module.exports = categoryIds
-  .map((categoryId) => ({
-    categoryId,
-    title: categoryTitles[categoryId],
-    rules: (categoryRules[categoryId] || []).filter(
-      (rule) => !rule.meta.deprecated
-    )
-  }))
-  .filter((category) => category.rules.length >= 1)
+  .map((categoryId) => {
+    return {
+      categoryId,
+      title: categories[categoryId],
+      rules: (categories[categoryId].rules || []).filter((rule) => !rule.meta.deprecated),
+    }
+  })
+  .filter((category) => {
+    return category.rules.length >= 1
+  })

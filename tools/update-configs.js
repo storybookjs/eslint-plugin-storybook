@@ -6,28 +6,35 @@ This script updates `lib/configs/*.js` files from rule's meta data.
 
 const fs = require('fs')
 const path = require('path')
-const { format } = require('prettier');
+const { format } = require('prettier')
+const prettierConfig = require('../.prettierrc')
 const categories = require('./utils/categories')
 
 const extendsCategories = {
   csf: null,
+  recommended: null,
   'csf-strict': 'csf',
 }
 
 const externalRuleOverrides = {
-  "import/no-anonymous-default-export": "off"
+  'import/no-anonymous-default-export': 'off',
 }
 
 function formatRules(rules) {
-  const obj = rules.reduce((setting, rule) => {
-    setting[rule.ruleId] = rule.meta.docs.recommendedConfig || 'error'
-    return setting
-  }, externalRuleOverrides)
+  const obj = rules.reduce(
+    (setting, rule) => {
+      setting[rule.ruleId] = rule.meta.docs.recommendedConfig || 'error'
+      return setting
+    },
+    { ...externalRuleOverrides }
+  )
+
   return JSON.stringify(obj, null, 2)
 }
 
 function formatCategory(category) {
   const extendsCategoryId = extendsCategories[category.categoryId]
+  console.log({ category })
   if (extendsCategoryId == null) {
     return `/*
       * IMPORTANT!
@@ -63,7 +70,7 @@ fs.mkdirSync(ROOT)
 // Update/add rule files
 categories.forEach((category) => {
   const filePath = path.join(ROOT, `${category.categoryId}.js`)
-  const content = format(formatCategory(category), { parser: 'babel' })
+  const content = format(formatCategory(category), { parser: 'babel', ...prettierConfig })
 
   fs.writeFileSync(filePath, content)
 })
