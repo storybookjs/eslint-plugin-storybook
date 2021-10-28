@@ -25,7 +25,7 @@ ruleTester.run('prefer-pascal-case', rule, {
         {
           message: 'The story should use PascalCase notation: primary',
           type: 'Identifier',
-          suggestions: [{ output: 'export const Primary = {}' }]
+          suggestions: [{ output: 'export const Primary = {}' }],
         },
       ],
     },
