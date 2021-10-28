@@ -24,6 +24,9 @@ module.exports = {
   overrides: [
     {
       files: ['tests/**/*.js'],
+      rules: {
+        'node/no-unpublished-require': 'off'
+      },
       env: { mocha: true },
     },
   ],
