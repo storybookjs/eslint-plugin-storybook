@@ -1,4 +1,3 @@
-
 'use strict'
 
 const fs = require('fs')
@@ -11,14 +10,22 @@ module.exports = fs
   .map((file) => path.basename(file, '.js'))
   .map((name) => {
     const meta = { ...require(path.join(ROOT, name)).meta }
-    if (meta.docs && !meta.docs.categories && meta.docs.category) {
-      // for vue3 migration
+    if (meta.docs && !meta.docs.categories) {
       meta.docs = { ...meta.docs }
-      meta.docs.categories = [meta.docs.category]
+      meta.docs.categories = []
+
+      if (meta.docs.category) {
+        meta.docs.categories.push(meta.docs.category)
+        delete meta.docs.category
+      }
+
+      if (meta.docs.recommended) {
+        meta.docs.categories.push('recommended')
+      }
     }
     return {
       ruleId: `storybook/${name}`,
       name,
-      meta
+      meta,
     }
   })

@@ -54,21 +54,11 @@ Add `storybook` to the plugins section of your `.eslintrc` configuration file. Y
 }
 ```
 
-Then configure the rules you want to use under the rules section.
+Then, define which rule configurations to extend in your eslint file. Before that, it's important to understand that Storybook linting rules should only be applied in your stories files. You don't want rules to affect your other files such as production or test code as the rules might clash with rules from other ESLint plugins.
 
-```json
-{
-  "rules": {
-    "storybook/csf-component": "warn",
-    "storybook/meta-inline-properties": "error",
-    "storybook/hierarchy-separator": "off"
-  }
-}
-```
+### Run the plugin only against story files
 
-### Run the plugin only against test files
-
-With the default setup mentioned before, `eslint-plugin-storybook` will be run against your whole codebase. If you want to run this plugin only against your stories files, you have the following options:
+We don't want `eslint-plugin-storybook` to run against your whole codebase. To run this plugin only against your stories files, you have the following options:
 
 #### ESLint `overrides`
 
@@ -90,11 +80,11 @@ Assuming you are using the recommended `.stories` extension in your files, the f
       // 3) Now we enable eslint-plugin-storybook rules or preset only for matching files!
       // you can use the one defined in your main.js
       "files": ['src/**/*.stories.@(js|jsx|ts|tsx)'],
-      "extends": ["plugin:storybook/csf"],
+      "extends": ["plugin:storybook/recommended"],
 
       // 4) Optional: you can override specific rules here
       "rules": {
-        'storybook/csf-component': 'warn'
+        'storybook/no-redundant-story-name': 'off'
       }
     },
   ],
@@ -107,23 +97,21 @@ Another approach for customizing ESLint config by paths is through [ESLint Casca
 
 ## Supported Rules
 
-- Fill in provided rules here
-
 <!-- RULES-LIST:START -->
 
 **Key**: 🔧 = fixable
 
-**Configurations**: ![csf-badge][] = csf, ![csf-strict-badge][] = csf-strict
+**Configurations**: csf, csf-strict, recommended
 
-| Name                                                                               | Description                                      | 🔧  | Included in configurations |
-| ---------------------------------------------------------------------------------- | ------------------------------------------------ | --- | -------------------------- |
-| [`storybook/csf-component`](./docs/rules/csf-component.md)                         | The component property should be set             |     | csf                        |
-| [`storybook/default-exports`](./docs/rules/default-exports.md)                     | Story files should have a default export         |     | csf                        |
-| [`storybook/hierarchy-separator`](./docs/rules/hierarchy-separator.md)             | Deprecated hierachy separator in title property  | 🔧  | csf                        |
-| [`storybook/meta-inline-properties`](./docs/rules/meta-inline-properties.md)       | Meta should only have inline properties          |     | csf                        |
-| [`storybook/no-redundant-story-name`](./docs/rules/no-redundant-story-name.md)     | A story should have redundant name property      | 🔧  | csf                        |
-| [`storybook/no-stories-of`](./docs/rules/no-stories-of.md)                         | storiesOf is deprecated and should not be used   |     | csf-strict                 |
-| [`storybook/no-title-property-in-meta`](./docs/rules/no-title-property-in-meta.md) | Do not define a title in meta                    | 🔧  | csf-strict                 |
-| [`storybook/prefer-pascal-case`](./docs/rules/prefer-pascal-case.md)               | Stories should use PascalCase I am changing this | 🔧  | csf                        |
+| Name                                                                               | Description                                       | 🔧  | Included in configurations |
+| ---------------------------------------------------------------------------------- | ------------------------------------------------- | --- | -------------------------- |
+| [`storybook/csf-component`](./docs/rules/csf-component.md)                         | The component property should be set              |     | csf                        |
+| [`storybook/default-exports`](./docs/rules/default-exports.md)                     | Story files should have a default export          |     | csf, recommended           |
+| [`storybook/hierarchy-separator`](./docs/rules/hierarchy-separator.md)             | Deprecated hierachy separator in title property   | 🔧  | csf, recommended           |
+| [`storybook/meta-inline-properties`](./docs/rules/meta-inline-properties.md)       | Meta should only have inline properties           |     | csf, recommended           |
+| [`storybook/no-redundant-story-name`](./docs/rules/no-redundant-story-name.md)     | A story should not have a redundant name property | 🔧  | csf, recommended           |
+| [`storybook/no-stories-of`](./docs/rules/no-stories-of.md)                         | storiesOf is deprecated and should not be used    |     | csf-strict                 |
+| [`storybook/no-title-property-in-meta`](./docs/rules/no-title-property-in-meta.md) | Do not define a title in meta                     | 🔧  | csf-strict                 |
+| [`storybook/prefer-pascal-case`](./docs/rules/prefer-pascal-case.md)               | Stories should use PascalCase                     | 🔧  | recommended                |
 
 <!-- RULES-LIST:END -->

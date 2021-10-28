@@ -2,37 +2,55 @@
 
 const rules = require('./rules')
 
-const categoryTitles = {
+const categoriesConfig = {
   csf: {
     text: 'CSF Rules',
   },
   'csf-strict': {
     text: 'Strict CSF Rules',
   },
+  recommended: {
+    text: 'Base rules recommended by Storybook',
+  },
 }
 
-const categoryIds = Object.keys(categoryTitles)
-const categoryRules = {}
+const categoryIds = Object.keys(categoriesConfig)
 
-for (const rule of rules) {
-  const categories = rule.meta.docs.categories || ['uncategorized']
-  for (const categoryId of categories) {
-    // Throw if no title is defined for a category
-    if (categoryId !== 'uncategorized' && !categoryTitles[categoryId]) {
-      throw new Error(`Category "${categoryId}" does not have a title defined.`)
+for (const categoryId of categoryIds) {
+  categoriesConfig[categoryId].rules = []
+
+  for (const rule of rules) {
+    const ruleCategories = rule.meta.docs.categories
+    // Throw if rule does not have a category
+    if (!ruleCategories.length) {
+      throw new Error(`Rule "${rule.ruleId}" does not have any category.`)
     }
-    const catRules =
-      categoryRules[categoryId] || (categoryRules[categoryId] = [])
-    catRules.push(rule)
+
+    if (ruleCategories.includes(categoryId)) {
+      categoriesConfig[categoryId].rules.push(rule)
+    }
   }
 }
 
-module.exports = categoryIds
-  .map((categoryId) => ({
-    categoryId,
-    title: categoryTitles[categoryId],
-    rules: (categoryRules[categoryId] || []).filter(
-      (rule) => !rule.meta.deprecated
-    )
-  }))
-  .filter((category) => category.rules.length >= 1)
+const categories = categoryIds
+  .map((categoryId) => {
+    if (!categoriesConfig[categoryId].rules.length) {
+      throw new Error(
+        `Category "${categoryId}" has no rules. Make sure that at least one rule is linked to this category.`
+      )
+    }
+
+    return {
+      categoryId,
+      title: categoriesConfig[categoryId],
+      rules: categoriesConfig[categoryId].rules.filter((rule) => !rule.meta.deprecated),
+    }
+  })
+  .filter((category) => {
+    return category.rules.length >= 1
+  })
+
+module.exports = {
+  categories,
+  categoryIds,
+}
