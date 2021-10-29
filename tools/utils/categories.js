@@ -9,6 +9,9 @@ const categoriesConfig = {
   'csf-strict': {
     text: 'Strict CSF Rules',
   },
+  'addon-interactions': {
+    text: 'Rules for writing interactions in Storybook',
+  },
   recommended: {
     text: 'Base rules recommended by Storybook',
   },
