@@ -10,9 +10,17 @@
   ],
   "author": "yannbf@gmail.com",
   "main": "lib/index.js",
+  "files": [
+    "lib",
+    "README.md"
+  ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/storybookjs/linter"
+    "url": "https://github.com/storybookjs/eslint-plugin-storybook"
+  },
+  "homepage": "https://github.com/storybookjs/eslint-plugin-storybook#readme",
+  "bugs": {
+    "url": "https://github.com/storybookjs/eslint-plugin-storybook/issues"
   },
   "scripts": {
     "lint": "eslint --fix .",
@@ -22,13 +30,16 @@
     "update-docs": "node ./tools/update-rules-list.js",
     "update-all": "yarn update-configs && yarn update-docs",
     "prepare": "husky install",
-    "prettier": "prettier --write ."
+    "prettier": "prettier --write .",
+    "release": "auto shipit"
   },
   "dependencies": {
     "requireindex": "^1.1.0"
   },
   "devDependencies": {
+    "@auto-it/released": "^10.32.2",
     "@typescript-eslint/parser": "^4.31.0",
+    "auto": "^10.32.2",
     "eslint": "^7.1.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-eslint-plugin": "^3.2.0",
@@ -51,5 +62,15 @@
   "lint-staged": {
     "*.js": "eslint --cache --fix",
     "*.{js,css,md}": "prettier --write"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "auto": {
+    "plugins": [
+      "npm",
+      "released"
+    ],
+    "onlyPublishWithReleaseLabel": true
   }
 }
