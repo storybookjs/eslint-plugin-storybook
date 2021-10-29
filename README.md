@@ -54,7 +54,7 @@ Add `storybook` to the plugins section of your `.eslintrc` configuration file. Y
 }
 ```
 
-Then, define which rule configurations to extend in your eslint file. Before that, it's important to understand that Storybook linting rules should only be applied in your stories files. You don't want rules to affect your other files such as production or test code as the rules might clash with rules from other ESLint plugins.
+Then, define which rule configurations to extend in your eslint file. Before that, it's important to understand that **Storybook linting rules should only be applied in your stories files**. You don't want rules to affect your other files such as production or test code as the rules might conflict with rules from other ESLint plugins.
 
 ### Run the plugin only against story files
 
@@ -82,9 +82,9 @@ Assuming you are using the recommended `.stories` extension in your files, the f
       "files": ['src/**/*.stories.@(js|jsx|ts|tsx)'],
       "extends": ["plugin:storybook/recommended"],
 
-      // 4) Optional: you can override specific rules here
+      // 4) Optional: you can override specific rules here if you want. Else delete this
       "rules": {
-        'storybook/no-redundant-story-name': 'off'
+        'storybook/no-redundant-story-name': 'error'
       }
     },
   ],
