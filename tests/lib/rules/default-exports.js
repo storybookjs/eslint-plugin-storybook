@@ -20,7 +20,7 @@ ruleTester.run('default-exports', rule, {
   invalid: [
     {
       code: 'export const Primary = () => 123',
-      errors: [{ message: 'The file should have a default export.', type: 'Program' }],
+      errors: [{ messageId: 'shouldHaveDefaultExport', type: 'Program' }],
     },
   ],
 })
