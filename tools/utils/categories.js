@@ -1,18 +1,19 @@
 'use strict'
 
 const rules = require('./rules')
+const { CATEGORY_ID } = require('../../lib/utils/constants')
 
 const categoriesConfig = {
-  csf: {
+  [CATEGORY_ID.CSF]: {
     text: 'CSF Rules',
   },
-  'csf-strict': {
+  [CATEGORY_ID.CSF_STRICT]: {
     text: 'Strict CSF Rules',
   },
-  'addon-interactions': {
+  [CATEGORY_ID.ADDON_INTERACTIONS]: {
     text: 'Rules for writing interactions in Storybook',
   },
-  recommended: {
+  [CATEGORY_ID.RECOMMENDED]: {
     text: 'Base rules recommended by Storybook',
   },
 }
