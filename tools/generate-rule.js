@@ -11,7 +11,9 @@ const questions = [
   {
     type: 'text',
     name: 'authorName',
+    initial: '',
     message: 'What is your name?',
+    validate: (name) => (name === '' ? "Name can't be empty" : true),
   },
   {
     type: 'text',
@@ -22,16 +24,23 @@ const questions = [
       - If your rule is enforcing the inclusion of something, use a short name without a special prefix.
       - Use dashes between words.
     `),
+    validate: (rule) => (rule === '' ? "Rule can't be empty" : true),
   },
   {
     type: 'text',
     name: 'ruleDescription',
     message: 'Type a short description of this rule',
+    validate: (rule) => (rule === '' ? "Description can't be empty" : true),
   },
 ]
 
 const generateRule = async () => {
   const { authorName, ruleId, ruleDescription } = await prompts(questions)
+
+  if (!authorName) {
+    logger.log('Process canceled by the user.')
+    process.exit(0)
+  }
 
   const ruleFile = path.resolve(__dirname, `../lib/rules/${ruleId}.js`)
   const testFile = path.resolve(__dirname, `../tests/lib/rules/${ruleId}.js`)
@@ -213,8 +222,8 @@ const generateRule = async () => {
     cp.execSync(`code "${docFile}"`)
   }
 
-  logger.log('🚀 All done! Make sure to run yarn test as you write the rule.')
-  logger.log('❤️ Thanks for helping this plugin get better!')
+  logger.log('\n🚀 All done! Make sure to run yarn test as you write the rule.')
+  logger.log('❤️  Thanks for helping this plugin get better!')
 }
 
 generateRule()
