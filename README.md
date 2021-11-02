@@ -117,3 +117,8 @@ Another approach for customizing ESLint config by paths is through [ESLint Casca
 | [`storybook/use-storybook-testing-library`](./docs/rules/use-storybook-testing-library.md) | Do not use testing-library directly on stories    | 🔧  | addon-interactions, recommended |
 
 <!-- RULES-LIST:END -->
+
+## Contributors
+
+Looking into improving this plugin? That would be awesome!
+Please refer to [the contributing guidelines](./CONTRIBUTING.md) for steps to contributing.
