@@ -15,23 +15,22 @@ const rule = require('../../../lib/rules/await-interactions'),
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
-it.only('', () => {
-  ruleTester.run('await-interactions', rule, {
-    valid: [
-      dedent`
+ruleTester.run('await-interactions', rule, {
+  valid: [
+    dedent`
         Basic.play = () => {
           await userEvent.click(button)
         }
       `,
-      dedent`
+    dedent`
         WithModalOpen.play = async ({ canvasElement }) => {
           const MyButton = await canvas.findByRole('button')
         }
       `,
-    ],
-    invalid: [
-      {
-        code: dedent(`
+  ],
+  invalid: [
+    {
+      code: dedent(`
           WithModalOpen.play = async ({ canvasElement }) => {
             const canvas = within(canvasElement)
 
@@ -42,25 +41,24 @@ it.only('', () => {
             userEvent.click(modalButton)
           }
         `),
-        errors: [
-          {
-            messageId: 'interactionShouldBeAwaited',
-            data: { method: 'findByText' },
-          },
-          {
-            messageId: 'interactionShouldBeAwaited',
-            data: { method: 'userEvent' },
-          },
-          {
-            messageId: 'interactionShouldBeAwaited',
-            data: { method: 'findByLabelText' },
-          },
-          {
-            messageId: 'interactionShouldBeAwaited',
-            data: { method: 'userEvent' },
-          },
-        ],
-      },
-    ],
-  })
+      errors: [
+        {
+          messageId: 'interactionShouldBeAwaited',
+          data: { method: 'findByText' },
+        },
+        {
+          messageId: 'interactionShouldBeAwaited',
+          data: { method: 'userEvent' },
+        },
+        {
+          messageId: 'interactionShouldBeAwaited',
+          data: { method: 'findByLabelText' },
+        },
+        {
+          messageId: 'interactionShouldBeAwaited',
+          data: { method: 'userEvent' },
+        },
+      ],
+    },
+  ],
 })
