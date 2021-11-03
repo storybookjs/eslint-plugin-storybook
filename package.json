@@ -31,7 +31,7 @@
   "scripts": {
     "lint": "eslint --fix .",
     "migrate": "ts-migrate-full",
-    "test": "mocha tests --recursive",
+    "test": "mocha -r ts-node/register 'tests/**/*.ts'",
     "generate-rule": "node ./tools/generate-rule",
     "update-configs": "node ./tools/update-configs.js",
     "update-docs": "node ./tools/update-rules-list.js",
@@ -47,6 +47,7 @@
   "devDependencies": {
     "@auto-it/released": "^10.32.2",
     "@types/eslint": "^7.28.2",
+    "@types/mocha": "^9.0.0",
     "@typescript-eslint/parser": "^4.31.0",
     "auto": "^10.32.2",
     "eslint": "^7.1.0",

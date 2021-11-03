@@ -7,11 +7,9 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-
 import rule from '../../../lib/rules/use-storybook-expect'
-import ruleTester from '../../utils/rule-tester',
-
-  dedent = require('ts-dedent').dedent
+import ruleTester from '../../utils/rule-tester'
+import dedent from 'ts-dedent'
 
 //------------------------------------------------------------------------------
 // Tests
