@@ -23,9 +23,17 @@ ruleTester.run('prefer-pascal-case', rule, {
       code: 'export const primary = {}',
       errors: [
         {
-          message: 'The story should use PascalCase notation: primary',
+          messageId: 'usePascalCase',
+          data: {
+            name: 'primary',
+          },
           type: 'Identifier',
-          suggestions: [{ output: 'export const Primary = {}' }],
+          suggestions: [
+            {
+              messageId: 'convertToPascalCase',
+              output: 'export const Primary = {}',
+            },
+          ],
         },
       ],
     },

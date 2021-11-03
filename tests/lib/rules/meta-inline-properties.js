@@ -27,7 +27,10 @@ ruleTester.run('meta-inline-properties', rule, {
       `,
       errors: [
         {
-          message: 'Meta should only have inline properties: title, args',
+          messageId: 'metaShouldHaveInlineProperties',
+          data: {
+            properties: 'title, args',
+          },
           type: 'ExportDefaultDeclaration',
         },
       ],
@@ -38,7 +41,10 @@ ruleTester.run('meta-inline-properties', rule, {
       `,
       errors: [
         {
-          message: 'Meta should only have inline properties: title',
+          messageId: 'metaShouldHaveInlineProperties',
+          data: {
+            properties: 'title',
+          },
           type: 'ExportDefaultDeclaration',
         },
       ],
@@ -49,7 +55,10 @@ ruleTester.run('meta-inline-properties', rule, {
       `,
       errors: [
         {
-          message: 'Meta should only have inline properties: title',
+          messageId: 'metaShouldHaveInlineProperties',
+          data: {
+            properties: 'title',
+          },
           type: 'ExportDefaultDeclaration',
         },
       ],
