@@ -29,3 +29,5 @@ module.exports = fs
       meta,
     }
   })
+  // We might have rules which are almost ready but should not be shipped
+  .filter((rule) => !rule.meta.docs.excludeFromConfig)
