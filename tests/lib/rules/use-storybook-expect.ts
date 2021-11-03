@@ -8,8 +8,11 @@
 // Requirements
 //------------------------------------------------------------------------------
 
+// @ts-expect-error ts-migrate(2451) FIXME: Cannot redeclare block-scoped variable 'rule'.
 const rule = require('../../../lib/rules/use-storybook-expect'),
+  // @ts-expect-error ts-migrate(2451) FIXME: Cannot redeclare block-scoped variable 'ruleTester... Remove this comment to see the full error message
   ruleTester = require('../../utils/rule-tester'),
+  // @ts-expect-error ts-migrate(2451) FIXME: Cannot redeclare block-scoped variable 'dedent'.
   dedent = require('ts-dedent').dedent
 
 //------------------------------------------------------------------------------

@@ -4,12 +4,15 @@
  */
 'use strict'
 
+// @ts-expect-error ts-migrate(2451) FIXME: Cannot redeclare block-scoped variable 'dedent'.
 const { default: dedent } = require('ts-dedent')
 //------------------------------------------------------------------------------
 // Requirements
 //------------------------------------------------------------------------------
 
+// @ts-expect-error ts-migrate(2451) FIXME: Cannot redeclare block-scoped variable 'rule'.
 const rule = require('../../../lib/rules/await-interactions'),
+  // @ts-expect-error ts-migrate(2451) FIXME: Cannot redeclare block-scoped variable 'ruleTester... Remove this comment to see the full error message
   ruleTester = require('../../utils/rule-tester')
 
 //------------------------------------------------------------------------------
