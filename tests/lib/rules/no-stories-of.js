@@ -38,7 +38,10 @@ ruleTester.run('no-stories-of', rule, {
           .add('primary', () => <Button primary />)
       `,
       errors: [
-        { message: 'storiesOf is deprecated and should not be used', type: 'ImportSpecifier' },
+        {
+          messageId: 'doNotUseStoriesOf',
+          type: 'ImportSpecifier',
+        },
       ],
     },
   ],

@@ -17,14 +17,17 @@ const rule = require('../../../lib/rules/hierarchy-separator'),
 
 ruleTester.run('hierarchy-separator', rule, {
   valid: ["export default { title: 'Examples/Components/Button' }"],
+
   invalid: [
     {
       code: "export default { title: 'Examples|Components|Button' }",
+      output: "export default { title: 'Examples/Components/Button' }",
       errors: [
         {
           type: 'ExportDefaultDeclaration',
           suggestions: [
             {
+              messageId: 'useCorrectSeparators',
               output: "export default { title: 'Examples/Components/Button' }",
             },
           ],
@@ -33,11 +36,13 @@ ruleTester.run('hierarchy-separator', rule, {
     },
     {
       code: "export default { title: 'Examples.Components.Button' }",
+      output: "export default { title: 'Examples/Components/Button' }",
       errors: [
         {
           type: 'ExportDefaultDeclaration',
           suggestions: [
             {
+              messageId: 'useCorrectSeparators',
               output: "export default { title: 'Examples/Components/Button' }",
             },
           ],

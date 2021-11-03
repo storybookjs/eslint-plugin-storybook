@@ -17,9 +17,10 @@ const rule = require('../../../lib/rules/default-exports'),
 
 ruleTester.run('default-exports', rule, {
   valid: ["export default { title: 'Button', component: Button }"],
+
   invalid: [
     {
-      code: 'export const Primary = () => 123',
+      code: 'export const Primary = () => <button>hello</button>',
       errors: [{ messageId: 'shouldHaveDefaultExport', type: 'Program' }],
     },
   ],

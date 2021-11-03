@@ -24,11 +24,21 @@ ruleTester.run('csf-component', rule, {
   invalid: [
     {
       code: "export default { title: 'Button' }",
-      errors: [{ message: 'Missing component property.', type: 'ExportDefaultDeclaration' }],
+      errors: [
+        {
+          messageId: 'missingComponentProperty',
+          type: 'ExportDefaultDeclaration',
+        },
+      ],
     },
     {
       code: "export default { title: 'Button' } as Meta<typeof Button>",
-      errors: [{ message: 'Missing component property.', type: 'ExportDefaultDeclaration' }],
+      errors: [
+        {
+          messageId: 'missingComponentProperty',
+          type: 'ExportDefaultDeclaration',
+        },
+      ],
     },
   ],
 })
