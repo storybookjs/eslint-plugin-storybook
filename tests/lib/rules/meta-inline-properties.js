@@ -21,17 +21,24 @@ ruleTester.run('meta-inline-properties', rule, {
   invalid: [
     {
       code: `
-        const title = 'foo';
-        const args = { a: 1 };
-        export default { title, args };
-      `,
+      const title = 'foo';
+      const args = { a: 1 };
+      export default { title, args };
+    `,
       errors: [
         {
           messageId: 'metaShouldHaveInlineProperties',
           data: {
-            properties: 'title, args',
+            property: 'title',
           },
-          type: 'ExportDefaultDeclaration',
+          type: 'Property',
+        },
+        {
+          messageId: 'metaShouldHaveInlineProperties',
+          data: {
+            property: 'args',
+          },
+          type: 'Property',
         },
       ],
     },
@@ -43,9 +50,9 @@ ruleTester.run('meta-inline-properties', rule, {
         {
           messageId: 'metaShouldHaveInlineProperties',
           data: {
-            properties: 'title',
+            property: 'title',
           },
-          type: 'ExportDefaultDeclaration',
+          type: 'Property',
         },
       ],
     },
@@ -57,9 +64,44 @@ ruleTester.run('meta-inline-properties', rule, {
         {
           messageId: 'metaShouldHaveInlineProperties',
           data: {
-            properties: 'title',
+            property: 'title',
           },
-          type: 'ExportDefaultDeclaration',
+          type: 'Property',
+        },
+      ],
+    },
+    {
+      code: `
+        const title = 'a'
+
+        export default {
+          title,
+          component: Badge,
+        } as ComponentMeta<typeof Badge>
+      `,
+      errors: [
+        {
+          messageId: 'metaShouldHaveInlineProperties',
+          data: {
+            property: 'title',
+          },
+          type: 'Property',
+        },
+      ],
+    },
+    {
+      code: `
+        export default {
+          title: someFunction(),
+        }
+      `,
+      errors: [
+        {
+          messageId: 'metaShouldHaveInlineProperties',
+          data: {
+            property: 'title',
+          },
+          type: 'Property',
         },
       ],
     },
