@@ -4,13 +4,16 @@
  */
 'use strict'
 
+// @ts-expect-error ts-migrate(2451) FIXME: Cannot redeclare block-scoped variable 'docsUrl'.
 const { docsUrl } = require('../utils')
+// @ts-expect-error ts-migrate(2451) FIXME: Cannot redeclare block-scoped variable 'CATEGORY_I... Remove this comment to see the full error message
 const { CATEGORY_ID } = require('../utils/constants')
 
 //------------------------------------------------------------------------------
 // Rule Definition
 //------------------------------------------------------------------------------
 
+// @ts-expect-error ts-migrate(2580) FIXME: Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
 module.exports = {
   meta: {
     type: 'suggestion',
@@ -28,7 +31,7 @@ module.exports = {
     schema: [], // Add a schema if the rule has options
   },
 
-  create(context) {
+  create(context: any) {
     // variables should be defined here
 
     //----------------------------------------------------------------------
@@ -42,7 +45,7 @@ module.exports = {
     //----------------------------------------------------------------------
 
     return {
-      ExportDefaultDeclaration: function (node) {
+      ExportDefaultDeclaration: function (node: any) {
         // Typescript 'TSAsExpression' has properties under declaration.expression
         const metaProperties =
           node.declaration.properties ||
@@ -52,7 +55,7 @@ module.exports = {
           return
         }
 
-        const component = metaProperties.find((prop) => prop.key.name === 'component')
+        const component = metaProperties.find((prop: any) => prop.key.name === 'component')
 
         if (!component) {
           context.report({
@@ -61,6 +64,6 @@ module.exports = {
           })
         }
       },
-    }
+    };
   },
 }

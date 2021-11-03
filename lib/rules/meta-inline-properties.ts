@@ -4,13 +4,16 @@
  */
 'use strict'
 
+// @ts-expect-error ts-migrate(2451) FIXME: Cannot redeclare block-scoped variable 'docsUrl'.
 const { docsUrl } = require('../utils')
+// @ts-expect-error ts-migrate(2451) FIXME: Cannot redeclare block-scoped variable 'CATEGORY_I... Remove this comment to see the full error message
 const { CATEGORY_ID } = require('../utils/constants')
 
 //------------------------------------------------------------------------------
 // Rule Definition
 //------------------------------------------------------------------------------
 
+// @ts-expect-error ts-migrate(2580) FIXME: Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
 module.exports = {
   meta: {
     type: 'problem',
@@ -38,7 +41,7 @@ module.exports = {
     ],
   },
 
-  create(context) {
+  create(context: any) {
     // variables should be defined here
 
     // In case we need to get options defined in the rule schema
@@ -48,7 +51,7 @@ module.exports = {
     //----------------------------------------------------------------------
     // Helpers
     //----------------------------------------------------------------------
-    const isInline = (node) => {
+    const isInline = (node: any) => {
       return (
         node.value.type === 'ObjectExpression' ||
         node.value.type === 'Literal' ||
@@ -62,7 +65,7 @@ module.exports = {
     //----------------------------------------------------------------------
 
     return {
-      ExportDefaultDeclaration(node) {
+      ExportDefaultDeclaration(node: any) {
         // Typescript 'TSAsExpression' has properties under declaration.expression
         const metaProperties =
           node.declaration.properties ||
@@ -73,17 +76,19 @@ module.exports = {
         }
 
         const ruleProperties = ['title', 'args']
-        let dynamicProperties = []
+        let dynamicProperties: any = []
 
-        const metaNodes = metaProperties.filter((prop) => ruleProperties.includes(prop.key.name))
+        // @ts-expect-error ts-migrate(2550) FIXME: Property 'includes' does not exist on type 'string... Remove this comment to see the full error message
+        const metaNodes = metaProperties.filter((prop: any) => ruleProperties.includes(prop.key.name))
 
-        metaNodes.forEach((metaNode) => {
+        metaNodes.forEach((metaNode: any) => {
           if (!isInline(metaNode)) {
             dynamicProperties.push(metaNode)
           }
         })
 
         if (dynamicProperties.length > 0) {
+          // @ts-expect-error ts-migrate(7006) FIXME: Parameter 'propertyNode' implicitly has an 'any' t... Remove this comment to see the full error message
           dynamicProperties.forEach((propertyNode) => {
             context.report({
               node: propertyNode,
@@ -95,6 +100,6 @@ module.exports = {
           })
         }
       },
-    }
+    };
   },
 }

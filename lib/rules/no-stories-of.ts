@@ -4,13 +4,16 @@
  */
 'use strict'
 
+// @ts-expect-error ts-migrate(2451) FIXME: Cannot redeclare block-scoped variable 'docsUrl'.
 const { docsUrl } = require('../utils')
+// @ts-expect-error ts-migrate(2451) FIXME: Cannot redeclare block-scoped variable 'CATEGORY_I... Remove this comment to see the full error message
 const { CATEGORY_ID } = require('../utils/constants')
 
 //------------------------------------------------------------------------------
 // Rule Definition
 //------------------------------------------------------------------------------
 
+// @ts-expect-error ts-migrate(2580) FIXME: Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
 module.exports = {
   meta: {
     type: 'problem',
@@ -26,7 +29,7 @@ module.exports = {
     },
   },
 
-  create(context) {
+  create(context: any) {
     // variables should be defined here
 
     //----------------------------------------------------------------------
@@ -40,7 +43,7 @@ module.exports = {
     //----------------------------------------------------------------------
 
     return {
-      ImportSpecifier(node) {
+      ImportSpecifier(node: any) {
         if (node.imported.name === 'storiesOf') {
           context.report({
             node,
@@ -48,6 +51,6 @@ module.exports = {
           })
         }
       },
-    }
+    };
   },
 }

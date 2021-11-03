@@ -4,6 +4,7 @@
  */
 'use strict'
 
+// @ts-expect-error ts-migrate(2451) FIXME: Cannot redeclare block-scoped variable 'docsUrl'.
 const { docsUrl } = require('../utils')
 const { isProperty } = require('../utils/ast')
 const { CATEGORY_ID } = require('../utils/constants')
@@ -12,6 +13,7 @@ const { CATEGORY_ID } = require('../utils/constants')
 // Rule Definition
 //------------------------------------------------------------------------------
 
+// @ts-expect-error ts-migrate(2580) FIXME: Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
 module.exports = {
   meta: {
     type: 'suggestion',
@@ -30,7 +32,7 @@ module.exports = {
     },
   },
 
-  create(context) {
+  create(context: any) {
     // variables should be defined here
 
     //----------------------------------------------------------------------
@@ -38,10 +40,10 @@ module.exports = {
     //----------------------------------------------------------------------
 
     //@TODO use the correct name resolver (equivalent to lodash.startcase used in @storybook/csf)
-    const resolveStoryName = (str) =>
+    const resolveStoryName = (str: any) =>
       str
         .replace(/([A-Z]{1,})/g, ' $1')
-        .replace(/(^\w|\s\w)/g, (m) => m.toUpperCase())
+        .replace(/(^\w|\s\w)/g, (m: any) => m.toUpperCase())
         .split(' ')
         .filter(Boolean)
         .join(' ')
@@ -52,7 +54,7 @@ module.exports = {
     //----------------------------------------------------------------------
 
     return {
-      ExportNamedDeclaration: function (node) {
+      ExportNamedDeclaration: function (node: any) {
         // if there are specifiers, node.declaration should be null
         if (!node.declaration) return
 
@@ -90,7 +92,7 @@ module.exports = {
               suggest: [
                 {
                   messageId: 'removeRedundantName',
-                  fix: function (fixer) {
+                  fix: function (fixer: any) {
                     return fixer.remove(storyNameNode)
                   },
                 },

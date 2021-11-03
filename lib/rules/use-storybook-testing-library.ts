@@ -31,7 +31,7 @@ module.exports = {
     },
   },
 
-  create(context) {
+  create(context: any) {
     // variables should be defined here
 
     //----------------------------------------------------------------------
@@ -84,7 +84,7 @@ module.exports = {
     //----------------------------------------------------------------------
 
     return {
-      ImportDeclaration(node) {
+      ImportDeclaration(node: any) {
         if (node.source.value.includes('@testing-library')) {
           context.report({
             node,

@@ -4,16 +4,24 @@
  */
 'use strict'
 
+// @ts-expect-error ts-migrate(2451) FIXME: Cannot redeclare block-scoped variable 'docsUrl'.
 const { docsUrl, isPlayFunction } = require('../utils')
+// @ts-expect-error ts-migrate(2451) FIXME: Cannot redeclare block-scoped variable 'CATEGORY_I... Remove this comment to see the full error message
 const { CATEGORY_ID } = require('../utils/constants')
 const {
+  // @ts-expect-error ts-migrate(2451) FIXME: Cannot redeclare block-scoped variable 'isCallExpr... Remove this comment to see the full error message
   isCallExpression,
+  // @ts-expect-error ts-migrate(2451) FIXME: Cannot redeclare block-scoped variable 'isMemberEx... Remove this comment to see the full error message
   isMemberExpression,
+  // @ts-expect-error ts-migrate(2451) FIXME: Cannot redeclare block-scoped variable 'isIdentifi... Remove this comment to see the full error message
   isIdentifier,
+  // @ts-expect-error ts-migrate(2451) FIXME: Cannot redeclare block-scoped variable 'isExpressi... Remove this comment to see the full error message
   isExpressionStatement,
+  // @ts-expect-error ts-migrate(2451) FIXME: Cannot redeclare block-scoped variable 'isVariable... Remove this comment to see the full error message
   isVariableDeclaration,
   isVariableDeclarator,
   isAwaitExpression,
+  // @ts-expect-error ts-migrate(2580) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
 } = require('../utils/ast')
 
 //------------------------------------------------------------------------------
@@ -23,6 +31,7 @@ const {
 /**
  * @type {import('eslint').Rule.RuleModule}
  */
+// @ts-expect-error ts-migrate(2580) FIXME: Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
 module.exports = {
   meta: {
     type: null, // `problem`, `suggestion`, or `layout`
@@ -40,7 +49,7 @@ module.exports = {
     // fixable: 'code', // Or `code` or `whitespace`
   },
 
-  create(context) {
+  create(context: any) {
     // variables should be defined here
 
     //----------------------------------------------------------------------
@@ -62,11 +71,15 @@ module.exports = {
      * @param {import('eslint').Rule.Node[]} body
      */
     const getNonAwaitedCallExpressions = (body = []) => {
-      return body
-        .filter((b) => {
-          return isExpressionStatement(b) && isCallExpression(b.expression)
-        })
-        .map((d) => d.expression)
+      return (
+        body
+          .filter((b) => {
+            // @ts-expect-error ts-migrate(2339) FIXME: Property 'expression' does not exist on type 'neve... Remove this comment to see the full error message
+            return isExpressionStatement(b) && isCallExpression(b.expression)
+          })
+          // @ts-expect-error ts-migrate(2339) FIXME: Property 'expression' does not exist on type 'neve... Remove this comment to see the full error message
+          .map((d) => d.expression)
+      )
     }
 
     /**
@@ -74,12 +87,13 @@ module.exports = {
      */
     const getNonAwaitedInitializations = (body = []) => {
       const initializations = body
-        .flatMap((b) => {
+        // @ts-expect-error ts-migrate(2550) FIXME: Property 'flatMap' does not exist on type 'never[]... Remove this comment to see the full error message
+        .flatMap((b: any) => {
           return (
             isVariableDeclaration(b) &&
             b.declarations
-              .filter((d) => isVariableDeclarator(d) && !isAwaitExpression(d.init))
-              .map((d) => d.init)
+              .filter((d: any) => isVariableDeclarator(d) && !isAwaitExpression(d.init))
+              .map((d: any) => d.init)
           )
         })
         .filter(Boolean)
@@ -93,19 +107,27 @@ module.exports = {
       }
       if (
         isCallExpression(expression) &&
+        // @ts-expect-error ts-migrate(2339) FIXME: Property 'callee' does not exist on type '{}'.
         isMemberExpression(expression.callee) &&
+        // @ts-expect-error ts-migrate(2339) FIXME: Property 'callee' does not exist on type '{}'.
         isIdentifier(expression.callee.object) &&
+        // @ts-expect-error ts-migrate(2339) FIXME: Property 'callee' does not exist on type '{}'.
         shouldAwait(expression.callee.object.name)
       ) {
+        // @ts-expect-error ts-migrate(2339) FIXME: Property 'callee' does not exist on type '{}'.
         return expression.callee.object
       }
 
       if (
         isCallExpression(expression) &&
+        // @ts-expect-error ts-migrate(2339) FIXME: Property 'callee' does not exist on type '{}'.
         isMemberExpression(expression.callee) &&
+        // @ts-expect-error ts-migrate(2339) FIXME: Property 'callee' does not exist on type '{}'.
         isIdentifier(expression.callee.property) &&
+        // @ts-expect-error ts-migrate(2339) FIXME: Property 'callee' does not exist on type '{}'.
         shouldAwait(expression.callee.property.name)
       ) {
+        // @ts-expect-error ts-migrate(2339) FIXME: Property 'callee' does not exist on type '{}'.
         return expression.callee.property
       }
 
@@ -118,10 +140,10 @@ module.exports = {
      * @param {import('eslint').Rule.Node} node
      */
 
-    let invocationsThatShouldBeAwaited = []
+    let invocationsThatShouldBeAwaited: any = []
 
     return {
-      AssignmentExpression(node) {
+      AssignmentExpression(node: any) {
         if (!isExpressionStatement(node.parent)) {
           return null
         }
@@ -144,6 +166,7 @@ module.exports = {
       },
       'Program:exit': function () {
         if (invocationsThatShouldBeAwaited.length) {
+          // @ts-expect-error ts-migrate(7006) FIXME: Parameter 'node' implicitly has an 'any' type.
           invocationsThatShouldBeAwaited.forEach((node) => {
             context.report({
               node,

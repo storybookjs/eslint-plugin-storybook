@@ -4,19 +4,27 @@
  */
 'use strict'
 
+// @ts-expect-error ts-migrate(2451) FIXME: Cannot redeclare block-scoped variable 'docsUrl'.
 const { docsUrl, isPlayFunction } = require('../utils')
+// @ts-expect-error ts-migrate(2451) FIXME: Cannot redeclare block-scoped variable 'CATEGORY_I... Remove this comment to see the full error message
 const { CATEGORY_ID } = require('../utils/constants')
 const {
+  // @ts-expect-error ts-migrate(2451) FIXME: Cannot redeclare block-scoped variable 'isExpressi... Remove this comment to see the full error message
   isExpressionStatement,
+  // @ts-expect-error ts-migrate(2451) FIXME: Cannot redeclare block-scoped variable 'isCallExpr... Remove this comment to see the full error message
   isCallExpression,
+  // @ts-expect-error ts-migrate(2451) FIXME: Cannot redeclare block-scoped variable 'isMemberEx... Remove this comment to see the full error message
   isMemberExpression,
+  // @ts-expect-error ts-migrate(2451) FIXME: Cannot redeclare block-scoped variable 'isIdentifi... Remove this comment to see the full error message
   isIdentifier,
+// @ts-expect-error ts-migrate(2580) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
 } = require('../utils/ast')
 
 //------------------------------------------------------------------------------
 // Rule Definition
 //------------------------------------------------------------------------------
 
+// @ts-expect-error ts-migrate(2580) FIXME: Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
 module.exports = {
   meta: {
     type: 'suggestion',
@@ -36,7 +44,7 @@ module.exports = {
     },
   },
 
-  create(context) {
+  create(context: any) {
     // variables should be defined here
 
     //----------------------------------------------------------------------
@@ -50,33 +58,35 @@ module.exports = {
     const isExpect = (expression = {}) => {
       return (
         isCallExpression(expression) &&
+        // @ts-expect-error ts-migrate(2339) FIXME: Property 'callee' does not exist on type '{}'.
         isMemberExpression(expression.callee) &&
+        // @ts-expect-error ts-migrate(2339) FIXME: Property 'callee' does not exist on type '{}'.
         isCallExpression(expression.callee.object) &&
+        // @ts-expect-error ts-migrate(2339) FIXME: Property 'callee' does not exist on type '{}'.
         isIdentifier(expression.callee.object.callee) &&
+        // @ts-expect-error ts-migrate(2339) FIXME: Property 'callee' does not exist on type '{}'.
         expression.callee.object.callee.name === 'expect'
       )
     }
 
-    const isExpectFromStorybookImported = (node) => {
-      return (
-        node.source.value === '@storybook/jest' &&
-        node.specifiers.find((spec) => spec.imported.name === 'expect')
-      )
+    const isExpectFromStorybookImported = (node: any) => {
+      return node.source.value === '@storybook/jest' &&
+      node.specifiers.find((spec: any) => spec.imported.name === 'expect');
     }
     //----------------------------------------------------------------------
     // Public
     //----------------------------------------------------------------------
 
     let isImportingFromStorybookExpect = false
-    let expectInvocations = []
+    let expectInvocations: any = []
 
     return {
-      ImportDeclaration(node) {
+      ImportDeclaration(node: any) {
         if (isExpectFromStorybookImported(node)) {
           isImportingFromStorybookExpect = true
         }
       },
-      AssignmentExpression(node) {
+      AssignmentExpression(node: any) {
         if (!isExpressionStatement(node.parent)) {
           return null
         }
@@ -94,11 +104,12 @@ module.exports = {
       },
       'Program:exit': function () {
         if (!isImportingFromStorybookExpect && expectInvocations.length) {
+          // @ts-expect-error ts-migrate(7006) FIXME: Parameter 'node' implicitly has an 'any' type.
           expectInvocations.forEach((node) => {
             context.report({
               node,
               messageId: 'useExpectFromStorybook',
-              fix: function (fixer) {
+              fix: function (fixer: any) {
                 return fixer.insertTextAfterRange(
                   [0, 0],
                   "import { expect } from '@storybook/jest';\n"
@@ -107,7 +118,7 @@ module.exports = {
               suggest: [
                 {
                   messageId: 'updateImports',
-                  fix: function (fixer) {
+                  fix: function (fixer: any) {
                     return fixer.insertTextAfterRange(
                       [0, 0],
                       "import { expect } from '@storybook/jest';\n"
@@ -119,6 +130,6 @@ module.exports = {
           })
         }
       },
-    }
+    };
   },
 }

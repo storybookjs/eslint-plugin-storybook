@@ -4,12 +4,14 @@
  */
 'use strict'
 
+// @ts-expect-error ts-migrate(2451) FIXME: Cannot redeclare block-scoped variable 'docsUrl'.
 const { docsUrl } = require('../utils')
 
 //------------------------------------------------------------------------------
 // Rule Definition
 //------------------------------------------------------------------------------
 
+// @ts-expect-error ts-migrate(2580) FIXME: Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
 module.exports = {
   meta: {
     type: 'suggestion',
@@ -26,24 +28,28 @@ module.exports = {
     },
   },
 
-  create(context) {
+  create(context: any) {
     // variables should be defined here
 
     //----------------------------------------------------------------------
     // Helpers
     //----------------------------------------------------------------------
 
-    const isPascalCase = (str) => /^[A-Z]+([a-z0-9]?)+/.test(str)
-    const toPascalCase = (str) => {
+    const isPascalCase = (str: any) => /^[A-Z]+([a-z0-9]?)+/.test(str)
+    const toPascalCase = (str: any) => {
       return str
+        // @ts-expect-error ts-migrate(2345) FIXME: Argument of type 'RegExp' is not assignable to par... Remove this comment to see the full error message
         .replace(new RegExp(/[-_]+/, 'g'), ' ')
+        // @ts-expect-error ts-migrate(2345) FIXME: Argument of type 'RegExp' is not assignable to par... Remove this comment to see the full error message
         .replace(new RegExp(/[^\w\s]/, 'g'), '')
         .replace(
+          // @ts-expect-error ts-migrate(2345) FIXME: Argument of type 'RegExp' is not assignable to par... Remove this comment to see the full error message
           new RegExp(/\s+(.)(\w+)/, 'g'),
-          ($1, $2, $3) => `${$2.toUpperCase() + $3.toLowerCase()}`
+          ($1: any, $2: any, $3: any) => `${$2.toUpperCase() + $3.toLowerCase()}`
         )
+        // @ts-expect-error ts-migrate(2345) FIXME: Argument of type 'RegExp' is not assignable to par... Remove this comment to see the full error message
         .replace(new RegExp(/\s/, 'g'), '')
-        .replace(new RegExp(/\w/), (s) => s.toUpperCase())
+        .replace(new RegExp(/\w/), (s: any) => s.toUpperCase());
     }
 
     //----------------------------------------------------------------------
@@ -51,7 +57,7 @@ module.exports = {
     //----------------------------------------------------------------------
 
     return {
-      ExportNamedDeclaration: function (node) {
+      ExportNamedDeclaration: function (node: any) {
         // if there are specifiers, node.declaration should be null
         if (!node.declaration) return
 
@@ -76,7 +82,7 @@ module.exports = {
               suggest: [
                 {
                   messageId: 'convertToPascalCase',
-                  fix: function (fixer) {
+                  fix: function (fixer: any) {
                     return fixer.replaceTextRange(identifier.range, toPascalCase(name))
                   },
                 },
@@ -85,6 +91,6 @@ module.exports = {
           }
         }
       },
-    }
+    };
   },
 }
