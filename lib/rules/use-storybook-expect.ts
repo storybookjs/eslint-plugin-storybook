@@ -11,9 +11,13 @@ import {
   isCallExpression,
   isMemberExpression,
   isIdentifier,
+  isBlockStatement,
+  isProperty,
+  isVariableDeclaration,
 } from '../utils/ast'
 
 import { createStorybookRule } from '../utils/create-storybook-rule'
+import { isVariableDeclarator } from '@typescript-eslint/experimental-utils/dist/ast-utils'
 
 //------------------------------------------------------------------------------
 // Rule Definition
@@ -67,6 +71,20 @@ export = createStorybookRule({
         node.specifiers.find((spec: any) => spec.imported.name === 'expect')
       )
     }
+
+    const checkExpectInvocations = (blockStatement) => {
+      if (!isBlockStatement(blockStatement)) {
+        return
+      }
+
+      const expressionBody = blockStatement.body || []
+      const expressionStatements = getExpressionStatements(expressionBody)
+      expressionStatements.forEach(({ expression }) => {
+        if (isExpect(expression)) {
+          expectInvocations.push(expression)
+        }
+      })
+    }
     //----------------------------------------------------------------------
     // Public
     //----------------------------------------------------------------------
@@ -80,20 +98,42 @@ export = createStorybookRule({
           isImportingFromStorybookExpect = true
         }
       },
-      AssignmentExpression(node: any) {
+      // CSF3
+      ExportNamedDeclaration(node) {
+        if (!isVariableDeclaration(node.declaration)) {
+          return null
+        }
+
+        const getPlayFunction = (properties) => {
+          return properties.find((p) => {
+            return isProperty(p) && isIdentifier(p.key) && p.key.name === 'play'
+          })
+        }
+
+        const { declarations } = node.declaration
+        if (
+          isVariableDeclarator(declarations[0]) &&
+          declarations[0].init &&
+          declarations[0].init.properties
+        ) {
+          const { init } = declarations[0]
+          const playFunction = getPlayFunction(init.properties)
+          if (playFunction) {
+            checkExpectInvocations(playFunction.value && playFunction.value.body)
+          }
+        }
+      },
+      // CSF2
+      AssignmentExpression(node) {
         if (!isExpressionStatement(node.parent)) {
           return null
         }
 
         if (isPlayFunction(node)) {
-          const { right } = node
-          const expressionBody = (right.body && right.body.body) || []
-          const expressionStatements = getExpressionStatements(expressionBody)
-          expressionStatements.forEach(({ expression }) => {
-            if (isExpect(expression)) {
-              expectInvocations.push(expression)
-            }
-          })
+          const {
+            right: { body },
+          } = node
+          checkExpectInvocations(body)
         }
       },
       'Program:exit': function () {
