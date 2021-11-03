@@ -3,6 +3,7 @@
 - [1. About the Project](#about-the-project)
 - [2. Getting Started](#getting-started)
   - [2.1. Creating a new rule](#creating-a-new-rule)
+    - [2.1.1. Important metadata for a rule](#important-metadata-for-a-rule)
   - [2.2. Testing rules](#testing-rules)
   - [2.3. Updating configs or documentation](#updating-configs-or-documentation)
 - [3. Useful resources](#useful-resources)
@@ -33,6 +34,25 @@ tests/lib/rules/<rule-name>.js
 ```
 
 This command will auto-generate the test file with an example for you. Please refer to existing tests if more reference is needed.
+
+#### Important metadata for a rule
+
+```js
+const { docsUrl } = require('../utils')
+const { CATEGORY_ID } = require('../utils/constants')
+
+module.exports = {
+  meta: {
+    docs: {
+      category: CATEGORY_ID.CSF, // You should always use an existing category from the CATEGORY_ID enum, or create a new one there
+      recommended: true, // When setting to true, the rule will be part of plugin:storybook/recommended
+      excludeFromConfig: true, // If the rule is not ready to be shipped in any category, set this flag to true, otherwise remove it
+      url: docsUrl('meta-inline-properties'), // Every rule must have a URL to the documentation page. Use docsUrl to build it
+    },
+  },
+  ...otherProperties,
+}
+```
 
 ### Testing rules
 

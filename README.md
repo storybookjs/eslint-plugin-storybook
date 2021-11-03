@@ -109,7 +109,6 @@ Another approach for customizing ESLint config by paths is through [ESLint Casca
 | [`storybook/csf-component`](./docs/rules/csf-component.md)                                 | The component property should be set              |     | csf                             |
 | [`storybook/default-exports`](./docs/rules/default-exports.md)                             | Story files should have a default export          |     | csf, recommended                |
 | [`storybook/hierarchy-separator`](./docs/rules/hierarchy-separator.md)                     | Deprecated hierachy separator in title property   | 🔧  | csf, recommended                |
-| [`storybook/meta-inline-properties`](./docs/rules/meta-inline-properties.md)               | Meta should only have inline properties           |     | csf-strict                      |
 | [`storybook/no-redundant-story-name`](./docs/rules/no-redundant-story-name.md)             | A story should not have a redundant name property | 🔧  | csf, recommended                |
 | [`storybook/no-stories-of`](./docs/rules/no-stories-of.md)                                 | storiesOf is deprecated and should not be used    |     | csf-strict                      |
 | [`storybook/no-title-property-in-meta`](./docs/rules/no-title-property-in-meta.md)         | Do not define a title in meta                     | 🔧  | csf-strict                      |
