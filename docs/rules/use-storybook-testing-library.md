@@ -4,8 +4,6 @@ Storybook provides an instrumented version of testing library in the [@storybook
 
 ## Rule Details
 
-This rule aims to...
-
 Examples of **incorrect** code for this rule:
 
 ```js
