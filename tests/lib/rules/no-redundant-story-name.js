@@ -16,7 +16,10 @@ const rule = require('../../../lib/rules/no-redundant-story-name'),
 //------------------------------------------------------------------------------
 
 ruleTester.run('no-redundant-story-name', rule, {
-  valid: ["export const PrimaryButton = { name: 'The Primary Button' }"],
+  valid: [
+    "export const PrimaryButton = { name: 'The Primary Button' }",
+    "export const PrimaryButton = { ...Default, name: 'The Primary Button' }",
+  ],
 
   invalid: [
     {
