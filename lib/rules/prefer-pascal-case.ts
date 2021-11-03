@@ -2,17 +2,16 @@
  * @fileoverview Prefer pascal case
  * @author Yann Braga
  */
-'use strict'
 
-// @ts-expect-error ts-migrate(2451) FIXME: Cannot redeclare block-scoped variable 'docsUrl'.
-const { docsUrl } = require('../utils')
+import { docsUrl } from '../utils'
+
+import type { RuleModule } from '../types'
 
 //------------------------------------------------------------------------------
 // Rule Definition
 //------------------------------------------------------------------------------
 
-// @ts-expect-error ts-migrate(2580) FIXME: Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
-module.exports = {
+const rule: RuleModule = {
   meta: {
     type: 'suggestion',
     fixable: 'code', // Or `code` or `whitespace`
@@ -37,19 +36,21 @@ module.exports = {
 
     const isPascalCase = (str: any) => /^[A-Z]+([a-z0-9]?)+/.test(str)
     const toPascalCase = (str: any) => {
-      return str
-        // @ts-expect-error ts-migrate(2345) FIXME: Argument of type 'RegExp' is not assignable to par... Remove this comment to see the full error message
-        .replace(new RegExp(/[-_]+/, 'g'), ' ')
-        // @ts-expect-error ts-migrate(2345) FIXME: Argument of type 'RegExp' is not assignable to par... Remove this comment to see the full error message
-        .replace(new RegExp(/[^\w\s]/, 'g'), '')
-        .replace(
-          // @ts-expect-error ts-migrate(2345) FIXME: Argument of type 'RegExp' is not assignable to par... Remove this comment to see the full error message
-          new RegExp(/\s+(.)(\w+)/, 'g'),
-          ($1: any, $2: any, $3: any) => `${$2.toUpperCase() + $3.toLowerCase()}`
-        )
-        // @ts-expect-error ts-migrate(2345) FIXME: Argument of type 'RegExp' is not assignable to par... Remove this comment to see the full error message
-        .replace(new RegExp(/\s/, 'g'), '')
-        .replace(new RegExp(/\w/), (s: any) => s.toUpperCase());
+      return (
+        str
+          //@ts-ignore
+          .replace(new RegExp(/[-_]+/, 'g'), ' ')
+          //@ts-ignore
+          .replace(new RegExp(/[^\w\s]/, 'g'), '')
+          .replace(
+            //@ts-ignore
+            new RegExp(/\s+(.)(\w+)/, 'g'),
+            ($1: any, $2: any, $3: any) => `${$2.toUpperCase() + $3.toLowerCase()}`
+          )
+          //@ts-ignore
+          .replace(new RegExp(/\s/, 'g'), '')
+          .replace(new RegExp(/\w/), (s: any) => s.toUpperCase())
+      )
     }
 
     //----------------------------------------------------------------------
@@ -91,6 +92,8 @@ module.exports = {
           }
         }
       },
-    };
+    }
   },
 }
+
+export default rule

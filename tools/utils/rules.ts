@@ -1,19 +1,13 @@
-'use strict'
+import fs from 'fs'
+import path from 'path'
 
-// @ts-expect-error ts-migrate(2451) FIXME: Cannot redeclare block-scoped variable 'fs'.
-const fs = require('fs')
-// @ts-expect-error ts-migrate(2451) FIXME: Cannot redeclare block-scoped variable 'path'.
-const path = require('path')
-// @ts-expect-error ts-migrate(2451) FIXME: Cannot redeclare block-scoped variable 'ROOT'.
 const ROOT = path.resolve(__dirname, '../../lib/rules')
 
-// @ts-expect-error ts-migrate(2580) FIXME: Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
-module.exports = fs
+const rules = fs
   .readdirSync(ROOT)
-  .filter((file: any) => path.extname(file) === '.js')
-  .map((file: any) => path.basename(file, '.js'))
-  .map((name: any) => {
-    // @ts-expect-error ts-migrate(2580) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+  .filter((file) => path.extname(file) === '.ts')
+  .map((file) => path.basename(file, '.ts'))
+  .map((name) => {
     const meta = { ...require(path.join(ROOT, name)).meta }
     if (meta.docs && !meta.docs.categories) {
       meta.docs = { ...meta.docs }
@@ -36,3 +30,5 @@ module.exports = fs
   })
   // We might have rules which are almost ready but should not be shipped
   .filter((rule: any) => !rule.meta.docs.excludeFromConfig)
+
+export default rules

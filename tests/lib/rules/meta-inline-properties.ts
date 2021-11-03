@@ -2,16 +2,13 @@
  * @fileoverview Meta should have inline properties
  * @author Yann Braga
  */
-'use strict'
 
 //------------------------------------------------------------------------------
 // Requirements
 //------------------------------------------------------------------------------
 
-// @ts-expect-error ts-migrate(2451) FIXME: Cannot redeclare block-scoped variable 'rule'.
-const rule = require('../../../lib/rules/meta-inline-properties'),
-  // @ts-expect-error ts-migrate(2451) FIXME: Cannot redeclare block-scoped variable 'ruleTester... Remove this comment to see the full error message
-  ruleTester = require('../../utils/rule-tester')
+import rule from '../../../lib/rules/meta-inline-properties'
+import ruleTester from '../../utils/rule-tester'
 
 //------------------------------------------------------------------------------
 // Tests

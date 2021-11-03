@@ -1,9 +1,5 @@
-'use strict'
-
-// @ts-expect-error ts-migrate(2451) FIXME: Cannot redeclare block-scoped variable 'rules'.
-const rules = require('./rules')
-// @ts-expect-error ts-migrate(2580) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
-const { CATEGORY_ID } = require('../../lib/utils/constants')
+import rules from './rules'
+import { CATEGORY_ID } from '../../lib/utils/constants'
 
 const categoriesConfig = {
   [CATEGORY_ID.CSF]: {
@@ -20,8 +16,7 @@ const categoriesConfig = {
   },
 }
 
-// @ts-expect-error ts-migrate(2451) FIXME: Cannot redeclare block-scoped variable 'categoryId... Remove this comment to see the full error message
-const categoryIds = Object.keys(categoriesConfig)
+export const categoryIds = Object.keys(categoriesConfig)
 
 for (const categoryId of categoryIds) {
   // @ts-expect-error ts-migrate(7015) FIXME: Element implicitly has an 'any' type because index... Remove this comment to see the full error message
@@ -41,8 +36,7 @@ for (const categoryId of categoryIds) {
   }
 }
 
-// @ts-expect-error ts-migrate(2451) FIXME: Cannot redeclare block-scoped variable 'categories... Remove this comment to see the full error message
-const categories = categoryIds
+export const categories = categoryIds
   .map((categoryId) => {
     // @ts-expect-error ts-migrate(7015) FIXME: Element implicitly has an 'any' type because index... Remove this comment to see the full error message
     if (!categoriesConfig[categoryId].rules.length) {
@@ -53,18 +47,11 @@ const categories = categoryIds
 
     return {
       categoryId,
-      // @ts-expect-error ts-migrate(7015) FIXME: Element implicitly has an 'any' type because index... Remove this comment to see the full error message
       title: categoriesConfig[categoryId],
       // @ts-expect-error ts-migrate(7015) FIXME: Element implicitly has an 'any' type because index... Remove this comment to see the full error message
       rules: categoriesConfig[categoryId].rules.filter((rule: any) => !rule.meta.deprecated),
-    };
+    }
   })
   .filter((category) => {
     return category.rules.length >= 1
   })
-
-// @ts-expect-error ts-migrate(2580) FIXME: Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
-module.exports = {
-  categories,
-  categoryIds,
-}

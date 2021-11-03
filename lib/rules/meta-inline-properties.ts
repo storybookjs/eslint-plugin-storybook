@@ -2,19 +2,18 @@
  * @fileoverview Meta should have inline properties
  * @author Yann Braga
  */
-'use strict'
 
-// @ts-expect-error ts-migrate(2451) FIXME: Cannot redeclare block-scoped variable 'docsUrl'.
-const { docsUrl } = require('../utils')
-// @ts-expect-error ts-migrate(2451) FIXME: Cannot redeclare block-scoped variable 'CATEGORY_I... Remove this comment to see the full error message
-const { CATEGORY_ID } = require('../utils/constants')
+import { docsUrl } from '../utils'
+
+import { CATEGORY_ID } from '../utils/constants'
+
+import type { RuleModule } from '../types'
 
 //------------------------------------------------------------------------------
 // Rule Definition
 //------------------------------------------------------------------------------
 
-// @ts-expect-error ts-migrate(2580) FIXME: Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
-module.exports = {
+const rule: RuleModule = {
   meta: {
     type: 'problem',
     docs: {
@@ -22,6 +21,7 @@ module.exports = {
       category: CATEGORY_ID.CSF,
       recommended: true,
       excludeFromConfig: true,
+      //@ts-ignore
       recommendedConfig: ['error', { csfVersion: 3 }],
       url: docsUrl('meta-inline-properties'), // URL to the documentation page for this rule
     },
@@ -78,8 +78,10 @@ module.exports = {
         const ruleProperties = ['title', 'args']
         let dynamicProperties: any = []
 
-        // @ts-expect-error ts-migrate(2550) FIXME: Property 'includes' does not exist on type 'string... Remove this comment to see the full error message
-        const metaNodes = metaProperties.filter((prop: any) => ruleProperties.includes(prop.key.name))
+        const metaNodes = metaProperties.filter((prop: any) =>
+          //@ts-ignore
+          ruleProperties.includes(prop.key.name)
+        )
 
         metaNodes.forEach((metaNode: any) => {
           if (!isInline(metaNode)) {
@@ -88,7 +90,7 @@ module.exports = {
         })
 
         if (dynamicProperties.length > 0) {
-          // @ts-expect-error ts-migrate(7006) FIXME: Parameter 'propertyNode' implicitly has an 'any' t... Remove this comment to see the full error message
+          //@ts-ignore
           dynamicProperties.forEach((propertyNode) => {
             context.report({
               node: propertyNode,
@@ -100,6 +102,8 @@ module.exports = {
           })
         }
       },
-    };
+    }
   },
 }
+
+export default rule

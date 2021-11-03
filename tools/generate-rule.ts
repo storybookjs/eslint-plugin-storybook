@@ -1,13 +1,9 @@
-// @ts-expect-error ts-migrate(2451) FIXME: Cannot redeclare block-scoped variable 'path'.
-const path = require('path')
-// @ts-expect-error ts-migrate(2451) FIXME: Cannot redeclare block-scoped variable 'fs'.
-const fs = require('fs')
-// @ts-expect-error ts-migrate(2580) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
-const cp = require('child_process')
-// @ts-expect-error ts-migrate(2580) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
-const prompts = require('prompts')
-// @ts-expect-error ts-migrate(2580) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
-const { default: dedent } = require('ts-dedent')
+import path from 'path'
+
+import fs from 'fs'
+import cp from 'child_process'
+import prompts from 'prompts'
+import dedent from 'ts-dedent'
 
 const logger = console
 
@@ -18,7 +14,7 @@ const questions = [
     name: 'authorName',
     initial: '',
     message: 'What is your name?',
-    validate: (name: any) => name === '' ? "Name can't be empty" : true,
+    validate: (name: any) => (name === '' ? "Name can't be empty" : true),
   },
   {
     type: 'text',
@@ -29,44 +25,38 @@ const questions = [
       - If your rule is enforcing the inclusion of something, use a short name without a special prefix.
       - Use dashes between words.
     `),
-    validate: (rule: any) => rule === '' ? "Rule can't be empty" : true,
+    validate: (rule: any) => (rule === '' ? "Rule can't be empty" : true),
   },
   {
     type: 'text',
     name: 'ruleDescription',
     message: 'Type a short description of this rule',
-    validate: (rule: any) => rule === '' ? "Description can't be empty" : true,
+    validate: (rule: any) => (rule === '' ? "Description can't be empty" : true),
   },
 ]
 
-// @ts-expect-error ts-migrate(2705) FIXME: An async function or method in ES5/ES3 requires th... Remove this comment to see the full error message
 const generateRule = async () => {
   const { authorName, ruleId, ruleDescription } = await prompts(questions)
 
   if (!authorName) {
     logger.log('Process canceled by the user.')
-    // @ts-expect-error ts-migrate(2580) FIXME: Cannot find name 'process'. Do you need to install... Remove this comment to see the full error message
     process.exit(0)
   }
 
-  // @ts-expect-error ts-migrate(2304) FIXME: Cannot find name '__dirname'.
-  const ruleFile = path.resolve(__dirname, `../lib/rules/${ruleId}.js`)
-  // @ts-expect-error ts-migrate(2304) FIXME: Cannot find name '__dirname'.
-  const testFile = path.resolve(__dirname, `../tests/lib/rules/${ruleId}.js`)
-  // @ts-expect-error ts-migrate(2304) FIXME: Cannot find name '__dirname'.
+  const ruleFile = path.resolve(__dirname, `../lib/rules/${ruleId}.ts`)
+  const testFile = path.resolve(__dirname, `../tests/lib/rules/${ruleId}.ts`)
   const docFile = path.resolve(__dirname, `../docs/rules/${ruleId}.md`)
 
-  logger.log(`creating lib/rules/${ruleId}.js`)
+  logger.log(`creating lib/rules/${ruleId}.ts`)
   fs.writeFileSync(
     ruleFile,
     dedent(`/**
        * @fileoverview ${ruleDescription}
        * @author ${authorName}
        */
-      'use strict'
 
-      const { docsUrl } = require('../utils')
-      const { CATEGORY_ID } = require('../utils/constants')
+      import { docsUrl } from '../utils'
+      import { CATEGORY_ID } from '../utils/constants'
 
       //------------------------------------------------------------------------------
       // Rule Definition
@@ -133,20 +123,19 @@ const generateRule = async () => {
       }\n`)
   )
 
-  logger.log(`creating tests/lib/rules/${ruleId}.js`)
+  logger.log(`creating tests/lib/rules/${ruleId}.ts`)
   fs.writeFileSync(
     testFile,
     dedent(`/**
          * @fileoverview ${ruleDescription}
          * @author ${authorName}
          */
-        'use strict'
 
         //------------------------------------------------------------------------------
         // Requirements
         //------------------------------------------------------------------------------
 
-        const rule = require('../../../lib/rules/${ruleId}'),
+        import rule from '../../../lib/rules/${ruleId}',
           ruleTester = require('../../utils/rule-tester')
 
         //------------------------------------------------------------------------------

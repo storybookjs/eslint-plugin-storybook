@@ -2,17 +2,17 @@
  * @fileoverview Do not use testing library directly on stories
  * @author Yann Braga
  */
-'use strict'
 
-const { docsUrl } = require('../utils')
-const { isImportDefaultSpecifier } = require('../utils/ast')
-const { CATEGORY_ID } = require('../utils/constants')
+import type { RuleModule } from '../types'
+import { docsUrl } from '../utils'
+import { isImportDefaultSpecifier } from '../utils/ast'
+
+import { CATEGORY_ID } from '../utils/constants'
 
 //------------------------------------------------------------------------------
 // Rule Definition
 //------------------------------------------------------------------------------
-
-module.exports = {
+const rule: RuleModule = {
   meta: {
     type: 'suggestion',
     fixable: 'code', // Or `code` or `whitespace`
@@ -123,3 +123,5 @@ module.exports = {
     }
   },
 }
+
+export default rule

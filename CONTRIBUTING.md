@@ -38,8 +38,8 @@ This command will auto-generate the test file with an example for you. Please re
 #### Important metadata for a rule
 
 ```js
-const { docsUrl } = require('../utils')
-const { CATEGORY_ID } = require('../utils/constants')
+import { docsUrl } from '../utils'
+import { CATEGORY_ID } from '../utils/constants'
 
 module.exports = {
   meta: {

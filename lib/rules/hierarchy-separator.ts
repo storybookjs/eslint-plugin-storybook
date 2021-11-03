@@ -2,19 +2,18 @@
  * @fileoverview Deprecated hierarchy separator
  * @author Yann Braga
  */
-'use strict'
 
-// @ts-expect-error ts-migrate(2451) FIXME: Cannot redeclare block-scoped variable 'docsUrl'.
-const { docsUrl } = require('../utils')
-// @ts-expect-error ts-migrate(2451) FIXME: Cannot redeclare block-scoped variable 'CATEGORY_I... Remove this comment to see the full error message
-const { CATEGORY_ID } = require('../utils/constants')
+import { docsUrl } from '../utils'
+
+import { CATEGORY_ID } from '../utils/constants'
+
+import type { RuleModule } from '../types'
 
 //------------------------------------------------------------------------------
 // Rule Definition
 //------------------------------------------------------------------------------
 
-// @ts-expect-error ts-migrate(2580) FIXME: Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
-module.exports = {
+const rule: RuleModule = {
   meta: {
     type: 'problem',
     fixable: 'code',
@@ -59,7 +58,7 @@ module.exports = {
             data: { metaTitle },
             // In case we want this to be auto fixed by --fix
             fix: function (fixer: any) {
-              return fixer.replaceTextRange(titleNode.value.range, metaTitle.replace(/\||\./g, '/'));
+              return fixer.replaceTextRange(titleNode.value.range, metaTitle.replace(/\||\./g, '/'))
             },
             suggest: [
               {
@@ -68,13 +67,15 @@ module.exports = {
                   return fixer.replaceTextRange(
                     titleNode.value.range,
                     metaTitle.replace(/\||\./g, '/')
-                  );
+                  )
                 },
               },
             ],
           })
         }
       },
-    };
+    }
   },
 }
+
+export default rule

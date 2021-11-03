@@ -2,19 +2,18 @@
  * @fileoverview Component property should be set
  * @author Yann Braga
  */
-'use strict'
 
-// @ts-expect-error ts-migrate(2451) FIXME: Cannot redeclare block-scoped variable 'docsUrl'.
-const { docsUrl } = require('../utils')
-// @ts-expect-error ts-migrate(2451) FIXME: Cannot redeclare block-scoped variable 'CATEGORY_I... Remove this comment to see the full error message
-const { CATEGORY_ID } = require('../utils/constants')
+import { docsUrl } from '../utils'
+
+import { CATEGORY_ID } from '../utils/constants'
+
+import type { RuleModule } from '../types'
 
 //------------------------------------------------------------------------------
 // Rule Definition
 //------------------------------------------------------------------------------
 
-// @ts-expect-error ts-migrate(2580) FIXME: Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
-module.exports = {
+const rule: RuleModule = {
   meta: {
     type: 'suggestion',
     docs: {
@@ -27,8 +26,6 @@ module.exports = {
     messages: {
       missingComponentProperty: 'Missing component property.',
     },
-    fixable: null, // Or `code` or `whitespace`
-    schema: [], // Add a schema if the rule has options
   },
 
   create(context: any) {
@@ -64,6 +61,8 @@ module.exports = {
           })
         }
       },
-    };
+    }
   },
 }
+
+export default rule

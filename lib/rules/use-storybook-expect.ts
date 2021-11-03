@@ -2,30 +2,24 @@
  * @fileoverview Use expect from '@storybook/expect'
  * @author Yann Braga
  */
-'use strict'
 
-// @ts-expect-error ts-migrate(2451) FIXME: Cannot redeclare block-scoped variable 'docsUrl'.
-const { docsUrl, isPlayFunction } = require('../utils')
-// @ts-expect-error ts-migrate(2451) FIXME: Cannot redeclare block-scoped variable 'CATEGORY_I... Remove this comment to see the full error message
-const { CATEGORY_ID } = require('../utils/constants')
-const {
-  // @ts-expect-error ts-migrate(2451) FIXME: Cannot redeclare block-scoped variable 'isExpressi... Remove this comment to see the full error message
+import { docsUrl, isPlayFunction } from '../utils'
+
+import { CATEGORY_ID } from '../utils/constants'
+import {
   isExpressionStatement,
-  // @ts-expect-error ts-migrate(2451) FIXME: Cannot redeclare block-scoped variable 'isCallExpr... Remove this comment to see the full error message
   isCallExpression,
-  // @ts-expect-error ts-migrate(2451) FIXME: Cannot redeclare block-scoped variable 'isMemberEx... Remove this comment to see the full error message
   isMemberExpression,
-  // @ts-expect-error ts-migrate(2451) FIXME: Cannot redeclare block-scoped variable 'isIdentifi... Remove this comment to see the full error message
   isIdentifier,
-// @ts-expect-error ts-migrate(2580) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
-} = require('../utils/ast')
+} from '../utils/ast'
+
+import type { RuleModule } from '../types'
 
 //------------------------------------------------------------------------------
 // Rule Definition
 //------------------------------------------------------------------------------
 
-// @ts-expect-error ts-migrate(2580) FIXME: Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
-module.exports = {
+const rule: RuleModule = {
   meta: {
     type: 'suggestion',
     fixable: 'code', // Or `code` or `whitespace`,
@@ -55,23 +49,22 @@ module.exports = {
       return body.filter((b) => isExpressionStatement(b))
     }
 
-    const isExpect = (expression = {}) => {
+    //@ts-ignore
+    const isExpect = (expression) => {
       return (
         isCallExpression(expression) &&
-        // @ts-expect-error ts-migrate(2339) FIXME: Property 'callee' does not exist on type '{}'.
         isMemberExpression(expression.callee) &&
-        // @ts-expect-error ts-migrate(2339) FIXME: Property 'callee' does not exist on type '{}'.
         isCallExpression(expression.callee.object) &&
-        // @ts-expect-error ts-migrate(2339) FIXME: Property 'callee' does not exist on type '{}'.
         isIdentifier(expression.callee.object.callee) &&
-        // @ts-expect-error ts-migrate(2339) FIXME: Property 'callee' does not exist on type '{}'.
         expression.callee.object.callee.name === 'expect'
       )
     }
 
     const isExpectFromStorybookImported = (node: any) => {
-      return node.source.value === '@storybook/jest' &&
-      node.specifiers.find((spec: any) => spec.imported.name === 'expect');
+      return (
+        node.source.value === '@storybook/jest' &&
+        node.specifiers.find((spec: any) => spec.imported.name === 'expect')
+      )
     }
     //----------------------------------------------------------------------
     // Public
@@ -104,7 +97,7 @@ module.exports = {
       },
       'Program:exit': function () {
         if (!isImportingFromStorybookExpect && expectInvocations.length) {
-          // @ts-expect-error ts-migrate(7006) FIXME: Parameter 'node' implicitly has an 'any' type.
+          //@ts-ignore
           expectInvocations.forEach((node) => {
             context.report({
               node,
@@ -130,6 +123,8 @@ module.exports = {
           })
         }
       },
-    };
+    }
   },
 }
+
+export default rule

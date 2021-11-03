@@ -30,6 +30,7 @@
   },
   "scripts": {
     "lint": "eslint --fix .",
+    "migrate": "ts-migrate-full",
     "test": "mocha tests --recursive",
     "generate-rule": "node ./tools/generate-rule",
     "update-configs": "node ./tools/update-configs.js",
@@ -40,11 +41,12 @@
     "release": "auto shipit"
   },
   "dependencies": {
-    "requireindex": "^1.1.0",
-    "@typescript-eslint/experimental-utils": "^5.3.0"
+    "@typescript-eslint/experimental-utils": "^5.3.0",
+    "requireindex": "^1.1.0"
   },
   "devDependencies": {
     "@auto-it/released": "^10.32.2",
+    "@types/eslint": "^7.28.2",
     "@typescript-eslint/parser": "^4.31.0",
     "auto": "^10.32.2",
     "eslint": "^7.1.0",
@@ -58,7 +60,9 @@
     "prettier": "^2.4.0",
     "prompts": "^2.4.2",
     "ts-dedent": "^2.2.0",
-    "typescript": "^4.4.3"
+    "ts-migrate": "^0.1.26",
+    "ts-node": "^10.4.0",
+    "typescript": "^4.4.4"
   },
   "engines": {
     "node": "12.x || 14.x || >= 16"
