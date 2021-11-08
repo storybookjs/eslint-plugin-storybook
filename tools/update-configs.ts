@@ -39,7 +39,7 @@ function formatCategory(category: any) {
       * This file has been automatically generated,
       * in order to update it's content execute "yarn update-all"
       */
-      export default {
+      export = {
         plugins: [
           'storybook'
         ],
@@ -52,7 +52,7 @@ function formatCategory(category: any) {
     * This file has been automatically generated,
     * in order to update it's content execute "yarn update-all"
     */
-    export default {
+    export = {
       extends: require.resolve('./${extendsCategoryId}'),
       rules: ${formatRules(category.rules)}
     }
@@ -68,7 +68,10 @@ fs.mkdirSync(ROOT)
 // Update/add rule files
 categories.forEach((category) => {
   const filePath = path.join(ROOT, `${category.categoryId}.ts`)
-  const content = format(formatCategory(category), { parser: 'babel', ...prettierConfig })
+  const content = format(formatCategory(category), {
+    parser: 'typescript',
+    ...prettierConfig,
+  })
 
   fs.writeFileSync(filePath, content)
 })
