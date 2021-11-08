@@ -55,25 +55,23 @@ const generateRule = async () => {
        * @author ${authorName}
        */
 
-      import { docsUrl } from '../utils'
+      import { createStorybookRule } from '../utils/create-storybook-rule'
       import { CategoryId } from '../utils/constants'
 
       //------------------------------------------------------------------------------
       // Rule Definition
       //------------------------------------------------------------------------------
 
-      /**
-       * @type {import('eslint').Rule.RuleModule}
-       */
-      module.exports = {
+      export default createStorybookRule({
+        name: '${ruleId}',
+        defaultOptions: [],
         meta: {
           type: null, // \`problem\`, \`suggestion\`, or \`layout\`
           docs: {
             description: 'Fill me in',
-            // Change the category to the one that suits this rule. If the only category is "recommended", then remove the category field and set recommended to true.
+            // Add the categories that suit this rule.
             categories: [CategoryId.RECOMMENDED],
             recommended: 'warn', // or 'error'
-
           },
           messages: {
             anyMessageIdHere: 'Fill me in',
@@ -102,9 +100,6 @@ const generateRule = async () => {
              * And check https://astexplorer.net/ to help write rules
              * And delete this entire comment block
              */
-            /**
-             * @param {import('eslint').Rule.Node} node
-             */
             ExportNamedDeclaration: function (node) {
               const identifier = node.declaration.declarations[0].id
               if (identifier) {
@@ -119,7 +114,7 @@ const generateRule = async () => {
             },
           }
         },
-      }\n`)
+      })\n`)
   )
 
   logger.log(`creating tests/lib/rules/${ruleId}.ts`)
@@ -134,8 +129,8 @@ const generateRule = async () => {
         // Requirements
         //------------------------------------------------------------------------------
 
-        import rule from '../../../lib/rules/${ruleId}',
-          ruleTester = require('../../utils/rule-tester')
+        import rule from '../../../lib/rules/${ruleId}'
+        import ruleTester from '../../utils/rule-tester'
 
         //------------------------------------------------------------------------------
         // Tests
