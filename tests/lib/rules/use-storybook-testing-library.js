@@ -38,5 +38,43 @@ ruleTester.run('use-storybook-testing-library', rule, {
         },
       ],
     },
+    {
+      code: "import userEvent from '@testing-library/user-event'",
+      output: "import { userEvent } from '@storybook/testing-library'",
+      errors: [
+        {
+          messageId: 'dontUseTestingLibraryDirectly',
+          data: {
+            library: '@testing-library/user-event',
+          },
+          type: 'ImportDeclaration',
+          suggestions: [
+            {
+              messageId: 'updateImports',
+              output: "import { userEvent } from '@storybook/testing-library'",
+            },
+          ],
+        },
+      ],
+    },
+    {
+      code: "import userEvent, { foo, bar as Bar } from '@testing-library/user-event'",
+      output: "import { userEvent, foo, bar as Bar } from '@storybook/testing-library'",
+      errors: [
+        {
+          messageId: 'dontUseTestingLibraryDirectly',
+          data: {
+            library: '@testing-library/user-event',
+          },
+          type: 'ImportDeclaration',
+          suggestions: [
+            {
+              messageId: 'updateImports',
+              output: "import { userEvent, foo, bar as Bar } from '@storybook/testing-library'",
+            },
+          ],
+        },
+      ],
+    },
   ],
 })
