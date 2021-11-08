@@ -22,7 +22,7 @@ const externalRuleOverrides = {
 function formatRules(rules: any) {
   const obj = rules.reduce(
     (setting: any, rule: any) => {
-      setting[rule.ruleId] = rule.meta.docs.recommendedConfig || 'error'
+      setting[rule.ruleId] = rule.meta.docs.recommended || 'error'
       return setting
     },
     { ...externalRuleOverrides }
@@ -39,7 +39,7 @@ function formatCategory(category: any) {
       * This file has been automatically generated,
       * in order to update it's content execute "yarn update-all"
       */
-      module.exports = {
+      export default {
         plugins: [
           'storybook'
         ],
@@ -52,7 +52,7 @@ function formatCategory(category: any) {
     * This file has been automatically generated,
     * in order to update it's content execute "yarn update-all"
     */
-    module.exports = {
+    export default {
       extends: require.resolve('./${extendsCategoryId}'),
       rules: ${formatRules(category.rules)}
     }
