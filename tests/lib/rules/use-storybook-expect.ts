@@ -89,7 +89,7 @@ ruleTester.run('use-storybook-expect', rule, {
       errors: [
         {
           messageId: 'useExpectFromStorybook',
-          type: 'CallExpression',
+          type: AST_NODE_TYPES.CallExpression,
           suggestions: [
             {
               messageId: 'updateImports',

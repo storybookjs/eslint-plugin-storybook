@@ -14,6 +14,7 @@ import {
   isBlockStatement,
   isProperty,
   isVariableDeclaration,
+  isObjectExpression,
 } from '../utils/ast'
 
 import { createStorybookRule } from '../utils/create-storybook-rule'
@@ -113,6 +114,7 @@ export = createStorybookRule({
         const { declarations } = node.declaration
         if (
           isVariableDeclarator(declarations[0]) &&
+          isObjectExpression(declarations[0].init) &&
           declarations[0].init &&
           declarations[0].init.properties
         ) {
