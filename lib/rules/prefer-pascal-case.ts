@@ -11,7 +11,7 @@ import { createStorybookRule } from '../utils/create-storybook-rule'
 //------------------------------------------------------------------------------
 
 export = createStorybookRule({
-  name: '',
+  name: 'prefer-pascal-case',
   defaultOptions: [],
   meta: {
     type: 'suggestion',

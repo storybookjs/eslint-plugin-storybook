@@ -12,7 +12,7 @@ import { createStorybookRule } from '../utils/create-storybook-rule'
 //------------------------------------------------------------------------------
 
 export = createStorybookRule({
-  name: '',
+  name: 'no-redundant-story-name',
   defaultOptions: [],
   meta: {
     type: 'suggestion',

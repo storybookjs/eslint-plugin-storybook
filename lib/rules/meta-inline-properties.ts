@@ -11,7 +11,7 @@ import { createStorybookRule } from '../utils/create-storybook-rule'
 //------------------------------------------------------------------------------
 
 export = createStorybookRule({
-  name: '',
+  name: 'meta-inline-properties',
   defaultOptions: [{ csfVersion: 3 }],
   meta: {
     type: 'problem',

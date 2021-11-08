@@ -11,7 +11,7 @@ import { createStorybookRule } from '../utils/create-storybook-rule'
 //------------------------------------------------------------------------------
 
 export = createStorybookRule({
-  name: '',
+  name: 'no-title-property-in-meta',
   defaultOptions: [],
   meta: {
     type: 'problem',

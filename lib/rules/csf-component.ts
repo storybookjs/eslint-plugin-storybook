@@ -11,7 +11,7 @@ import { createStorybookRule } from '../utils/create-storybook-rule'
 //------------------------------------------------------------------------------
 
 export = createStorybookRule({
-  name: '',
+  name: 'csf-component',
   defaultOptions: [],
   meta: {
     type: 'suggestion',
