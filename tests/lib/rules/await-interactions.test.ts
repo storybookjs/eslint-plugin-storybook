@@ -26,6 +26,15 @@ ruleTester.run('await-interactions', rule, {
         const MyButton = await canvas.findByRole('button')
       }
     `,
+    dedent`
+      WithModalOpen.play = async ({ canvasElement }) => {
+        const element: HTMLButtonElement = await within(canvasElement).findByText(/Hello/i)
+        await userEvent.click(element, undefined, { clickCount: 2 })
+        await userEvent.click(await within(canvasElement).findByText(/Hello/i), undefined, {
+          clickCount: 2,
+        })
+      }
+    `,
   ],
   invalid: [
     {
@@ -56,6 +65,37 @@ ruleTester.run('await-interactions', rule, {
         {
           messageId: 'interactionShouldBeAwaited',
           data: { method: 'userEvent' },
+        },
+      ],
+    },
+    {
+      /**
+       * this should output to:
+        WithModalOpen.play = async ({ canvasElement }) => {
+          const element: HTMLButtonElement = await within(canvasElement).findByText(/Hello/i)
+          await userEvent.click(element, undefined, { clickCount: 2 })
+          await userEvent.click(await within(canvasElement).findByText(/Hello/i), undefined, {
+            clickCount: 2,
+          })
+        }
+       */
+      code: dedent(`
+        WithModalOpen.play = async ({ canvasElement }) => {
+          const element: HTMLButtonElement = within(canvasElement).findByText(/Hello/i)
+          userEvent.click(element, undefined, { clickCount: 2 })
+          userEvent.click(within(canvasElement).findByText(/Hello/i), undefined, {
+            clickCount: 2,
+          })
+        }
+      `),
+      errors: [
+        {
+          messageId: 'interactionShouldBeAwaited',
+          data: { method: 'userEvent' },
+        },
+        {
+          messageId: 'interactionShouldBeAwaited',
+          data: { method: 'findByText' },
         },
       ],
     },
