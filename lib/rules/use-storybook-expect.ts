@@ -3,14 +3,13 @@
  * @author Yann Braga
  */
 
-import { isPlayFunction } from '../utils'
-
 import { CategoryId } from '../utils/constants'
 import {
   isExpressionStatement,
   isCallExpression,
   isMemberExpression,
   isIdentifier,
+  isBlockStatement,
 } from '../utils/ast'
 
 import { createStorybookRule } from '../utils/create-storybook-rule'
@@ -67,6 +66,20 @@ export = createStorybookRule({
         node.specifiers.find((spec: any) => spec.imported.name === 'expect')
       )
     }
+
+    const checkExpectInvocations = (blockStatement) => {
+      if (!isBlockStatement(blockStatement)) {
+        return
+      }
+
+      const expressionBody = blockStatement.body || []
+      const expressionStatements = getExpressionStatements(expressionBody)
+      expressionStatements.forEach(({ expression }) => {
+        if (isExpect(expression)) {
+          expectInvocations.push(expression)
+        }
+      })
+    }
     //----------------------------------------------------------------------
     // Public
     //----------------------------------------------------------------------
@@ -80,20 +93,13 @@ export = createStorybookRule({
           isImportingFromStorybookExpect = true
         }
       },
-      AssignmentExpression(node: any) {
-        if (!isExpressionStatement(node.parent)) {
+      CallExpression(node) {
+        if (!isIdentifier(node.callee)) {
           return null
         }
 
-        if (isPlayFunction(node)) {
-          const { right } = node
-          const expressionBody = (right.body && right.body.body) || []
-          const expressionStatements = getExpressionStatements(expressionBody)
-          expressionStatements.forEach(({ expression }) => {
-            if (isExpect(expression)) {
-              expectInvocations.push(expression)
-            }
-          })
+        if (node.callee.name === 'expect') {
+          expectInvocations.push(node.callee)
         }
       },
       'Program:exit': function () {
