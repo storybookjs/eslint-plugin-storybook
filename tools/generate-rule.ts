@@ -44,7 +44,7 @@ const generateRule = async () => {
   }
 
   const ruleFile = path.resolve(__dirname, `../lib/rules/${ruleId}.ts`)
-  const testFile = path.resolve(__dirname, `../tests/lib/rules/${ruleId}.ts`)
+  const testFile = path.resolve(__dirname, `../tests/lib/rules/${ruleId}.test.ts`)
   const docFile = path.resolve(__dirname, `../docs/rules/${ruleId}.md`)
 
   logger.log(`creating lib/rules/${ruleId}.ts`)
@@ -117,7 +117,7 @@ const generateRule = async () => {
       })\n`)
   )
 
-  logger.log(`creating tests/lib/rules/${ruleId}.ts`)
+  logger.log(`creating tests/lib/rules/${ruleId}.test.ts`)
   fs.writeFileSync(
     testFile,
     dedent(`/**
