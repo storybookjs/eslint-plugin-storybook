@@ -1,17 +1,17 @@
 import rules from './rules'
-import { CATEGORY_ID } from '../../lib/utils/constants'
+import { CategoryId } from '../../lib/utils/constants'
 
 const categoriesConfig = {
-  [CATEGORY_ID.CSF]: {
+  [CategoryId.CSF]: {
     text: 'CSF Rules',
   },
-  [CATEGORY_ID.CSF_STRICT]: {
+  [CategoryId.CSF_STRICT]: {
     text: 'Strict CSF Rules',
   },
-  [CATEGORY_ID.ADDON_INTERACTIONS]: {
+  [CategoryId.ADDON_INTERACTIONS]: {
     text: 'Rules for writing interactions in Storybook',
   },
-  [CATEGORY_ID.RECOMMENDED]: {
+  [CategoryId.RECOMMENDED]: {
     text: 'Base rules recommended by Storybook',
   },
 }
@@ -19,7 +19,6 @@ const categoriesConfig = {
 export const categoryIds = Object.keys(categoriesConfig)
 
 for (const categoryId of categoryIds) {
-  // @ts-expect-error ts-migrate(7015) FIXME: Element implicitly has an 'any' type because index... Remove this comment to see the full error message
   categoriesConfig[categoryId].rules = []
 
   for (const rule of rules) {
@@ -30,7 +29,6 @@ for (const categoryId of categoryIds) {
     }
 
     if (ruleCategories.includes(categoryId)) {
-      // @ts-expect-error ts-migrate(7015) FIXME: Element implicitly has an 'any' type because index... Remove this comment to see the full error message
       categoriesConfig[categoryId].rules.push(rule)
     }
   }
@@ -38,7 +36,6 @@ for (const categoryId of categoryIds) {
 
 export const categories = categoryIds
   .map((categoryId) => {
-    // @ts-expect-error ts-migrate(7015) FIXME: Element implicitly has an 'any' type because index... Remove this comment to see the full error message
     if (!categoriesConfig[categoryId].rules.length) {
       throw new Error(
         `Category "${categoryId}" has no rules. Make sure that at least one rule is linked to this category.`
@@ -48,7 +45,6 @@ export const categories = categoryIds
     return {
       categoryId,
       title: categoriesConfig[categoryId],
-      // @ts-expect-error ts-migrate(7015) FIXME: Element implicitly has an 'any' type because index... Remove this comment to see the full error message
       rules: categoriesConfig[categoryId].rules.filter((rule: any) => !rule.meta.deprecated),
     }
   })

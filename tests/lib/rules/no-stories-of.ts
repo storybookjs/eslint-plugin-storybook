@@ -7,6 +7,7 @@
 // Requirements
 //------------------------------------------------------------------------------
 
+import { AST_NODE_TYPES } from '@typescript-eslint/types'
 import rule from '../../../lib/rules/no-stories-of'
 import ruleTester from '../../utils/rule-tester'
 
@@ -39,7 +40,7 @@ ruleTester.run('no-stories-of', rule, {
       errors: [
         {
           messageId: 'doNotUseStoriesOf',
-          type: 'ImportSpecifier',
+          type: AST_NODE_TYPES.ImportSpecifier,
         },
       ],
     },

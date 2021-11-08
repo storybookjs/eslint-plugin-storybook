@@ -3,9 +3,9 @@
  * @author Yann Braga
  */
 
-import { docsUrl, isPlayFunction } from '../utils'
+import { isPlayFunction } from '../utils'
 
-import { CATEGORY_ID } from '../utils/constants'
+import { CategoryId } from '../utils/constants'
 import {
   isExpressionStatement,
   isCallExpression,
@@ -13,23 +13,24 @@ import {
   isIdentifier,
 } from '../utils/ast'
 
-import type { RuleModule } from '../types'
+import { createStorybookRule } from '../utils/create-storybook-rule'
 
 //------------------------------------------------------------------------------
 // Rule Definition
 //------------------------------------------------------------------------------
 
-const rule: RuleModule = {
+export default createStorybookRule({
+  name: 'use-storybook-expect',
+  defaultOptions: [],
   meta: {
     type: 'suggestion',
     fixable: 'code', // Or `code` or `whitespace`,
     hasSuggestions: true,
+    schema: [],
     docs: {
       description: 'Use expect from `@storybook/jest`',
-      category: CATEGORY_ID.ADDON_INTERACTIONS,
-      recommended: true,
-      recommendedConfig: 'error',
-      url: docsUrl('use-storybook-expect'), // URL to the documentation page for this rule
+      categories: [CategoryId.ADDON_INTERACTIONS, CategoryId.RECOMMENDED],
+      recommended: 'error',
     },
     messages: {
       updateImports: 'Update imports',
@@ -125,6 +126,4 @@ const rule: RuleModule = {
       },
     }
   },
-}
-
-export default rule
+})

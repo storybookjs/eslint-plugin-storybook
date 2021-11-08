@@ -3,32 +3,30 @@
  * @author Yann Braga
  */
 
-import { docsUrl } from '../utils'
-
-import { CATEGORY_ID } from '../utils/constants'
-
-import type { RuleModule } from '../types'
+import { CategoryId } from '../utils/constants'
+import { createStorybookRule } from '../utils/create-storybook-rule'
 
 //------------------------------------------------------------------------------
 // Rule Definition
 //------------------------------------------------------------------------------
 
-const rule: RuleModule = {
+export default createStorybookRule({
+  name: '',
+  defaultOptions: [],
   meta: {
     type: 'problem',
     fixable: 'code',
     docs: {
       description: 'Deprecated hierachy separator in title property',
-      category: CATEGORY_ID.CSF,
-      recommended: true,
-      recommendedConfig: 'warn',
-      url: docsUrl('hierarchy-separator'), // URL to the documentation page for this rule
+      categories: [CategoryId.CSF, CategoryId.RECOMMENDED],
+      recommended: 'warn',
     },
     messages: {
       useCorrectSeparators: 'Use correct separators',
       deprecatedHierarchySeparator:
         'Deprecated hierachy separator in title property: {{metaTitle}}.',
     },
+    schema: [],
   },
   create: function (context: any) {
     return {
@@ -76,6 +74,4 @@ const rule: RuleModule = {
       },
     }
   },
-}
-
-export default rule
+})

@@ -7,6 +7,7 @@
 // Requirements
 //------------------------------------------------------------------------------
 
+import { AST_NODE_TYPES } from '@typescript-eslint/types'
 import rule from '../../../lib/rules/default-exports'
 import ruleTester from '../../utils/rule-tester'
 
@@ -20,7 +21,12 @@ ruleTester.run('default-exports', rule, {
   invalid: [
     {
       code: 'export const Primary = () => <button>hello</button>',
-      errors: [{ messageId: 'shouldHaveDefaultExport', type: 'Program' }],
+      errors: [
+        {
+          messageId: 'shouldHaveDefaultExport',
+          type: AST_NODE_TYPES.Program,
+        },
+      ],
     },
   ],
 })

@@ -2,30 +2,27 @@
  * @fileoverview Story files should have a default export
  * @author Yann Braga
  */
-
-import { docsUrl } from '../utils'
-
-import { CATEGORY_ID } from '../utils/constants'
-
-import type { RuleModule } from '../types'
+import { CategoryId } from '../utils/constants'
+import { createStorybookRule } from '../utils/create-storybook-rule'
 
 //------------------------------------------------------------------------------
 // Rule Definition
 //------------------------------------------------------------------------------
 
-const rule: RuleModule = {
+export default createStorybookRule({
+  name: '',
+  defaultOptions: [],
   meta: {
     type: 'problem',
     docs: {
       description: 'Story files should have a default export',
-      category: CATEGORY_ID.CSF,
-      recommended: true,
-      recommendedConfig: 'error',
-      url: docsUrl('default-exports'), // URL to the documentation page for this rule
+      categories: [CategoryId.CSF, CategoryId.RECOMMENDED],
+      recommended: 'error',
     },
     messages: {
       shouldHaveDefaultExport: 'The file should have a default export.',
     },
+    schema: [],
   },
 
   create(context: any) {
@@ -61,6 +58,4 @@ const rule: RuleModule = {
       },
     }
   },
-}
-
-export default rule
+})

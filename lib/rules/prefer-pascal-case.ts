@@ -3,28 +3,29 @@
  * @author Yann Braga
  */
 
-import { docsUrl } from '../utils'
-
-import type { RuleModule } from '../types'
+import { CategoryId } from '../utils/constants'
+import { createStorybookRule } from '../utils/create-storybook-rule'
 
 //------------------------------------------------------------------------------
 // Rule Definition
 //------------------------------------------------------------------------------
 
-const rule: RuleModule = {
+export default createStorybookRule({
+  name: '',
+  defaultOptions: [],
   meta: {
     type: 'suggestion',
     fixable: 'code', // Or `code` or `whitespace`
     docs: {
       description: 'Stories should use PascalCase',
-      recommended: true,
-      recommendedConfig: 'warn',
-      url: docsUrl('prefer-pascal-case'), // URL to the documentation page for this rule
+      categories: [CategoryId.RECOMMENDED],
+      recommended: 'warn',
     },
     messages: {
       convertToPascalCase: 'Use pascal case',
       usePascalCase: 'The story should use PascalCase notation: {{name}}',
     },
+    schema: [],
   },
 
   create(context: any) {
@@ -94,6 +95,4 @@ const rule: RuleModule = {
       },
     }
   },
-}
-
-export default rule
+})

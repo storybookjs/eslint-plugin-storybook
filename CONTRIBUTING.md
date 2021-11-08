@@ -38,16 +38,13 @@ This command will auto-generate the test file with an example for you. Please re
 #### Important metadata for a rule
 
 ```js
-import { docsUrl } from '../utils'
-import { CATEGORY_ID } from '../utils/constants'
+import { CategoryId } from '../utils/constants'
 
 module.exports = {
   meta: {
     docs: {
-      category: CATEGORY_ID.CSF, // You should always use an existing category from the CATEGORY_ID enum, or create a new one there
-      recommended: true, // When setting to true, the rule will be part of plugin:storybook/recommended
+      categories: [CategoryId.RECOMMENDED], // You should always use an existing category from the CategoryId enum], or create a new one there
       excludeFromConfig: true, // If the rule is not ready to be shipped in any category, set this flag to true, otherwise remove it
-      url: docsUrl('meta-inline-properties'), // Every rule must have a URL to the documentation page. Use docsUrl to build it
     },
   },
   ...otherProperties,

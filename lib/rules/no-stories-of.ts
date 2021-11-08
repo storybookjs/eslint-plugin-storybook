@@ -3,29 +3,27 @@
  * @author Yann Braga
  */
 
-import { docsUrl } from '../utils'
-
-import { CATEGORY_ID } from '../utils/constants'
-
-import type { RuleModule } from '../types'
+import { CategoryId } from '../utils/constants'
+import { createStorybookRule } from '../utils/create-storybook-rule'
 
 //------------------------------------------------------------------------------
 // Rule Definition
 //------------------------------------------------------------------------------
 
-const rule: RuleModule = {
+export default createStorybookRule({
+  name: '',
+  defaultOptions: [],
   meta: {
     type: 'problem',
     docs: {
       description: 'storiesOf is deprecated and should not be used',
-      category: CATEGORY_ID.CSF_STRICT,
-      recommended: false,
-      recommendedConfig: 'error',
-      url: docsUrl('no-stories-of'), // URL to the documentation page for this rule
+      categories: [CategoryId.CSF_STRICT],
+      recommended: 'error',
     },
     messages: {
       doNotUseStoriesOf: 'storiesOf is deprecated and should not be used',
     },
+    schema: [],
   },
 
   create(context: any) {
@@ -52,6 +50,4 @@ const rule: RuleModule = {
       },
     }
   },
-}
-
-export default rule
+})

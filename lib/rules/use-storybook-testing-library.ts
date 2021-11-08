@@ -3,27 +3,26 @@
  * @author Yann Braga
  */
 
-import type { RuleModule } from '../types'
-import { docsUrl } from '../utils'
 import { isImportDefaultSpecifier } from '../utils/ast'
-
-import { CATEGORY_ID } from '../utils/constants'
+import { CategoryId } from '../utils/constants'
+import { createStorybookRule } from '../utils/create-storybook-rule'
 
 //------------------------------------------------------------------------------
 // Rule Definition
 //------------------------------------------------------------------------------
-const rule: RuleModule = {
+export default createStorybookRule({
+  name: 'use-storybook-testing-library',
+  defaultOptions: [],
   meta: {
     type: 'suggestion',
     fixable: 'code', // Or `code` or `whitespace`
     hasSuggestions: true,
     docs: {
       description: 'Do not use testing-library directly on stories',
-      category: CATEGORY_ID.ADDON_INTERACTIONS,
-      recommended: true,
-      recommendedConfig: 'error',
-      url: docsUrl('use-storybook-testing-library'), // URL to the documentation page for this rule
+      categories: [CategoryId.ADDON_INTERACTIONS, CategoryId.RECOMMENDED],
+      recommended: 'error',
     },
+    schema: [],
     messages: {
       updateImports: 'Update imports',
       dontUseTestingLibraryDirectly:
@@ -122,6 +121,4 @@ const rule: RuleModule = {
       },
     }
   },
-}
-
-export default rule
+})

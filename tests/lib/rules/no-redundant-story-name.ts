@@ -7,6 +7,7 @@
 // Requirements
 //------------------------------------------------------------------------------
 
+import { AST_NODE_TYPES } from '@typescript-eslint/types'
 import rule from '../../../lib/rules/no-redundant-story-name'
 import ruleTester from '../../utils/rule-tester'
 
@@ -17,7 +18,10 @@ import ruleTester from '../../utils/rule-tester'
 ruleTester.run('no-redundant-story-name', rule, {
   valid: [
     "export const PrimaryButton = { name: 'The Primary Button' }",
-    "export const PrimaryButton = { ...Default, name: 'The Primary Button' }",
+    `
+      const Default = {}
+      export const PrimaryButton = { ...Default, name: 'The Primary Button' }
+    `,
   ],
 
   invalid: [
@@ -26,7 +30,7 @@ ruleTester.run('no-redundant-story-name', rule, {
       errors: [
         {
           messageId: 'storyNameIsRedundant',
-          type: 'Property',
+          type: AST_NODE_TYPES.Property,
           suggestions: [
             {
               messageId: 'removeRedundantName',

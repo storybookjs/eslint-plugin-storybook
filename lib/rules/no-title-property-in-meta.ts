@@ -3,32 +3,30 @@
  * @author Yann Braga
  */
 
-import { docsUrl } from '../utils'
-
-import { CATEGORY_ID } from '../utils/constants'
-
-import type { RuleModule } from '../types'
+import { CategoryId } from '../utils/constants'
+import { createStorybookRule } from '../utils/create-storybook-rule'
 
 //------------------------------------------------------------------------------
 // Rule Definition
 //------------------------------------------------------------------------------
 
-const rule: RuleModule = {
+export default createStorybookRule({
+  name: '',
+  defaultOptions: [],
   meta: {
     type: 'problem',
     fixable: 'code',
     docs: {
       // @TODO check about this, as this only works in Typescript if the title property is optional, likely part of 6.4 typings
       description: 'Do not define a title in meta',
-      category: CATEGORY_ID.CSF_STRICT,
-      recommended: false,
-      recommendedConfig: 'error',
-      url: docsUrl('no-title-property-in-meta'), // URL to the documentation page for this rule
+      categories: [CategoryId.CSF_STRICT],
+      recommended: 'error',
     },
     messages: {
       removeTitleInMeta: 'Do not define a title in meta',
       noTitleInMeta: `CSF3 does not need a title in meta`,
     },
+    schema: [],
   },
   create: function (context: any) {
     return {
@@ -69,6 +67,4 @@ const rule: RuleModule = {
       },
     }
   },
-}
-
-export default rule
+})

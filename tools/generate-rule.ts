@@ -56,7 +56,7 @@ const generateRule = async () => {
        */
 
       import { docsUrl } from '../utils'
-      import { CATEGORY_ID } from '../utils/constants'
+      import { CategoryId } from '../utils/constants'
 
       //------------------------------------------------------------------------------
       // Rule Definition
@@ -71,10 +71,9 @@ const generateRule = async () => {
           docs: {
             description: 'Fill me in',
             // Change the category to the one that suits this rule. If the only category is "recommended", then remove the category field and set recommended to true.
-            category: CATEGORY_ID.CSF,
-            recommended: false,
-            recommendedConfig: 'warn', // or 'error'
-            url: docsUrl('${ruleId}'), // URL to the documentation page for this rule
+            categories: [CategoryId.RECOMMENDED],
+            recommended: 'warn', // or 'error'
+
           },
           messages: {
             anyMessageIdHere: 'Fill me in',

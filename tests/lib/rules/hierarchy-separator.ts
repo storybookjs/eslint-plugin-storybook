@@ -7,6 +7,7 @@
 // Requirements
 //------------------------------------------------------------------------------
 
+import { AST_NODE_TYPES } from '@typescript-eslint/types'
 import rule from '../../../lib/rules/hierarchy-separator'
 import ruleTester from '../../utils/rule-tester'
 
@@ -23,7 +24,8 @@ ruleTester.run('hierarchy-separator', rule, {
       output: "export default { title: 'Examples/Components/Button' }",
       errors: [
         {
-          type: 'ExportDefaultDeclaration',
+          type: AST_NODE_TYPES.ExportDefaultDeclaration,
+          messageId: 'deprecatedHierarchySeparator',
           suggestions: [
             {
               messageId: 'useCorrectSeparators',
@@ -38,7 +40,8 @@ ruleTester.run('hierarchy-separator', rule, {
       output: "export default { title: 'Examples/Components/Button' }",
       errors: [
         {
-          type: 'ExportDefaultDeclaration',
+          type: AST_NODE_TYPES.ExportDefaultDeclaration,
+          messageId: 'deprecatedHierarchySeparator',
           suggestions: [
             {
               messageId: 'useCorrectSeparators',

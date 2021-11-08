@@ -7,6 +7,7 @@
 // Requirements
 //------------------------------------------------------------------------------
 
+import { AST_NODE_TYPES } from '@typescript-eslint/types'
 import rule from '../../../lib/rules/use-storybook-testing-library'
 import ruleTester from '../../utils/rule-tester'
 
@@ -27,7 +28,7 @@ ruleTester.run('use-storybook-testing-library', rule, {
           data: {
             library: '@testing-library/dom',
           },
-          type: 'ImportDeclaration',
+          type: AST_NODE_TYPES.ImportDeclaration,
           suggestions: [
             {
               messageId: 'updateImports',
@@ -46,7 +47,7 @@ ruleTester.run('use-storybook-testing-library', rule, {
           data: {
             library: '@testing-library/user-event',
           },
-          type: 'ImportDeclaration',
+          type: AST_NODE_TYPES.ImportDeclaration,
           suggestions: [
             {
               messageId: 'updateImports',
@@ -65,7 +66,7 @@ ruleTester.run('use-storybook-testing-library', rule, {
           data: {
             library: '@testing-library/user-event',
           },
-          type: 'ImportDeclaration',
+          type: AST_NODE_TYPES.ImportDeclaration,
           suggestions: [
             {
               messageId: 'updateImports',

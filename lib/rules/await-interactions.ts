@@ -3,8 +3,9 @@
  * @author Yann Braga
  */
 
-import { docsUrl, isPlayFunction } from '../utils'
-import { CATEGORY_ID } from '../utils/constants'
+import { isPlayFunction } from '../utils'
+import { createStorybookRule } from '../utils/create-storybook-rule'
+import { CategoryId } from '../utils/constants'
 import {
   isCallExpression,
   isMemberExpression,
@@ -14,26 +15,26 @@ import {
   isVariableDeclarator,
   isAwaitExpression,
 } from '../utils/ast'
-import type { RuleModule } from '../types'
 
 //------------------------------------------------------------------------------
 // Rule Definition
 //------------------------------------------------------------------------------
 
-const rule: RuleModule = {
+export default createStorybookRule({
+  name: '',
+  defaultOptions: [],
   meta: {
     docs: {
       description: 'Interactions should be awaited',
-      category: CATEGORY_ID.ADDON_INTERACTIONS,
-      recommended: true,
-      recommendedConfig: 'error', // or 'warn'
-      url: docsUrl('await-interactions'), // URL to the documentation page for this rule
+      categories: [CategoryId.ADDON_INTERACTIONS, CategoryId.RECOMMENDED],
+      recommended: 'error', // or 'warn'
     },
     messages: {
       interactionShouldBeAwaited: 'Interaction should be awaited: {{method}}',
       fixSuggestion: 'Add `await` to method',
     },
-    // fixable: 'code', // Or `code` or `whitespace`
+    type: 'problem',
+    schema: [],
   },
 
   create(context: any) {
@@ -170,6 +171,4 @@ const rule: RuleModule = {
       },
     }
   },
-}
-
-export default rule
+})

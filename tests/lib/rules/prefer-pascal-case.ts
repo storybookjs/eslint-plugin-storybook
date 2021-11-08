@@ -7,6 +7,7 @@
 // Requirements
 //------------------------------------------------------------------------------
 
+import { AST_NODE_TYPES } from '@typescript-eslint/types'
 import rule from '../../../lib/rules/prefer-pascal-case'
 import ruleTester from '../../utils/rule-tester'
 
@@ -26,7 +27,7 @@ ruleTester.run('prefer-pascal-case', rule, {
           data: {
             name: 'primary',
           },
-          type: 'Identifier',
+          type: AST_NODE_TYPES.Identifier,
           suggestions: [
             {
               messageId: 'convertToPascalCase',

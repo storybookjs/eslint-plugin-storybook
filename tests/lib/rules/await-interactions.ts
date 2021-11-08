@@ -17,7 +17,7 @@ import ruleTester from '../../utils/rule-tester'
 ruleTester.run('await-interactions', rule, {
   valid: [
     dedent`
-      Basic.play = () => {
+      Basic.play = async () => {
         await userEvent.click(button)
       }
     `,

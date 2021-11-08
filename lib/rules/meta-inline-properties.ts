@@ -3,27 +3,23 @@
  * @author Yann Braga
  */
 
-import { docsUrl } from '../utils'
-
-import { CATEGORY_ID } from '../utils/constants'
-
-import type { RuleModule } from '../types'
+import { CategoryId } from '../utils/constants'
+import { createStorybookRule } from '../utils/create-storybook-rule'
 
 //------------------------------------------------------------------------------
 // Rule Definition
 //------------------------------------------------------------------------------
 
-const rule: RuleModule = {
+export default createStorybookRule({
+  name: '',
+  defaultOptions: [{ csfVersion: 3 }],
   meta: {
     type: 'problem',
     docs: {
       description: 'Meta should only have inline properties',
-      category: CATEGORY_ID.CSF,
-      recommended: true,
+      categories: [CategoryId.CSF, CategoryId.RECOMMENDED],
       excludeFromConfig: true,
-      //@ts-ignore
-      recommendedConfig: ['error', { csfVersion: 3 }],
-      url: docsUrl('meta-inline-properties'), // URL to the documentation page for this rule
+      recommended: 'error',
     },
     messages: {
       metaShouldHaveInlineProperties: 'Meta should only have inline properties: {{property}}',
@@ -104,6 +100,4 @@ const rule: RuleModule = {
       },
     }
   },
-}
-
-export default rule
+})

@@ -3,29 +3,27 @@
  * @author Yann Braga
  */
 
-import { docsUrl } from '../utils'
-
-import { CATEGORY_ID } from '../utils/constants'
-
-import type { RuleModule } from '../types'
+import { CategoryId } from '../utils/constants'
+import { createStorybookRule } from '../utils/create-storybook-rule'
 
 //------------------------------------------------------------------------------
 // Rule Definition
 //------------------------------------------------------------------------------
 
-const rule: RuleModule = {
+export default createStorybookRule({
+  name: '',
+  defaultOptions: [],
   meta: {
     type: 'suggestion',
     docs: {
       description: 'The component property should be set',
-      category: CATEGORY_ID.CSF,
-      recommended: false,
-      recommendedConfig: 'warn',
-      url: docsUrl('csf-component'), // URL to the documentation page for this rule
+      categories: [CategoryId.CSF],
+      recommended: 'warn',
     },
     messages: {
       missingComponentProperty: 'Missing component property.',
     },
+    schema: [],
   },
 
   create(context: any) {
@@ -63,6 +61,4 @@ const rule: RuleModule = {
       },
     }
   },
-}
-
-export default rule
+})

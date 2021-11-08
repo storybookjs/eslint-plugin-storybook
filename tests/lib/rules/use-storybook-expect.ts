@@ -10,6 +10,7 @@
 import rule from '../../../lib/rules/use-storybook-expect'
 import ruleTester from '../../utils/rule-tester'
 import dedent from 'ts-dedent'
+import { AST_NODE_TYPES } from '@typescript-eslint/types'
 
 //------------------------------------------------------------------------------
 // Tests
@@ -42,7 +43,7 @@ ruleTester.run('use-storybook-expect', rule, {
       errors: [
         {
           messageId: 'useExpectFromStorybook',
-          type: 'CallExpression',
+          type: AST_NODE_TYPES.CallExpression,
           suggestions: [
             {
               messageId: 'updateImports',

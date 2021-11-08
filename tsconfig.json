@@ -1,12 +1,18 @@
 {
   "compilerOptions": {
     "outDir": "./dist/",
-    "target": "es5",
+    "target": "es6",
     "module": "commonjs",
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "strict": false,
     "skipLibCheck": true
+  },
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "ecmaFeatures": { "jsx": true },
+    "ecmaVersion": 8,
+    "sourceType": "module"
   },
   "include": ["lib/**/*.ts"],
   "exclude": ["node_modules"]

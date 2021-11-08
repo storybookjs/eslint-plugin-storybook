@@ -7,6 +7,7 @@
 // Requirements
 //------------------------------------------------------------------------------
 
+import { AST_NODE_TYPES } from '@typescript-eslint/types'
 import rule from '../../../lib/rules/meta-inline-properties'
 import ruleTester from '../../utils/rule-tester'
 
@@ -30,14 +31,14 @@ ruleTester.run('meta-inline-properties', rule, {
           data: {
             property: 'title',
           },
-          type: 'Property',
+          type: AST_NODE_TYPES.Property,
         },
         {
           messageId: 'metaShouldHaveInlineProperties',
           data: {
             property: 'args',
           },
-          type: 'Property',
+          type: AST_NODE_TYPES.Property,
         },
       ],
     },
@@ -51,7 +52,7 @@ ruleTester.run('meta-inline-properties', rule, {
           data: {
             property: 'title',
           },
-          type: 'Property',
+          type: AST_NODE_TYPES.Property,
         },
       ],
     },
@@ -65,7 +66,7 @@ ruleTester.run('meta-inline-properties', rule, {
           data: {
             property: 'title',
           },
-          type: 'Property',
+          type: AST_NODE_TYPES.Property,
         },
       ],
     },
@@ -84,7 +85,7 @@ ruleTester.run('meta-inline-properties', rule, {
           data: {
             property: 'title',
           },
-          type: 'Property',
+          type: AST_NODE_TYPES.Property,
         },
       ],
     },
@@ -100,7 +101,7 @@ ruleTester.run('meta-inline-properties', rule, {
           data: {
             property: 'title',
           },
-          type: 'Property',
+          type: AST_NODE_TYPES.Property,
         },
       ],
     },

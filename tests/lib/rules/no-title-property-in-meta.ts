@@ -7,6 +7,7 @@
 // Requirements
 //------------------------------------------------------------------------------
 
+import { AST_NODE_TYPES } from '@typescript-eslint/types'
 import rule from '../../../lib/rules/no-title-property-in-meta'
 import ruleTester from '../../utils/rule-tester'
 
@@ -23,7 +24,7 @@ ruleTester.run('no-title-property-in-meta', rule, {
       errors: [
         {
           messageId: 'noTitleInMeta',
-          type: 'ExportDefaultDeclaration',
+          type: AST_NODE_TYPES.ExportDefaultDeclaration,
           suggestions: [
             {
               messageId: 'removeTitleInMeta',

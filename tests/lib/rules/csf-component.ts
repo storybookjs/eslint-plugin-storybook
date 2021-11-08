@@ -7,6 +7,7 @@
 // Requirements
 //------------------------------------------------------------------------------
 
+import { AST_NODE_TYPES } from '@typescript-eslint/types'
 import rule from '../../../lib/rules/csf-component'
 import ruleTester from '../../utils/rule-tester'
 
@@ -26,7 +27,7 @@ ruleTester.run('csf-component', rule, {
       errors: [
         {
           messageId: 'missingComponentProperty',
-          type: 'ExportDefaultDeclaration',
+          type: AST_NODE_TYPES.ExportDefaultDeclaration,
         },
       ],
     },
@@ -35,7 +36,7 @@ ruleTester.run('csf-component', rule, {
       errors: [
         {
           messageId: 'missingComponentProperty',
-          type: 'ExportDefaultDeclaration',
+          type: AST_NODE_TYPES.ExportDefaultDeclaration,
         },
       ],
     },
