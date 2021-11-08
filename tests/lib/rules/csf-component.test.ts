@@ -8,6 +8,7 @@
 //------------------------------------------------------------------------------
 
 import { AST_NODE_TYPES } from '@typescript-eslint/types'
+
 import rule from '../../../lib/rules/csf-component'
 import ruleTester from '../../utils/rule-tester'
 
@@ -32,7 +33,7 @@ ruleTester.run('csf-component', rule, {
       ],
     },
     {
-      code: "export default { title: 'Button' } as Meta<typeof Button>",
+      code: "export default { title: 'Button' } as ComponentMeta<typeof Button>",
       errors: [
         {
           messageId: 'missingComponentProperty',
@@ -40,5 +41,18 @@ ruleTester.run('csf-component', rule, {
         },
       ],
     },
+    // @TODO: Support this use case - meta as constant
+    // {
+    //   code: `
+    //     const meta = { title: 'Button' } as Meta<typeof Button>
+    //     export default meta
+    //   `,
+    //   errors: [
+    //     {
+    //       messageId: 'missingComponentProperty',
+    //       type: AST_NODE_TYPES.ExportDefaultDeclaration,
+    //     },
+    //   ],
+    // },
   ],
 })

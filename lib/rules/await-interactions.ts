@@ -21,7 +21,7 @@ import {
 //------------------------------------------------------------------------------
 
 export = createStorybookRule({
-  name: '',
+  name: 'await-interactions',
   defaultOptions: [],
   meta: {
     docs: {

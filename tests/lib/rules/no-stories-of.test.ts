@@ -8,6 +8,7 @@
 //------------------------------------------------------------------------------
 
 import { AST_NODE_TYPES } from '@typescript-eslint/types'
+
 import rule from '../../../lib/rules/no-stories-of'
 import ruleTester from '../../utils/rule-tester'
 
@@ -25,6 +26,15 @@ ruleTester.run('no-stories-of', rule, {
       }
 
       export const Primary = () => <Button primary />
+    `,
+    `
+      import Button from '../components/Button';
+      export default {
+        title: 'Button',
+        component: Button
+      } as ComponentMeta<typeof Button>
+
+      export const Primary: Story = () => <Button primary />
     `,
   ],
 

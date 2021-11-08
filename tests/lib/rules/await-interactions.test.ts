@@ -3,10 +3,11 @@
  * @author Yann Braga
  */
 
-import dedent from 'ts-dedent'
 //------------------------------------------------------------------------------
 // Requirements
 //------------------------------------------------------------------------------
+
+import dedent from 'ts-dedent'
 
 import rule from '../../../lib/rules/await-interactions'
 import ruleTester from '../../utils/rule-tester'

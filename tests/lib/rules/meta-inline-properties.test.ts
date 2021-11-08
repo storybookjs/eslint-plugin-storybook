@@ -8,6 +8,7 @@
 //------------------------------------------------------------------------------
 
 import { AST_NODE_TYPES } from '@typescript-eslint/types'
+
 import rule from '../../../lib/rules/meta-inline-properties'
 import ruleTester from '../../utils/rule-tester'
 
@@ -16,7 +17,10 @@ import ruleTester from '../../utils/rule-tester'
 //------------------------------------------------------------------------------
 
 ruleTester.run('meta-inline-properties', rule, {
-  valid: ["export default { title: 'Button', args: { primary: true } }"],
+  valid: [
+    "export default { title: 'Button', args: { primary: true } }",
+    "export default { title: 'Button', args: { primary: true } } as ComponentMeta<typeof Button>",
+  ],
 
   invalid: [
     {
@@ -105,5 +109,27 @@ ruleTester.run('meta-inline-properties', rule, {
         },
       ],
     },
+    // @TODO: Support this use case - meta as constant
+    // {
+    //   code: `
+    //     const title = 'a'
+
+    //     const meta: ComponentMeta<typeof Badge> = {
+    //       title,
+    //       component: Badge,
+    //     }
+
+    //     export default meta
+    //   `,
+    //   errors: [
+    //     {
+    //       messageId: 'metaShouldHaveInlineProperties',
+    //       data: {
+    //         property: 'title',
+    //       },
+    //       type: AST_NODE_TYPES.Property,
+    //     },
+    //   ],
+    // },
   ],
 })
