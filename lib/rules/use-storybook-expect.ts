@@ -99,43 +99,13 @@ export = createStorybookRule({
           isImportingFromStorybookExpect = true
         }
       },
-      // CSF3
-      ExportNamedDeclaration(node) {
-        if (!isVariableDeclaration(node.declaration)) {
+      CallExpression(node) {
+        if (!isIdentifier(node.callee)) {
           return null
         }
 
-        const getPlayFunction = (properties) => {
-          return properties.find((p) => {
-            return isProperty(p) && isIdentifier(p.key) && p.key.name === 'play'
-          })
-        }
-
-        const { declarations } = node.declaration
-        if (
-          isVariableDeclarator(declarations[0]) &&
-          isObjectExpression(declarations[0].init) &&
-          declarations[0].init &&
-          declarations[0].init.properties
-        ) {
-          const { init } = declarations[0]
-          const playFunction = getPlayFunction(init.properties)
-          if (playFunction) {
-            checkExpectInvocations(playFunction.value && playFunction.value.body)
-          }
-        }
-      },
-      // CSF2
-      AssignmentExpression(node) {
-        if (!isExpressionStatement(node.parent)) {
-          return null
-        }
-
-        if (isPlayFunction(node)) {
-          const {
-            right: { body },
-          } = node
-          checkExpectInvocations(body)
+        if (node.callee.name === 'expect') {
+          expectInvocations.push(node.callee)
         }
       },
       'Program:exit': function () {

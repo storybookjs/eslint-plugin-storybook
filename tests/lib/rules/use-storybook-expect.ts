@@ -53,7 +53,7 @@ ruleTester.run('use-storybook-expect', rule, {
       errors: [
         {
           messageId: 'useExpectFromStorybook',
-          type: AST_NODE_TYPES.CallExpression,
+          type: AST_NODE_TYPES.Identifier,
           suggestions: [
             {
               messageId: 'updateImports',
@@ -62,6 +62,39 @@ ruleTester.run('use-storybook-expect', rule, {
                 Default.play = () => {
                   expect(123).toEqual(123);
                 }
+              `,
+            },
+          ],
+        },
+      ],
+    },
+    {
+      code: dedent`
+        const someInteraction = () => {
+          expect(123).toEqual(123);
+        }
+        Default.play = someInteraction
+      `,
+      output: dedent`
+        import { expect } from '@storybook/jest';
+        const someInteraction = () => {
+          expect(123).toEqual(123);
+        }
+        Default.play = someInteraction
+      `,
+      errors: [
+        {
+          messageId: 'useExpectFromStorybook',
+          type: AST_NODE_TYPES.Identifier,
+          suggestions: [
+            {
+              messageId: 'updateImports',
+              output: dedent`
+                import { expect } from '@storybook/jest';
+                const someInteraction = () => {
+                  expect(123).toEqual(123);
+                }
+                Default.play = someInteraction
               `,
             },
           ],
@@ -89,7 +122,7 @@ ruleTester.run('use-storybook-expect', rule, {
       errors: [
         {
           messageId: 'useExpectFromStorybook',
-          type: AST_NODE_TYPES.CallExpression,
+          type: AST_NODE_TYPES.Identifier,
           suggestions: [
             {
               messageId: 'updateImports',
