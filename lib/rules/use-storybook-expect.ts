@@ -3,8 +3,6 @@
  * @author Yann Braga
  */
 
-import { isPlayFunction } from '../utils'
-
 import { CategoryId } from '../utils/constants'
 import {
   isExpressionStatement,
@@ -12,13 +10,9 @@ import {
   isMemberExpression,
   isIdentifier,
   isBlockStatement,
-  isProperty,
-  isVariableDeclaration,
-  isObjectExpression,
 } from '../utils/ast'
 
 import { createStorybookRule } from '../utils/create-storybook-rule'
-import { isVariableDeclarator } from '@typescript-eslint/experimental-utils/dist/ast-utils'
 
 //------------------------------------------------------------------------------
 // Rule Definition
