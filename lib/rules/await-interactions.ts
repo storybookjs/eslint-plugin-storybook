@@ -20,7 +20,7 @@ import {
 // Rule Definition
 //------------------------------------------------------------------------------
 
-export default createStorybookRule({
+export = createStorybookRule({
   name: '',
   defaultOptions: [],
   meta: {

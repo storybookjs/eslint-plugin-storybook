@@ -10,7 +10,7 @@ import { createStorybookRule } from '../utils/create-storybook-rule'
 //------------------------------------------------------------------------------
 // Rule Definition
 //------------------------------------------------------------------------------
-export default createStorybookRule({
+export = createStorybookRule({
   name: 'use-storybook-testing-library',
   defaultOptions: [],
   meta: {

@@ -8,7 +8,7 @@ const rules = fs
   .filter((file) => path.extname(file) === '.ts')
   .map((file) => path.basename(file, '.ts'))
   .map((name) => {
-    const meta = { ...require(path.join(ROOT, name)).default.meta }
+    const meta = { ...require(path.join(ROOT, name)).meta }
     if (meta.docs && !meta.docs.categories) {
       meta.docs = { ...meta.docs }
       meta.docs.categories = []

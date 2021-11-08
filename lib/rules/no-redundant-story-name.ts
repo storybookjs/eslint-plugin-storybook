@@ -11,7 +11,7 @@ import { createStorybookRule } from '../utils/create-storybook-rule'
 // Rule Definition
 //------------------------------------------------------------------------------
 
-export default createStorybookRule({
+export = createStorybookRule({
   name: '',
   defaultOptions: [],
   meta: {

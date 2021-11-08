@@ -62,7 +62,7 @@ const generateRule = async () => {
       // Rule Definition
       //------------------------------------------------------------------------------
 
-      export default createStorybookRule({
+      export = createStorybookRule({
         name: '${ruleId}',
         defaultOptions: [],
         meta: {
