@@ -1,31 +1,29 @@
 # Component property must be set in meta (csf-component)
 
-Please describe the origin of the rule here.
+<!-- RULE-CATEGORIES:START -->
+<!-- RULE-LIST:END -->
 
 ## Rule Details
 
+@TODO: Explain the complications of not having component property (addon docs, controls, etc)
 This rule aims to...
 
 Examples of **incorrect** code for this rule:
 
 ```js
-export default { 
-  title: 'Button'
+export default {
+  title: 'Button',
 }
 ```
 
 Examples of **correct** code for this rule:
 
 ```js
-export default { 
-  title: 'Button', 
-  component: Button 
+export default {
+  title: 'Button',
+  component: Button,
 }
 ```
-
-### Options
-
-If there are any options, describe them here. Otherwise, delete this section.
 
 ## When Not To Use It
 
