@@ -38,7 +38,7 @@ ruleTester.run('await-interactions', rule, {
   ],
   invalid: [
     {
-      code: dedent(`
+      code: dedent`
         WithModalOpen.play = async ({ canvasElement }) => {
           const canvas = within(canvasElement)
 
@@ -48,7 +48,18 @@ ruleTester.run('await-interactions', rule, {
           const modalButton = canvas.findByLabelText('increase quantity by one')
           userEvent.click(modalButton)
         }
-      `),
+      `,
+      output: dedent`
+        WithModalOpen.play = async ({ canvasElement }) => {
+          const canvas = within(canvasElement)
+
+          const foodItem = await canvas.findByText(/Cheeseburger/i)
+          await userEvent.click(foodItem)
+
+          const modalButton = await canvas.findByLabelText('increase quantity by one')
+          await userEvent.click(modalButton)
+        }
+      `,
       errors: [
         {
           messageId: 'interactionShouldBeAwaited',
@@ -69,8 +80,16 @@ ruleTester.run('await-interactions', rule, {
       ],
     },
     {
-      /**
-       * this should output to:
+      code: `
+          WithModalOpen.play = async ({ canvasElement }) => {
+            const element: HTMLButtonElement = within(canvasElement).findByText(/Hello/i)
+            userEvent.click(element, undefined, { clickCount: 2 })
+            userEvent.click(within(canvasElement).findByText(/Hello/i), undefined, {
+              clickCount: 2,
+            })
+          }
+        `,
+      output: dedent`
         WithModalOpen.play = async ({ canvasElement }) => {
           const element: HTMLButtonElement = await within(canvasElement).findByText(/Hello/i)
           await userEvent.click(element, undefined, { clickCount: 2 })
@@ -78,17 +97,16 @@ ruleTester.run('await-interactions', rule, {
             clickCount: 2,
           })
         }
-       */
-      code: dedent(`
-        WithModalOpen.play = async ({ canvasElement }) => {
-          const element: HTMLButtonElement = within(canvasElement).findByText(/Hello/i)
-          userEvent.click(element, undefined, { clickCount: 2 })
-          userEvent.click(within(canvasElement).findByText(/Hello/i), undefined, {
-            clickCount: 2,
-          })
-        }
-      `),
+      `,
       errors: [
+        {
+          messageId: 'interactionShouldBeAwaited',
+          data: { method: 'findByText' },
+        },
+        {
+          messageId: 'interactionShouldBeAwaited',
+          data: { method: 'userEvent' },
+        },
         {
           messageId: 'interactionShouldBeAwaited',
           data: { method: 'userEvent' },
