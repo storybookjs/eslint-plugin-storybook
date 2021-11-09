@@ -47,6 +47,7 @@ ruleTester.run('await-interactions', rule, {
         }
       }
     `,
+    'await expect(foo).toBe(bar)',
   ],
   invalid: [
     {
@@ -173,7 +174,7 @@ ruleTester.run('await-interactions', rule, {
         },
         {
           messageId: 'interactionShouldBeAwaited',
-          data: { method: 'expect' },
+          data: { method: 'toHaveBeenCalled' },
         },
       ],
     },
@@ -231,7 +232,7 @@ ruleTester.run('await-interactions', rule, {
         },
         {
           messageId: 'interactionShouldBeAwaited',
-          data: { method: 'expect' },
+          data: { method: 'toHaveBeenCalled' },
         },
       ],
     },

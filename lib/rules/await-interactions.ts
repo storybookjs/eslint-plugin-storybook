@@ -7,7 +7,7 @@ import type { CallExpression, Identifier, Node } from '@typescript-eslint/types/
 
 import { createStorybookRule } from '../utils/create-storybook-rule'
 import { CategoryId } from '../utils/constants'
-import { isMemberExpression, isIdentifier, isAwaitExpression } from '../utils/ast'
+import { isMemberExpression, isIdentifier, isAwaitExpression, isCallExpression } from '../utils/ast'
 
 //------------------------------------------------------------------------------
 // Rule Definition
@@ -41,7 +41,6 @@ export = createStorybookRule({
     // any helper functions should go here or else delete this section
 
     const FUNCTIONS_TO_BE_AWAITED = [
-      'expect',
       'waitFor',
       'waitForElementToBeRemoved',
       'wait',
@@ -66,6 +65,16 @@ export = createStorybookRule({
         isMemberExpression(expr.callee) &&
         isIdentifier(expr.callee.property) &&
         shouldAwait(expr.callee.property.name)
+      ) {
+        return expr.callee.property
+      }
+
+      if (
+        isMemberExpression(expr.callee) &&
+        isCallExpression(expr.callee.object) &&
+        isIdentifier(expr.callee.object.callee) &&
+        isIdentifier(expr.callee.property) &&
+        expr.callee.object.callee.name === 'expect'
       ) {
         return expr.callee.property
       }
