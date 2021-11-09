@@ -3,16 +3,15 @@
  * @author Yann Braga
  */
 
-import { isPlayFunction } from '../utils'
+import type { CallExpression, Identifier, Node } from '@typescript-eslint/types/dist/ast-spec'
+
 import { createStorybookRule } from '../utils/create-storybook-rule'
 import { CategoryId } from '../utils/constants'
 import {
   isCallExpression,
   isMemberExpression,
   isIdentifier,
-  isExpressionStatement,
-  isVariableDeclaration,
-  isVariableDeclarator,
+  isProgram,
   isAwaitExpression,
 } from '../utils/ast'
 
@@ -34,6 +33,7 @@ export = createStorybookRule({
       fixSuggestion: 'Add `await` to method',
     },
     type: 'problem',
+    fixable: 'code',
     schema: [],
   },
 
@@ -56,60 +56,33 @@ export = createStorybookRule({
       'userEvent',
     ]
 
-    const getNonAwaitedCallExpressions = (body = []) => {
-      return (
-        body
-          .filter((b) => {
-            //@ts-ignore
-            return isExpressionStatement(b) && isCallExpression(b.expression)
-          })
-          //@ts-ignore
-          .map((d) => d.expression)
-      )
-    }
-
-    const getNonAwaitedInitializations = (body = []) => {
-      const initializations = body
-        //@ts-ignore
-        .flatMap((b: any) => {
-          return (
-            isVariableDeclaration(b) &&
-            b.declarations
-              .filter((d: any) => isVariableDeclarator(d) && !isAwaitExpression(d.init))
-              .map((d: any) => d.init)
-          )
-        })
-        .filter(Boolean)
-
-      return initializations
-    }
-
-    //@ts-ignore
-    const getMethodThatShouldBeAwaited = (expression) => {
+    const getMethodThatShouldBeAwaited = (expr: CallExpression) => {
       const shouldAwait = (name: any) => {
-        //@ts-ignore
         return FUNCTIONS_TO_BE_AWAITED.includes(name) || name.startsWith('findBy')
       }
       if (
-        isCallExpression(expression) &&
-        isMemberExpression(expression.callee) &&
-        isIdentifier(expression.callee.object) &&
-        shouldAwait(expression.callee.object.name)
+        isMemberExpression(expr.callee) &&
+        isIdentifier(expr.callee.object) &&
+        shouldAwait(expr.callee.object.name)
       ) {
-        return expression.callee.object
+        return expr.callee.object
       }
 
       if (
-        isCallExpression(expression) &&
-        isMemberExpression(expression.callee) &&
-        isIdentifier(expression.callee.property) &&
-        shouldAwait(expression.callee.property.name)
+        isMemberExpression(expr.callee) &&
+        isIdentifier(expr.callee.property) &&
+        shouldAwait(expr.callee.property.name)
       ) {
-        return expression.callee.property
+        return expr.callee.property
+      }
+
+      if (isIdentifier(expr.callee) && shouldAwait(expr.callee.name)) {
+        return expr.callee
       }
 
       return null
     }
+
     //----------------------------------------------------------------------
     // Public
     //----------------------------------------------------------------------
@@ -117,54 +90,35 @@ export = createStorybookRule({
      * @param {import('eslint').Rule.Node} node
      */
 
-    let invocationsThatShouldBeAwaited: any = []
+    let invocationsThatShouldBeAwaited = [] as Array<{ node: Node; method: Identifier }>
 
     return {
-      AssignmentExpression(node: any) {
-        if (!isExpressionStatement(node.parent)) {
-          return null
-        }
-
-        if (isPlayFunction(node)) {
-          const { right } = node
-          const expressionBody = (right.body && right.body.body) || []
-          const callExpressions = [
-            ...getNonAwaitedCallExpressions(expressionBody),
-            ...getNonAwaitedInitializations(expressionBody),
-          ]
-
-          callExpressions.forEach((expression) => {
-            const method = getMethodThatShouldBeAwaited(expression)
-            if (method) {
-              invocationsThatShouldBeAwaited.push(method)
-            }
-          })
+      CallExpression(node: CallExpression) {
+        const method = getMethodThatShouldBeAwaited(node)
+        if (method && !isAwaitExpression(node.parent)) {
+          invocationsThatShouldBeAwaited.push({ node, method })
         }
       },
       'Program:exit': function () {
         if (invocationsThatShouldBeAwaited.length) {
-          //@ts-ignore
-          invocationsThatShouldBeAwaited.forEach((node) => {
+          invocationsThatShouldBeAwaited.forEach(({ node, method }) => {
             context.report({
               node,
               messageId: 'interactionShouldBeAwaited',
               data: {
-                method: node.name,
+                method: method.name,
               },
-              // @TODO: make this auto-fixable. Currently it's pretty dumb so something like this can happen:
-              // canvas.findByText => canvas.await findByText
-              // instead of the correct: await canvas.findByText
-              // fix: function (fixer) {
-              //   return fixer.insertTextBefore(node, 'await ')
-              // },
-              // suggest: [
-              //   {
-              //     messageId: 'fixSuggestion',
-              //     fix: function (fixer) {
-              //       return fixer.insertTextBefore(node, 'await ')
-              //     },
-              //   },
-              // ],
+              fix: function (fixer) {
+                return fixer.insertTextBefore(node, 'await ')
+              },
+              suggest: [
+                {
+                  messageId: 'fixSuggestion',
+                  fix: function (fixer) {
+                    return fixer.insertTextBefore(node, 'await ')
+                  },
+                },
+              ],
             })
           })
         }
