@@ -80,7 +80,7 @@ ruleTester.run('await-interactions', rule, {
       ],
     },
     {
-      code: `
+      code: dedent`
           WithModalOpen.play = async ({ canvasElement }) => {
             const element: HTMLButtonElement = within(canvasElement).findByText(/Hello/i)
             userEvent.click(element, undefined, { clickCount: 2 })

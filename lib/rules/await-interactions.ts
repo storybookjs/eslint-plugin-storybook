@@ -3,6 +3,8 @@
  * @author Yann Braga
  */
 
+import type { Expression, Identifier, Node } from '@typescript-eslint/types/dist/ast-spec'
+
 import { isPlayFunction } from '../utils'
 import { createStorybookRule } from '../utils/create-storybook-rule'
 import { CategoryId } from '../utils/constants'
@@ -13,7 +15,6 @@ import {
   isProgram,
   isAwaitExpression,
 } from '../utils/ast'
-import { Expression, Identifier, Node } from '@typescript-eslint/types/dist/ast-spec'
 
 //------------------------------------------------------------------------------
 // Rule Definition
@@ -112,9 +113,6 @@ export = createStorybookRule({
               data: {
                 method: method.name,
               },
-              // @TODO: make this auto-fixable. Currently it's pretty dumb so something like this can happen:
-              // canvas.findByText => canvas.await findByText
-              // instead of the correct: await canvas.findByText
               fix: function (fixer) {
                 return fixer.insertTextBefore(node, 'await ')
               },
