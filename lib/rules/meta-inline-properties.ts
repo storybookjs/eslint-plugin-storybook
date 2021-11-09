@@ -3,6 +3,7 @@
  * @author Yann Braga
  */
 
+import { getMetaObjectExpression } from '../utils'
 import { CategoryId } from '../utils/constants'
 import { createStorybookRule } from '../utils/create-storybook-rule'
 
@@ -62,19 +63,15 @@ export = createStorybookRule({
 
     return {
       ExportDefaultDeclaration(node: any) {
-        // Typescript 'TSAsExpression' has properties under declaration.expression
-        const metaProperties =
-          node.declaration.properties ||
-          (node.declaration.expression && node.declaration.expression.properties)
-
-        if (!metaProperties) {
-          return
+        const meta = getMetaObjectExpression(node, context)
+        if (!meta) {
+          return null
         }
 
         const ruleProperties = ['title', 'args']
         let dynamicProperties: any = []
 
-        const metaNodes = metaProperties.filter((prop: any) =>
+        const metaNodes = meta.properties.filter((prop: any) =>
           //@ts-ignore
           ruleProperties.includes(prop.key.name)
         )

@@ -41,18 +41,17 @@ ruleTester.run('csf-component', rule, {
         },
       ],
     },
-    // @TODO: Support this use case - meta as constant
-    // {
-    //   code: `
-    //     const meta = { title: 'Button' } as Meta<typeof Button>
-    //     export default meta
-    //   `,
-    //   errors: [
-    //     {
-    //       messageId: 'missingComponentProperty',
-    //       type: AST_NODE_TYPES.ExportDefaultDeclaration,
-    //     },
-    //   ],
-    // },
+    {
+      code: `
+        const meta = { title: 'Button' } as Meta<typeof Button>
+        export default meta
+      `,
+      errors: [
+        {
+          messageId: 'missingComponentProperty',
+          type: AST_NODE_TYPES.ExportDefaultDeclaration,
+        },
+      ],
+    },
   ],
 })

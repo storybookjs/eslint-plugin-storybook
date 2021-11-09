@@ -3,6 +3,9 @@
  * @author Yann Braga
  */
 
+import { ExportDefaultDeclaration, Node } from '@typescript-eslint/types/dist/ast-spec'
+import { isObjectExpression } from '../utils/ast'
+import { getMetaObjectExpression } from '../utils'
 import { CategoryId } from '../utils/constants'
 import { createStorybookRule } from '../utils/create-storybook-rule'
 
@@ -40,19 +43,16 @@ export = createStorybookRule({
     //----------------------------------------------------------------------
 
     return {
-      ExportDefaultDeclaration: function (node: any) {
-        // Typescript 'TSAsExpression' has properties under declaration.expression
-        const metaProperties =
-          node.declaration.properties ||
-          (node.declaration.expression && node.declaration.expression.properties)
-
-        if (!metaProperties) {
-          return
+      ExportDefaultDeclaration(node: ExportDefaultDeclaration) {
+        const meta = getMetaObjectExpression(node, context)
+        if (!meta) {
+          return null
         }
 
-        const component = metaProperties.find((prop: any) => prop.key.name === 'component')
-
-        if (!component) {
+        const componentProperty = meta.properties.find(
+          (property: any) => property.key.name === 'component'
+        )
+        if (!componentProperty) {
           context.report({
             node,
             messageId: 'missingComponentProperty',

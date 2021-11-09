@@ -7,13 +7,7 @@ import type { CallExpression, Identifier, Node } from '@typescript-eslint/types/
 
 import { createStorybookRule } from '../utils/create-storybook-rule'
 import { CategoryId } from '../utils/constants'
-import {
-  isCallExpression,
-  isMemberExpression,
-  isIdentifier,
-  isProgram,
-  isAwaitExpression,
-} from '../utils/ast'
+import { isMemberExpression, isIdentifier, isAwaitExpression } from '../utils/ast'
 
 //------------------------------------------------------------------------------
 // Rule Definition

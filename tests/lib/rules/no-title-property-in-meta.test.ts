@@ -8,6 +8,7 @@
 //------------------------------------------------------------------------------
 
 import { AST_NODE_TYPES } from '@typescript-eslint/types'
+import dedent from 'ts-dedent'
 
 import rule from '../../../lib/rules/no-title-property-in-meta'
 import ruleTester from '../../utils/rule-tester'
@@ -38,27 +39,26 @@ ruleTester.run('no-title-property-in-meta', rule, {
         },
       ],
     },
-    // @TODO: Support this use case - meta as constant
-    // {
-    //   code: `
-    //     const meta = { component: Button, title: 'Button' }
-    //     export default meta
-    //   `,
-    //   errors: [
-    //     {
-    //       messageId: 'noTitleInMeta',
-    //       type: AST_NODE_TYPES.ExportDefaultDeclaration,
-    //       suggestions: [
-    //         {
-    //           messageId: 'removeTitleInMeta',
-    //           output: `
-    //             const meta = { component: Button,  }
-    //             export default meta
-    //           `,
-    //         },
-    //       ],
-    //     },
-    //   ],
-    // },
+    {
+      code: dedent`
+        const meta = { component: Button, title: 'Button' }
+        export default meta
+      `,
+      errors: [
+        {
+          messageId: 'noTitleInMeta',
+          type: AST_NODE_TYPES.ExportDefaultDeclaration,
+          suggestions: [
+            {
+              messageId: 'removeTitleInMeta',
+              output: dedent`
+                const meta = { component: Button,  }
+                export default meta
+              `,
+            },
+          ],
+        },
+      ],
+    },
   ],
 })
