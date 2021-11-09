@@ -3,6 +3,9 @@
  * @author Yann Braga
  */
 
+import { findVariable } from '@typescript-eslint/experimental-utils/dist/ast-utils'
+import { ExportNamedDeclaration } from '@typescript-eslint/types/dist/ast-spec'
+import { isIdentifier, isVariableDeclaration } from '../utils/ast'
 import { CategoryId } from '../utils/constants'
 import { createStorybookRule } from '../utils/create-storybook-rule'
 
@@ -59,37 +62,44 @@ export = createStorybookRule({
     //----------------------------------------------------------------------
 
     return {
-      ExportNamedDeclaration: function (node: any) {
+      ExportNamedDeclaration: function (node: ExportNamedDeclaration) {
         // if there are specifiers, node.declaration should be null
         if (!node.declaration) return
 
-        const { type } = node.declaration
-
-        if (
-          type === 'TSTypeAliasDeclaration' ||
-          type === 'TypeAlias' ||
-          type === 'TSInterfaceDeclaration' ||
-          type === 'InterfaceDeclaration'
-        ) {
-          return
-        }
-        const identifier = node.declaration.declarations[0].id
-        if (identifier) {
-          const { name } = identifier
-          if (!isPascalCase(name)) {
-            context.report({
-              node: identifier,
-              messageId: 'usePascalCase',
-              data: { name },
-              suggest: [
-                {
-                  messageId: 'convertToPascalCase',
-                  fix: function (fixer: any) {
-                    return fixer.replaceTextRange(identifier.range, toPascalCase(name))
-                  },
+        const decl = node.declaration
+        if (isVariableDeclaration(decl)) {
+          const { id } = decl.declarations[0]
+          if (isIdentifier(id)) {
+            const { name } = id
+            if (!isPascalCase(name)) {
+              context.report({
+                node: id,
+                messageId: 'usePascalCase',
+                data: {
+                  name,
                 },
-              ],
-            })
+                suggest: [
+                  {
+                    messageId: 'convertToPascalCase',
+                    *fix(fixer: any) {
+                      const fullText = context.getSourceCode().text
+                      const fullName = fullText.slice(id.range[0], id.range[1])
+                      const suffix = fullName.substring(name.length)
+                      const pascal = toPascalCase(name) + suffix
+                      yield fixer.replaceTextRange(id.range, pascal)
+
+                      const variable = findVariable(context.getScope(), name)
+                      for (let i = 0; i < variable.references.length; i++) {
+                        const ref = variable.references[i]
+                        if (!ref.init) {
+                          yield fixer.replaceTextRange(ref.identifier.range, pascal)
+                        }
+                      }
+                    },
+                  },
+                ],
+              })
+            }
           }
         }
       },
