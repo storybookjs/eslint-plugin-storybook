@@ -5,7 +5,7 @@
 
 ## Rule Details
 
-This rule aims to...
+This rule encourages you to use inline property definitions for the default export in your CSF file. The reason is that there are a bunch of tools in Storybook that rely on static analysis of your CSF code, and inline properties (rather than variables, functions, etc.) are much easier to process. Authoring your files this way may save you headaches in the future when, for example, you try to run an automated codemod to upgrade your stories to the latest version of CSF.
 
 Examples of **incorrect** code for this rule:
 
