@@ -1,6 +1,7 @@
 # Meta should only have inline properties (meta-inline-properties)
 
-Please describe the origin of the rule here.
+<!-- RULE-CATEGORIES:START -->
+<!-- RULE-LIST:END -->
 
 ## Rule Details
 
@@ -28,14 +29,6 @@ export default {
   component: Button,
 }
 ```
-
-### Options
-
-If there are any options, describe them here. Otherwise, delete this section.
-
-## When Not To Use It
-
-Give a short description of when it would be appropriate to turn off this rule.
 
 ## Further Reading
 
