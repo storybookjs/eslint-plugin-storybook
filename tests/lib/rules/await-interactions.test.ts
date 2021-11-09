@@ -182,8 +182,8 @@ ruleTester.run('await-interactions', rule, {
           play: async ({ canvasElement, args }) => {
             const canvas = within(canvasElement)
             waitForElementToBeRemoved(async () => {
-              canvas.findByText('Loading...'), { timeout: 2000 })
-            });
+              canvas.findByText('Loading...')
+            }, { timeout: 2000 })
             const button = canvas.findByText('Loaded!')
             userEvent.click(button)
             waitFor(async () => {
@@ -197,8 +197,8 @@ ruleTester.run('await-interactions', rule, {
           play: async ({ canvasElement, args }) => {
             const canvas = within(canvasElement)
             await waitForElementToBeRemoved(async () => {
-              await canvas.findByText('Loading...'), { timeout: 2000 })
-            });
+              await canvas.findByText('Loading...')
+            }, { timeout: 2000 })
             const button = await canvas.findByText('Loaded!')
             await userEvent.click(button)
             await waitFor(async () => {

@@ -3,7 +3,7 @@
  * @author Yann Braga
  */
 
-import type { Expression, Identifier, Node } from '@typescript-eslint/types/dist/ast-spec'
+import type { CallExpression, Identifier, Node } from '@typescript-eslint/types/dist/ast-spec'
 
 import { createStorybookRule } from '../utils/create-storybook-rule'
 import { CategoryId } from '../utils/constants'
@@ -56,12 +56,11 @@ export = createStorybookRule({
       'userEvent',
     ]
 
-    const getMethodThatShouldBeAwaited = (expr: Expression) => {
+    const getMethodThatShouldBeAwaited = (expr: CallExpression) => {
       const shouldAwait = (name: any) => {
         return FUNCTIONS_TO_BE_AWAITED.includes(name) || name.startsWith('findBy')
       }
       if (
-        isCallExpression(expr) &&
         isMemberExpression(expr.callee) &&
         isIdentifier(expr.callee.object) &&
         shouldAwait(expr.callee.object.name)
@@ -70,12 +69,15 @@ export = createStorybookRule({
       }
 
       if (
-        isCallExpression(expr) &&
         isMemberExpression(expr.callee) &&
         isIdentifier(expr.callee.property) &&
         shouldAwait(expr.callee.property.name)
       ) {
         return expr.callee.property
+      }
+
+      if (isIdentifier(expr.callee) && shouldAwait(expr.callee.name)) {
+        return expr.callee
       }
 
       return null
@@ -91,7 +93,7 @@ export = createStorybookRule({
     let invocationsThatShouldBeAwaited = [] as Array<{ node: Node; method: Identifier }>
 
     return {
-      CallExpression(node: Expression) {
+      CallExpression(node: CallExpression) {
         const method = getMethodThatShouldBeAwaited(node)
         if (method && !isAwaitExpression(node.parent)) {
           invocationsThatShouldBeAwaited.push({ node, method })
