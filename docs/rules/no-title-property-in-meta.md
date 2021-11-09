@@ -1,7 +1,10 @@
 # Meta should not have a title property (no-title-property-in-meta)
 
 <!-- RULE-CATEGORIES:START -->
-<!-- RULE-LIST:END -->
+
+**Categories**: csf-strict
+
+<!-- RULE-CATEGORIES:END -->
 
 ## Rule Details
 

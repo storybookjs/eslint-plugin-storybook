@@ -68,6 +68,7 @@ fs.mkdirSync(ROOT)
 // Update/add rule files
 categories.forEach((category) => {
   const filePath = path.join(ROOT, `${category.categoryId}.ts`)
+  //@ts-ignore
   const content = format(formatCategory(category), {
     parser: 'typescript',
     ...prettierConfig,

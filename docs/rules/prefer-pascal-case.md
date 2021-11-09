@@ -1,7 +1,10 @@
 # Prefer pascal case for story names (prefer-pascal-case)
 
 <!-- RULE-CATEGORIES:START -->
-<!-- RULE-LIST:END -->
+
+**Categories**: recommended
+
+<!-- RULE-CATEGORIES:END -->
 
 ## Rule Details
 

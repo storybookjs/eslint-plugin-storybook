@@ -1,7 +1,7 @@
 # Meta should only have inline properties (meta-inline-properties)
 
 <!-- RULE-CATEGORIES:START -->
-<!-- RULE-LIST:END -->
+<!-- RULE-CATEGORIES:END -->
 
 ## Rule Details
 

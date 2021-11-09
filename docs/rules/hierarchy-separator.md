@@ -1,7 +1,10 @@
 # Deprecated hierarchy separator (hierarchy-separator)
 
 <!-- RULE-CATEGORIES:START -->
-<!-- RULE-LIST:END -->
+
+**Categories**: csf, recommended
+
+<!-- RULE-CATEGORIES:END -->
 
 ## Rule Details
 

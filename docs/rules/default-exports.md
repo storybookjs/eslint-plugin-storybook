@@ -1,7 +1,10 @@
 # Stories file should have a default export (default-exports)
 
 <!-- RULE-CATEGORIES:START -->
-<!-- RULE-LIST:END -->
+
+**Categories**: csf, recommended
+
+<!-- RULE-CATEGORIES:END -->
 
 ## Rule Details
 

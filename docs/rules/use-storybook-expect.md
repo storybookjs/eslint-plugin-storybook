@@ -1,7 +1,10 @@
 # Use expect from &#39;@storybook/expect&#39; (use-storybook-expect)
 
 <!-- RULE-CATEGORIES:START -->
-<!-- RULE-LIST:END -->
+
+**Categories**: addon-interactions, recommended
+
+<!-- RULE-CATEGORIES:END -->
 
 ## Rule Details
 

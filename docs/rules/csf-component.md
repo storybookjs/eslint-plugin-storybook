@@ -1,7 +1,10 @@
 # Component property must be set in meta (csf-component)
 
 <!-- RULE-CATEGORIES:START -->
-<!-- RULE-LIST:END -->
+
+**Categories**: csf
+
+<!-- RULE-CATEGORIES:END -->
 
 ## Rule Details
 

@@ -1,12 +1,13 @@
 import rules from './utils/rules'
 
-import { configBadges, emojiKey, writeRulesList } from './utils/docs'
+import { configBadges, emojiKey, writeRulesListInReadme, updateRulesDocs } from './utils/docs'
 
 /*
 This script updates the rules table in `README.md`from rule's meta data.
 */
 
-const createRuleLink = (ruleName: any) => `[\`storybook/${ruleName}\`](./docs/rules/${ruleName}.md)`
+const createRuleLink = (ruleName: string) =>
+  `[\`storybook/${ruleName}\`](./docs/rules/${ruleName}.md)`
 
 const generateConfigBadges = (recommendedConfig: any) =>
   Object.entries(recommendedConfig)
@@ -20,6 +21,7 @@ const rulesList = Object.entries(rules)
   })
   .map(([_, rule]) => {
     return [
+      rule.name,
       createRuleLink(rule.name),
       rule.meta.docs.description,
       rule.meta.fixable ? emojiKey.fixable : '',
@@ -27,4 +29,6 @@ const rulesList = Object.entries(rules)
     ]
   })
 
-writeRulesList(rulesList)
+writeRulesListInReadme(rulesList)
+
+updateRulesDocs(rulesList)

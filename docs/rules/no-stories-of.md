@@ -1,7 +1,10 @@
 # storiesOf is deprecated and should not be used (no-stories-of)
 
 <!-- RULE-CATEGORIES:START -->
-<!-- RULE-LIST:END -->
+
+**Categories**: csf-strict
+
+<!-- RULE-CATEGORIES:END -->
 
 ## Rule Details
 

@@ -105,7 +105,7 @@ Another approach for customizing ESLint config by paths is through [ESLint Casca
 
 | Name                                                                                       | Description                                       | 🔧  | Included in configurations      |
 | ------------------------------------------------------------------------------------------ | ------------------------------------------------- | --- | ------------------------------- |
-| [`storybook/await-interactions`](./docs/rules/await-interactions.md)                       | Interactions should be awaited                    |     | addon-interactions, recommended |
+| [`storybook/await-interactions`](./docs/rules/await-interactions.md)                       | Interactions should be awaited                    | 🔧  | addon-interactions, recommended |
 | [`storybook/csf-component`](./docs/rules/csf-component.md)                                 | The component property should be set              |     | csf                             |
 | [`storybook/default-exports`](./docs/rules/default-exports.md)                             | Story files should have a default export          |     | csf, recommended                |
 | [`storybook/hierarchy-separator`](./docs/rules/hierarchy-separator.md)                     | Deprecated hierachy separator in title property   | 🔧  | csf, recommended                |

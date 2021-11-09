@@ -1,7 +1,10 @@
 # await-interactions
 
 <!-- RULE-CATEGORIES:START -->
-<!-- RULE-LIST:END -->
+
+**Categories**: addon-interactions, recommended
+
+<!-- RULE-CATEGORIES:END -->
 
 ## Rule Details
 

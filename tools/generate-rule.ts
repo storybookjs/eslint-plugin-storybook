@@ -162,15 +162,12 @@ const generateRule = async () => {
     dedent(`
       # ${ruleId}
 
-      Please describe the origin of the rule here.
-
       <!-- RULE-CATEGORIES:START -->
       <!-- RULE-LIST:END -->
 
       ## Rule Details
 
       ${ruleDescription}.
-      This rule aims to...
 
       Examples of **incorrect** code for this rule:
 

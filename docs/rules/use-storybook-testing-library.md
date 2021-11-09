@@ -1,7 +1,10 @@
 # Use storybook testing library package (use-storybook-testing-library)
 
 <!-- RULE-CATEGORIES:START -->
-<!-- RULE-LIST:END -->
+
+**Categories**: addon-interactions, recommended
+
+<!-- RULE-CATEGORIES:END -->
 
 ## Rule Details
 
