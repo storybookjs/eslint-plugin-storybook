@@ -5,8 +5,7 @@
 
 ## Rule Details
 
-@TODO: Explain the complications of not having component property (addon docs, controls, etc)
-This rule aims to...
+This rule encourages you to set the `component` property of your CSF default export. The `component` property is optional, but configuring unlocks a variety of features in Storybook, including automatic prop table documentation in most frameworks, auto-generated controls for dynamically editing your stories, and in CSF3, a resonable default for rendering your component without having to define a render function.
 
 Examples of **incorrect** code for this rule:
 
@@ -27,8 +26,8 @@ export default {
 
 ## When Not To Use It
 
-Give a short description of when it would be appropriate to turn off this rule.
+While we encourage each CSF file to clearly correspond to a single component, it's possible to organize a Storybook in any way you choose. If you have some other organization scheme, especially if you're migrating from the legacy `storiesOf` API, this rule might not apply to you.
 
 ## Further Reading
 
-If there are other links that describe the issue this rule addresses, please include them here in a bulleted list.
+- [Automatic argType inference](https://storybook.js.org/docs/react/api/argtypes#automatic-argtype-inference)
