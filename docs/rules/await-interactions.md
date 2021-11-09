@@ -1,13 +1,14 @@
 # await-interactions
 
-Storybook provides an instrumented version of testing library in the [@storybook/testing-library](https://github.com/storybookjs/testing-library/) package. When [writing interactions](https://storybook.js.org/docs/react/essentials/interactions), make sure to **await** them, so that addon-interactions can intercept these helper functions and allow you to step through them when debugging.
-
 <!-- RULE-CATEGORIES:START -->
-<!-- RULE-LIST:END -->
+
+**Categories**: addon-interactions, recommended
+
+<!-- RULE-CATEGORIES:END -->
 
 ## Rule Details
 
-Interactions should be awaited.
+Storybook provides an instrumented version of testing library in the [@storybook/testing-library](https://github.com/storybookjs/testing-library/) package. When [writing interactions](https://storybook.js.org/docs/react/essentials/interactions), make sure to **await** them, so that addon-interactions can intercept these helper functions and allow you to step through them when debugging.
 
 Examples of **incorrect** code for this rule:
 
