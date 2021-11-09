@@ -1,18 +1,14 @@
 # Deprecated hierarchy separator (hierarchy-separator)
 
-Please describe the origin of the rule here.
+<!-- RULE-CATEGORIES:START -->
 
-For more details: https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#removed-hierarchy-separators
+**Categories**: csf, recommended
 
-To automatically migrate, run this codemod in the root folder of your project:
-
-```sh
-npx sb@next migrate upgrade-hierarchy-separators --glob="*/**/*.stories.@(tsx|jsx|ts|js)"
-```
+<!-- RULE-CATEGORIES:END -->
 
 ## Rule Details
 
-This rule aims to...
+Since Storybook 6.0, the ability to specify the hierarchy separators (how you control the grouping of story kinds in the sidebar) was removed. There is now a single separator `/`, which cannot be configured. If you are using `|` or `.` as a separator, you should change all of them to `/`.
 
 Examples of **incorrect** code for this rule:
 
@@ -32,14 +28,12 @@ export default {
 }
 ```
 
-### Options
-
-If there are any options, describe them here. Otherwise, delete this section.
-
-## When Not To Use It
-
-Give a short description of when it would be appropriate to turn off this rule.
-
 ## Further Reading
 
-If there are other links that describe the issue this rule addresses, please include them here in a bulleted list.
+For more details about this change: https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#removed-hierarchy-separators
+
+To automatically migrate all of your codebase and fix this issue, run this codemod in the root folder of your project:
+
+```sh
+npx sb@next migrate upgrade-hierarchy-separators --glob="*/**/*.stories.@(tsx|jsx|ts|js)"
+```

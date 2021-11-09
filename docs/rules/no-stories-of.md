@@ -1,24 +1,22 @@
 # storiesOf is deprecated and should not be used (no-stories-of)
 
-Please describe the origin of the rule here.
+<!-- RULE-CATEGORIES:START -->
 
-To automatically migrate, run this codemod in the root folder of your project:
-```sh
-npx sb@next migrate storiesof-to-csf --glob="*/**/*.stories.@(tsx|jsx|ts|js)"
-```
+**Categories**: csf-strict
+
+<!-- RULE-CATEGORIES:END -->
 
 ## Rule Details
 
-This rule aims to...
+Since Storybook 5.2, the [CSF format](https://storybook.js.org/docs/react/api/csf) was introduced and the `storiesOf` API has been deprecated.
 
 Examples of **incorrect** code for this rule:
 
 ```js
-import { storiesOf } from '@storybook/react';
-import Button from '../components/Button';
+import { storiesOf } from '@storybook/react'
+import Button from '../components/Button'
 
-storiesOf('Button', module)
-  .add('primary', () => <Button primary />)
+storiesOf('Button', module).add('primary', () => <Button primary />)
 ```
 
 Examples of **correct** code for this rule:
@@ -33,14 +31,26 @@ export default = {
 export const Primary = () => <Button primary />
 ```
 
-### Options
+```js
+import Button from '../components/Button';
 
-If there are any options, describe them here. Otherwise, delete this section.
+export default = {
+  component: Button
+}
 
-## When Not To Use It
-
-Give a short description of when it would be appropriate to turn off this rule.
+export const Primary = {
+  args: {
+    primary: true
+  }
+}
+```
 
 ## Further Reading
 
-If there are other links that describe the issue this rule addresses, please include them here in a bulleted list.
+For more information about the change from `storiesOf` to `CSF`, read here: https://github.com/storybookjs/storybook/blob/master/lib/core/docs/storiesOf.md
+
+To automatically migrate all of your codebase, run this codemod in the root folder of your project:
+
+```sh
+npx sb@next migrate storiesof-to-csf --glob="*/**/*.stories.@(tsx|jsx|ts|js)"
+```

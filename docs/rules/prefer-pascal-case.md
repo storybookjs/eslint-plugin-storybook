@@ -1,10 +1,14 @@
 # Prefer pascal case for story names (prefer-pascal-case)
 
-Please describe the origin of the rule here.
+<!-- RULE-CATEGORIES:START -->
+
+**Categories**: recommended
+
+<!-- RULE-CATEGORIES:END -->
 
 ## Rule Details
 
-This rule aims to...
+As a best practice, stories should be defined in [_PascalCase_](https://en.wiktionary.org/wiki/Pascal_case). This makes it simpler to visually differ stories to other code. Plus, it makes it simpler to define regexes for [non-story exports](https://storybook.js.org/docs/react/api/csf#non-story-exports).
 
 Examples of **incorrect** code for this rule:
 
@@ -18,14 +22,6 @@ Examples of **correct** code for this rule:
 export const PrimaryButton = {}
 ```
 
-### Options
-
-If there are any options, describe them here. Otherwise, delete this section.
-
-## When Not To Use It
-
-Give a short description of when it would be appropriate to turn off this rule.
-
 ## Further Reading
 
-If there are other links that describe the issue this rule addresses, please include them here in a bulleted list.
+More information about naming stories can be found here: https://storybook.js.org/docs/react/writing-stories/introduction#defining-stories

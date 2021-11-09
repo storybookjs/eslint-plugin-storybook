@@ -7,6 +7,7 @@ import { categoryIds } from './categories'
 
 const prettierConfig = resolveConfig.sync(__dirname)
 const readmePath = resolve(__dirname, `../../README.md`)
+const ruleDocsPath = resolve(__dirname, `../../docs/rules`)
 
 export const configBadges = categoryIds.reduce(
   (badges, category) => ({
@@ -46,7 +47,7 @@ const generateRulesListMarkdown = (rulesList: any) =>
 
 const listBeginMarker = '<!-- RULES-LIST:START -->'
 const listEndMarker = '<!-- RULES-LIST:END -->'
-const overWriteRulesList = (rulesList: any, readme: any) => {
+const overWriteRulesList = (rulesList: any, readme: string) => {
   const listStartIndex = readme.indexOf(listBeginMarker)
   const listEndIndex = readme.indexOf(listEndMarker)
 
@@ -63,12 +64,47 @@ const overWriteRulesList = (rulesList: any, readme: any) => {
   ].join('\n')
 }
 
-export const writeRulesList = (rulesList: any) => {
+const ruleCategoriesBeginMarker = '<!-- RULE-CATEGORIES:START -->'
+const ruleCategoriesEndMarker = '<!-- RULE-CATEGORIES:END -->'
+const overWriteRuleDocs = (rule: any, ruleDocFile: string) => {
+  const ruleCategoriesStartIndex = ruleDocFile.indexOf(ruleCategoriesBeginMarker)
+  const ruleCategoriesEndIndex = ruleDocFile.indexOf(ruleCategoriesEndMarker)
+
+  if ([ruleCategoriesStartIndex, ruleCategoriesEndIndex].includes(-1)) {
+    throw new Error(`cannot find start or end rules-categories`)
+  }
+
+  return [
+    ruleDocFile.substring(0, ruleCategoriesStartIndex - 1),
+    ruleCategoriesBeginMarker,
+    '',
+    `**Categories**: ${rule[4]}`,
+    ruleDocFile.substring(ruleCategoriesEndIndex),
+  ].join('\n')
+}
+
+export const writeRulesListInReadme = (rulesList: any) => {
   const readme = readFileSync(readmePath, 'utf8')
-  const newReadme = format(overWriteRulesList(rulesList, readme), {
+  const rulesListWithoutName = rulesList.map((rule) => rule.slice(1))
+  const newReadme = format(overWriteRulesList(rulesListWithoutName, readme), {
     parser: 'markdown',
     ...prettierConfig,
   })
 
   writeFileSync(readmePath, newReadme)
+}
+
+export const updateRulesDocs = (rulesList: any) => {
+  rulesList.forEach((rule) => {
+    const ruleName = rule[0]
+    const ruleDocFilePath = resolve(ruleDocsPath, `${ruleName}.md`)
+    const ruleDocFile = readFileSync(ruleDocFilePath, 'utf8')
+
+    const updatedDocFile = format(overWriteRuleDocs(rule, ruleDocFile), {
+      parser: 'markdown',
+      ...prettierConfig,
+    })
+
+    writeFileSync(ruleDocFilePath, updatedDocFile)
+  })
 }
