@@ -1,10 +1,12 @@
 # Meta should not have a title property (no-title-property-in-meta)
 
-Please describe the origin of the rule here.
+<!-- RULE-CATEGORIES:START -->
+<!-- RULE-LIST:END -->
 
 ## Rule Details
 
-This rule aims to...
+Starting in [CSF 3.0](https://storybook.js.org/blog/component-story-format-3-0/), story titles can be generated automatically. You can still specify a title like in CSF 2.0, but if you don't specify one, it can be inferred from the story's path on disk.
+This rule aims to enforce not setting a title, making the codebase consistent.
 
 Examples of **incorrect** code for this rule:
 
@@ -19,18 +21,14 @@ Examples of **correct** code for this rule:
 
 ```js
 export default {
-  component: Input,
+  component: Input, // no title necessary, it will be inferred from path on disk!
 }
 ```
 
-### Options
-
-If there are any options, describe them here. Otherwise, delete this section.
-
 ## When Not To Use It
 
-Give a short description of when it would be appropriate to turn off this rule.
+If you're not strictly enforcing this rule in your codebase (thus allowing custom titles), you should turn this rule off.
 
 ## Further Reading
 
-If there are other links that describe the issue this rule addresses, please include them here in a bulleted list.
+You can find more information about CSF3 and story titles here: https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#optional-titles
