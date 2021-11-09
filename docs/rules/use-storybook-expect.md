@@ -1,8 +1,12 @@
 # Use expect from &#39;@storybook/expect&#39; (use-storybook-expect)
 
-Storybook provides a browser compatible version of Jest's expect via the [@storybook/expect](https://github.com/storybookjs/expect) library. When [writing interactions](https://storybook.js.org/docs/react/essentials/interactions) and asserting values, you should always use `expect` from the `@storybook/jest` library.
+<!-- RULE-CATEGORIES:START -->
+<!-- RULE-LIST:END -->
 
 ## Rule Details
+
+Storybook provides a browser compatible version of Jest's expect via the [@storybook/expect](https://github.com/storybookjs/expect) library.
+When [writing interactions](https://storybook.js.org/docs/react/essentials/interactions) and asserting values, you should always use `expect` from the `@storybook/jest` library.
 
 Examples of **incorrect** code for this rule:
 
