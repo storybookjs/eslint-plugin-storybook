@@ -55,7 +55,6 @@ const overWriteRulesList = (rulesList: any, readme: string) => {
     throw new Error(`cannot find start or end rules-list`)
   }
 
-  console.log(rulesList)
   return [
     readme.substring(0, listStartIndex - 1),
     listBeginMarker,
