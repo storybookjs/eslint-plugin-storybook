@@ -8,6 +8,7 @@
 //------------------------------------------------------------------------------
 
 import { AST_NODE_TYPES } from '@typescript-eslint/types'
+import dedent from 'ts-dedent'
 
 import rule from '../../../lib/rules/meta-inline-properties'
 import ruleTester from '../../utils/rule-tester'
@@ -109,27 +110,26 @@ ruleTester.run('meta-inline-properties', rule, {
         },
       ],
     },
-    // @TODO: Support this use case - meta as constant
-    // {
-    //   code: `
-    //     const title = 'a'
+    {
+      code: dedent`
+        const title = 'a'
 
-    //     const meta: ComponentMeta<typeof Badge> = {
-    //       title,
-    //       component: Badge,
-    //     }
+        const meta: ComponentMeta<typeof Badge> = {
+          title,
+          component: Badge,
+        }
 
-    //     export default meta
-    //   `,
-    //   errors: [
-    //     {
-    //       messageId: 'metaShouldHaveInlineProperties',
-    //       data: {
-    //         property: 'title',
-    //       },
-    //       type: AST_NODE_TYPES.Property,
-    //     },
-    //   ],
-    // },
+        export default meta
+      `,
+      errors: [
+        {
+          messageId: 'metaShouldHaveInlineProperties',
+          data: {
+            property: 'title',
+          },
+          type: AST_NODE_TYPES.Property,
+        },
+      ],
+    },
   ],
 })
