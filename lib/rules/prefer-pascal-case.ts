@@ -85,8 +85,8 @@ export = createStorybookRule({
                       const fullText = context.getSourceCode().text
                       const fullName = fullText.slice(id.range[0], id.range[1])
                       const suffix = fullName.substring(name.length)
-                      const pascal = toPascalCase(name) + suffix
-                      yield fixer.replaceTextRange(id.range, pascal)
+                      const pascal = toPascalCase(name)
+                      yield fixer.replaceTextRange(id.range, pascal + suffix)
 
                       const variable = findVariable(context.getScope(), name)
                       for (let i = 0; i < variable.references.length; i++) {

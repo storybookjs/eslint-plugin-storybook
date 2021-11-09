@@ -57,7 +57,10 @@ ruleTester.run('prefer-pascal-case', rule, {
       ],
     },
     {
-      code: `export const primary: Story = {}`,
+      code: dedent`
+      export const primary: Story = {}
+      primary.foo = 'bar'
+    `,
       errors: [
         {
           messageId: 'usePascalCase',
@@ -68,7 +71,10 @@ ruleTester.run('prefer-pascal-case', rule, {
           suggestions: [
             {
               messageId: 'convertToPascalCase',
-              output: 'export const Primary: Story = {}',
+              output: dedent`
+                export const Primary: Story = {}
+                Primary.foo = 'bar'
+              `,
             },
           ],
         },
