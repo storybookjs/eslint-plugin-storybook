@@ -5,7 +5,6 @@
 
 import type { Expression, Identifier, Node } from '@typescript-eslint/types/dist/ast-spec'
 
-import { isPlayFunction } from '../utils'
 import { createStorybookRule } from '../utils/create-storybook-rule'
 import { CategoryId } from '../utils/constants'
 import {
@@ -82,12 +81,6 @@ export = createStorybookRule({
       return null
     }
 
-    const isInPlayFunction = (node: Node) => {
-      if (isProgram(node)) return false
-      if (isPlayFunction(node)) return true
-      return isInPlayFunction(node.parent)
-    }
-
     //----------------------------------------------------------------------
     // Public
     //----------------------------------------------------------------------
@@ -100,7 +93,7 @@ export = createStorybookRule({
     return {
       CallExpression(node: Expression) {
         const method = getMethodThatShouldBeAwaited(node)
-        if (method && !isAwaitExpression(node.parent) && isInPlayFunction(node)) {
+        if (method && !isAwaitExpression(node.parent)) {
           invocationsThatShouldBeAwaited.push({ node, method })
         }
       },
