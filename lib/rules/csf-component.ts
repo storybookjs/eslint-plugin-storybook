@@ -45,16 +45,18 @@ export = createStorybookRule({
     return {
       ExportDefaultDeclaration(node: ExportDefaultDeclaration) {
         const meta = getMetaObjectExpression(node, context)
-        if (meta && isObjectExpression(meta)) {
-          const componentProperty = meta.properties.find(
-            (property: any) => property.key.name === 'component'
-          )
-          if (!componentProperty) {
-            context.report({
-              node,
-              messageId: 'missingComponentProperty',
-            })
-          }
+        if (!meta) {
+          return null
+        }
+
+        const componentProperty = meta.properties.find(
+          (property: any) => property.key.name === 'component'
+        )
+        if (!componentProperty) {
+          context.report({
+            node,
+            messageId: 'missingComponentProperty',
+          })
         }
       },
     }
