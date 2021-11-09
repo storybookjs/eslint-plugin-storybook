@@ -8,6 +8,7 @@
 //------------------------------------------------------------------------------
 
 import { AST_NODE_TYPES } from '@typescript-eslint/types'
+import dedent from 'ts-dedent'
 
 import rule from '../../../lib/rules/hierarchy-separator'
 import ruleTester from '../../utils/rule-tester'
@@ -55,31 +56,30 @@ ruleTester.run('hierarchy-separator', rule, {
         },
       ],
     },
-    // @TODO: Support this use case - meta as constant
-    // {
-    //   code: dedent`
-    //     const meta = { title: 'Examples.Components.Button' }
-    //     export default meta
-    //   `,
-    //   output: dedent`
-    //     const meta = { title: 'Examples/Components/Button' }
-    //     export default meta
-    //   `,
-    //   errors: [
-    //     {
-    //       type: AST_NODE_TYPES.ExportDefaultDeclaration,
-    //       messageId: 'deprecatedHierarchySeparator',
-    //       suggestions: [
-    //         {
-    //           messageId: 'useCorrectSeparators',
-    //           output: dedent`
-    //             const meta = { title: 'Examples/Components/Button' }
-    //             export default meta
-    //           `,
-    //         },
-    //       ],
-    //     },
-    //   ],
-    // },
+    {
+      code: dedent`
+        const meta = { title: 'Examples.Components.Button' }
+        export default meta
+      `,
+      output: dedent`
+        const meta = { title: 'Examples/Components/Button' }
+        export default meta
+      `,
+      errors: [
+        {
+          type: AST_NODE_TYPES.ExportDefaultDeclaration,
+          messageId: 'deprecatedHierarchySeparator',
+          suggestions: [
+            {
+              messageId: 'useCorrectSeparators',
+              output: dedent`
+                const meta = { title: 'Examples/Components/Button' }
+                export default meta
+              `,
+            },
+          ],
+        },
+      ],
+    },
   ],
 })

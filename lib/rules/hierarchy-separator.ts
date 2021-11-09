@@ -3,6 +3,8 @@
  * @author Yann Braga
  */
 
+import { getMetaObjectExpression } from '../utils'
+import { isLiteral } from '../utils/ast'
 import { CategoryId } from '../utils/constants'
 import { createStorybookRule } from '../utils/create-storybook-rule'
 
@@ -31,22 +33,19 @@ export = createStorybookRule({
   create: function (context: any) {
     return {
       ExportDefaultDeclaration: function (node: any) {
-        // Typescript 'TSAsExpression' has properties under declaration.expression
-        const metaProperties =
-          node.declaration.properties ||
-          (node.declaration.expression && node.declaration.expression.properties)
+        const meta = getMetaObjectExpression(node, context)
+        if (!meta) {
+          return null
+        }
 
-        if (!metaProperties) {
+        const titleNode = meta.properties.find((prop: any) => prop.key.name === 'title')
+
+        //@ts-ignore
+        if (!titleNode || !isLiteral(titleNode.value)) {
           return
         }
 
-        const titleNode = metaProperties.find((prop: any) => prop.key.name === 'title')
-
-        // @ts-expect-error ts-migrate(2367) FIXME: This condition will always return 'false' since th... Remove this comment to see the full error message
-        if (!titleNode || !titleNode.value.type === 'Literal') {
-          return
-        }
-
+        //@ts-ignore
         const metaTitle = titleNode.value.raw || ''
 
         if (metaTitle.includes('|') || metaTitle.includes('.')) {
@@ -56,13 +55,18 @@ export = createStorybookRule({
             data: { metaTitle },
             // In case we want this to be auto fixed by --fix
             fix: function (fixer: any) {
-              return fixer.replaceTextRange(titleNode.value.range, metaTitle.replace(/\||\./g, '/'))
+              return fixer.replaceTextRange(
+                //@ts-ignore
+                titleNode.value.range,
+                metaTitle.replace(/\||\./g, '/')
+              )
             },
             suggest: [
               {
                 messageId: 'useCorrectSeparators',
                 fix: function (fixer: any) {
                   return fixer.replaceTextRange(
+                    //@ts-ignore
                     titleNode.value.range,
                     metaTitle.replace(/\||\./g, '/')
                   )

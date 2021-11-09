@@ -34,3 +34,4 @@ export const isFunctionExpression = isNodeOfType(AST_NODE_TYPES.FunctionExpressi
 export const isProgram = isNodeOfType(AST_NODE_TYPES.Program)
 export const isTSTypeAliasDeclaration = isNodeOfType(AST_NODE_TYPES.TSTypeAliasDeclaration)
 export const isTSInterfaceDeclaration = isNodeOfType(AST_NODE_TYPES.TSInterfaceDeclaration)
+export const isTSAsExpression = isNodeOfType(AST_NODE_TYPES.TSAsExpression)
