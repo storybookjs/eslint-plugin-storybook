@@ -45,6 +45,7 @@
     "release": "yarn build && auto shipit"
   },
   "dependencies": {
+    "@storybook/csf": "^0.0.1",
     "@typescript-eslint/experimental-utils": "^5.3.0",
     "requireindex": "^1.1.0"
   },
