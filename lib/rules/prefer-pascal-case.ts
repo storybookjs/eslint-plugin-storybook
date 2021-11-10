@@ -86,7 +86,7 @@ export = createStorybookRule({
                 const scope = context.getScope().childScopes[0]
                 if (scope) {
                   const variable = findVariable(scope, name)
-                  for (let i = 0; i < variable.references.length; i++) {
+                  for (let i = 0; i < variable?.references?.length; i++) {
                     const ref = variable.references[i]
                     if (!ref.init) {
                       yield fixer.replaceTextRange(ref.identifier.range, pascal)
