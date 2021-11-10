@@ -35,65 +35,76 @@ Best practice rules for Storybook
 You'll first need to install [ESLint](https://eslint.org/):
 
 ```sh
-npm i eslint --save-dev
+npm install eslint --save-dev
+# or
+yarn add eslint --dev
 ```
 
 Next, install `eslint-plugin-storybook`:
 
 ```sh
 npm install eslint-plugin-storybook --save-dev
+# or
+yarn add eslint-plugin-storybook --dev
 ```
 
 ## Usage
 
-Add `storybook` to the plugins section of your `.eslintrc` configuration file. You can omit the `eslint-plugin-` prefix:
+Add the following eslint configuration:
 
-```json
-{
-  "plugins": ["storybook"]
-}
-```
+1. Add `storybook` to the plugins section of your `.eslintrc` configuration file. Note that we can omit the `eslint-plugin-` prefix:
 
-Then, define which rule configurations to extend in your eslint file. Before that, it's important to understand that **Storybook linting rules should only be applied in your stories files**. You don't want rules to affect your other files such as production or test code as the rules might conflict with rules from other ESLint plugins.
+   ```json
+   {
+     "plugins": ["storybook"]
+   }
+   ```
 
-### Run the plugin only against story files
+   <details>
+     <summary>Why not use the "extends" option?</summary>
+     The "extends" option applies to <em>all</em> files you're linting against. The rules in this plugin are intended only for Storybook story files and would conflict with your other non-story files.
+   </details>
 
-We don't want `eslint-plugin-storybook` to run against your whole codebase. To run this plugin only against your stories files, you have the following options:
+2. Then, define which rule configurations to extend in your eslint config.
 
-#### ESLint `overrides`
+   > It's important to understand that **Storybook linting rules should only be run against your stories files**. You don't want these rules to affect your other files—such as production or test code—as they might conflict with rules from other ESLint plugins.
 
-One way of restricting ESLint config by file patterns is by using [ESLint `overrides`](https://eslint.org/docs/user-guide/configuring/configuration-files#configuration-based-on-glob-patterns).
+   There are two ways of doing this:
 
-Assuming you are using the recommended `.stories` extension in your files, the following config would run `eslint-plugin-storybook` only against your stories files:
+   1. #### ESLint `overrides`
 
-```javascript
-// .eslintrc
-{
-  // 1) Here we have our usual config which applies to the whole project, so we don't put storybook preset here.
-  "extends": ["airbnb", "plugin:prettier/recommended"],
+      One way of restricting ESLint config by file patterns is by using [ESLint `overrides`](https://eslint.org/docs/user-guide/configuring/configuration-files#configuration-based-on-glob-patterns).
 
-  // 2) We load eslint-plugin-storybook globally with other ESLint plugins.
-  "plugins": ["react-hooks", "storybook"],
+      Assuming you are using the recommended `.stories` extension in your files, the following config would run `eslint-plugin-storybook` only against your stories files:
 
-  "overrides": [
-    {
-      // 3) Now we enable eslint-plugin-storybook rules or preset only for matching files!
-      // you can use the one defined in your main.js
-      "files": ['src/**/*.stories.@(js|jsx|ts|tsx)'],
-      "extends": ["plugin:storybook/recommended"],
+      ```javascript
+      // .eslintrc
+      {
+        // 1) This applies to the whole project, so we don't put the storybook configuration here.
+        "extends": ["airbnb", "plugin:prettier/recommended"],
 
-      // 4) Optional: you can override or disable specific rules here if you want. Else delete this
-      "rules": {
-        'storybook/no-redundant-story-name': 'error'
-      }
-    },
-  ],
-};
-```
+        // 2) We load eslint-plugin-storybook globally with other ESLint plugins.
+        "plugins": ["react-hooks", "storybook"],
 
-#### ESLint Cascading and Hierarchy
+        "overrides": [
+          {
+            // 3) Now we enable eslint-plugin-storybook rules or preset only for matching files!
+            //    For the files glob, adjust the one from `.storybook/main.js` to be relative to your eslint config file.
+            "files": ['./src/**/*.stories.@(js|jsx|ts|tsx)'],
+            "extends": ["plugin:storybook/recommended"],
 
-Another approach for customizing ESLint config by paths is through [ESLint Cascading and Hierarchy](https://eslint.org/docs/user-guide/configuring/configuration-files#cascading-and-hierarchy). This is useful if all your stories are placed under the same folder, so you can place there another `.eslintrc` where you enable `eslint-plugin-storybook` for applying it only to the files under such folder, rather than enabling it on your global `.eslintrc` which would apply to your whole project.
+            // 4) Optional: You can override or disable specific rules here, if you want.
+            "rules": {
+              'storybook/no-redundant-story-name': 'error'
+            }
+          },
+        ],
+      };
+      ```
+
+   2. #### ESLint Cascading and Hierarchy
+
+      If all your stories are placed under the same folder that contains only story files, another approach for customizing ESLint config by paths is through [ESLint Cascading and Hierarchy](https://eslint.org/docs/user-guide/configuring/configuration-files#cascading-and-hierarchy). Place another `.eslintrc` in that folder, where you enable `eslint-plugin-storybook` (this time via the top-level "extends" option). With this setup, you apply the plugin's rules only to the files in that folder, rather than enabling it on your global `.eslintrc`, which would apply to your whole project.
 
 ## Supported Rules
 

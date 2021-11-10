@@ -2,7 +2,7 @@
 
 <!-- RULE-CATEGORIES:START -->
 
-**Categories**: csf
+**Included in these configurations**: • csf
 
 <!-- RULE-CATEGORIES:END -->
 
