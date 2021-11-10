@@ -8,6 +8,7 @@
 //------------------------------------------------------------------------------
 
 import { AST_NODE_TYPES } from '@typescript-eslint/types'
+import dedent from 'ts-dedent'
 
 import rule from '../../../lib/rules/no-redundant-story-name'
 import ruleTester from '../../utils/rule-tester'
@@ -23,6 +24,16 @@ ruleTester.run('no-redundant-story-name', rule, {
     `
       const Default = {}
       export const PrimaryButton = { ...Default, name: 'The Primary Button' }
+    `,
+    `
+      export const PrimaryButton = Template.bind({})
+      PrimaryButton.storyName = 'The Primary Button'
+    `,
+    `
+      export function PrimaryButton () {
+        return <div>Hello</div>
+      }
+      PrimaryButton.storyName = 'The Primary Button'
     `,
   ],
 
@@ -52,6 +63,27 @@ ruleTester.run('no-redundant-story-name', rule, {
             {
               messageId: 'removeRedundantName',
               output: 'export const PrimaryButton: Story = {  }',
+            },
+          ],
+        },
+      ],
+    },
+    {
+      code: dedent`
+        export const PrimaryButton = Template.bind({})
+        PrimaryButton.storyName = 'Primary Button'
+      `,
+      errors: [
+        {
+          messageId: 'storyNameIsRedundant',
+          type: AST_NODE_TYPES.AssignmentExpression,
+          suggestions: [
+            {
+              messageId: 'removeRedundantName',
+              output: dedent`
+                export const PrimaryButton = Template.bind({})
+
+              `,
             },
           ],
         },

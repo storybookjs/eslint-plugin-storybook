@@ -3,7 +3,14 @@
  * @author Yann Braga
  */
 
-import { isProperty } from '../utils/ast'
+import {
+  isExpressionStatement,
+  isLiteral,
+  isIdentifier,
+  isObjectExpression,
+  isProperty,
+  isVariableDeclaration,
+} from '../utils/ast'
 import { CategoryId } from '../utils/constants'
 import { createStorybookRule } from '../utils/create-storybook-rule'
 
@@ -16,7 +23,7 @@ export = createStorybookRule({
   defaultOptions: [],
   meta: {
     type: 'suggestion',
-    fixable: 'code', // Or `code` or `whitespace`
+    fixable: 'code',
     docs: {
       description: 'A story should not have a redundant name property',
       categories: [CategoryId.CSF, CategoryId.RECOMMENDED],
@@ -45,54 +52,72 @@ export = createStorybookRule({
         .split(' ')
         .filter(Boolean)
         .join(' ')
-    // any helper functions should go here or else delete this section
 
     //----------------------------------------------------------------------
     // Public
     //----------------------------------------------------------------------
 
     return {
+      // CSF3
       ExportNamedDeclaration: function (node: any) {
         // if there are specifiers, node.declaration should be null
         if (!node.declaration) return
 
-        const { type } = node.declaration
+        const decl = node.declaration
+        if (isVariableDeclaration(decl)) {
+          const { id, init } = decl.declarations[0]
+          if (isIdentifier(id) && isObjectExpression(init)) {
+            const storyNameNode = init.properties.find(
+              (prop) =>
+                isProperty(prop) &&
+                isIdentifier(prop.key) &&
+                (prop.key?.name === 'name' || prop.key?.name === 'storyName')
+            )
 
-        if (
-          type === 'TSTypeAliasDeclaration' ||
-          type === 'TypeAlias' ||
-          type === 'TSInterfaceDeclaration' ||
-          type === 'InterfaceDeclaration'
-        ) {
-          return
+            if (!storyNameNode) {
+              return
+            }
+
+            const { name } = id
+            const resolvedStoryName = resolveStoryName(name)
+
+            //@ts-ignore
+            if (isLiteral(storyNameNode.value) && storyNameNode.value.value === resolvedStoryName) {
+              context.report({
+                node: storyNameNode,
+                messageId: 'storyNameIsRedundant',
+                suggest: [
+                  {
+                    messageId: 'removeRedundantName',
+                    fix: function (fixer: any) {
+                      return fixer.remove(storyNameNode)
+                    },
+                  },
+                ],
+              })
+            }
+          }
         }
-        const {
-          id: identifier,
-          init: { properties },
-        } = node.declaration.declarations[0]
+      },
+      // CSF2
+      AssignmentExpression: function (node: any) {
+        if (!isExpressionStatement(node.parent)) return
 
-        if (!properties) {
-          return
-        }
+        const { left, right } = node
+        if (isIdentifier(left.property) && left.property.name === 'storyName') {
+          const propertyName = left.object.name
+          const propertyValue = right.value
+          const resolvedStoryName = resolveStoryName(propertyName)
 
-        const storyNameNode = properties.find(
-          //@ts-ignore
-          (prop) => isProperty(prop) && prop.key.name === 'name'
-        )
-
-        if (storyNameNode) {
-          const { name } = identifier
-          const resolvedStoryName = resolveStoryName(name)
-
-          if (storyNameNode.value.value === resolvedStoryName) {
+          if (propertyValue === resolvedStoryName) {
             context.report({
-              node: storyNameNode,
+              node: node,
               messageId: 'storyNameIsRedundant',
               suggest: [
                 {
                   messageId: 'removeRedundantName',
                   fix: function (fixer: any) {
-                    return fixer.remove(storyNameNode)
+                    return fixer.remove(node)
                   },
                 },
               ],
