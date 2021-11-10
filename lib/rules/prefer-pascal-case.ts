@@ -62,7 +62,7 @@ export = createStorybookRule({
 
     const checkAndReportError = (id, nonStoryExportsConfig = {}) => {
       const { name } = id
-      if (!isExportStory(name, nonStoryExportsConfig)) {
+      if (!isExportStory(name, nonStoryExportsConfig) || name === '__namedExportsOrder') {
         return null
       }
 
