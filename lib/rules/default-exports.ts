@@ -3,6 +3,7 @@
  * @author Yann Braga
  */
 import { CategoryId } from '../utils/constants'
+import { isImportDeclaration } from '../utils/ast'
 import { createStorybookRule } from '../utils/create-storybook-rule'
 
 //------------------------------------------------------------------------------
@@ -49,9 +50,9 @@ export = createStorybookRule({
       },
       'Program:exit': function (node: any) {
         if (!hasDefaultExport) {
+          const firstNonImportStatement = node.body.find((n) => !isImportDeclaration(n))
           context.report({
-            node,
-            loc: { start: { line: 0, column: 0 }, end: { line: 0, column: 0 } },
+            node: firstNonImportStatement || node.body[0] || node,
             messageId: 'shouldHaveDefaultExport',
           })
         }

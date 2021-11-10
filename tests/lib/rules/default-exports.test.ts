@@ -36,7 +36,6 @@ ruleTester.run('default-exports', rule, {
       errors: [
         {
           messageId: 'shouldHaveDefaultExport',
-          type: AST_NODE_TYPES.Program,
         },
       ],
     },
