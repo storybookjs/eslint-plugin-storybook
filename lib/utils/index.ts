@@ -25,3 +25,28 @@ export const getMetaObjectExpression = (node: ExportDefaultDeclaration, context:
 
   return isObjectExpression(meta) ? meta : null
 }
+
+export const getDescriptor = (metaDeclaration, propertyName) => {
+  const property =
+    metaDeclaration && metaDeclaration.properties.find((p) => p.key && p.key.name === propertyName)
+  if (!property) {
+    return undefined
+  }
+
+  const { type } = property.value
+
+  switch (type) {
+    case 'ArrayExpression':
+      return property.value.elements.map((t) => {
+        if (!['StringLiteral', 'Literal'].includes(t.type)) {
+          throw new Error(`Unexpected descriptor element: ${t.type}`)
+        }
+        return t.value
+      })
+    case 'Literal':
+    case 'RegExpLiteral':
+      return property.value.value
+    default:
+      throw new Error(`Unexpected descriptor: ${type}`)
+  }
+}

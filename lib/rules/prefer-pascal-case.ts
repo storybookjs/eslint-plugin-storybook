@@ -5,6 +5,9 @@
 
 import { findVariable } from '@typescript-eslint/experimental-utils/dist/ast-utils'
 import { ExportNamedDeclaration } from '@typescript-eslint/types/dist/ast-spec'
+import { isExportStory } from '@storybook/csf'
+
+import { getDescriptor, getMetaObjectExpression } from '../utils'
 import { isIdentifier, isVariableDeclaration } from '../utils/ast'
 import { CategoryId } from '../utils/constants'
 import { createStorybookRule } from '../utils/create-storybook-rule'
@@ -57,11 +60,64 @@ export = createStorybookRule({
       )
     }
 
+    const checkAndReportError = (id, nonStoryExportsConfig = {}) => {
+      const { name } = id
+      if (!isExportStory(name, nonStoryExportsConfig)) {
+        return null
+      }
+
+      if (!isPascalCase(name)) {
+        context.report({
+          node: id,
+          messageId: 'usePascalCase',
+          data: {
+            name,
+          },
+          suggest: [
+            {
+              messageId: 'convertToPascalCase',
+              *fix(fixer: any) {
+                const fullText = context.getSourceCode().text
+                const fullName = fullText.slice(id.range[0], id.range[1])
+                const suffix = fullName.substring(name.length)
+                const pascal = toPascalCase(name)
+                yield fixer.replaceTextRange(id.range, pascal + suffix)
+
+                const scope = context.getScope().childScopes[0]
+                if (scope) {
+                  const variable = findVariable(scope, name)
+                  for (let i = 0; i < variable?.references?.length; i++) {
+                    const ref = variable.references[i]
+                    if (!ref.init) {
+                      yield fixer.replaceTextRange(ref.identifier.range, pascal)
+                    }
+                  }
+                }
+              },
+            },
+          ],
+        })
+      }
+    }
+
     //----------------------------------------------------------------------
     // Public
     //----------------------------------------------------------------------
 
+    let meta
+    let nonStoryExportsConfig
+    let namedExports = []
+
     return {
+      ExportDefaultDeclaration: function (node: any) {
+        meta = getMetaObjectExpression(node, context)
+        if (meta) {
+          nonStoryExportsConfig = {
+            excludeStories: getDescriptor(meta, 'excludeStories'),
+            includeStories: getDescriptor(meta, 'includeStories'),
+          }
+        }
+      },
       ExportNamedDeclaration: function (node: ExportNamedDeclaration) {
         // if there are specifiers, node.declaration should be null
         if (!node.declaration) return
@@ -70,37 +126,13 @@ export = createStorybookRule({
         if (isVariableDeclaration(decl)) {
           const { id } = decl.declarations[0]
           if (isIdentifier(id)) {
-            const { name } = id
-            if (!isPascalCase(name)) {
-              context.report({
-                node: id,
-                messageId: 'usePascalCase',
-                data: {
-                  name,
-                },
-                suggest: [
-                  {
-                    messageId: 'convertToPascalCase',
-                    *fix(fixer: any) {
-                      const fullText = context.getSourceCode().text
-                      const fullName = fullText.slice(id.range[0], id.range[1])
-                      const suffix = fullName.substring(name.length)
-                      const pascal = toPascalCase(name)
-                      yield fixer.replaceTextRange(id.range, pascal + suffix)
-
-                      const variable = findVariable(context.getScope(), name)
-                      for (let i = 0; i < variable.references.length; i++) {
-                        const ref = variable.references[i]
-                        if (!ref.init) {
-                          yield fixer.replaceTextRange(ref.identifier.range, pascal)
-                        }
-                      }
-                    },
-                  },
-                ],
-              })
-            }
+            namedExports.push(id)
           }
+        }
+      },
+      'Program:exit': function () {
+        if (namedExports.length) {
+          namedExports.forEach((n) => checkAndReportError(n, nonStoryExportsConfig))
         }
       },
     }

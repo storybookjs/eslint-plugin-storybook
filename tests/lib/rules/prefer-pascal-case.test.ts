@@ -21,14 +21,20 @@ ruleTester.run('prefer-pascal-case', rule, {
   valid: [
     'export const Primary = {}',
     'export const Primary: Story = {}',
+    `
+      export default {
+        title: 'MyComponent',
+        component: MyComponent,
+        includeStories: ['SimpleStory', 'ComplexStory'],
+        excludeStories: /.*Data$/,
+      };
 
-    // @TODO: Support this use case - Non-story exports
-    // `
-    //   export default {
-    //     excludeStories: /.*Data$/,
-    //   }
-    //   export const getData = () => { data: 123 }
-    // `,
+      export const simpleData = { foo: 1, bar: 'baz' };
+      export const complexData = { foo: 1, foobar: { bar: 'baz', baz: someData } };
+
+      export const SimpleStory = () => <MyComponent data={simpleData} />;
+      export const ComplexStory = () => <MyComponent data={complexData} />;
+    `,
   ],
 
   invalid: [
@@ -58,9 +64,9 @@ ruleTester.run('prefer-pascal-case', rule, {
     },
     {
       code: dedent`
-      export const primary: Story = {}
-      primary.foo = 'bar'
-    `,
+        export const primary: Story = {}
+        primary.foo = 'bar'
+      `,
       errors: [
         {
           messageId: 'usePascalCase',
@@ -74,6 +80,50 @@ ruleTester.run('prefer-pascal-case', rule, {
               output: dedent`
                 export const Primary: Story = {}
                 Primary.foo = 'bar'
+              `,
+            },
+          ],
+        },
+      ],
+    },
+    {
+      code: dedent`
+        export default {
+          title: 'MyComponent',
+          component: MyComponent,
+          includeStories: /.*Story$/,
+          excludeStories: /.*Data$/,
+        };
+
+        export const simpleData = { foo: 1, bar: 'baz' };
+        export const complexData = { foo: 1, foobar: { bar: 'baz', baz: someData } };
+
+        export const simpleStory = () => <MyComponent data={simpleData} />;
+        simpleStory.args = {};
+      `,
+      errors: [
+        {
+          messageId: 'usePascalCase',
+          data: {
+            name: 'simpleStory',
+          },
+          type: AST_NODE_TYPES.Identifier,
+          suggestions: [
+            {
+              messageId: 'convertToPascalCase',
+              output: dedent`
+                export default {
+                  title: 'MyComponent',
+                  component: MyComponent,
+                  includeStories: /.*Story$/,
+                  excludeStories: /.*Data$/,
+                };
+
+                export const simpleData = { foo: 1, bar: 'baz' };
+                export const complexData = { foo: 1, foobar: { bar: 'baz', baz: someData } };
+
+                export const SimpleStory = () => <MyComponent data={simpleData} />;
+                SimpleStory.args = {};
               `,
             },
           ],
