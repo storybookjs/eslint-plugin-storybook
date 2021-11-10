@@ -50,7 +50,7 @@ export = createStorybookRule({
 
         if (metaTitle.includes('|') || metaTitle.includes('.')) {
           context.report({
-            node,
+            node: titleNode,
             messageId: 'deprecatedHierarchySeparator',
             data: { metaTitle },
             // In case we want this to be auto fixed by --fix
