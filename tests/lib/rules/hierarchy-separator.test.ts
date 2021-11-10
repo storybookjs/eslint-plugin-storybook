@@ -29,7 +29,7 @@ ruleTester.run('hierarchy-separator', rule, {
       output: "export default { title: 'Examples/Components/Button' }",
       errors: [
         {
-          type: AST_NODE_TYPES.ExportDefaultDeclaration,
+          type: AST_NODE_TYPES.Property,
           messageId: 'deprecatedHierarchySeparator',
           suggestions: [
             {
@@ -45,7 +45,7 @@ ruleTester.run('hierarchy-separator', rule, {
       output: "export default { title: 'Examples/Components/Button' }",
       errors: [
         {
-          type: AST_NODE_TYPES.ExportDefaultDeclaration,
+          type: AST_NODE_TYPES.Property,
           messageId: 'deprecatedHierarchySeparator',
           suggestions: [
             {
@@ -67,7 +67,7 @@ ruleTester.run('hierarchy-separator', rule, {
       `,
       errors: [
         {
-          type: AST_NODE_TYPES.ExportDefaultDeclaration,
+          type: AST_NODE_TYPES.Property,
           messageId: 'deprecatedHierarchySeparator',
           suggestions: [
             {
