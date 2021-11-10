@@ -25,15 +25,15 @@ ruleTester.run('no-title-property-in-meta', rule, {
 
   invalid: [
     {
-      code: "export default { component: Button, title: 'Button' }",
+      code: "export default { title: 'Button', component: Button }",
       errors: [
         {
           messageId: 'noTitleInMeta',
-          type: AST_NODE_TYPES.ExportDefaultDeclaration,
+          type: AST_NODE_TYPES.Property,
           suggestions: [
             {
               messageId: 'removeTitleInMeta',
-              output: 'export default { component: Button,  }',
+              output: 'export default {  component: Button }',
             },
           ],
         },
@@ -47,7 +47,7 @@ ruleTester.run('no-title-property-in-meta', rule, {
       errors: [
         {
           messageId: 'noTitleInMeta',
-          type: AST_NODE_TYPES.ExportDefaultDeclaration,
+          type: AST_NODE_TYPES.Property,
           suggestions: [
             {
               messageId: 'removeTitleInMeta',
