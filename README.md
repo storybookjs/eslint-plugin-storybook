@@ -82,7 +82,7 @@ Assuming you are using the recommended `.stories` extension in your files, the f
       "files": ['src/**/*.stories.@(js|jsx|ts|tsx)'],
       "extends": ["plugin:storybook/recommended"],
 
-      // 4) Optional: you can override specific rules here if you want. Else delete this
+      // 4) Optional: you can override or disable specific rules here if you want. Else delete this
       "rules": {
         'storybook/no-redundant-story-name': 'error'
       }
