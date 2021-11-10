@@ -1,6 +1,6 @@
 {
   "name": "eslint-plugin-storybook",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Best practice rules for Storybook",
   "keywords": [
     "eslint",
