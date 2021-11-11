@@ -8,6 +8,7 @@
 //------------------------------------------------------------------------------
 
 import { AST_NODE_TYPES } from '@typescript-eslint/types'
+import dedent from 'ts-dedent'
 
 import rule from '../../../lib/rules/default-exports'
 import ruleTester from '../../utils/rule-tester'
@@ -33,6 +34,60 @@ ruleTester.run('default-exports', rule, {
   invalid: [
     {
       code: 'export const Primary = () => <button>hello</button>',
+      errors: [
+        {
+          messageId: 'shouldHaveDefaultExport',
+        },
+      ],
+    },
+    {
+      code: dedent`
+        import { MyComponent, Foo } from './MyComponent'
+        export const Primary = () => <button>hello</button>
+      `,
+      output: dedent`
+        import { MyComponent, Foo } from './MyComponent'
+        export default { component: MyComponent }
+        export const Primary = () => <button>hello</button>
+      `,
+      errors: [
+        {
+          messageId: 'shouldHaveDefaultExport',
+        },
+      ],
+    },
+    {
+      code: dedent`
+        import MyComponent from './MyComponent'
+        export const Primary = () => <button>hello</button>
+      `,
+      output: dedent`
+        import MyComponent from './MyComponent'
+        export default { component: MyComponent }
+        export const Primary = () => <button>hello</button>
+      `,
+      errors: [
+        {
+          messageId: 'shouldHaveDefaultExport',
+        },
+      ],
+    },
+    {
+      code: dedent`
+        import { Something } from './MyComponent'
+        export const Primary = () => <button>hello</button>
+      `,
+      errors: [
+        {
+          messageId: 'shouldHaveDefaultExport',
+        },
+      ],
+    },
+    {
+      code: dedent`
+        import { MyComponent } from './Something'
+        export const Primary = () => <button>hello</button>
+      `,
       errors: [
         {
           messageId: 'shouldHaveDefaultExport',
