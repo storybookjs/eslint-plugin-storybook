@@ -19,13 +19,14 @@ import ruleTester from '../../utils/rule-tester'
 
 ruleTester.run('hierarchy-separator', rule, {
   valid: [
+    "export default { title: 'Examples.Components' }",
     "export default { title: 'Examples/Components/Button' }",
     "export default { title: 'Examples/Components/Button' } as ComponentMeta<typeof Button>",
   ],
 
   invalid: [
     {
-      code: "export default { title: 'Examples|Components|Button' }",
+      code: "export default { title: 'Examples|Components/Button' }",
       output: "export default { title: 'Examples/Components/Button' }",
       errors: [
         {
@@ -41,7 +42,7 @@ ruleTester.run('hierarchy-separator', rule, {
       ],
     },
     {
-      code: "export default { title: 'Examples.Components.Button' }",
+      code: "export default { title: 'Examples|Components/Button' }",
       output: "export default { title: 'Examples/Components/Button' }",
       errors: [
         {
@@ -58,7 +59,7 @@ ruleTester.run('hierarchy-separator', rule, {
     },
     {
       code: dedent`
-        const meta = { title: 'Examples.Components.Button' }
+        const meta = { title: 'Examples|Components/Button' }
         export default meta
       `,
       output: dedent`
