@@ -1,3 +1,16 @@
+# v0.3.2 (Thu Nov 11 2021)
+
+#### 🐛 Bug Fix
+
+- ignore storiesOf in default-export and prefer-pascal-case [#39](https://github.com/storybookjs/eslint-plugin-storybook/pull/39) ([@yannbf](https://github.com/yannbf))
+- prefer-pascal-case: ignore stories that start with underscore [#38](https://github.com/storybookjs/eslint-plugin-storybook/pull/38) ([@yannbf](https://github.com/yannbf))
+
+#### Authors: 1
+
+- Yann Braga ([@yannbf](https://github.com/yannbf))
+
+---
+
 # v0.3.1 (Thu Nov 11 2021)
 
 #### 🐛 Bug Fix
