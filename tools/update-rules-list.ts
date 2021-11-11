@@ -25,7 +25,7 @@ const rulesList = Object.entries(rules)
       createRuleLink(rule.name),
       rule.meta.docs.description,
       rule.meta.fixable ? emojiKey.fixable : '',
-      rule.meta.docs.categories.join(', '),
+      `<ul>${rule.meta.docs.categories.map((c) => `<li>${c}</li>`).join('')}</ul>`,
     ]
   })
 
