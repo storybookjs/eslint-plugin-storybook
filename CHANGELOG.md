@@ -1,3 +1,15 @@
+# v0.3.1 (Thu Nov 11 2021)
+
+#### 🐛 Bug Fix
+
+- hierarchy-separator: remove dot from checkings [#37](https://github.com/storybookjs/eslint-plugin-storybook/pull/37) ([@yannbf](https://github.com/yannbf))
+
+#### Authors: 1
+
+- Yann Braga ([@yannbf](https://github.com/yannbf))
+
+---
+
 # v0.3.0 (Thu Nov 11 2021)
 
 #### 🚀 Enhancement
