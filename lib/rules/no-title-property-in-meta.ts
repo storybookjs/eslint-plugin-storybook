@@ -18,13 +18,12 @@ export = createStorybookRule({
     type: 'problem',
     fixable: 'code',
     docs: {
-      // @TODO check about this, as this only works in Typescript if the title property is optional, likely part of 6.4 typings
       description: 'Do not define a title in meta',
       categories: [CategoryId.CSF_STRICT],
       recommended: 'error',
     },
     messages: {
-      removeTitleInMeta: 'Do not define a title in meta',
+      removeTitleInMeta: 'Remove title property from meta',
       noTitleInMeta: `CSF3 does not need a title in meta`,
     },
     schema: [],
@@ -41,21 +40,23 @@ export = createStorybookRule({
 
         if (titleNode) {
           context.report({
-            node,
+            node: titleNode,
             messageId: 'noTitleInMeta',
-            // In case we want this to be auto fixed by --fix
-            // fix: function (fixer) {
-            //   return fixer.remove(
-            //     titleNode
-            //   )
-            // },
             suggest: [
               {
                 messageId: 'removeTitleInMeta',
-                fix: function (fixer: any) {
-                  // @TODO this suggestion keeps the comma and might result in error:
-                  // e.g. { title, args } becomes { , args }
-                  return fixer.remove(titleNode)
+                fix(fixer: any) {
+                  const fullText = context.getSourceCode().text
+                  const propertyTextWithExtraCharacter = fullText.slice(
+                    titleNode.range[0],
+                    titleNode.range[1] + 1
+                  )
+                  const hasComma = propertyTextWithExtraCharacter.slice(-1) === ','
+                  const propertyRange = [
+                    titleNode.range[0],
+                    hasComma ? titleNode.range[1] + 1 : titleNode.range[1],
+                  ]
+                  return fixer.removeRange(propertyRange)
                 },
               },
             ],
