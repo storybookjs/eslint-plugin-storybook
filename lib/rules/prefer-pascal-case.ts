@@ -66,7 +66,7 @@ export = createStorybookRule({
         return null
       }
 
-      if (!isPascalCase(name)) {
+      if (!name.startsWith('_') && !isPascalCase(name)) {
         context.report({
           node: id,
           messageId: 'usePascalCase',
