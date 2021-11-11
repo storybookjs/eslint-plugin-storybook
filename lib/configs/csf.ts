@@ -7,7 +7,7 @@ export = {
   plugins: ['storybook'],
   overrides: [
     {
-      files: ['*.stor(y|ies).([mc]?[jt])sx?'],
+      files: ['*.stories.@(ts|tsx|js|mjs|cjs)', '*.story.@(ts|tsx|js|mjs|cjs)'],
       rules: {
         'import/no-anonymous-default-export': 'off',
         'storybook/csf-component': 'warn',

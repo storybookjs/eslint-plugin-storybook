@@ -31,6 +31,12 @@ function formatRules(rules: any) {
   return JSON.stringify(obj, null, 2)
 }
 
+const SUPPORTED_EXTENSIONS = ['ts', 'tsx', 'js', 'mjs', 'cjs']
+const STORIES_GLOBS = [
+  `'*.stories.@(${SUPPORTED_EXTENSIONS.join('|')})'`,
+  `'*.story.@(${SUPPORTED_EXTENSIONS.join('|')})'`,
+]
+
 function formatCategory(category: any) {
   const extendsCategoryId = extendsCategories[category.categoryId]
   if (extendsCategoryId == null) {
@@ -44,7 +50,7 @@ function formatCategory(category: any) {
           'storybook'
         ],
         overrides: [{
-          files: ['*.stor(y|ies).([mc]?[jt])sx?'],
+          files: [${STORIES_GLOBS.join(', ')}],
           rules: ${formatRules(category.rules)}
         }]
       }
