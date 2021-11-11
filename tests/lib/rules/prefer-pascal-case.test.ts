@@ -23,6 +23,11 @@ ruleTester.run('prefer-pascal-case', rule, {
     `export const __namedExportsOrder = ['Secondary', 'Primary']`,
     'export const Primary: Story = {}',
     `
+      import { storiesOf } from '@storybook/react'
+      export const links = []
+      storiesOf('Component', module)
+    `,
+    `
       export default {
         title: 'MyComponent',
         component: MyComponent,

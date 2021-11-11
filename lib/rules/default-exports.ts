@@ -61,8 +61,14 @@ export = createStorybookRule({
     //----------------------------------------------------------------------
 
     let hasDefaultExport = false
+    let hasStoriesOfImport = false
 
     return {
+      ImportSpecifier(node: any) {
+        if (node.imported.name === 'storiesOf') {
+          hasStoriesOfImport = true
+        }
+      },
       ExportDefaultSpecifier: function () {
         hasDefaultExport = true
       },
@@ -70,7 +76,7 @@ export = createStorybookRule({
         hasDefaultExport = true
       },
       'Program:exit': function (program: Program) {
-        if (!hasDefaultExport) {
+        if (!hasDefaultExport && !hasStoriesOfImport) {
           const componentName = getComponentName(program, context.getFilename())
           const firstNonImportStatement = program.body.find((n) => !isImportDeclaration(n))
           const node = firstNonImportStatement || program.body[0] || program

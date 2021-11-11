@@ -107,8 +107,14 @@ export = createStorybookRule({
     let meta
     let nonStoryExportsConfig
     let namedExports = []
+    let hasStoriesOfImport = false
 
     return {
+      ImportSpecifier(node: any) {
+        if (node.imported.name === 'storiesOf') {
+          hasStoriesOfImport = true
+        }
+      },
       ExportDefaultDeclaration: function (node: any) {
         meta = getMetaObjectExpression(node, context)
         if (meta) {
@@ -131,7 +137,7 @@ export = createStorybookRule({
         }
       },
       'Program:exit': function () {
-        if (namedExports.length) {
+        if (namedExports.length && !hasStoriesOfImport) {
           namedExports.forEach((n) => checkAndReportError(n, nonStoryExportsConfig))
         }
       },
