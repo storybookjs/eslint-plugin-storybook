@@ -29,6 +29,10 @@ ruleTester.run('default-exports', rule, {
       const meta: ComponentMeta<typeof Button> = { title: 'Button', component: Button }
       export default meta
     `,
+    `
+      import { storiesOf } from '@storybook/react'
+      storiesOf('Component', module)
+    `,
   ],
 
   invalid: [
