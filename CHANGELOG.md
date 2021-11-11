@@ -1,3 +1,15 @@
+# v0.3.4 (Thu Nov 11 2021)
+
+#### 🐛 Bug Fix
+
+- constrain override files regex [#40](https://github.com/storybookjs/eslint-plugin-storybook/pull/40) ([@yannbf](https://github.com/yannbf))
+
+#### Authors: 1
+
+- Yann Braga ([@yannbf](https://github.com/yannbf))
+
+---
+
 # v0.3.2 (Thu Nov 11 2021)
 
 #### 🐛 Bug Fix
