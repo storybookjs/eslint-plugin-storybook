@@ -48,7 +48,7 @@ export = createStorybookRule({
         //@ts-ignore
         const metaTitle = titleNode.value.raw || ''
 
-        if (metaTitle.includes('|') || metaTitle.includes('.')) {
+        if (metaTitle.includes('|')) {
           context.report({
             node: titleNode,
             messageId: 'deprecatedHierarchySeparator',
@@ -58,7 +58,7 @@ export = createStorybookRule({
               return fixer.replaceTextRange(
                 //@ts-ignore
                 titleNode.value.range,
-                metaTitle.replace(/\||\./g, '/')
+                metaTitle.replace(/\|/g, '/')
               )
             },
             suggest: [
@@ -68,7 +68,7 @@ export = createStorybookRule({
                   return fixer.replaceTextRange(
                     //@ts-ignore
                     titleNode.value.range,
-                    metaTitle.replace(/\||\./g, '/')
+                    metaTitle.replace(/\|/g, '/')
                   )
                 },
               },
