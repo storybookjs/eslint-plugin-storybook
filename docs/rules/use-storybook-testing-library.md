@@ -2,7 +2,7 @@
 
 <!-- RULE-CATEGORIES:START -->
 
-**Categories**: addon-interactions, recommended
+**Included in these configurations**: <ul><li>addon-interactions</li><li>recommended</li></ul>
 
 <!-- RULE-CATEGORIES:END -->
 

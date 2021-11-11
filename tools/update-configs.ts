@@ -43,7 +43,10 @@ function formatCategory(category: any) {
         plugins: [
           'storybook'
         ],
-        rules: ${formatRules(category.rules)}
+        overrides: [{
+          files: ['*.stories.*'],
+          rules: ${formatRules(category.rules)}
+        }]
       }
     `
   }

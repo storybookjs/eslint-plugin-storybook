@@ -2,7 +2,7 @@
 
 <!-- RULE-CATEGORIES:START -->
 
-**Categories**: recommended
+**Included in these configurations**: <ul><li>recommended</li></ul>
 
 <!-- RULE-CATEGORIES:END -->
 

@@ -78,7 +78,7 @@ const overWriteRuleDocs = (rule: any, ruleDocFile: string) => {
     ruleDocFile.substring(0, ruleCategoriesStartIndex - 1),
     ruleCategoriesBeginMarker,
     '',
-    `**Categories**: ${rule[4]}`,
+    `**Included in these configurations**: ${rule[4]}`,
     ruleDocFile.substring(ruleCategoriesEndIndex),
   ].join('\n')
 }

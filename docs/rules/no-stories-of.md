@@ -2,7 +2,7 @@
 
 <!-- RULE-CATEGORIES:START -->
 
-**Categories**: csf-strict
+**Included in these configurations**: <ul><li>csf-strict</li></ul>
 
 <!-- RULE-CATEGORIES:END -->
 

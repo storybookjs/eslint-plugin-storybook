@@ -35,67 +35,43 @@ Best practice rules for Storybook
 You'll first need to install [ESLint](https://eslint.org/):
 
 ```sh
-npm i eslint --save-dev
+npm install eslint --save-dev
+# or
+yarn add eslint --dev
 ```
 
 Next, install `eslint-plugin-storybook`:
 
 ```sh
 npm install eslint-plugin-storybook --save-dev
+# or
+yarn add eslint-plugin-storybook --dev
 ```
 
 ## Usage
 
-Add `storybook` to the plugins section of your `.eslintrc` configuration file. You can omit the `eslint-plugin-` prefix:
+Use `.eslintrc.*` file to configure rules. See also: https://eslint.org/docs/user-guide/configuring
 
-```json
+Add `plugin:storybook/recommended` to the extends section of your `.eslintrc` configuration file. Note that we can omit the `eslint-plugin-` prefix:
+
+```js
 {
-  "plugins": ["storybook"]
+  // extend plugin:storybook/<configuration>, such as:
+  "extends": ["plugin:storybook/recommended"],
+  // Optional: override/add/disable rules settings here, such as:
+  "rules": {
+    // 'storybook/no-redundant-story-name': 'error'
+  }
 }
 ```
 
-Then, define which rule configurations to extend in your eslint file. Before that, it's important to understand that **Storybook linting rules should only be applied in your stories files**. You don't want rules to affect your other files such as production or test code as the rules might conflict with rules from other ESLint plugins.
+This plugin will only be applied to files following the `*.stories.*` (we recommend this) or `*.story.*` pattern. This is an automatic configuration, so you don't have to do anything.
 
-### Run the plugin only against story files
+### MDX Support
 
-We don't want `eslint-plugin-storybook` to run against your whole codebase. To run this plugin only against your stories files, you have the following options:
+This plugin does not support MDX files.
 
-#### ESLint `overrides`
-
-One way of restricting ESLint config by file patterns is by using [ESLint `overrides`](https://eslint.org/docs/user-guide/configuring/configuration-files#configuration-based-on-glob-patterns).
-
-Assuming you are using the recommended `.stories` extension in your files, the following config would run `eslint-plugin-storybook` only against your stories files:
-
-```javascript
-// .eslintrc
-{
-  // 1) Here we have our usual config which applies to the whole project, so we don't put storybook preset here.
-  "extends": ["airbnb", "plugin:prettier/recommended"],
-
-  // 2) We load eslint-plugin-storybook globally with other ESLint plugins.
-  "plugins": ["react-hooks", "storybook"],
-
-  "overrides": [
-    {
-      // 3) Now we enable eslint-plugin-storybook rules or preset only for matching files!
-      // you can use the one defined in your main.js
-      "files": ['src/**/*.stories.@(js|jsx|ts|tsx)'],
-      "extends": ["plugin:storybook/recommended"],
-
-      // 4) Optional: you can override or disable specific rules here if you want. Else delete this
-      "rules": {
-        'storybook/no-redundant-story-name': 'error'
-      }
-    },
-  ],
-};
-```
-
-#### ESLint Cascading and Hierarchy
-
-Another approach for customizing ESLint config by paths is through [ESLint Cascading and Hierarchy](https://eslint.org/docs/user-guide/configuring/configuration-files#cascading-and-hierarchy). This is useful if all your stories are placed under the same folder, so you can place there another `.eslintrc` where you enable `eslint-plugin-storybook` for applying it only to the files under such folder, rather than enabling it on your global `.eslintrc` which would apply to your whole project.
-
-## Supported Rules
+## Supported Rules and configurations
 
 <!-- RULES-LIST:START -->
 
@@ -103,18 +79,18 @@ Another approach for customizing ESLint config by paths is through [ESLint Casca
 
 **Configurations**: csf, csf-strict, addon-interactions, recommended
 
-| Name                                                                                       | Description                                       | 🔧  | Included in configurations      |
-| ------------------------------------------------------------------------------------------ | ------------------------------------------------- | --- | ------------------------------- |
-| [`storybook/await-interactions`](./docs/rules/await-interactions.md)                       | Interactions should be awaited                    | 🔧  | addon-interactions, recommended |
-| [`storybook/csf-component`](./docs/rules/csf-component.md)                                 | The component property should be set              |     | csf                             |
-| [`storybook/default-exports`](./docs/rules/default-exports.md)                             | Story files should have a default export          |     | csf, recommended                |
-| [`storybook/hierarchy-separator`](./docs/rules/hierarchy-separator.md)                     | Deprecated hierachy separator in title property   | 🔧  | csf, recommended                |
-| [`storybook/no-redundant-story-name`](./docs/rules/no-redundant-story-name.md)             | A story should not have a redundant name property | 🔧  | csf, recommended                |
-| [`storybook/no-stories-of`](./docs/rules/no-stories-of.md)                                 | storiesOf is deprecated and should not be used    |     | csf-strict                      |
-| [`storybook/no-title-property-in-meta`](./docs/rules/no-title-property-in-meta.md)         | Do not define a title in meta                     | 🔧  | csf-strict                      |
-| [`storybook/prefer-pascal-case`](./docs/rules/prefer-pascal-case.md)                       | Stories should use PascalCase                     | 🔧  | recommended                     |
-| [`storybook/use-storybook-expect`](./docs/rules/use-storybook-expect.md)                   | Use expect from `@storybook/jest`                 | 🔧  | addon-interactions, recommended |
-| [`storybook/use-storybook-testing-library`](./docs/rules/use-storybook-testing-library.md) | Do not use testing-library directly on stories    | 🔧  | addon-interactions, recommended |
+| Name                                                                                       | Description                                       | 🔧  | Included in configurations                               |
+| ------------------------------------------------------------------------------------------ | ------------------------------------------------- | --- | -------------------------------------------------------- |
+| [`storybook/await-interactions`](./docs/rules/await-interactions.md)                       | Interactions should be awaited                    | 🔧  | <ul><li>addon-interactions</li><li>recommended</li></ul> |
+| [`storybook/csf-component`](./docs/rules/csf-component.md)                                 | The component property should be set              |     | <ul><li>csf</li></ul>                                    |
+| [`storybook/default-exports`](./docs/rules/default-exports.md)                             | Story files should have a default export          |     | <ul><li>csf</li><li>recommended</li></ul>                |
+| [`storybook/hierarchy-separator`](./docs/rules/hierarchy-separator.md)                     | Deprecated hierachy separator in title property   | 🔧  | <ul><li>csf</li><li>recommended</li></ul>                |
+| [`storybook/no-redundant-story-name`](./docs/rules/no-redundant-story-name.md)             | A story should not have a redundant name property | 🔧  | <ul><li>csf</li><li>recommended</li></ul>                |
+| [`storybook/no-stories-of`](./docs/rules/no-stories-of.md)                                 | storiesOf is deprecated and should not be used    |     | <ul><li>csf-strict</li></ul>                             |
+| [`storybook/no-title-property-in-meta`](./docs/rules/no-title-property-in-meta.md)         | Do not define a title in meta                     | 🔧  | <ul><li>csf-strict</li></ul>                             |
+| [`storybook/prefer-pascal-case`](./docs/rules/prefer-pascal-case.md)                       | Stories should use PascalCase                     | 🔧  | <ul><li>recommended</li></ul>                            |
+| [`storybook/use-storybook-expect`](./docs/rules/use-storybook-expect.md)                   | Use expect from `@storybook/jest`                 | 🔧  | <ul><li>addon-interactions</li><li>recommended</li></ul> |
+| [`storybook/use-storybook-testing-library`](./docs/rules/use-storybook-testing-library.md) | Do not use testing-library directly on stories    | 🔧  | <ul><li>addon-interactions</li><li>recommended</li></ul> |
 
 <!-- RULES-LIST:END -->
 
