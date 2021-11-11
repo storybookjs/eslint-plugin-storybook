@@ -5,10 +5,15 @@
  */
 export = {
   plugins: ['storybook'],
-  rules: {
-    'import/no-anonymous-default-export': 'off',
-    'storybook/await-interactions': 'error',
-    'storybook/use-storybook-expect': 'error',
-    'storybook/use-storybook-testing-library': 'error',
-  },
+  overrides: [
+    {
+      files: ['*.stories.*'],
+      rules: {
+        'import/no-anonymous-default-export': 'off',
+        'storybook/await-interactions': 'error',
+        'storybook/use-storybook-expect': 'error',
+        'storybook/use-storybook-testing-library': 'error',
+      },
+    },
+  ],
 }
