@@ -44,7 +44,7 @@ function formatCategory(category: any) {
           'storybook'
         ],
         overrides: [{
-          files: ['*.stories.*'],
+          files: ['*.stor(y|ies).([mc]?[jt])sx?'],
           rules: ${formatRules(category.rules)}
         }]
       }

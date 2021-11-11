@@ -83,7 +83,7 @@ This plugin does not support MDX files.
 | ------------------------------------------------------------------------------------------ | ------------------------------------------------- | --- | -------------------------------------------------------- |
 | [`storybook/await-interactions`](./docs/rules/await-interactions.md)                       | Interactions should be awaited                    | 🔧  | <ul><li>addon-interactions</li><li>recommended</li></ul> |
 | [`storybook/csf-component`](./docs/rules/csf-component.md)                                 | The component property should be set              |     | <ul><li>csf</li></ul>                                    |
-| [`storybook/default-exports`](./docs/rules/default-exports.md)                             | Story files should have a default export          |     | <ul><li>csf</li><li>recommended</li></ul>                |
+| [`storybook/default-exports`](./docs/rules/default-exports.md)                             | Story files should have a default export          | 🔧  | <ul><li>csf</li><li>recommended</li></ul>                |
 | [`storybook/hierarchy-separator`](./docs/rules/hierarchy-separator.md)                     | Deprecated hierachy separator in title property   | 🔧  | <ul><li>csf</li><li>recommended</li></ul>                |
 | [`storybook/no-redundant-story-name`](./docs/rules/no-redundant-story-name.md)             | A story should not have a redundant name property | 🔧  | <ul><li>csf</li><li>recommended</li></ul>                |
 | [`storybook/no-stories-of`](./docs/rules/no-stories-of.md)                                 | storiesOf is deprecated and should not be used    |     | <ul><li>csf-strict</li></ul>                             |

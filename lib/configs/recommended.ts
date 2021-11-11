@@ -7,7 +7,7 @@ export = {
   plugins: ['storybook'],
   overrides: [
     {
-      files: ['*.stories.*'],
+      files: ['*.stor(y|ies).([mc]?[jt])sx?'],
       rules: {
         'import/no-anonymous-default-export': 'off',
         'storybook/await-interactions': 'error',
