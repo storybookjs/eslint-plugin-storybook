@@ -1,3 +1,15 @@
+# v0.3.5 (Thu Nov 11 2021)
+
+#### 🐛 Bug Fix
+
+- simplify override file regex [#41](https://github.com/storybookjs/eslint-plugin-storybook/pull/41) ([@yannbf](https://github.com/yannbf))
+
+#### Authors: 1
+
+- Yann Braga ([@yannbf](https://github.com/yannbf))
+
+---
+
 # v0.3.4 (Thu Nov 11 2021)
 
 #### 🐛 Bug Fix
