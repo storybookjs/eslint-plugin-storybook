@@ -4,7 +4,6 @@
  */
 
 import { ExportDefaultDeclaration, Node } from '@typescript-eslint/types/dist/ast-spec'
-import { isObjectExpression } from '../utils/ast'
 import { getMetaObjectExpression } from '../utils'
 import { CategoryId } from '../utils/constants'
 import { createStorybookRule } from '../utils/create-storybook-rule'
