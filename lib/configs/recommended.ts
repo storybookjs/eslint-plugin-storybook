@@ -15,6 +15,7 @@ export = {
         'storybook/hierarchy-separator': 'warn',
         'storybook/no-redundant-story-name': 'warn',
         'storybook/prefer-pascal-case': 'warn',
+        'storybook/story-exports': 'error',
         'storybook/use-storybook-expect': 'error',
         'storybook/use-storybook-testing-library': 'error',
       },
