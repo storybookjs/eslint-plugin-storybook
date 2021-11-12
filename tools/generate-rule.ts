@@ -163,7 +163,7 @@ const generateRule = async () => {
       # ${ruleId}
 
       <!-- RULE-CATEGORIES:START -->
-      <!-- RULE-LIST:END -->
+      <!-- RULE-CATEGORIES:END -->
 
       ## Rule Details
 
