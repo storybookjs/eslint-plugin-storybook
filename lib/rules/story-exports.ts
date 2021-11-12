@@ -89,7 +89,7 @@ export = createStorybookRule({
           return
         }
 
-        const fix = (fixer) => fixer.insertTextAfter(node, `\nexport const Default = {}\n`)
+        const fix = (fixer) => fixer.insertTextAfter(node, `\n\nexport const Default = {}`)
 
         context.report({
           node,
