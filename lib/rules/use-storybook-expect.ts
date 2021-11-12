@@ -1,5 +1,5 @@
 /**
- * @fileoverview Use expect from '@storybook/expect'
+ * @fileoverview Use expect from '@storybook/jest'
  * @author Yann Braga
  */
 
