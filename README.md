@@ -57,15 +57,32 @@ Add `plugin:storybook/recommended` to the extends section of your `.eslintrc` co
 ```js
 {
   // extend plugin:storybook/<configuration>, such as:
-  "extends": ["plugin:storybook/recommended"],
-  // Optional: override/add/disable rules settings here, such as:
-  "rules": {
-    // 'storybook/no-redundant-story-name': 'error'
-  }
+  "extends": ["plugin:storybook/recommended"]
 }
 ```
 
 This plugin will only be applied to files following the `*.stories.*` (we recommend this) or `*.story.*` pattern. This is an automatic configuration, so you don't have to do anything.
+
+### Overriding/disabling rules
+
+Optionally, you can override, add or disable rules settings. You likely don't want these settings to be applied in every file, so make sure that you add a `overrides` section in your `.eslintrc.*` file that applies the overrides only to your stories files.
+
+```js
+{
+  "overrides": [
+    {
+      // or whatever matches stories specified in .storybook/main.js
+      "files": ['*.stories.@(ts|tsx|js|mjs|cjs)'],
+      "rules": {
+        // example of overriding a rule
+        'storybook/hierarchy-separator': 'error',
+        // example of disabling a rule
+        'storybook/defaul-exports': 'off',
+      }
+    }
+  ]
+}
+```
 
 ### MDX Support
 
