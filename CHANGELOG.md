@@ -1,3 +1,19 @@
+# v0.4.0 (Fri Nov 12 2021)
+
+#### 🚀 Enhancement
+
+- Rule: add story-exports [#44](https://github.com/storybookjs/eslint-plugin-storybook/pull/44) ([@yannbf](https://github.com/yannbf))
+
+#### 🐛 Bug Fix
+
+- docs(README): add overrides section [#43](https://github.com/storybookjs/eslint-plugin-storybook/pull/43) ([@yannbf](https://github.com/yannbf))
+
+#### Authors: 1
+
+- Yann Braga ([@yannbf](https://github.com/yannbf))
+
+---
+
 # v0.3.5 (Thu Nov 11 2021)
 
 #### 🐛 Bug Fix
