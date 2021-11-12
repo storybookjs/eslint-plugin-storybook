@@ -96,18 +96,19 @@ This plugin does not support MDX files.
 
 **Configurations**: csf, csf-strict, addon-interactions, recommended
 
-| Name                                                                                       | Description                                       | 🔧  | Included in configurations                               |
-| ------------------------------------------------------------------------------------------ | ------------------------------------------------- | --- | -------------------------------------------------------- |
-| [`storybook/await-interactions`](./docs/rules/await-interactions.md)                       | Interactions should be awaited                    | 🔧  | <ul><li>addon-interactions</li><li>recommended</li></ul> |
-| [`storybook/csf-component`](./docs/rules/csf-component.md)                                 | The component property should be set              |     | <ul><li>csf</li></ul>                                    |
-| [`storybook/default-exports`](./docs/rules/default-exports.md)                             | Story files should have a default export          | 🔧  | <ul><li>csf</li><li>recommended</li></ul>                |
-| [`storybook/hierarchy-separator`](./docs/rules/hierarchy-separator.md)                     | Deprecated hierachy separator in title property   | 🔧  | <ul><li>csf</li><li>recommended</li></ul>                |
-| [`storybook/no-redundant-story-name`](./docs/rules/no-redundant-story-name.md)             | A story should not have a redundant name property | 🔧  | <ul><li>csf</li><li>recommended</li></ul>                |
-| [`storybook/no-stories-of`](./docs/rules/no-stories-of.md)                                 | storiesOf is deprecated and should not be used    |     | <ul><li>csf-strict</li></ul>                             |
-| [`storybook/no-title-property-in-meta`](./docs/rules/no-title-property-in-meta.md)         | Do not define a title in meta                     | 🔧  | <ul><li>csf-strict</li></ul>                             |
-| [`storybook/prefer-pascal-case`](./docs/rules/prefer-pascal-case.md)                       | Stories should use PascalCase                     | 🔧  | <ul><li>recommended</li></ul>                            |
-| [`storybook/use-storybook-expect`](./docs/rules/use-storybook-expect.md)                   | Use expect from `@storybook/jest`                 | 🔧  | <ul><li>addon-interactions</li><li>recommended</li></ul> |
-| [`storybook/use-storybook-testing-library`](./docs/rules/use-storybook-testing-library.md) | Do not use testing-library directly on stories    | 🔧  | <ul><li>addon-interactions</li><li>recommended</li></ul> |
+| Name                                                                                       | Description                                         | 🔧  | Included in configurations                               |
+| ------------------------------------------------------------------------------------------ | --------------------------------------------------- | --- | -------------------------------------------------------- |
+| [`storybook/await-interactions`](./docs/rules/await-interactions.md)                       | Interactions should be awaited                      | 🔧  | <ul><li>addon-interactions</li><li>recommended</li></ul> |
+| [`storybook/csf-component`](./docs/rules/csf-component.md)                                 | The component property should be set                |     | <ul><li>csf</li></ul>                                    |
+| [`storybook/default-exports`](./docs/rules/default-exports.md)                             | Story files should have a default export            | 🔧  | <ul><li>csf</li><li>recommended</li></ul>                |
+| [`storybook/hierarchy-separator`](./docs/rules/hierarchy-separator.md)                     | Deprecated hierachy separator in title property     | 🔧  | <ul><li>csf</li><li>recommended</li></ul>                |
+| [`storybook/no-redundant-story-name`](./docs/rules/no-redundant-story-name.md)             | A story should not have a redundant name property   | 🔧  | <ul><li>csf</li><li>recommended</li></ul>                |
+| [`storybook/no-stories-of`](./docs/rules/no-stories-of.md)                                 | storiesOf is deprecated and should not be used      |     | <ul><li>csf-strict</li></ul>                             |
+| [`storybook/no-title-property-in-meta`](./docs/rules/no-title-property-in-meta.md)         | Do not define a title in meta                       | 🔧  | <ul><li>csf-strict</li></ul>                             |
+| [`storybook/prefer-pascal-case`](./docs/rules/prefer-pascal-case.md)                       | Stories should use PascalCase                       | 🔧  | <ul><li>recommended</li></ul>                            |
+| [`storybook/story-exports`](./docs/rules/story-exports.md)                                 | A story file must contain at least one story export | 🔧  | <ul><li>recommended</li><li>csf</li></ul>                |
+| [`storybook/use-storybook-expect`](./docs/rules/use-storybook-expect.md)                   | Use expect from `@storybook/jest`                   | 🔧  | <ul><li>addon-interactions</li><li>recommended</li></ul> |
+| [`storybook/use-storybook-testing-library`](./docs/rules/use-storybook-testing-library.md) | Do not use testing-library directly on stories      | 🔧  | <ul><li>addon-interactions</li><li>recommended</li></ul> |
 
 <!-- RULES-LIST:END -->
 
