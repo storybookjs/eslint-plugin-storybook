@@ -89,12 +89,13 @@ export = createStorybookRule({
           return
         }
 
-        const fix = (fixer) => fixer.insertTextAfter(node, `\n\nexport const Default = {}`)
+        // @TODO: bring apply this autofix with CSF3 release
+        // const fix = (fixer) => fixer.insertTextAfter(node, `\n\nexport const Default = {}`)
 
         context.report({
           node,
           messageId: 'shouldHaveStoryExport',
-          fix,
+          // fix,
         })
       },
     }

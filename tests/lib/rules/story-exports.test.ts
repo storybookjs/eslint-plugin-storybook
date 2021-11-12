@@ -37,13 +37,13 @@ ruleTester.run('story-exports', rule, {
         export default {
           component: Button
         } as ComponentMeta<typeof RestaurantDetailPage>`,
-      output: dedent`
-        export default {
-          component: Button
-        } as ComponentMeta<typeof RestaurantDetailPage>
+      // output: dedent`
+      //   export default {
+      //     component: Button
+      //   } as ComponentMeta<typeof RestaurantDetailPage>
 
-        export const Default = {}
-      `,
+      //   export const Default = {}
+      // `,
       errors: [
         {
           messageId: 'shouldHaveStoryExport',
@@ -58,15 +58,15 @@ ruleTester.run('story-exports', rule, {
 
         export const mockData = {}
       `,
-      output: dedent`
-        export default {
-          excludeStories: /.*Data$/,
-        }
+      // output: dedent`
+      //   export default {
+      //     excludeStories: /.*Data$/,
+      //   }
 
-        export const mockData = {}
+      //   export const mockData = {}
 
-        export const Default = {}
-      `,
+      //   export const Default = {}
+      // `,
       errors: [
         {
           messageId: 'shouldHaveStoryExport',
