@@ -1,3 +1,15 @@
+# v0.4.1 (Sat Nov 13 2021)
+
+#### 🐛 Bug Fix
+
+- Unify documentation to use @storybook/jest [#46](https://github.com/storybookjs/eslint-plugin-storybook/pull/46) ([@IanVS](https://github.com/IanVS))
+
+#### Authors: 1
+
+- Ian VanSchooten ([@IanVS](https://github.com/IanVS))
+
+---
+
 # v0.4.0 (Fri Nov 12 2021)
 
 #### 🚀 Enhancement
