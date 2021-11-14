@@ -48,6 +48,32 @@ ruleTester.run('await-interactions', rule, {
       }
     `,
     'await expect(foo).toBe(bar)',
+    // @TODO: https://github.com/storybookjs/eslint-plugin-storybook/issues/48
+    dedent`
+      Basic.play = async () => {
+        await waitForElementToBeRemoved(() => canvas.findByText('Loading...'))
+        await waitForElementToBeRemoved(() => userEvent.hover(canvas.getByTestId('password-error-info'))
+      }
+    `,
+    // @TODO: https://github.com/storybookjs/eslint-plugin-storybook/issues/47
+    dedent`
+      import { userEvent } from '../utils'
+      Basic.play = async () => {
+        userEvent.click(canvas.getByRole('button'))
+      }
+    `,
+    // @TODO: https://github.com/storybookjs/eslint-plugin-storybook/issues/28
+    dedent`
+      Block.parameters = {
+        async puppeteerTest(page) {
+          const element = await page.$('[data-test-block]');
+          await element.hover();
+          const textContent = await element.getProperty('textContent');
+          const text = await textContent.jsonValue();
+          expect(text).toBe('I am hovered');
+        },
+      };
+    `,
   ],
   invalid: [
     {
@@ -233,6 +259,29 @@ ruleTester.run('await-interactions', rule, {
         {
           messageId: 'interactionShouldBeAwaited',
           data: { method: 'toHaveBeenCalled' },
+        },
+      ],
+    },
+    // @TODO: https://github.com/storybookjs/eslint-plugin-storybook/issues/49
+    {
+      code: dedent`
+        export const SecondStory = {
+          play: async (context) => {
+            FirstStory.play(context)
+          }
+        }
+      `,
+      output: dedent`
+        export const SecondStory = {
+          play: async (context) => {
+            await FirstStory.play(context)
+          }
+        }
+      `,
+      errors: [
+        {
+          messageId: 'interactionShouldBeAwaited',
+          data: { method: 'play' },
         },
       ],
     },
