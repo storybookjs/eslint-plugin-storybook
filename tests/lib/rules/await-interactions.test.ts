@@ -264,28 +264,28 @@ ruleTester.run('await-interactions', rule, {
         },
       ],
     },
-    // // @TODO: https://github.com/storybookjs/eslint-plugin-storybook/issues/49
-    // {
-    //   code: dedent`
-    //     export const SecondStory = {
-    //       play: async (context) => {
-    //         FirstStory.play(context)
-    //       }
-    //     }
-    //   `,
-    //   output: dedent`
-    //     export const SecondStory = {
-    //       play: async (context) => {
-    //         await FirstStory.play(context)
-    //       }
-    //     }
-    //   `,
-    //   errors: [
-    //     {
-    //       messageId: 'interactionShouldBeAwaited',
-    //       data: { method: 'play' },
-    //     },
-    //   ],
-    // },
+    // @TODO: https://github.com/storybookjs/eslint-plugin-storybook/issues/49
+    {
+      code: dedent`
+        export const SecondStory = {
+          play: async (context) => {
+            FirstStory.play(context)
+          }
+        }
+      `,
+      output: dedent`
+        export const SecondStory = {
+          play: async (context) => {
+            await FirstStory.play(context)
+          }
+        }
+      `,
+      errors: [
+        {
+          messageId: 'interactionShouldBeAwaited',
+          data: { method: 'play' },
+        },
+      ],
+    },
   ],
 })

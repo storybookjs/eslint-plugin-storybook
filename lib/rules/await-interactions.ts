@@ -54,6 +54,7 @@ export = createStorybookRule({
       'waitForElement',
       'waitForDomChange',
       'userEvent',
+      'play',
     ]
 
     const getMethodThatShouldBeAwaited = (expr: CallExpression) => {
