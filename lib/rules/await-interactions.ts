@@ -7,7 +7,15 @@ import type { CallExpression, Identifier, Node } from '@typescript-eslint/types/
 
 import { createStorybookRule } from '../utils/create-storybook-rule'
 import { CategoryId } from '../utils/constants'
-import { isMemberExpression, isIdentifier, isAwaitExpression, isCallExpression } from '../utils/ast'
+import {
+  isMemberExpression,
+  isIdentifier,
+  isAwaitExpression,
+  isCallExpression,
+  isArrowFunctionExpression,
+  isReturnStatement,
+  isTSNonNullExpression,
+} from '../utils/ast'
 
 //------------------------------------------------------------------------------
 // Rule Definition
@@ -47,18 +55,34 @@ export = createStorybookRule({
       'waitForElement',
       'waitForDomChange',
       'userEvent',
+      'play',
     ]
 
     const getMethodThatShouldBeAwaited = (expr: CallExpression) => {
       const shouldAwait = (name: any) => {
         return FUNCTIONS_TO_BE_AWAITED.includes(name) || name.startsWith('findBy')
       }
+
+      // When an expression is a return value it doesn't need to be awaited
+      if (isArrowFunctionExpression(expr.parent) || isReturnStatement(expr.parent)) {
+        return null
+      }
+
       if (
         isMemberExpression(expr.callee) &&
         isIdentifier(expr.callee.object) &&
         shouldAwait(expr.callee.object.name)
       ) {
         return expr.callee.object
+      }
+
+      if (
+        isTSNonNullExpression(expr.callee) &&
+        isMemberExpression(expr.callee.expression) &&
+        isIdentifier(expr.callee.expression.property) &&
+        shouldAwait(expr.callee.expression.property.name)
+      ) {
+        return expr.callee.expression.property
       }
 
       if (
