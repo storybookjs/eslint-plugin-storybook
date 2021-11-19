@@ -48,7 +48,6 @@ ruleTester.run('await-interactions', rule, {
       }
     `,
     'await expect(foo).toBe(bar)',
-    // https://github.com/storybookjs/eslint-plugin-storybook/issues/48
     dedent`
       Basic.play = async () => {
         await waitForElementToBeRemoved(() => canvas.findByText('Loading...'))
@@ -264,23 +263,28 @@ ruleTester.run('await-interactions', rule, {
         },
       ],
     },
-    // https://github.com/storybookjs/eslint-plugin-storybook/issues/49
     {
       code: dedent`
-        export const SecondStory = {
+        export const ThirdStory = {
           play: async (context) => {
             FirstStory.play(context)
+            SecondStory.play!(context)
           }
         }
       `,
       output: dedent`
-        export const SecondStory = {
+        export const ThirdStory = {
           play: async (context) => {
             await FirstStory.play(context)
+            await SecondStory.play!(context)
           }
         }
       `,
       errors: [
+        {
+          messageId: 'interactionShouldBeAwaited',
+          data: { method: 'play' },
+        },
         {
           messageId: 'interactionShouldBeAwaited',
           data: { method: 'play' },

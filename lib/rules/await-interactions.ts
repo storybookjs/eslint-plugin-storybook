@@ -14,6 +14,7 @@ import {
   isCallExpression,
   isArrowFunctionExpression,
   isReturnStatement,
+  isTSNonNullExpression,
 } from '../utils/ast'
 
 //------------------------------------------------------------------------------
@@ -73,6 +74,15 @@ export = createStorybookRule({
         shouldAwait(expr.callee.object.name)
       ) {
         return expr.callee.object
+      }
+
+      if (
+        isTSNonNullExpression(expr.callee) &&
+        isMemberExpression(expr.callee.expression) &&
+        isIdentifier(expr.callee.expression.property) &&
+        shouldAwait(expr.callee.expression.property.name)
+      ) {
+        return expr.callee.expression.property
       }
 
       if (
