@@ -48,13 +48,12 @@ ruleTester.run('await-interactions', rule, {
       }
     `,
     'await expect(foo).toBe(bar)',
-    // // @TODO: https://github.com/storybookjs/eslint-plugin-storybook/issues/48
-    // dedent`
-    //   Basic.play = async () => {
-    //     await waitForElementToBeRemoved(() => canvas.findByText('Loading...'))
-    //     await waitForElementToBeRemoved(() => userEvent.hover(canvas.getByTestId('password-error-info'))
-    //   }
-    // `,
+    dedent`
+      Basic.play = async () => {
+        await waitForElementToBeRemoved(() => canvas.findByText('Loading...'))
+        await waitForElementToBeRemoved(() => userEvent.hover(canvas.getByTestId('password-error-info')))
+      }
+    `,
     // // @TODO: https://github.com/storybookjs/eslint-plugin-storybook/issues/47
     // dedent`
     //   import { userEvent } from '../utils'
