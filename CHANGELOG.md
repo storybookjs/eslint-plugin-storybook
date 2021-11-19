@@ -1,3 +1,16 @@
+# v0.4.2 (Fri Nov 19 2021)
+
+#### 🐛 Bug Fix
+
+- Fix await interactions use cases [#51](https://github.com/storybookjs/eslint-plugin-storybook/pull/51) ([@yannbf](https://github.com/yannbf) [@shilman](https://github.com/shilman))
+
+#### Authors: 2
+
+- Michael Shilman ([@shilman](https://github.com/shilman))
+- Yann Braga ([@yannbf](https://github.com/yannbf))
+
+---
+
 # v0.4.1 (Sat Nov 13 2021)
 
 #### 🐛 Bug Fix
