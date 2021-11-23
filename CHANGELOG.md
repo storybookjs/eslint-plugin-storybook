@@ -1,3 +1,15 @@
+# v0.5.0 (Tue Nov 23 2021)
+
+#### 🚀 Enhancement
+
+- Rule: pass context when invoking play [#53](https://github.com/storybookjs/eslint-plugin-storybook/pull/53) ([@yannbf](https://github.com/yannbf))
+
+#### Authors: 1
+
+- Yann Braga ([@yannbf](https://github.com/yannbf))
+
+---
+
 # v0.4.2 (Fri Nov 19 2021)
 
 #### 🐛 Bug Fix
