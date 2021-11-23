@@ -5876,11 +5876,6 @@ ts-node@^9, ts-node@^9.1.1:
     source-map-support "^0.5.17"
     yn "3.1.1"
 
-tsc@^2.0.3:
-  version "2.0.3"
-  resolved "https://registry.npmjs.org/tsc/-/tsc-2.0.3.tgz#037fe579e3bd67a5cbdaa604b43c6c1991b04bef"
-  integrity sha512-SN+9zBUtrpUcOpaUO7GjkEHgWtf22c7FKbKCA4e858eEM7Qz86rRDpgOU2lBIDf0fLCsEg65ms899UMUIB2+Ow==
-
 tslib@1.10.0:
   version "1.10.0"
   resolved "https://registry.npmjs.org/tslib/-/tslib-1.10.0.tgz#c3c19f95973fb0a62973fb09d90d961ee43e5c8a"
