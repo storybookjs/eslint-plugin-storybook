@@ -1,3 +1,15 @@
+# v0.5.1 (Mon Nov 29 2021)
+
+#### 🐛 Bug Fix
+
+- Fix: define hasSuggestions to all fixable rules [#55](https://github.com/storybookjs/eslint-plugin-storybook/pull/55) ([@yannbf](https://github.com/yannbf))
+
+#### Authors: 1
+
+- Yann Braga ([@yannbf](https://github.com/yannbf))
+
+---
+
 # v0.5.0 (Tue Nov 23 2021)
 
 #### 🚀 Enhancement
