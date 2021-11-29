@@ -36,6 +36,7 @@ export = createStorybookRule({
     },
     type: 'problem',
     fixable: 'code',
+    hasSuggestions: true,
     schema: [],
   },
 

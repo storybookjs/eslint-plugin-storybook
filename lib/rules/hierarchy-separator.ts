@@ -18,6 +18,7 @@ export = createStorybookRule({
   meta: {
     type: 'problem',
     fixable: 'code',
+    hasSuggestions: true,
     docs: {
       description: 'Deprecated hierachy separator in title property',
       categories: [CategoryId.CSF, CategoryId.RECOMMENDED],

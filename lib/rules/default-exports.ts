@@ -29,6 +29,7 @@ export = createStorybookRule({
       fixSuggestion: 'Add default export',
     },
     fixable: 'code',
+    hasSuggestions: true,
     schema: [],
   },
 
