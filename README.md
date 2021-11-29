@@ -77,7 +77,7 @@ Optionally, you can override, add or disable rules settings. You likely don't wa
         // example of overriding a rule
         'storybook/hierarchy-separator': 'error',
         // example of disabling a rule
-        'storybook/defaul-exports': 'off',
+        'storybook/default-exports': 'off',
       }
     }
   ]
