@@ -23,7 +23,7 @@ export = createStorybookRule({
   defaultOptions: [],
   meta: {
     type: 'suggestion',
-    fixable: 'code', // Or `code` or `whitespace`,
+    fixable: 'code',
     hasSuggestions: true,
     schema: [],
     docs: {

@@ -107,7 +107,7 @@ This plugin does not support MDX files.
 | [`storybook/no-stories-of`](./docs/rules/no-stories-of.md)                                 | storiesOf is deprecated and should not be used              |     | <ul><li>csf-strict</li></ul>                             |
 | [`storybook/no-title-property-in-meta`](./docs/rules/no-title-property-in-meta.md)         | Do not define a title in meta                               | 🔧  | <ul><li>csf-strict</li></ul>                             |
 | [`storybook/prefer-pascal-case`](./docs/rules/prefer-pascal-case.md)                       | Stories should use PascalCase                               | 🔧  | <ul><li>recommended</li></ul>                            |
-| [`storybook/story-exports`](./docs/rules/story-exports.md)                                 | A story file must contain at least one story export         | 🔧  | <ul><li>recommended</li><li>csf</li></ul>                |
+| [`storybook/story-exports`](./docs/rules/story-exports.md)                                 | A story file must contain at least one story export         |     | <ul><li>recommended</li><li>csf</li></ul>                |
 | [`storybook/use-storybook-expect`](./docs/rules/use-storybook-expect.md)                   | Use expect from `@storybook/jest`                           | 🔧  | <ul><li>addon-interactions</li><li>recommended</li></ul> |
 | [`storybook/use-storybook-testing-library`](./docs/rules/use-storybook-testing-library.md) | Do not use testing-library directly on stories              | 🔧  | <ul><li>addon-interactions</li><li>recommended</li></ul> |
 

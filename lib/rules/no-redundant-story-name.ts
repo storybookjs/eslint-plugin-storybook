@@ -24,6 +24,7 @@ export = createStorybookRule({
   meta: {
     type: 'suggestion',
     fixable: 'code',
+    hasSuggestions: true,
     docs: {
       description: 'A story should not have a redundant name property',
       categories: [CategoryId.CSF, CategoryId.RECOMMENDED],

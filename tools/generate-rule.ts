@@ -14,7 +14,7 @@ const questions = [
     name: 'authorName',
     initial: '',
     message: 'What is your name?',
-    validate: (name: any) => (name === '' ? "Name can't be empty" : true),
+    validate: (name: string) => (name === '' ? "Name can't be empty" : true),
   },
   {
     type: 'text',
@@ -25,18 +25,24 @@ const questions = [
       - If your rule is enforcing the inclusion of something, use a short name without a special prefix.
       - Use dashes between words.
     `),
-    validate: (rule: any) => (rule === '' ? "Rule can't be empty" : true),
+    validate: (rule: string) => (rule === '' ? "Rule can't be empty" : true),
   },
   {
     type: 'text',
     name: 'ruleDescription',
     message: 'Type a short description of this rule',
-    validate: (rule: any) => (rule === '' ? "Description can't be empty" : true),
+    validate: (rule: string) => (rule === '' ? "Description can't be empty" : true),
+  },
+  {
+    type: 'confirm',
+    name: 'isAutoFixable',
+    message: 'Will this rule contain an autofix?',
+    initial: true,
   },
 ]
 
 const generateRule = async () => {
-  const { authorName, ruleId, ruleDescription } = await prompts(questions)
+  const { authorName, ruleId, ruleDescription, isAutoFixable } = await prompts(questions)
 
   if (!authorName) {
     logger.log('Process canceled by the user.')
@@ -76,7 +82,8 @@ const generateRule = async () => {
           messages: {
             anyMessageIdHere: 'Fill me in',
           },
-          fixable: null, // Or \`code\` or \`whitespace\`
+          ${isAutoFixable ? "fixable: 'code'," : ''}
+          ${isAutoFixable ? 'hasSuggestions: true,' : ''}
           schema: [], // Add a schema if the rule has options. Otherwise remove this
         },
 
@@ -212,8 +219,10 @@ const generateRule = async () => {
     cp.execSync(`code "${docFile}"`)
   }
 
-  logger.log('\n🚀 All done! Make sure to run yarn test as you write the rule.')
-  logger.log('❤️  Thanks for helping this plugin get better!')
+  logger.log(
+    '\n🚀 All done! Make sure to run `yarn test` as you write the rule and `yarn update-all` when you are done.'
+  )
+  logger.log(`❤️  Thanks for helping this plugin get better, ${authorName.split(' ')[0]}!`)
 }
 
 generateRule()

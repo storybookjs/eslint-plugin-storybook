@@ -28,7 +28,7 @@ export = createStorybookRule({
       shouldHaveStoryExport: 'The file should have at least one story export',
       addStoryExport: 'Add a story export',
     },
-    fixable: 'code',
+    fixable: null, // change to 'code' once we have autofixes
     schema: [],
   },
 

@@ -17,6 +17,7 @@ export = createStorybookRule({
   meta: {
     type: 'problem',
     fixable: 'code',
+    hasSuggestions: true,
     docs: {
       description: 'Do not define a title in meta',
       categories: [CategoryId.CSF_STRICT],
