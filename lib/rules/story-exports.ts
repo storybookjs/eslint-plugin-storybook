@@ -67,16 +67,27 @@ export = createStorybookRule({
         }
       },
       ExportNamedDeclaration: function (node) {
-        // if there are specifiers, node.declaration should be null
-        if (!node.declaration) return
+        if (node.type !== "ExportNamedDeclaration") return
 
-        const decl = node.declaration
-        if (isVariableDeclaration(decl)) {
-          const { id } = decl.declarations[0]
-          if (isIdentifier(id)) {
-            namedExports.push(id)
+        // Handle individual exports
+        // "if there are specifiers, node.declaration should be null"
+        if (node.declaration) {
+          const decl = node.declaration
+          if (isVariableDeclaration(decl)) {
+            const { id } = decl.declarations[0]
+            if (isIdentifier(id)) {
+              namedExports.push(id)
+            }
           }
         }
+        // Handle export lists
+        let exportListSpecifiers = node.specifiers.filter((specifier) => specifier.type === "ExportSpecifier")
+        exportListSpecifiers.forEach((specifier) => {
+          const { local } = specifier;
+          if (isIdentifier(local)) {
+            namedExports.push(local)
+          }
+        });
       },
       'Program:exit': function (node) {
         if (hasStoriesOfImport || !meta) {

@@ -30,6 +30,22 @@ ruleTester.run('story-exports', rule, {
       import { storiesOf } from '@storybook/react'
       storiesOf('MyComponent', module)
     `,
+    `
+      const Primary = {}
+      const Secondary = {}
+      export default {}
+      export { Primary, Secondary }
+    `,
+    dedent`
+      export default {
+        excludeStories: /.*Data$/,
+      }
+
+      const mockData = {}
+      const Primary = {}
+
+      export { mockData, Primary }
+      `
   ],
   invalid: [
     {
@@ -67,6 +83,23 @@ ruleTester.run('story-exports', rule, {
 
       //   export const Default = {}
       // `,
+      errors: [
+        {
+          messageId: 'shouldHaveStoryExport',
+        },
+      ],
+    },
+    {
+      code: dedent`
+        export default {
+          excludeStories: /.*Data$/,
+        }
+
+        const mockData = {}
+        const Primary = {}
+
+        export { mockData }
+      `,
       errors: [
         {
           messageId: 'shouldHaveStoryExport',
