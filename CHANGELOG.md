@@ -1,3 +1,17 @@
+# v0.5.2 (Thu Dec 02 2021)
+
+#### 🐛 Bug Fix
+
+- fix: support jsx extension [#60](https://github.com/storybookjs/eslint-plugin-storybook/pull/60) ([@yannbf](https://github.com/yannbf))
+- Update README.md spelling error, one letter. [#50](https://github.com/storybookjs/eslint-plugin-storybook/pull/50) ([@daylennguyen](https://github.com/daylennguyen))
+
+#### Authors: 2
+
+- Daylen Nguyen ([@daylennguyen](https://github.com/daylennguyen))
+- Yann Braga ([@yannbf](https://github.com/yannbf))
+
+---
+
 # v0.5.1 (Mon Nov 29 2021)
 
 #### 🐛 Bug Fix
