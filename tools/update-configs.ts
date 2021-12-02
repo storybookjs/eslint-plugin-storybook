@@ -31,7 +31,7 @@ function formatRules(rules: any) {
   return JSON.stringify(obj, null, 2)
 }
 
-const SUPPORTED_EXTENSIONS = ['ts', 'tsx', 'js', 'mjs', 'cjs']
+const SUPPORTED_EXTENSIONS = ['ts', 'tsx', 'js', 'jsx', 'mjs', 'cjs']
 const STORIES_GLOBS = [
   `'*.stories.@(${SUPPORTED_EXTENSIONS.join('|')})'`,
   `'*.story.@(${SUPPORTED_EXTENSIONS.join('|')})'`,
