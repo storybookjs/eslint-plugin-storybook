@@ -1,3 +1,16 @@
+# v0.5.3 (Fri Dec 03 2021)
+
+#### 🐛 Bug Fix
+
+- extend story-exports rule to support export lists, fixes #57 [#58](https://github.com/storybookjs/eslint-plugin-storybook/pull/58) (stephen@Stephens-MacBook-Air.local [@yannbf](https://github.com/yannbf))
+
+#### Authors: 2
+
+- Stephen Marsh ([@stephenhmarsh](https://github.com/stephenhmarsh))
+- Yann Braga ([@yannbf](https://github.com/yannbf))
+
+---
+
 # v0.5.2 (Thu Dec 02 2021)
 
 #### 🐛 Bug Fix
