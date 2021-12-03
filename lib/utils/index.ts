@@ -1,6 +1,13 @@
-import { ExportDefaultDeclaration, Node } from '@typescript-eslint/types/dist/ast-spec'
+import { isExportStory } from '@storybook/csf'
+import { ExportDefaultDeclaration } from '@typescript-eslint/types/dist/ast-spec'
 import { findVariable } from '@typescript-eslint/experimental-utils/dist/ast-utils'
-import { isIdentifier, isObjectExpression, isTSAsExpression, isVariableDeclarator } from './ast'
+import {
+  isIdentifier,
+  isObjectExpression,
+  isTSAsExpression,
+  isVariableDeclaration,
+  isVariableDeclarator,
+} from './ast'
 
 export const docsUrl = (ruleName: any) =>
   `https://github.com/storybookjs/eslint-plugin-storybook/blob/main/docs/rules/${ruleName}.md`
@@ -49,4 +56,30 @@ export const getDescriptor = (metaDeclaration, propertyName) => {
     default:
       throw new Error(`Unexpected descriptor: ${type}`)
   }
+}
+
+export const isValidStoryExport = (node, nonStoryExportsConfig) =>
+  isExportStory(node.name, nonStoryExportsConfig) && node.name !== '__namedExportsOrder'
+
+export const getAllNamedExports = (node) => {
+  // e.g. export { MyStory }
+  if (!node.declaration && node.specifiers) {
+    return node.specifiers.reduce((acc, specifier) => {
+      if (isIdentifier(specifier.exported)) {
+        acc.push(specifier.exported)
+      }
+      return acc
+    }, [])
+  }
+
+  const decl = node.declaration
+  if (isVariableDeclaration(decl)) {
+    const { id } = decl.declarations[0]
+    // e.g. export const MyStory
+    if (isIdentifier(id)) {
+      return [id]
+    }
+  }
+
+  return []
 }

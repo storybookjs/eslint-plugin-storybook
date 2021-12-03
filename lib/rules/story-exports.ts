@@ -3,12 +3,14 @@
  * @author Yann Braga
  */
 
-import { isExportStory } from '@storybook/csf'
-
 import { createStorybookRule } from '../utils/create-storybook-rule'
 import { CategoryId } from '../utils/constants'
-import { getDescriptor, getMetaObjectExpression } from '../utils'
-import { isIdentifier, isVariableDeclaration } from '../utils/ast'
+import {
+  getAllNamedExports,
+  getDescriptor,
+  getMetaObjectExpression,
+  isValidStoryExport,
+} from '../utils'
 
 //------------------------------------------------------------------------------
 // Rule Definition
@@ -39,9 +41,6 @@ export = createStorybookRule({
     // Helpers
     //----------------------------------------------------------------------
 
-    const isValidStoryExport = (node) =>
-      isExportStory(node.name, nonStoryExportsConfig) && node.name !== '__namedExportsOrder'
-
     //----------------------------------------------------------------------
     // Public
     //----------------------------------------------------------------------
@@ -67,23 +66,16 @@ export = createStorybookRule({
         }
       },
       ExportNamedDeclaration: function (node) {
-        // if there are specifiers, node.declaration should be null
-        if (!node.declaration) return
-
-        const decl = node.declaration
-        if (isVariableDeclaration(decl)) {
-          const { id } = decl.declarations[0]
-          if (isIdentifier(id)) {
-            namedExports.push(id)
-          }
-        }
+        namedExports.push(...getAllNamedExports(node))
       },
       'Program:exit': function (node) {
         if (hasStoriesOfImport || !meta) {
           return
         }
 
-        const storyExports = namedExports.filter(isValidStoryExport)
+        const storyExports = namedExports.filter((exp) =>
+          isValidStoryExport(exp, nonStoryExportsConfig)
+        )
 
         if (storyExports.length) {
           return
