@@ -2,6 +2,7 @@ import { isExportStory } from '@storybook/csf'
 import { ExportDefaultDeclaration } from '@typescript-eslint/types/dist/ast-spec'
 import { findVariable } from '@typescript-eslint/experimental-utils/dist/ast-utils'
 import {
+  isFunctionDeclaration,
   isIdentifier,
   isObjectExpression,
   isTSAsExpression,
@@ -62,7 +63,7 @@ export const isValidStoryExport = (node, nonStoryExportsConfig) =>
   isExportStory(node.name, nonStoryExportsConfig) && node.name !== '__namedExportsOrder'
 
 export const getAllNamedExports = (node) => {
-  // e.g. export { MyStory }
+  // e.g. `export { MyStory }`
   if (!node.declaration && node.specifiers) {
     return node.specifiers.reduce((acc, specifier) => {
       if (isIdentifier(specifier.exported)) {
@@ -75,9 +76,16 @@ export const getAllNamedExports = (node) => {
   const decl = node.declaration
   if (isVariableDeclaration(decl)) {
     const { id } = decl.declarations[0]
-    // e.g. export const MyStory
+    // e.g. `export const MyStory`
     if (isIdentifier(id)) {
       return [id]
+    }
+  }
+
+  if (isFunctionDeclaration(decl)) {
+    // e.g. `export function MyStory() {}`
+    if (isIdentifier(decl.id)) {
+      return [decl.id]
     }
   }
 
