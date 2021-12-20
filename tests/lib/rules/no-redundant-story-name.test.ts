@@ -35,6 +35,12 @@ ruleTester.run('no-redundant-story-name', rule, {
       }
       PrimaryButton.storyName = 'The Primary Button'
     `,
+    `
+      export function H1 () {
+        return <h1>Hello</h1>
+      }
+      H1.storyName = 'H1'
+    `,
   ],
 
   invalid: [
