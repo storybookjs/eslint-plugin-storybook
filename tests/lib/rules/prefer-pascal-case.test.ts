@@ -42,6 +42,15 @@ ruleTester.run('prefer-pascal-case', rule, {
       export const SimpleStory = () => <MyComponent data={simpleData} />;
       export const ComplexStory = () => <MyComponent data={complexData} />;
     `,
+    `
+      export default {
+        title: 'MyComponent',
+        component: MyComponent,
+        includeStories: [MyComponent.name],
+      };
+
+      export const SimpleStory = () => <MyComponent />;
+    `,
   ],
 
   invalid: [
@@ -101,10 +110,8 @@ ruleTester.run('prefer-pascal-case', rule, {
           includeStories: /.*Story$/,
           excludeStories: /.*Data$/,
         };
-
         export const simpleData = { foo: 1, bar: 'baz' };
         export const complexData = { foo: 1, foobar: { bar: 'baz', baz: someData } };
-
         export const simpleStory = () => <MyComponent data={simpleData} />;
         simpleStory.args = {};
       `,
@@ -125,10 +132,8 @@ ruleTester.run('prefer-pascal-case', rule, {
                   includeStories: /.*Story$/,
                   excludeStories: /.*Data$/,
                 };
-
                 export const simpleData = { foo: 1, bar: 'baz' };
                 export const complexData = { foo: 1, foobar: { bar: 'baz', baz: someData } };
-
                 export const SimpleStory = () => <MyComponent data={simpleData} />;
                 SimpleStory.args = {};
               `,

@@ -36,6 +36,15 @@ ruleTester.run('story-exports', rule, {
       export default {}
       export { Primary, Secondary }
     `,
+    `
+      export default {
+        title: 'MyComponent',
+        component: MyComponent,
+        includeStories: [MyComponent.name],
+      };
+
+      export const SimpleStory = () => <MyComponent />;
+    `,
     dedent`
       export default {
         excludeStories: /.*Data$/,

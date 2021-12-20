@@ -119,10 +119,12 @@ export = createStorybookRule({
       ExportDefaultDeclaration: function (node: any) {
         meta = getMetaObjectExpression(node, context)
         if (meta) {
-          nonStoryExportsConfig = {
-            excludeStories: getDescriptor(meta, 'excludeStories'),
-            includeStories: getDescriptor(meta, 'includeStories'),
-          }
+          try {
+            nonStoryExportsConfig = {
+              excludeStories: getDescriptor(meta, 'excludeStories'),
+              includeStories: getDescriptor(meta, 'includeStories'),
+            }
+          } catch (err) {}
         }
       },
       ExportNamedDeclaration: function (node: ExportNamedDeclaration) {
