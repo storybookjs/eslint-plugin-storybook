@@ -3,6 +3,8 @@
  * @author Yann Braga
  */
 
+import { storyNameFromExport } from '@storybook/csf'
+
 import {
   isExpressionStatement,
   isLiteral,
@@ -39,21 +41,6 @@ export = createStorybookRule({
   },
 
   create(context: any) {
-    // variables should be defined here
-
-    //----------------------------------------------------------------------
-    // Helpers
-    //----------------------------------------------------------------------
-
-    //@TODO use the correct name resolver (equivalent to lodash.startcase used in @storybook/csf)
-    const resolveStoryName = (str: any) =>
-      str
-        .replace(/([A-Z]{1,})/g, ' $1')
-        .replace(/(^\w|\s\w)/g, (m: any) => m.toUpperCase())
-        .split(' ')
-        .filter(Boolean)
-        .join(' ')
-
     //----------------------------------------------------------------------
     // Public
     //----------------------------------------------------------------------
@@ -80,7 +67,7 @@ export = createStorybookRule({
             }
 
             const { name } = id
-            const resolvedStoryName = resolveStoryName(name)
+            const resolvedStoryName = storyNameFromExport(name)
 
             //@ts-ignore
             if (isLiteral(storyNameNode.value) && storyNameNode.value.value === resolvedStoryName) {
@@ -108,7 +95,7 @@ export = createStorybookRule({
         if (isIdentifier(left.property) && left.property.name === 'storyName') {
           const propertyName = left.object.name
           const propertyValue = right.value
-          const resolvedStoryName = resolveStoryName(propertyName)
+          const resolvedStoryName = storyNameFromExport(propertyName)
 
           if (propertyValue === resolvedStoryName) {
             context.report({
