@@ -1,3 +1,21 @@
+# v0.5.4 (Mon Dec 20 2021)
+
+#### 🐛 Bug Fix
+
+- story-exports: Support stories that are function declarations. [#66](https://github.com/storybookjs/eslint-plugin-storybook/pull/66) ([@etlovett](https://github.com/etlovett))
+- chore: add linear to gh actions [#64](https://github.com/storybookjs/eslint-plugin-storybook/pull/64) ([@yannbf](https://github.com/yannbf))
+
+#### ⚠️ Pushed to `main`
+
+- Update linear-export.yml ([@yannbf](https://github.com/yannbf))
+
+#### Authors: 2
+
+- Eric Lovett ([@etlovett](https://github.com/etlovett))
+- Yann Braga ([@yannbf](https://github.com/yannbf))
+
+---
+
 # v0.5.3 (Fri Dec 03 2021)
 
 #### 🐛 Bug Fix
