@@ -1,3 +1,16 @@
+# v0.5.5 (Mon Dec 20 2021)
+
+#### 🐛 Bug Fix
+
+- no-redundant-story-name: use same naming algorithm as storybook [#69](https://github.com/storybookjs/eslint-plugin-storybook/pull/69) ([@yannbf](https://github.com/yannbf))
+- fix: gracefully handle dynamic values in non-story exports configuration [#68](https://github.com/storybookjs/eslint-plugin-storybook/pull/68) ([@yannbf](https://github.com/yannbf))
+
+#### Authors: 1
+
+- Yann Braga ([@yannbf](https://github.com/yannbf))
+
+---
+
 # v0.5.4 (Mon Dec 20 2021)
 
 #### 🐛 Bug Fix
