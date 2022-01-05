@@ -20,14 +20,14 @@ export = createStorybookRule({
     fixable: 'code',
     hasSuggestions: true,
     docs: {
-      description: 'Deprecated hierachy separator in title property',
+      description: 'Deprecated hierarchy separator in title property',
       categories: [CategoryId.CSF, CategoryId.RECOMMENDED],
       recommended: 'warn',
     },
     messages: {
       useCorrectSeparators: 'Use correct separators',
       deprecatedHierarchySeparator:
-        'Deprecated hierachy separator in title property: {{metaTitle}}.',
+        'Deprecated hierarchy separator in title property: {{metaTitle}}.',
     },
     schema: [],
   },
