@@ -1,6 +1,6 @@
 import { isExportStory } from '@storybook/csf'
 import { ExportDefaultDeclaration } from '@typescript-eslint/types/dist/ast-spec'
-import { findVariable } from '@typescript-eslint/experimental-utils/dist/ast-utils'
+import { ASTUtils } from '@typescript-eslint/experimental-utils'
 import {
   isFunctionDeclaration,
   isIdentifier,
@@ -21,7 +21,7 @@ export const isPlayFunction = (node: any) => {
 export const getMetaObjectExpression = (node: ExportDefaultDeclaration, context: any) => {
   let meta = node.declaration
   if (isIdentifier(meta)) {
-    const variable = findVariable(context.getScope(), meta.name)
+    const variable = ASTUtils.findVariable(context.getScope(), meta.name)
     const decl = variable && variable.defs.find((def) => isVariableDeclarator(def.node))
     if (decl && isVariableDeclarator(decl.node)) {
       meta = decl.node.init
