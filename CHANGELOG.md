@@ -1,3 +1,20 @@
+# v0.5.6 (Wed Jan 19 2022)
+
+#### 🐛 Bug Fix
+
+- Fix ast-utils import [#76](https://github.com/storybookjs/eslint-plugin-storybook/pull/76) ([@tombakerjr](https://github.com/tombakerjr))
+
+#### 📝 Documentation
+
+- chore: misspell hierarchy [#73](https://github.com/storybookjs/eslint-plugin-storybook/pull/73) ([@YunChaoTsai](https://github.com/YunChaoTsai))
+
+#### Authors: 2
+
+- Simon ([@YunChaoTsai](https://github.com/YunChaoTsai))
+- Tom Baker ([@tombakerjr](https://github.com/tombakerjr))
+
+---
+
 # v0.5.5 (Mon Dec 20 2021)
 
 #### 🐛 Bug Fix
