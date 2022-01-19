@@ -3,7 +3,7 @@
  * @author Yann Braga
  */
 
-import { findVariable } from '@typescript-eslint/experimental-utils/dist/ast-utils'
+import { ASTUtils } from '@typescript-eslint/experimental-utils'
 import { ExportNamedDeclaration } from '@typescript-eslint/types/dist/ast-spec'
 import { isExportStory } from '@storybook/csf'
 
@@ -86,7 +86,7 @@ export = createStorybookRule({
 
                 const scope = context.getScope().childScopes[0]
                 if (scope) {
-                  const variable = findVariable(scope, name)
+                  const variable = ASTUtils.findVariable(scope, name)
                   for (let i = 0; i < variable?.references?.length; i++) {
                     const ref = variable.references[i]
                     if (!ref.init) {
