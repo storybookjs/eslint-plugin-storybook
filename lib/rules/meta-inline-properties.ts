@@ -73,7 +73,7 @@ export = createStorybookRule({
 
         const metaNodes = meta.properties.filter((prop: any) =>
           //@ts-ignore
-          ruleProperties.includes(prop.key.name)
+          ruleProperties.includes(prop.key?.name)
         )
 
         metaNodes.forEach((metaNode: any) => {
@@ -89,7 +89,7 @@ export = createStorybookRule({
               node: propertyNode,
               messageId: 'metaShouldHaveInlineProperties',
               data: {
-                property: propertyNode.key.name,
+                property: propertyNode.key?.name,
               },
             })
           })

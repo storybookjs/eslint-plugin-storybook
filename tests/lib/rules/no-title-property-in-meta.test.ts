@@ -19,8 +19,10 @@ import ruleTester from '../../utils/rule-tester'
 
 ruleTester.run('no-title-property-in-meta', rule, {
   valid: [
+    "export default {  }",
     'export default { component: Button }',
     'export default { component: Button } as ComponentMeta<typeof Button>',
+    "export default { ...props }",
   ],
 
   invalid: [
