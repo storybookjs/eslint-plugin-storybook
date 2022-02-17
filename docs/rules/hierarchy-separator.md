@@ -14,8 +14,8 @@ Examples of **incorrect** code for this rule:
 
 ```js
 export default {
-  title: 'Components|Forms/Input,
-  component: Input
+  title: 'Components|Forms/Input',
+  component: Input,
 }
 ```
 
@@ -23,8 +23,8 @@ Examples of **correct** code for this rule:
 
 ```js
 export default {
-  title: 'Components/Forms/Input,
-  component: Input
+  title: 'Components/Forms/Input',
+  component: Input,
 }
 ```
 
