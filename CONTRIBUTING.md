@@ -69,6 +69,6 @@ yarn update-all
 
 ### Useful resources
 
-- The [ESLint official developer](https://eslint.org/docs/developer-guide/working-with-rules) can be useful to assist when writing rules
+- The [ESLint official developer guide](https://eslint.org/docs/developer-guide/working-with-rules) can be useful to assist when writing rules
 - The [AST Explorer](https://astexplorer.net/) website is the perfect place to get reference to writing rules. Given that ESLint rules are based in AST (Abstract Syntax Tree), you can paste an example code there and visualize all properties of the resulting AST of that code.
 - Storybook has a discord community! And we need more people like you. Please [join us](https://discord.gg/storybook) and say hi in the #contributors channel! 👋

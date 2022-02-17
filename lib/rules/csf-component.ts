@@ -49,7 +49,7 @@ export = createStorybookRule({
         }
 
         const componentProperty = meta.properties.find(
-          (property: any) => property.key.name === 'component'
+          (property: any) => property.key?.name === 'component'
         )
         if (!componentProperty) {
           context.report({

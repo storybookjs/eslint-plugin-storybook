@@ -39,7 +39,7 @@ export = createStorybookRule({
           return null
         }
 
-        const titleNode = meta.properties.find((prop: any) => prop.key.name === 'title')
+        const titleNode = meta.properties.find((prop: any) => prop.key?.name === 'title')
 
         //@ts-ignore
         if (!titleNode || !isLiteral(titleNode.value)) {
