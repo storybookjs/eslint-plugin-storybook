@@ -1,3 +1,22 @@
+# v0.5.7 (Thu Feb 17 2022)
+
+#### 🐛 Bug Fix
+
+- fix: add optional chaining to object property key [#80](https://github.com/storybookjs/eslint-plugin-storybook/pull/80) ([@aurmer](https://github.com/aurmer) [@yannbf](https://github.com/yannbf))
+- chore: remove release label restriction [#82](https://github.com/storybookjs/eslint-plugin-storybook/pull/82) ([@yannbf](https://github.com/yannbf))
+- fix: await-interaction fixer adds 'async' [#81](https://github.com/storybookjs/eslint-plugin-storybook/pull/81) ([@aurmer](https://github.com/aurmer) [@yannbf](https://github.com/yannbf))
+
+#### 📝 Documentation
+
+- fix syntax of code example in docs: hierarchy-separator [#79](https://github.com/storybookjs/eslint-plugin-storybook/pull/79) ([@aurmer](https://github.com/aurmer))
+
+#### Authors: 2
+
+- Aubrey Snider ([@aurmer](https://github.com/aurmer))
+- Yann Braga ([@yannbf](https://github.com/yannbf))
+
+---
+
 # v0.5.6 (Wed Jan 19 2022)
 
 #### 🐛 Bug Fix
