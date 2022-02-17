@@ -16,7 +16,8 @@ import {
   isReturnStatement,
   isTSNonNullExpression,
   isFunctionDeclaration,
-  isFunctionExpression
+  isFunctionExpression,
+  isProgram,
 } from '../utils/ast'
 
 //------------------------------------------------------------------------------
@@ -116,10 +117,12 @@ export = createStorybookRule({
     const getClosestFunctionAncestor = (node: Node) => {
       const parent: Node = node.parent
 
-      if (!parent || parent?.type === "Program") return null
-      if (isArrowFunctionExpression(parent) ||
+      if (!parent || isProgram(parent)) return null
+      if (
+        isArrowFunctionExpression(parent) ||
         isFunctionExpression(parent) ||
-        isFunctionDeclaration(parent)) {
+        isFunctionDeclaration(parent)
+      ) {
         return node.parent
       }
 
