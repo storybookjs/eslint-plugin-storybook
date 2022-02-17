@@ -23,6 +23,11 @@ ruleTester.run('await-interactions', rule, {
       }
     `,
     dedent`
+      WithModalOpen.play = ({ canvasElement }) => {
+        const MyButton = canvas.getByRole('button')
+      }
+    `,
+    dedent`
       WithModalOpen.play = async ({ canvasElement }) => {
         const MyButton = await canvas.findByRole('button')
       }
@@ -77,6 +82,28 @@ ruleTester.run('await-interactions', rule, {
     'Basic.play = async () => { return userEvent.click(button) }',
   ],
   invalid: [
+    {
+      code: dedent`
+        WithModalOpen.play = ({ canvasElement }) => {
+          const canvas = within(canvasElement)
+
+          const foodItem = canvas.findByText(/Cheeseburger/i)
+        }
+      `,
+      output: dedent`
+        WithModalOpen.play = async ({ canvasElement }) => {
+          const canvas = within(canvasElement)
+
+          const foodItem = await canvas.findByText(/Cheeseburger/i)
+        }
+      `,
+      errors: [
+        {
+          messageId: 'interactionShouldBeAwaited',
+          data: { method: 'findByText' },
+        },
+      ],
+    },
     {
       code: dedent`
         WithModalOpen.play = async ({ canvasElement }) => {
