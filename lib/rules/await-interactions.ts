@@ -15,6 +15,8 @@ import {
   isArrowFunctionExpression,
   isReturnStatement,
   isTSNonNullExpression,
+  isFunctionDeclaration,
+  isFunctionExpression
 } from '../utils/ast'
 
 //------------------------------------------------------------------------------
@@ -111,6 +113,19 @@ export = createStorybookRule({
       return null
     }
 
+    const getClosestFunctionAncestor = (node: Node) => {
+      const parent: Node = node.parent
+
+      if (!parent || parent?.type === "Program") return null
+      if (isArrowFunctionExpression(parent) ||
+        isFunctionExpression(parent) ||
+        isFunctionDeclaration(parent)) {
+        return node.parent
+      }
+
+      return getClosestFunctionAncestor(parent)
+    }
+
     //----------------------------------------------------------------------
     // Public
     //----------------------------------------------------------------------
@@ -130,21 +145,29 @@ export = createStorybookRule({
       'Program:exit': function () {
         if (invocationsThatShouldBeAwaited.length) {
           invocationsThatShouldBeAwaited.forEach(({ node, method }) => {
+            const parentFnNode = getClosestFunctionAncestor(node)
+            const parentFnNeedsAsync = parentFnNode && !parentFnNode.async
+
+            function fixFn(fixer) {
+              const fixerResult = [fixer.insertTextBefore(node, 'await ')]
+
+              if (parentFnNeedsAsync) {
+                fixerResult.push(fixer.insertTextBefore(parentFnNode, 'async '))
+              }
+              return fixerResult
+            }
+
             context.report({
               node,
               messageId: 'interactionShouldBeAwaited',
               data: {
                 method: method.name,
               },
-              fix: function (fixer) {
-                return fixer.insertTextBefore(node, 'await ')
-              },
+              fix: fixFn,
               suggest: [
                 {
                   messageId: 'fixSuggestion',
-                  fix: function (fixer) {
-                    return fixer.insertTextBefore(node, 'await ')
-                  },
+                  fix: fixFn,
                 },
               ],
             })
