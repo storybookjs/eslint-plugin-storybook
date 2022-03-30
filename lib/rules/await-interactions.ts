@@ -141,7 +141,7 @@ export = createStorybookRule({
     return {
       CallExpression(node: CallExpression) {
         const method = getMethodThatShouldBeAwaited(node)
-        if (method && !isAwaitExpression(node.parent)) {
+        if (method && !isAwaitExpression(node.parent) && !isAwaitExpression(node.parent.parent)) {
           invocationsThatShouldBeAwaited.push({ node, method })
         }
       },

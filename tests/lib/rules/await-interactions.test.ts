@@ -80,6 +80,27 @@ ruleTester.run('await-interactions', rule, {
     // `,
     'Basic.play = async () => userEvent.click(button)',
     'Basic.play = async () => { return userEvent.click(button) }',
+    dedent`
+      export const SecondStory = {
+        play: async (context) => {
+          await FirstStory.play(context)
+        }
+      }
+    `,
+    dedent`
+      export const SecondStory = {
+        play: async (context) => {
+          await FirstStory.play?.(context)
+        }
+      }
+    `,
+    dedent`
+      export const SecondStory = {
+        play: async (context) => {
+          await FirstStory.play!(context)
+        }
+      }
+    `,
   ],
   invalid: [
     {
@@ -292,22 +313,28 @@ ruleTester.run('await-interactions', rule, {
     },
     {
       code: dedent`
-        export const ThirdStory = {
+        export const FourthStory = {
           play: async (context) => {
             FirstStory.play(context)
             SecondStory.play!(context)
+            ThirdStory.play?.(context)
           }
         }
       `,
       output: dedent`
-        export const ThirdStory = {
+        export const FourthStory = {
           play: async (context) => {
             await FirstStory.play(context)
             await SecondStory.play!(context)
+            await ThirdStory.play?.(context)
           }
         }
       `,
       errors: [
+        {
+          messageId: 'interactionShouldBeAwaited',
+          data: { method: 'play' },
+        },
         {
           messageId: 'interactionShouldBeAwaited',
           data: { method: 'play' },
