@@ -1,3 +1,15 @@
+# v0.5.8 (Thu Apr 07 2022)
+
+#### 🐛 Bug Fix
+
+- fix default-exports rule name [#88](https://github.com/storybookjs/eslint-plugin-storybook/pull/88) ([@yannbf](https://github.com/yannbf))
+
+#### Authors: 1
+
+- Yann Braga ([@yannbf](https://github.com/yannbf))
+
+---
+
 # v0.5.7 (Thu Feb 17 2022)
 
 #### 🐛 Bug Fix
