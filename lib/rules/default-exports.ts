@@ -15,7 +15,7 @@ import { createStorybookRule } from '../utils/create-storybook-rule'
 //------------------------------------------------------------------------------
 
 export = createStorybookRule({
-  name: 'default-export',
+  name: 'default-exports',
   defaultOptions: [],
   meta: {
     type: 'problem',
