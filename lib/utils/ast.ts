@@ -38,3 +38,4 @@ export const isTSTypeAliasDeclaration = isNodeOfType(AST_NODE_TYPES.TSTypeAliasD
 export const isTSInterfaceDeclaration = isNodeOfType(AST_NODE_TYPES.TSInterfaceDeclaration)
 export const isTSAsExpression = isNodeOfType(AST_NODE_TYPES.TSAsExpression)
 export const isTSNonNullExpression = isNodeOfType(AST_NODE_TYPES.TSNonNullExpression)
+export const isMetaProperty = isNodeOfType(AST_NODE_TYPES.MetaProperty)

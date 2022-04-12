@@ -3,9 +3,17 @@
  * @author Yann Braga
  */
 
+import {
+  Identifier,
+  MethodDefinition,
+  PrivateIdentifier,
+  Property,
+} from '@typescript-eslint/types/dist/ast-spec'
 import { getMetaObjectExpression } from '../utils'
 import { CategoryId } from '../utils/constants'
 import { createStorybookRule } from '../utils/create-storybook-rule'
+
+type TDynamicProperty = (MethodDefinition | Property) & { key: Identifier | PrivateIdentifier }
 
 //------------------------------------------------------------------------------
 // Rule Definition
@@ -38,7 +46,7 @@ export = createStorybookRule({
     ],
   },
 
-  create(context: any) {
+  create(context) {
     // variables should be defined here
 
     // In case we need to get options defined in the rule schema
@@ -48,7 +56,11 @@ export = createStorybookRule({
     //----------------------------------------------------------------------
     // Helpers
     //----------------------------------------------------------------------
-    const isInline = (node: any) => {
+    const isInline = <T>(node: T | TDynamicProperty): node is T => {
+      if (!('value' in node)) {
+        return false
+      }
+
       return (
         node.value.type === 'ObjectExpression' ||
         node.value.type === 'Literal' ||
@@ -62,28 +74,26 @@ export = createStorybookRule({
     //----------------------------------------------------------------------
 
     return {
-      ExportDefaultDeclaration(node: any) {
+      ExportDefaultDeclaration(node) {
         const meta = getMetaObjectExpression(node, context)
         if (!meta) {
           return null
         }
 
         const ruleProperties = ['title', 'args']
-        let dynamicProperties: any = []
+        let dynamicProperties: TDynamicProperty[] = []
 
-        const metaNodes = meta.properties.filter((prop: any) =>
-          //@ts-ignore
-          ruleProperties.includes(prop.key?.name)
+        const metaNodes = meta.properties.filter(
+          (prop) => 'key' in prop && 'name' in prop.key && ruleProperties.includes(prop.key.name)
         )
 
-        metaNodes.forEach((metaNode: any) => {
+        metaNodes.forEach((metaNode) => {
           if (!isInline(metaNode)) {
             dynamicProperties.push(metaNode)
           }
         })
 
         if (dynamicProperties.length > 0) {
-          //@ts-ignore
           dynamicProperties.forEach((propertyNode) => {
             context.report({
               node: propertyNode,

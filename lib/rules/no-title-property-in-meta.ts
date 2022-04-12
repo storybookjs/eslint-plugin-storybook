@@ -6,6 +6,8 @@
 import { getMetaObjectExpression } from '../utils'
 import { CategoryId } from '../utils/constants'
 import { createStorybookRule } from '../utils/create-storybook-rule'
+import { Range } from '@typescript-eslint/types/dist/ast-spec'
+import { isSpreadElement } from '../utils/ast'
 
 //------------------------------------------------------------------------------
 // Rule Definition
@@ -29,15 +31,17 @@ export = createStorybookRule({
     },
     schema: [],
   },
-  create: function (context: any) {
+  create: function (context) {
     return {
-      ExportDefaultDeclaration: function (node: any) {
+      ExportDefaultDeclaration: function (node) {
         const meta = getMetaObjectExpression(node, context)
         if (!meta) {
           return null
         }
 
-        const titleNode = meta.properties.find((prop: any) => prop.key?.name === 'title')
+        const titleNode = meta.properties.find(
+          (prop) => !isSpreadElement(prop) && 'name' in prop.key && prop.key?.name === 'title'
+        )
 
         if (titleNode) {
           context.report({
@@ -46,14 +50,14 @@ export = createStorybookRule({
             suggest: [
               {
                 messageId: 'removeTitleInMeta',
-                fix(fixer: any) {
+                fix(fixer) {
                   const fullText = context.getSourceCode().text
                   const propertyTextWithExtraCharacter = fullText.slice(
                     titleNode.range[0],
                     titleNode.range[1] + 1
                   )
                   const hasComma = propertyTextWithExtraCharacter.slice(-1) === ','
-                  const propertyRange = [
+                  const propertyRange: Range = [
                     titleNode.range[0],
                     hasComma ? titleNode.range[1] + 1 : titleNode.range[1],
                   ]

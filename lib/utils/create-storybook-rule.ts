@@ -2,10 +2,12 @@ import { ESLintUtils } from '@typescript-eslint/experimental-utils'
 
 import { docsUrl } from '../utils'
 import { StorybookRuleMeta } from '../types'
+import { RuleContext, RuleListener } from '@typescript-eslint/experimental-utils/dist/ts-eslint'
 
 export function createStorybookRule<
   TOptions extends readonly unknown[],
-  TMessageIds extends string
+  TMessageIds extends string,
+  TRuleListener extends RuleListener = RuleListener
 >({
   create,
   meta,
@@ -14,7 +16,10 @@ export function createStorybookRule<
   name: string
   meta: StorybookRuleMeta<TMessageIds, TOptions>
   defaultOptions: Readonly<TOptions>
-  create: any
+  create: (
+    context: Readonly<RuleContext<TMessageIds, TOptions>>,
+    optionsWithDefault: Readonly<TOptions>
+  ) => TRuleListener
 }>) {
   return ESLintUtils.RuleCreator(docsUrl)({
     ...remainingConfig,

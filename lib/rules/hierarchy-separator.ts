@@ -3,8 +3,9 @@
  * @author Yann Braga
  */
 
+import { MethodDefinition, Property } from '@typescript-eslint/types/dist/ast-spec'
 import { getMetaObjectExpression } from '../utils'
-import { isLiteral } from '../utils/ast'
+import { isLiteral, isSpreadElement } from '../utils/ast'
 import { CategoryId } from '../utils/constants'
 import { createStorybookRule } from '../utils/create-storybook-rule'
 
@@ -31,22 +32,22 @@ export = createStorybookRule({
     },
     schema: [],
   },
-  create: function (context: any) {
+  create: function (context) {
     return {
-      ExportDefaultDeclaration: function (node: any) {
+      ExportDefaultDeclaration: function (node) {
         const meta = getMetaObjectExpression(node, context)
         if (!meta) {
           return null
         }
 
-        const titleNode = meta.properties.find((prop: any) => prop.key?.name === 'title')
+        const titleNode = meta.properties.find(
+          (prop) => !isSpreadElement(prop) && 'name' in prop.key && prop.key?.name === 'title'
+        ) as MethodDefinition | Property | undefined
 
-        //@ts-ignore
         if (!titleNode || !isLiteral(titleNode.value)) {
           return
         }
 
-        //@ts-ignore
         const metaTitle = titleNode.value.raw || ''
 
         if (metaTitle.includes('|')) {
@@ -55,19 +56,14 @@ export = createStorybookRule({
             messageId: 'deprecatedHierarchySeparator',
             data: { metaTitle },
             // In case we want this to be auto fixed by --fix
-            fix: function (fixer: any) {
-              return fixer.replaceTextRange(
-                //@ts-ignore
-                titleNode.value.range,
-                metaTitle.replace(/\|/g, '/')
-              )
+            fix: function (fixer) {
+              return fixer.replaceTextRange(titleNode.value.range, metaTitle.replace(/\|/g, '/'))
             },
             suggest: [
               {
                 messageId: 'useCorrectSeparators',
-                fix: function (fixer: any) {
+                fix: function (fixer) {
                   return fixer.replaceTextRange(
-                    //@ts-ignore
                     titleNode.value.range,
                     metaTitle.replace(/\|/g, '/')
                   )

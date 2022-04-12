@@ -1,21 +1,26 @@
 import rules from './utils/rules'
 
-import { configBadges, emojiKey, writeRulesListInReadme, updateRulesDocs } from './utils/docs'
+import { emojiKey, writeRulesListInReadme, updateRulesDocs } from './utils/docs'
 
 /*
 This script updates the rules table in `README.md`from rule's meta data.
 */
 
+export type TRulesList = readonly [
+  ruleName: string,
+  ruleLink: string,
+  docsDescription: string,
+  fixable: string,
+  categories: string
+]
+export type TRuleListWithoutName = TRulesList extends readonly [string, ...infer TRulesWithoutName]
+  ? TRulesWithoutName
+  : never
+
 const createRuleLink = (ruleName: string) =>
   `[\`storybook/${ruleName}\`](./docs/rules/${ruleName}.md)`
 
-const generateConfigBadges = (recommendedConfig: any) =>
-  Object.entries(recommendedConfig)
-    .filter(([_, config]) => Boolean(config))
-    .map(([framework]) => configBadges[framework])
-    .join(' ')
-
-const rulesList = Object.entries(rules)
+const rulesList: TRulesList[] = Object.entries(rules)
   .sort(([_, { name: ruleNameA }], [__, { name: ruleNameB }]) => {
     return ruleNameA.localeCompare(ruleNameB)
   })

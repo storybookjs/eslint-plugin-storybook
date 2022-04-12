@@ -19,6 +19,7 @@ import {
   isFunctionExpression,
   isProgram,
 } from '../utils/ast'
+import { ReportFixFunction } from '@typescript-eslint/experimental-utils/dist/ts-eslint'
 
 //------------------------------------------------------------------------------
 // Rule Definition
@@ -43,7 +44,7 @@ export = createStorybookRule({
     schema: [],
   },
 
-  create(context: any) {
+  create(context) {
     // variables should be defined here
 
     //----------------------------------------------------------------------
@@ -63,7 +64,7 @@ export = createStorybookRule({
     ]
 
     const getMethodThatShouldBeAwaited = (expr: CallExpression) => {
-      const shouldAwait = (name: any) => {
+      const shouldAwait = (name: string) => {
         return FUNCTIONS_TO_BE_AWAITED.includes(name) || name.startsWith('findBy')
       }
 
@@ -114,10 +115,10 @@ export = createStorybookRule({
       return null
     }
 
-    const getClosestFunctionAncestor = (node: Node) => {
-      const parent: Node = node.parent
+    const getClosestFunctionAncestor = (node: Node): Node | undefined => {
+      const parent = node.parent
 
-      if (!parent || isProgram(parent)) return null
+      if (!parent || isProgram(parent)) return undefined
       if (
         isArrowFunctionExpression(parent) ||
         isFunctionExpression(parent) ||
@@ -149,9 +150,10 @@ export = createStorybookRule({
         if (invocationsThatShouldBeAwaited.length) {
           invocationsThatShouldBeAwaited.forEach(({ node, method }) => {
             const parentFnNode = getClosestFunctionAncestor(node)
-            const parentFnNeedsAsync = parentFnNode && !parentFnNode.async
+            const parentFnNeedsAsync =
+              parentFnNode && !('async' in parentFnNode && parentFnNode.async)
 
-            function fixFn(fixer) {
+            const fixFn: ReportFixFunction = (fixer) => {
               const fixerResult = [fixer.insertTextBefore(node, 'await ')]
 
               if (parentFnNeedsAsync) {

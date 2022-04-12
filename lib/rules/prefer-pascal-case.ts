@@ -4,8 +4,8 @@
  */
 
 import { ASTUtils } from '@typescript-eslint/experimental-utils'
-import { ExportNamedDeclaration } from '@typescript-eslint/types/dist/ast-spec'
-import { isExportStory } from '@storybook/csf'
+import { ExportNamedDeclaration, Identifier } from '@typescript-eslint/types/dist/ast-spec'
+import { IncludeExcludeOptions, isExportStory } from '@storybook/csf'
 
 import { getDescriptor, getMetaObjectExpression } from '../utils'
 import { isIdentifier, isVariableDeclaration } from '../utils/ast'
@@ -35,33 +35,27 @@ export = createStorybookRule({
     schema: [],
   },
 
-  create(context: any) {
+  create(context) {
     // variables should be defined here
 
     //----------------------------------------------------------------------
     // Helpers
     //----------------------------------------------------------------------
 
-    const isPascalCase = (str: any) => /^[A-Z]+([a-z0-9]?)+/.test(str)
-    const toPascalCase = (str: any) => {
-      return (
-        str
-          //@ts-ignore
-          .replace(new RegExp(/[-_]+/, 'g'), ' ')
-          //@ts-ignore
-          .replace(new RegExp(/[^\w\s]/, 'g'), '')
-          .replace(
-            //@ts-ignore
-            new RegExp(/\s+(.)(\w+)/, 'g'),
-            ($1: any, $2: any, $3: any) => `${$2.toUpperCase() + $3.toLowerCase()}`
-          )
-          //@ts-ignore
-          .replace(new RegExp(/\s/, 'g'), '')
-          .replace(new RegExp(/\w/), (s: any) => s.toUpperCase())
-      )
+    const isPascalCase = (str: string) => /^[A-Z]+([a-z0-9]?)+/.test(str)
+    const toPascalCase = (str: string) => {
+      return str
+        .replace(new RegExp(/[-_]+/, 'g'), ' ')
+        .replace(new RegExp(/[^\w\s]/, 'g'), '')
+        .replace(
+          new RegExp(/\s+(.)(\w+)/, 'g'),
+          (_, $2, $3) => `${$2.toUpperCase() + $3.toLowerCase()}`
+        )
+        .replace(new RegExp(/\s/, 'g'), '')
+        .replace(new RegExp(/\w/), (s) => s.toUpperCase())
     }
 
-    const checkAndReportError = (id, nonStoryExportsConfig = {}) => {
+    const checkAndReportError = (id: Identifier, nonStoryExportsConfig = {}) => {
       const { name } = id
       if (!isExportStory(name, nonStoryExportsConfig) || name === '__namedExportsOrder') {
         return null
@@ -77,7 +71,7 @@ export = createStorybookRule({
           suggest: [
             {
               messageId: 'convertToPascalCase',
-              *fix(fixer: any) {
+              *fix(fixer) {
                 const fullText = context.getSourceCode().text
                 const fullName = fullText.slice(id.range[0], id.range[1])
                 const suffix = fullName.substring(name.length)
@@ -87,8 +81,10 @@ export = createStorybookRule({
                 const scope = context.getScope().childScopes[0]
                 if (scope) {
                   const variable = ASTUtils.findVariable(scope, name)
-                  for (let i = 0; i < variable?.references?.length; i++) {
-                    const ref = variable.references[i]
+                  const index = variable?.references?.length || 0
+
+                  for (let i = 0; i < index; i++) {
+                    const ref = variable!.references[i]
                     if (!ref.init) {
                       yield fixer.replaceTextRange(ref.identifier.range, pascal)
                     }
@@ -106,17 +102,17 @@ export = createStorybookRule({
     //----------------------------------------------------------------------
 
     let meta
-    let nonStoryExportsConfig
-    let namedExports = []
+    let nonStoryExportsConfig: IncludeExcludeOptions
+    let namedExports: Identifier[] = []
     let hasStoriesOfImport = false
 
     return {
-      ImportSpecifier(node: any) {
+      ImportSpecifier(node) {
         if (node.imported.name === 'storiesOf') {
           hasStoriesOfImport = true
         }
       },
-      ExportDefaultDeclaration: function (node: any) {
+      ExportDefaultDeclaration: function (node) {
         meta = getMetaObjectExpression(node, context)
         if (meta) {
           try {

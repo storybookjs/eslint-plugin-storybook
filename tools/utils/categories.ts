@@ -1,7 +1,9 @@
-import rules from './rules'
+import rules, { TRules } from './rules'
 import { CategoryId } from '../../lib/utils/constants'
 
-const categoriesConfig = {
+type TCategoriesConfig = Record<string, { text: string; rules?: TRules }>
+
+const categoriesConfig: TCategoriesConfig = {
   [CategoryId.CSF]: {
     text: 'CSF Rules',
   },
@@ -45,9 +47,11 @@ export const categories = categoryIds
     return {
       categoryId,
       title: categoriesConfig[categoryId],
-      rules: categoriesConfig[categoryId].rules.filter((rule: any) => !rule.meta.deprecated),
+      rules: categoriesConfig[categoryId].rules.filter((rule) => !rule.meta.deprecated),
     }
   })
   .filter((category) => {
     return category.rules.length >= 1
   })
+
+export type TCategory = typeof categories extends (infer TCat)[] ? TCat : never

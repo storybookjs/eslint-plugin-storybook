@@ -12,6 +12,8 @@ import {
   isObjectExpression,
   isProperty,
   isVariableDeclaration,
+  isMetaProperty,
+  isSpreadElement,
 } from '../utils/ast'
 import { CategoryId } from '../utils/constants'
 import { createStorybookRule } from '../utils/create-storybook-rule'
@@ -40,14 +42,14 @@ export = createStorybookRule({
     schema: [],
   },
 
-  create(context: any) {
+  create(context) {
     //----------------------------------------------------------------------
     // Public
     //----------------------------------------------------------------------
 
     return {
       // CSF3
-      ExportNamedDeclaration: function (node: any) {
+      ExportNamedDeclaration: function (node) {
         // if there are specifiers, node.declaration should be null
         if (!node.declaration) return
 
@@ -69,15 +71,18 @@ export = createStorybookRule({
             const { name } = id
             const resolvedStoryName = storyNameFromExport(name)
 
-            //@ts-ignore
-            if (isLiteral(storyNameNode.value) && storyNameNode.value.value === resolvedStoryName) {
+            if (
+              !isSpreadElement(storyNameNode) &&
+              isLiteral(storyNameNode.value) &&
+              storyNameNode.value.value === resolvedStoryName
+            ) {
               context.report({
                 node: storyNameNode,
                 messageId: 'storyNameIsRedundant',
                 suggest: [
                   {
                     messageId: 'removeRedundantName',
-                    fix: function (fixer: any) {
+                    fix: function (fixer) {
                       return fixer.remove(storyNameNode)
                     },
                   },
@@ -88,11 +93,19 @@ export = createStorybookRule({
         }
       },
       // CSF2
-      AssignmentExpression: function (node: any) {
+      AssignmentExpression: function (node) {
         if (!isExpressionStatement(node.parent)) return
 
         const { left, right } = node
-        if (isIdentifier(left.property) && left.property.name === 'storyName') {
+
+        if (
+          'property' in left &&
+          isIdentifier(left.property) &&
+          !isMetaProperty(left) &&
+          left.property.name === 'storyName'
+        ) {
+          if (!('name' in left.object && 'value' in right)) return
+
           const propertyName = left.object.name
           const propertyValue = right.value
           const resolvedStoryName = storyNameFromExport(propertyName)
@@ -104,7 +117,7 @@ export = createStorybookRule({
               suggest: [
                 {
                   messageId: 'removeRedundantName',
-                  fix: function (fixer: any) {
+                  fix: function (fixer) {
                     return fixer.remove(node)
                   },
                 },
