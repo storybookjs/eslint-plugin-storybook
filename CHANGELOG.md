@@ -1,3 +1,16 @@
+# v0.5.9 (Fri Apr 15 2022)
+
+#### 🐛 Bug Fix
+
+- fix: support ChainExpression in await-interactions rule [#87](https://github.com/storybookjs/eslint-plugin-storybook/pull/87) ([@VinceMalone](https://github.com/VinceMalone) [@yannbf](https://github.com/yannbf))
+
+#### Authors: 2
+
+- Vince Malone ([@VinceMalone](https://github.com/VinceMalone))
+- Yann Braga ([@yannbf](https://github.com/yannbf))
+
+---
+
 # v0.5.8 (Thu Apr 07 2022)
 
 #### 🐛 Bug Fix
