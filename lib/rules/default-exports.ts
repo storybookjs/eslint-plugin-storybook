@@ -86,23 +86,23 @@ export = createStorybookRule({
             messageId: 'shouldHaveDefaultExport',
           }
 
-          if (!componentName) {
-            context.report(report)
-          } else {
-            const fix = (fixer) =>
-              fixer.insertTextBefore(node, `export default { component: ${componentName} }\n`)
-
-            context.report({
-              ...report,
-              fix,
-              suggest: [
-                {
-                  messageId: 'fixSuggestion',
-                  fix,
-                },
-              ],
-            })
+          const fix = (fixer) => {
+            const metaDeclaration = componentName
+              ? `export default { component: ${componentName} }\n`
+              : 'export default {}\n'
+            return fixer.insertTextBefore(node, metaDeclaration)
           }
+
+          context.report({
+            ...report,
+            fix,
+            suggest: [
+              {
+                messageId: 'fixSuggestion',
+                fix,
+              },
+            ],
+          })
         }
       },
     }

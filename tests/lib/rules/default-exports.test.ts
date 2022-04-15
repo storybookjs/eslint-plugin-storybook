@@ -19,6 +19,7 @@ import ruleTester from '../../utils/rule-tester'
 
 ruleTester.run('default-exports', rule, {
   valid: [
+    'export default { }',
     "export default { title: 'Button', component: Button }",
     "export default { title: 'Button', component: Button } as ComponentMeta<typeof Button>",
     `
@@ -38,6 +39,10 @@ ruleTester.run('default-exports', rule, {
   invalid: [
     {
       code: 'export const Primary = () => <button>hello</button>',
+      output: dedent`
+        export default {}
+        export const Primary = () => <button>hello</button>
+      `,
       errors: [
         {
           messageId: 'shouldHaveDefaultExport',
@@ -78,18 +83,12 @@ ruleTester.run('default-exports', rule, {
     },
     {
       code: dedent`
-        import { Something } from './MyComponent'
+        import { MyComponentProps } from './MyComponent'
         export const Primary = () => <button>hello</button>
       `,
-      errors: [
-        {
-          messageId: 'shouldHaveDefaultExport',
-        },
-      ],
-    },
-    {
-      code: dedent`
-        import { MyComponent } from './Something'
+      output: dedent`
+        import { MyComponentProps } from './MyComponent'
+        export default {}
         export const Primary = () => <button>hello</button>
       `,
       errors: [
