@@ -1,3 +1,16 @@
+# v0.5.10 (Sat Apr 16 2022)
+
+#### 🐛 Bug Fix
+
+- feat(default-exports): add autofix even if component name is not found [#90](https://github.com/storybookjs/eslint-plugin-storybook/pull/90) ([@yannbf](https://github.com/yannbf))
+- fix(story-exports): stop highlighting the entire code on error [#91](https://github.com/storybookjs/eslint-plugin-storybook/pull/91) ([@yannbf](https://github.com/yannbf))
+
+#### Authors: 1
+
+- Yann Braga ([@yannbf](https://github.com/yannbf))
+
+---
+
 # v0.5.9 (Fri Apr 15 2022)
 
 #### 🐛 Bug Fix
