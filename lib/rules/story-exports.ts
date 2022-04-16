@@ -3,6 +3,8 @@
  * @author Yann Braga
  */
 
+import type { Program } from '@typescript-eslint/types/dist/ast-spec'
+
 import { createStorybookRule } from '../utils/create-storybook-rule'
 import { CategoryId } from '../utils/constants'
 import {
@@ -11,6 +13,7 @@ import {
   getMetaObjectExpression,
   isValidStoryExport,
 } from '../utils'
+import { isImportDeclaration } from '../utils/ast'
 
 //------------------------------------------------------------------------------
 // Rule Definition
@@ -70,7 +73,7 @@ export = createStorybookRule({
       ExportNamedDeclaration: function (node) {
         namedExports.push(...getAllNamedExports(node))
       },
-      'Program:exit': function (node) {
+      'Program:exit': function (program: Program) {
         if (hasStoriesOfImport || !meta) {
           return
         }
@@ -83,14 +86,19 @@ export = createStorybookRule({
           return
         }
 
+        const firstNonImportStatement = program.body.find((n) => !isImportDeclaration(n))
+        const node = firstNonImportStatement || program.body[0] || program
+
         // @TODO: bring apply this autofix with CSF3 release
         // const fix = (fixer) => fixer.insertTextAfter(node, `\n\nexport const Default = {}`)
 
-        context.report({
+        const report = {
           node,
           messageId: 'shouldHaveStoryExport',
           // fix,
-        })
+        } as const
+
+        context.report(report)
       },
     }
   },
