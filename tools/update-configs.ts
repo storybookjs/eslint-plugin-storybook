@@ -79,7 +79,7 @@ categories.forEach((category) => {
   const filePath = path.join(ROOT, `${category.categoryId}.ts`)
   const content = format(formatCategory(category), {
     parser: 'typescript',
-    ...prettierConfig as Options,
+    ...(prettierConfig as Options),
   })
 
   fs.writeFileSync(filePath, content)
