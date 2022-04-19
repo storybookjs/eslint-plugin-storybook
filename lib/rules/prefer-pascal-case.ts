@@ -81,9 +81,9 @@ export = createStorybookRule({
                 const scope = context.getScope().childScopes[0]
                 if (scope) {
                   const variable = ASTUtils.findVariable(scope, name)
-                  const index = variable?.references?.length || 0
+                  const referenceCount = variable?.references?.length || 0
 
-                  for (let i = 0; i < index; i++) {
+                  for (let i = 0; i < referenceCount; i++) {
                     const ref = variable!.references[i]
                     if (!ref.init) {
                       yield fixer.replaceTextRange(ref.identifier.range, pascal)
