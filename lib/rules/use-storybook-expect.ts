@@ -19,7 +19,7 @@ type TDefaultOptions = {
 
 export = createStorybookRule<TDefaultOptions, string>({
   name: 'use-storybook-expect',
-  defaultOptions: [{ storybookJestPath: '@storybook/jest' }],
+  defaultOptions: [],
   meta: {
     type: 'suggestion',
     fixable: 'code',
