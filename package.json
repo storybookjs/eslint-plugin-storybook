@@ -35,7 +35,7 @@
     "build": "tsc",
     "start": "tsc --watch",
     "test": "jest",
-    "test:ci": "jest --ci",
+    "test:ci": "tsc --noEmit && jest --ci",
     "generate-rule": "ts-node ./tools/generate-rule",
     "update-configs": "ts-node ./tools/update-configs",
     "update-docs": "ts-node ./tools/update-rules-list",
