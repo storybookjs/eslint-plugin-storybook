@@ -1,3 +1,15 @@
+# v0.5.11 (Wed Apr 20 2022)
+
+#### 🐛 Bug Fix
+
+- Increase type safety [#89](https://github.com/storybookjs/eslint-plugin-storybook/pull/89) ([@valentinpalkovic](https://github.com/valentinpalkovic))
+
+#### Authors: 1
+
+- Valentin Palkovic ([@valentinpalkovic](https://github.com/valentinpalkovic))
+
+---
+
 # v0.5.10 (Sat Apr 16 2022)
 
 #### 🐛 Bug Fix
