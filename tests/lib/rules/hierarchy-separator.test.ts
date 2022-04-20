@@ -19,11 +19,11 @@ import ruleTester from '../../utils/rule-tester'
 
 ruleTester.run('hierarchy-separator', rule, {
   valid: [
-    "export default {  }",
+    'export default {  }',
     "export default { title: 'Examples.Components' }",
     "export default { title: 'Examples/Components/Button' }",
     "export default { title: 'Examples/Components/Button' } as ComponentMeta<typeof Button>",
-    "export default { ...props } as ComponentMeta<typeof Button>",
+    'export default { ...props } as ComponentMeta<typeof Button>',
   ],
 
   invalid: [

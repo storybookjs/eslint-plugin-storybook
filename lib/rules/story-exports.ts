@@ -14,6 +14,8 @@ import {
   isValidStoryExport,
 } from '../utils'
 import { isImportDeclaration } from '../utils/ast'
+import { IncludeExcludeOptions } from '@storybook/csf'
+import { ObjectExpression, Identifier } from '@typescript-eslint/types/dist/ast-spec'
 
 //------------------------------------------------------------------------------
 // Rule Definition
@@ -33,7 +35,7 @@ export = createStorybookRule({
       shouldHaveStoryExport: 'The file should have at least one story export',
       addStoryExport: 'Add a story export',
     },
-    fixable: null, // change to 'code' once we have autofixes
+    fixable: undefined, // change to 'code' once we have autofixes
     schema: [],
   },
 
@@ -49,9 +51,9 @@ export = createStorybookRule({
     //----------------------------------------------------------------------
 
     let hasStoriesOfImport = false
-    let nonStoryExportsConfig = {}
-    let meta
-    let namedExports = []
+    let nonStoryExportsConfig: IncludeExcludeOptions = {}
+    let meta: ObjectExpression | null
+    let namedExports: Identifier[] = []
 
     return {
       ImportSpecifier(node) {

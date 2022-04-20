@@ -32,7 +32,7 @@ export = createStorybookRule({
     messages: {
       passContextToPlayFunction: 'Pass a context when invoking play function of another story',
     },
-    fixable: null,
+    fixable: undefined,
     schema: [],
   },
 

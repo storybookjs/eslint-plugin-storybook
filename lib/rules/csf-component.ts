@@ -3,10 +3,11 @@
  * @author Yann Braga
  */
 
-import { ExportDefaultDeclaration, Node } from '@typescript-eslint/types/dist/ast-spec'
+import { ExportDefaultDeclaration } from '@typescript-eslint/types/dist/ast-spec'
 import { getMetaObjectExpression } from '../utils'
 import { CategoryId } from '../utils/constants'
 import { createStorybookRule } from '../utils/create-storybook-rule'
+import { isSpreadElement } from '../utils/ast'
 
 //------------------------------------------------------------------------------
 // Rule Definition
@@ -28,7 +29,7 @@ export = createStorybookRule({
     schema: [],
   },
 
-  create(context: any) {
+  create(context) {
     // variables should be defined here
 
     //----------------------------------------------------------------------
@@ -44,13 +45,18 @@ export = createStorybookRule({
     return {
       ExportDefaultDeclaration(node: ExportDefaultDeclaration) {
         const meta = getMetaObjectExpression(node, context)
+
         if (!meta) {
           return null
         }
 
         const componentProperty = meta.properties.find(
-          (property: any) => property.key?.name === 'component'
+          (property) =>
+            !isSpreadElement(property) &&
+            'name' in property.key &&
+            property.key.name === 'component'
         )
+
         if (!componentProperty) {
           context.report({
             node,

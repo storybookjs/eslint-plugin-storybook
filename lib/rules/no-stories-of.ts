@@ -26,7 +26,7 @@ export = createStorybookRule({
     schema: [],
   },
 
-  create(context: any) {
+  create(context) {
     // variables should be defined here
 
     //----------------------------------------------------------------------
@@ -40,7 +40,7 @@ export = createStorybookRule({
     //----------------------------------------------------------------------
 
     return {
-      ImportSpecifier(node: any) {
+      ImportSpecifier(node) {
         if (node.imported.name === 'storiesOf') {
           context.report({
             node,

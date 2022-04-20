@@ -4,21 +4,20 @@
  */
 
 import { CategoryId } from '../utils/constants'
-import {
-  isExpressionStatement,
-  isCallExpression,
-  isMemberExpression,
-  isIdentifier,
-  isBlockStatement,
-} from '../utils/ast'
+import { isIdentifier, isImportSpecifier } from '../utils/ast'
 
 import { createStorybookRule } from '../utils/create-storybook-rule'
+import { ImportDeclaration, Identifier } from '@typescript-eslint/types/dist/ast-spec'
 
 //------------------------------------------------------------------------------
 // Rule Definition
 //------------------------------------------------------------------------------
 
-export = createStorybookRule({
+type TDefaultOptions = {
+  storybookJestPath?: string
+}[]
+
+export = createStorybookRule<TDefaultOptions, string>({
   name: 'use-storybook-expect',
   defaultOptions: [],
   meta: {
@@ -38,57 +37,29 @@ export = createStorybookRule({
     },
   },
 
-  create(context: any) {
+  create(context) {
     // variables should be defined here
 
     //----------------------------------------------------------------------
     // Helpers
     //----------------------------------------------------------------------
 
-    const getExpressionStatements = (body = []) => {
-      return body.filter((b) => isExpressionStatement(b))
-    }
-
-    //@ts-ignore
-    const isExpect = (expression) => {
-      return (
-        isCallExpression(expression) &&
-        isMemberExpression(expression.callee) &&
-        isCallExpression(expression.callee.object) &&
-        isIdentifier(expression.callee.object.callee) &&
-        expression.callee.object.callee.name === 'expect'
-      )
-    }
-
-    const isExpectFromStorybookImported = (node: any) => {
+    const isExpectFromStorybookImported = (node: ImportDeclaration) => {
       return (
         node.source.value === '@storybook/jest' &&
-        node.specifiers.find((spec: any) => spec.imported.name === 'expect')
+        node.specifiers.find((spec) => isImportSpecifier(spec) && spec.imported.name === 'expect')
       )
     }
 
-    const checkExpectInvocations = (blockStatement) => {
-      if (!isBlockStatement(blockStatement)) {
-        return
-      }
-
-      const expressionBody = blockStatement.body || []
-      const expressionStatements = getExpressionStatements(expressionBody)
-      expressionStatements.forEach(({ expression }) => {
-        if (isExpect(expression)) {
-          expectInvocations.push(expression)
-        }
-      })
-    }
     //----------------------------------------------------------------------
     // Public
     //----------------------------------------------------------------------
 
     let isImportingFromStorybookExpect = false
-    let expectInvocations: any = []
+    let expectInvocations: Identifier[] = []
 
     return {
-      ImportDeclaration(node: any) {
+      ImportDeclaration(node) {
         if (isExpectFromStorybookImported(node)) {
           isImportingFromStorybookExpect = true
         }
@@ -104,12 +75,11 @@ export = createStorybookRule({
       },
       'Program:exit': function () {
         if (!isImportingFromStorybookExpect && expectInvocations.length) {
-          //@ts-ignore
           expectInvocations.forEach((node) => {
             context.report({
               node,
               messageId: 'useExpectFromStorybook',
-              fix: function (fixer: any) {
+              fix: function (fixer) {
                 return fixer.insertTextAfterRange(
                   [0, 0],
                   "import { expect } from '@storybook/jest';\n"
@@ -118,7 +88,7 @@ export = createStorybookRule({
               suggest: [
                 {
                   messageId: 'updateImports',
-                  fix: function (fixer: any) {
+                  fix: function (fixer) {
                     return fixer.insertTextAfterRange(
                       [0, 0],
                       "import { expect } from '@storybook/jest';\n"

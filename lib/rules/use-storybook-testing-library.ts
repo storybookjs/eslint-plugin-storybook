@@ -3,6 +3,12 @@
  * @author Yann Braga
  */
 
+import {
+  Range,
+  StringLiteral,
+  ImportDeclaration,
+  ImportClause,
+} from '@typescript-eslint/types/dist/ast-spec'
 import { isImportDefaultSpecifier } from '../utils/ast'
 import { CategoryId } from '../utils/constants'
 import { createStorybookRule } from '../utils/create-storybook-rule'
@@ -30,13 +36,13 @@ export = createStorybookRule({
     },
   },
 
-  create(context: any) {
+  create(context) {
     // variables should be defined here
 
     //----------------------------------------------------------------------
     // Helpers
     //----------------------------------------------------------------------
-    const getRangeWithoutQuotes = (source) => {
+    const getRangeWithoutQuotes = (source: StringLiteral): Range => {
       return [
         // Not sure how to improve this. If I use node.source.range
         // it will eat the quotes and we do not want to specify whether the quotes are single or double
@@ -45,9 +51,10 @@ export = createStorybookRule({
       ]
     }
 
-    const hasDefaultImport = (specifiers) => specifiers.find((s) => isImportDefaultSpecifier(s))
+    const hasDefaultImport = (specifiers: ImportClause[]) =>
+      specifiers.find((s) => isImportDefaultSpecifier(s))
 
-    const getSpecifiers = (node) => {
+    const getSpecifiers = (node: ImportDeclaration) => {
       const { specifiers } = node
 
       const start = specifiers[0].range[0]
@@ -66,10 +73,10 @@ export = createStorybookRule({
       }
       const text = fullText.substring(start, end)
 
-      return { range: [start, end], text }
+      return { range: [start, end] as Range, text }
     }
 
-    const fixSpecifiers = (specifiersText) => {
+    const fixSpecifiers = (specifiersText: string) => {
       const flattened = specifiersText
         .replace('{', '')
         .replace('}', '')
@@ -83,7 +90,7 @@ export = createStorybookRule({
     //----------------------------------------------------------------------
 
     return {
-      ImportDeclaration(node: any) {
+      ImportDeclaration(node) {
         if (node.source.value.includes('@testing-library')) {
           context.report({
             node,

@@ -4,11 +4,12 @@
  */
 
 import path from 'path'
-import { Program, Node, ImportSpecifier } from '@typescript-eslint/types/dist/ast-spec'
+import { Program, Node } from '@typescript-eslint/types/dist/ast-spec'
 
 import { CategoryId } from '../utils/constants'
 import { isImportDeclaration, isLiteral, isIdentifier } from '../utils/ast'
 import { createStorybookRule } from '../utils/create-storybook-rule'
+import { ReportFixFunction } from '@typescript-eslint/experimental-utils/dist/ts-eslint'
 
 //------------------------------------------------------------------------------
 // Rule Definition
@@ -33,7 +34,7 @@ export = createStorybookRule({
     schema: [],
   },
 
-  create(context: any) {
+  create(context) {
     // variables should be defined here
 
     //----------------------------------------------------------------------
@@ -50,7 +51,7 @@ export = createStorybookRule({
           stmt.source.value.startsWith(`./${name}`)
         ) {
           return !!stmt.specifiers.find(
-            (spec: ImportSpecifier) => isIdentifier(spec.local) && spec.local.name === name
+            (spec) => isIdentifier(spec.local) && spec.local.name === name
           )
         }
       })
@@ -65,7 +66,7 @@ export = createStorybookRule({
     let hasStoriesOfImport = false
 
     return {
-      ImportSpecifier(node: any) {
+      ImportSpecifier(node) {
         if (node.imported.name === 'storiesOf') {
           hasStoriesOfImport = true
         }
@@ -81,12 +82,13 @@ export = createStorybookRule({
           const componentName = getComponentName(program, context.getFilename())
           const firstNonImportStatement = program.body.find((n) => !isImportDeclaration(n))
           const node = firstNonImportStatement || program.body[0] || program
+
           const report = {
             node,
             messageId: 'shouldHaveDefaultExport',
-          }
+          } as const
 
-          const fix = (fixer) => {
+          const fix: ReportFixFunction = (fixer) => {
             const metaDeclaration = componentName
               ? `export default { component: ${componentName} }\n`
               : 'export default {}\n'

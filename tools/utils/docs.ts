@@ -2,6 +2,7 @@ import { readFileSync, writeFileSync } from 'fs'
 import { resolve } from 'path'
 
 import { format, resolveConfig } from 'prettier'
+import { TRulesList, TRuleListWithoutName } from '../update-rules-list'
 
 import { categoryIds } from './categories'
 
@@ -37,17 +38,18 @@ const staticElements = {
   ].join('\n'),
 }
 
-const generateRulesListTable = (rulesList: any) =>
+const generateRulesListTable = (rulesList: TRuleListWithoutName[]) =>
   [staticElements.listHeaderRow, staticElements.listSpacerRow, ...rulesList]
     .map((column) => `|${column.join('|')}|`)
     .join('\n')
 
-const generateRulesListMarkdown = (rulesList: any) =>
+const generateRulesListMarkdown = (rulesList: TRuleListWithoutName[]) =>
   ['', staticElements.rulesListKey, '', generateRulesListTable(rulesList), ''].join('\n')
 
 const listBeginMarker = '<!-- RULES-LIST:START -->'
 const listEndMarker = '<!-- RULES-LIST:END -->'
-const overWriteRulesList = (rulesList: any, readme: string) => {
+
+const overWriteRulesList = (rulesList: TRuleListWithoutName[], readme: string) => {
   const listStartIndex = readme.indexOf(listBeginMarker)
   const listEndIndex = readme.indexOf(listEndMarker)
 
@@ -66,7 +68,8 @@ const overWriteRulesList = (rulesList: any, readme: string) => {
 
 const ruleCategoriesBeginMarker = '<!-- RULE-CATEGORIES:START -->'
 const ruleCategoriesEndMarker = '<!-- RULE-CATEGORIES:END -->'
-const overWriteRuleDocs = (rule: any, ruleDocFile: string) => {
+
+const overWriteRuleDocs = (rule: TRulesList, ruleDocFile: string) => {
   const ruleCategoriesStartIndex = ruleDocFile.indexOf(ruleCategoriesBeginMarker)
   const ruleCategoriesEndIndex = ruleDocFile.indexOf(ruleCategoriesEndMarker)
 
@@ -83,9 +86,9 @@ const overWriteRuleDocs = (rule: any, ruleDocFile: string) => {
   ].join('\n')
 }
 
-export const writeRulesListInReadme = (rulesList: any) => {
+export const writeRulesListInReadme = (rulesList: TRulesList[]) => {
   const readme = readFileSync(readmePath, 'utf8')
-  const rulesListWithoutName = rulesList.map((rule) => rule.slice(1))
+  const rulesListWithoutName = rulesList.map((rule) => rule.slice(1)) as TRuleListWithoutName[]
   const newReadme = format(overWriteRulesList(rulesListWithoutName, readme), {
     parser: 'markdown',
     ...prettierConfig,
@@ -94,7 +97,7 @@ export const writeRulesListInReadme = (rulesList: any) => {
   writeFileSync(readmePath, newReadme)
 }
 
-export const updateRulesDocs = (rulesList: any) => {
+export const updateRulesDocs = (rulesList: TRulesList[]) => {
   rulesList.forEach((rule) => {
     const ruleName = rule[0]
     const ruleDocFilePath = resolve(ruleDocsPath, `${ruleName}.md`)

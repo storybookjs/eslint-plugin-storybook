@@ -1628,6 +1628,11 @@
   resolved "https://registry.npmjs.org/@types/prettier/-/prettier-2.4.1.tgz#e1303048d5389563e130f5bdd89d37a99acb75eb"
   integrity sha512-Fo79ojj3vdEZOHg3wR9ksAMRz4P3S5fDB5e/YWZiFnyFQI1WY2Vftu9XoXVVtJfxB7Bpce/QTqWSSntkz2Znrw==
 
+"@types/requireindex@^1.2.0":
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/@types/requireindex/-/requireindex-1.2.0.tgz#b31ed3719fe0a5824fef9a3165f7743560d26bd5"
+  integrity sha512-XgAXuN2bI/w2kAN6jwhb5jrrSznOsded+Fz5YC+3Vs3f8UyE3d8FnTvIWe6shZdpz9NMHY/wtEWk17yL0hCSmg==
+
 "@types/stack-utils@^2.0.0":
   version "2.0.1"
   resolved "https://registry.npmjs.org/@types/stack-utils/-/stack-utils-2.0.1.tgz#20f18294f797f2209b5f65c8e3b5c8e8261d127c"

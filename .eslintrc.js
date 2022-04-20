@@ -25,7 +25,7 @@ module.exports = {
     {
       files: ['tests/**/*.js'],
       rules: {
-        'node/no-unpublished-require': 'off'
+        'node/no-unpublished-require': 'off',
       },
       env: { mocha: true },
     },
