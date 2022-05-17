@@ -117,3 +117,7 @@ This plugin does not support MDX files.
 
 Looking into improving this plugin? That would be awesome!
 Please refer to [the contributing guidelines](./CONTRIBUTING.md) for steps to contributing.
+
+## License
+
+[MIT](./LICENSE)
