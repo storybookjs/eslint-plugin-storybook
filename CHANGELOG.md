@@ -1,3 +1,15 @@
+# v0.5.12 (Tue May 17 2022)
+
+#### 🐛 Bug Fix
+
+- Add license [#93](https://github.com/storybookjs/eslint-plugin-storybook/pull/93) ([@yannbf](https://github.com/yannbf))
+
+#### Authors: 1
+
+- Yann Braga ([@yannbf](https://github.com/yannbf))
+
+---
+
 # v0.5.11 (Wed Apr 20 2022)
 
 #### 🐛 Bug Fix
