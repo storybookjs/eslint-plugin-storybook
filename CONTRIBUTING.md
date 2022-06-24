@@ -59,6 +59,24 @@ Run the following command for testing the rules:
 yarn test --watch
 ```
 
+If you want to run tests for a particular rule and skip the rest, you can do so like this:
+
+```js
+ruleTester.run('my-rule-name', rule, {
+  valid: [
+    'export default { component: Button }',
+  ],
+
+  invalid: [
+    {
+      only: true, // <-- Add this property, which is equivalent to it.only in jest
+      code: "export default { title: 'Button', component: Button }",
+      errors: [ ... ],
+    },
+  ]
+})
+```
+
 ### Updating configs or documentation
 
 When you make changes to rules or create/delete rules, the configuration files and documentation have to be updated. For that, run the following command:
@@ -71,4 +89,4 @@ yarn update-all
 
 - The [ESLint official developer guide](https://eslint.org/docs/developer-guide/working-with-rules) can be useful to assist when writing rules
 - The [AST Explorer](https://astexplorer.net/) website is the perfect place to get reference to writing rules. Given that ESLint rules are based in AST (Abstract Syntax Tree), you can paste an example code there and visualize all properties of the resulting AST of that code.
-- Storybook has a discord community! And we need more people like you. Please [join us](https://discord.gg/storybook) and say hi in the #contributors channel! 👋
+- Storybook has a discord community! And we need more people like you. Please [join us](https://discord.gg/storybook) and say hi in the [#contributing](https://discord.com/channels/486522875931656193/839297503446695956) channel! 👋
