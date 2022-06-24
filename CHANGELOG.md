@@ -1,3 +1,15 @@
+# v0.5.13 (Fri Jun 24 2022)
+
+#### ⚠️ Pushed to `main`
+
+- docs(CONTRIBUTING): add more test instructions [skip-ci] ([@yannbf](https://github.com/yannbf))
+
+#### Authors: 1
+
+- Yann Braga ([@yannbf](https://github.com/yannbf))
+
+---
+
 # v0.5.12 (Tue May 17 2022)
 
 #### 🐛 Bug Fix
