@@ -16,8 +16,6 @@ import {
   isLiteral,
 } from '../utils/ast'
 import { Property } from '@typescript-eslint/types/dist/ast-spec'
-import { BigIntLiteral, BooleanLiteral, NullLiteral, StringLiteral } from 'typescript'
-import { AST_NODE_TYPES } from '@typescript-eslint/experimental-utils'
 
 //------------------------------------------------------------------------------
 // Rule Definition
@@ -91,7 +89,7 @@ export = createStorybookRule({
         packageJson.dependencies = parsedFile.dependencies || {}
         packageJson.devDependencies = parsedFile.devDependencies || {}
       } catch (e) {
-        console.error(
+        throw new Error(
           'Could not fetch package.json - it is probably not in the same directory as the .storybook folder'
         )
       }
@@ -143,7 +141,15 @@ export = createStorybookRule({
           ? resolve(context.getPhysicalFilename(), '../../')
           : './'
 
-        const packageJsonObject = getPackageJson(`${projectRoot}/package.json`)
+        let packageJsonObject: Record<string, any>
+        try {
+          packageJsonObject = getPackageJson(`${projectRoot}/package.json`)
+        } catch (e) {
+          // if we cannot find the package.json, we cannot check if the addons are installed
+          console.error(e)
+          return
+        }
+
         const depsAndDevDeps = mergeDepsWithDevDeps(packageJsonObject)
 
         if (isObjectExpression(node.right)) {
