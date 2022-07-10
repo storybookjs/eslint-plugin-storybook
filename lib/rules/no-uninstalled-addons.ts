@@ -62,7 +62,9 @@ export = createStorybookRule({
 
     type IsAddonInstalled = (addon: string, installedAddons: string[]) => boolean
     const isAddonInstalled: IsAddonInstalled = (addon, installedAddons) => {
-      return installedAddons.includes(addon)
+      // cleanup /register or /preset from registered addon
+      const addonName = addon.replace('/register', '').replace('/preset', '')
+      return installedAddons.includes(addonName)
     }
 
     type AreThereAddonsNotInstalled = (

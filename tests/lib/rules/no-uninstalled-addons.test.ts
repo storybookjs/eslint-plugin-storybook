@@ -64,7 +64,15 @@ ruleTester.run('no-uninstalled-addons', rule, {
           "@storybook/addon-essentials",
           "@storybook/addon-interactions",
         ]
-      }  
+      }
+  `,
+    `
+    module.exports = {
+        addons: [
+          "storybook-addon-valid-addon/register",
+          "addon-without-the-prefix/preset",
+        ]
+      }
   `,
     `
     module.exports = {
@@ -74,7 +82,7 @@ ruleTester.run('no-uninstalled-addons', rule, {
           "@storybook/addon-interactions",
           "storybook-addon-valid-addon",
         ]
-      } 
+      }
   `,
     `
     module.exports = {
@@ -84,7 +92,7 @@ ruleTester.run('no-uninstalled-addons', rule, {
           "@storybook/addon-interactions",
           "addon-without-the-prefix",
         ]
-      }  
+      }
   `,
     `
     module.exports = {
@@ -96,9 +104,12 @@ ruleTester.run('no-uninstalled-addons', rule, {
           "@storybook/addon-interactions",
           {
             name: "addon-without-the-prefix",
-          }
+          },
+          {
+            name: "storybook-addon-valid-addon/register",
+          },
         ]
-      }  
+      }
   `,
   ],
   invalid: [
@@ -111,7 +122,7 @@ ruleTester.run('no-uninstalled-addons', rule, {
           "@storybook/addon-interactions",
           '@storybook/not-installed-addon'
         ]
-      } 
+      }
       `,
       errors: [
         {
@@ -135,7 +146,7 @@ ruleTester.run('no-uninstalled-addons', rule, {
             name: '@storybook/not-installed-addon'
           }
         ]
-      } 
+      }
       `,
       errors: [
         {
@@ -157,7 +168,7 @@ ruleTester.run('no-uninstalled-addons', rule, {
           },
           "@storybook/addon-interactions",
         ]
-      } 
+      }
       `,
       errors: [
         {
@@ -177,7 +188,7 @@ ruleTester.run('no-uninstalled-addons', rule, {
           "@storybook/adon-essentials",
           "@storybook/addon-interactions",
         ]
-      } 
+      }
       `,
       errors: [
         {
@@ -199,7 +210,7 @@ ruleTester.run('no-uninstalled-addons', rule, {
           "addon-withut-the-prefix",
           "@storybook/addon-esentials",
         ]
-      } 
+      }
       `,
       errors: [
         {
