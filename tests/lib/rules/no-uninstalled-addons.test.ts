@@ -1,6 +1,6 @@
 /**
  * @fileoverview This rule identifies storybook addons that are invalid because they are either not installed or contain a typo in their name.
- * @author Andre Santos
+ * @author Andre "andrelas1" Santos
  */
 
 //------------------------------------------------------------------------------
@@ -14,7 +14,7 @@ import ruleTester from '../../utils/rule-tester'
 
 jest.mock('fs', () => ({
   ...jest.requireActual('fs'),
-  readFileSync: (a: string, b: string) => `
+  readFileSync: () => `
     {
       "name": "react-repro",
       "version": "1.0.0",
@@ -32,6 +32,7 @@ jest.mock('fs', () => ({
         "@storybook/addon-docs": "^6.5.9",
         "@storybook/addon-essentials": "^6.5.9",
         "@storybook/addon-interactions": "^6.5.9",
+        "@storybook/preset-create-react-app": "^6.5.9",
         "@storybook/addon-links": "^6.5.9",
         "@storybook/builder-webpack4": "^6.5.9",
         "@storybook/manager-webpack4": "^6.5.9",
@@ -63,6 +64,7 @@ ruleTester.run('no-uninstalled-addons', rule, {
         "@storybook/addon-links",
         "@storybook/addon-essentials",
         "@storybook/addon-interactions",
+        "@storybook/preset-create-react-app"
       ]
     }
   `,
