@@ -14,8 +14,10 @@ import {
   isIdentifier,
   isArrayExpression,
   isLiteral,
+  isVariableDeclarator,
+  isVariableDeclaration,
 } from '../utils/ast'
-import { Property } from '@typescript-eslint/types/dist/ast-spec'
+import { Property, ArrayExpression } from '@typescript-eslint/types/dist/ast-spec'
 
 //------------------------------------------------------------------------------
 // Rule Definition
@@ -97,17 +99,19 @@ export = createStorybookRule({
       return packageJson
     }
 
-    const extractAllAddonsFromTheStorybookConfig = (addonsProperty: Property | undefined) => {
-      if (addonsProperty && isArrayExpression(addonsProperty.value)) {
+    const extractAllAddonsFromTheStorybookConfig = (
+      addonsExpression: ArrayExpression | undefined
+    ) => {
+      if (addonsExpression?.elements) {
         // extract all nodes taht are a string inside the addons array
-        const nodesWithAddons = addonsProperty.value.elements
+        const nodesWithAddons = addonsExpression.elements
           .map((elem) => (isLiteral(elem) ? { value: elem.value, node: elem } : undefined))
           .filter(excludeNullable)
 
         const listOfAddonsInString = nodesWithAddons.map((elem) => elem.value) as string[]
 
         // extract all nodes that are an object inside the addons array
-        const nodesWithAddonsInObj = addonsProperty.value.elements
+        const nodesWithAddonsInObj = addonsExpression.elements
           .map((elem) => (isObjectExpression(elem) ? elem : { properties: [] }))
           .map((elem) => {
             const property: Property = elem.properties.find(
@@ -129,52 +133,80 @@ export = createStorybookRule({
       return { listOfAddons: [], listOfAddonElements: [] }
     }
 
+    function reportUninstalledAddons(addonsProp: ArrayExpression) {
+      // when this is running for .storybook/main.js, we get the path to the folder which contains the package.json of the
+      // project. This will be handy for monorepos that may be running ESLint in a node process in another folder.
+      const projectRoot = context.getPhysicalFilename
+        ? resolve(context.getPhysicalFilename(), '../../')
+        : './'
+      let packageJsonObject: Record<string, any>
+      try {
+        packageJsonObject = getPackageJson(`${projectRoot}/package.json`)
+      } catch (e) {
+        // if we cannot find the package.json, we cannot check if the addons are installed
+        console.error(e)
+        return
+      }
+
+      const depsAndDevDeps = mergeDepsWithDevDeps(packageJsonObject)
+
+      const { listOfAddons, listOfAddonElements } =
+        extractAllAddonsFromTheStorybookConfig(addonsProp)
+      const result = areThereAddonsNotInstalled(listOfAddons, depsAndDevDeps)
+
+      if (result) {
+        const elemsWithErrors = listOfAddonElements.filter(
+          (elem) => !!result.find((addon) => addon.name === elem.value)
+        )
+        elemsWithErrors.forEach((elem) => {
+          context.report({
+            node: elem.node,
+            messageId: 'addonIsNotInstalled',
+            data: { addonName: elem.value },
+          })
+        })
+      }
+    }
+
     //----------------------------------------------------------------------
     // Public
     //----------------------------------------------------------------------
 
     return {
       AssignmentExpression: function (node) {
-        // when this is running for .storybook/main.js, we get the path to the folder which contains the package.json of the
-        // project. This will be handy for monorepos that may be running ESLint in a node process in another folder.
-        const projectRoot = context.getPhysicalFilename
-          ? resolve(context.getPhysicalFilename(), '../../')
-          : './'
-
-        let packageJsonObject: Record<string, any>
-        try {
-          packageJsonObject = getPackageJson(`${projectRoot}/package.json`)
-        } catch (e) {
-          // if we cannot find the package.json, we cannot check if the addons are installed
-          console.error(e)
-          return
-        }
-
-        const depsAndDevDeps = mergeDepsWithDevDeps(packageJsonObject)
-
         if (isObjectExpression(node.right)) {
           const addonsProp = node.right.properties.find(
-            (prop) => isProperty(prop) && isIdentifier(prop.key) && prop.key.name === 'addons'
-          ) as Property | undefined
+            (prop): prop is Property =>
+              isProperty(prop) && isIdentifier(prop.key) && prop.key.name === 'addons'
+          )
 
-          const { listOfAddons, listOfAddonElements } =
-            extractAllAddonsFromTheStorybookConfig(addonsProp)
-
-          const result = areThereAddonsNotInstalled(listOfAddons, depsAndDevDeps)
-
-          if (result) {
-            const elemsWithErrors = listOfAddonElements.filter(
-              (elem) => !!result.find((addon) => addon.name === elem.value)
-            )
-
-            elemsWithErrors.forEach((elem) => {
-              context.report({
-                node: elem.node,
-                messageId: 'addonIsNotInstalled',
-                data: { addonName: elem.value },
-              })
-            })
+          if (addonsProp && addonsProp.value && isArrayExpression(addonsProp.value)) {
+            reportUninstalledAddons(addonsProp.value)
           }
+        }
+      },
+      ExportDefaultDeclaration: function (node) {
+        if (isObjectExpression(node.declaration)) {
+          const addonsProp = node.declaration.properties.find(
+            (prop): prop is Property =>
+              isProperty(prop) && isIdentifier(prop.key) && prop.key.name === 'addons'
+          )
+
+          if (addonsProp && addonsProp.value && isArrayExpression(addonsProp.value)) {
+            reportUninstalledAddons(addonsProp.value)
+          }
+        }
+      },
+      ExportNamedDeclaration: function (node) {
+        const addonsProp =
+          isVariableDeclaration(node.declaration) &&
+          node.declaration.declarations.find(
+            (decl) =>
+              isVariableDeclarator(decl) && isIdentifier(decl.id) && decl.id.name === 'addons'
+          )
+
+        if (addonsProp && isArrayExpression(addonsProp.init)) {
+          reportUninstalledAddons(addonsProp.init)
         }
       },
     }
