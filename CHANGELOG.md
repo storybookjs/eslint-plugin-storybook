@@ -1,3 +1,16 @@
+# v0.6.0 (Sun Jul 10 2022)
+
+#### 🚀 Enhancement
+
+- feat(no-uninstalled-addons): add uninstalled plugin rule [#96](https://github.com/storybookjs/eslint-plugin-storybook/pull/96) ([@andrelas1](https://github.com/andrelas1) [@yannbf](https://github.com/yannbf))
+
+#### Authors: 2
+
+- Andre Luis Araujo Santos ([@andrelas1](https://github.com/andrelas1))
+- Yann Braga ([@yannbf](https://github.com/yannbf))
+
+---
+
 # v0.5.13 (Fri Jun 24 2022)
 
 #### ⚠️ Pushed to `main`
