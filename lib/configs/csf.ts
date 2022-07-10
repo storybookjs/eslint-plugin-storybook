@@ -17,5 +17,11 @@ export = {
         'storybook/story-exports': 'error',
       },
     },
+    {
+      files: ['main.@(js|cjs|mjs|ts)'],
+      rules: {
+        'storybook/no-uninstalled-addons': 'error',
+      },
+    },
   ],
 }

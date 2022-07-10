@@ -19,10 +19,12 @@ const externalRuleOverrides = {
   'import/no-anonymous-default-export': 'off',
 }
 
-function formatRules(rules: TCategory['rules']) {
+function formatRules(rules: TCategory['rules'], exclude?: string[]) {
   const obj = rules.reduce(
     (setting, rule) => {
-      setting[rule.ruleId] = rule.meta.docs.recommended || 'error'
+      if (!exclude?.includes(rule.ruleId)) {
+        setting[rule.ruleId] = rule.meta.docs.recommended || 'error'
+      }
       return setting
     },
     { ...externalRuleOverrides }
@@ -31,11 +33,20 @@ function formatRules(rules: TCategory['rules']) {
   return JSON.stringify(obj, null, 2)
 }
 
+function formatSingleRule(rules: TCategory['rules'], ruleId: string) {
+  const ruleOpt = rules.find((rule) => rule.ruleId === ruleId)?.meta.docs.recommended || 'error'
+
+  return JSON.stringify({ [ruleId]: ruleOpt }, null, 2)
+}
+
 const SUPPORTED_EXTENSIONS = ['ts', 'tsx', 'js', 'jsx', 'mjs', 'cjs']
 const STORIES_GLOBS = [
   `'*.stories.@(${SUPPORTED_EXTENSIONS.join('|')})'`,
   `'*.story.@(${SUPPORTED_EXTENSIONS.join('|')})'`,
 ]
+
+// Other files that will be linted
+const MAIN_JS_FILE = [`'.storybook/main.@(js|cjs|mjs|ts)'`]
 
 function formatCategory(category: TCategory) {
   const extendsCategoryId = extendsCategories[category.categoryId]
@@ -51,7 +62,10 @@ function formatCategory(category: TCategory) {
         ],
         overrides: [{
           files: [${STORIES_GLOBS.join(', ')}],
-          rules: ${formatRules(category.rules)}
+          rules: ${formatRules(category.rules, ['storybook/no-uninstalled-addons'])}
+        }, {
+          files: [${MAIN_JS_FILE.join(', ')}],
+          rules: ${formatSingleRule(category.rules, 'storybook/no-uninstalled-addons')}
         }]
       }
     `
