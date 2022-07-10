@@ -46,7 +46,7 @@ const STORIES_GLOBS = [
 ]
 
 // Other files that will be linted
-const MAIN_JS_FILE = [`'main.@(js|cjs|mjs|ts)'`]
+const MAIN_JS_FILE = [`'.storybook/main.@(js|cjs|mjs|ts)'`]
 
 function formatCategory(category: TCategory) {
   const extendsCategoryId = extendsCategories[category.categoryId]

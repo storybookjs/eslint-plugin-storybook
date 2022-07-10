@@ -1,6 +1,6 @@
 /**
  * @fileoverview This rule identifies storybook addons that are invalid because they are either not installed or contain a typo in their name.
- * @author Andre Santos
+ * @author Andre "andrelas1" Santos
  */
 
 import { readFileSync } from 'fs'

@@ -19,8 +19,6 @@ Another very important side note: your ESLint config must allow the linting of t
 ```
 // Inside your .eslintignore file
 !.storybook
-.storybook/*
-!.storybook/main.js
 ```
 
 For more info, check this [ESLint documentation](https://eslint.org/docs/latest/user-guide/configuring/ignoring-code#:~:text=In%20addition%20to,contents%2C%20are%20ignored).
@@ -33,7 +31,7 @@ module.exports = {
   addons: [
     '@storybook/addon-links',
     '@storybook/addon-essentials',
-    '@storybook/addon-interactions',
+    '@storybook/addon-interactions', // <-- this addon is not listed in the package.json
   ],
 }
 
@@ -69,7 +67,22 @@ module.exports = {
 }
 ```
 
-### Options
+### Configure
+
+Some Storybook folders use a different name for their config directory other than `.storybook`. This rule will not be applied there by default. If you want to have it, then you must add an override in your `.eslintrc.js` file, defining your config directory:
+
+```js
+{
+  overrides: [
+      {
+        files: ['your-config-dir/main.@(js|cjs|mjs|ts)'],
+        rules: {
+          'storybook/no-uninstalled-addons': 'error',
+        },
+      },
+    ],
+}
+```
 
 ## When Not To Use It
 
