@@ -37,11 +37,10 @@ module.exports = {
 
 // package.json
 {
-	"devDependencies": {
-		"@storybook/addon-links": "0.0.1",
+  "devDependencies": {
+    "@storybook/addon-links": "0.0.1",
     "@storybook/addon-essentials": "0.0.1",
-		'
-	}
+  }
 }
 ```
 
@@ -59,11 +58,11 @@ module.exports = {
 
 // package.json
 {
-	"devDependencies": {
-		"@storybook/addon-links": "0.0.1",
+  "devDependencies": {
+    "@storybook/addon-links": "0.0.1",
     "@storybook/addon-essentials": "0.0.1",
-		"@storybook/addon-interactions": "0.0.1"
-	}
+    "@storybook/addon-interactions": "0.0.1"
+  }
 }
 ```
 
