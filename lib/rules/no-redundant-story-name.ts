@@ -55,7 +55,9 @@ export = createStorybookRule({
 
         const decl = node.declaration
         if (isVariableDeclaration(decl)) {
-          const { id, init } = decl.declarations[0]
+          const declaration = decl.declarations[0]
+          if (declaration == null) return
+          const { id, init } = declaration
           if (isIdentifier(id) && isObjectExpression(init)) {
             const storyNameNode = init.properties.find(
               (prop) =>
