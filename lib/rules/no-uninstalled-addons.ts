@@ -62,8 +62,12 @@ export = createStorybookRule({
 
     type IsAddonInstalled = (addon: string, installedAddons: string[]) => boolean
     const isAddonInstalled: IsAddonInstalled = (addon, installedAddons) => {
-      // cleanup /register or /preset from registered addon
-      const addonName = addon.replace(/\/register$/, '').replace(/\/preset$/, '')
+      // cleanup /register or /preset + file extension from registered addon
+      const addonName = addon
+        .replace(/\.[mc]?js$/, '')
+        .replace(/\/register$/, '')
+        .replace(/\/preset$/, '')
+
       return installedAddons.includes(addonName)
     }
 
@@ -73,6 +77,8 @@ export = createStorybookRule({
     ) => false | { name: string }[]
     const areThereAddonsNotInstalled: AreThereAddonsNotInstalled = (addons, installedSbAddons) => {
       const result = addons
+        // remove local addons (e.g. ./my-addon/register.js)
+        .filter((addon) => !addon.startsWith('.'))
         .filter((addon) => !isAddonInstalled(addon, installedSbAddons))
         .map((addon) => ({ name: addon }))
       return result.length ? result : false
