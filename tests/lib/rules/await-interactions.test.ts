@@ -61,7 +61,10 @@ ruleTester.run('await-interactions', rule, {
     `,
     dedent`
       import { userEvent } from '../utils'
-      Basic.play = async () => {
+      import { within } from '@storybook/testing-library'
+      
+      Basic.play = async (context) => {
+        const canvas = within(context)
         userEvent.click(canvas.getByRole('button'))
       }
     `,
