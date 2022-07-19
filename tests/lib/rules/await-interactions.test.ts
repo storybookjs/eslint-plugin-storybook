@@ -59,13 +59,12 @@ ruleTester.run('await-interactions', rule, {
         await waitForElementToBeRemoved(() => userEvent.hover(canvas.getByTestId('password-error-info')))
       }
     `,
-    // // @TODO: https://github.com/storybookjs/eslint-plugin-storybook/issues/47
-    // dedent`
-    //   import { userEvent } from '../utils'
-    //   Basic.play = async () => {
-    //     userEvent.click(canvas.getByRole('button'))
-    //   }
-    // `,
+    dedent`
+      import { userEvent } from '../utils'
+      Basic.play = async () => {
+        userEvent.click(canvas.getByRole('button'))
+      }
+    `,
     // // @TODO: https://github.com/storybookjs/eslint-plugin-storybook/issues/28
     // dedent`
     //   Block.parameters = {

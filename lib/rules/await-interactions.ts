@@ -3,7 +3,7 @@
  * @author Yann Braga
  */
 
-import type { CallExpression, Identifier, Node } from '@typescript-eslint/types/dist/ast-spec'
+import type { ImportDeclaration, CallExpression, Identifier, Node } from '@typescript-eslint/types/dist/ast-spec'
 
 import { createStorybookRule } from '../utils/create-storybook-rule'
 import { CategoryId } from '../utils/constants'
@@ -130,6 +130,12 @@ export = createStorybookRule({
       return getClosestFunctionAncestor(parent)
     }
 
+    const isExpectFromStorybookImported = (node: ImportDeclaration) => {
+      return (
+        node.source.value.startsWith('@storybook/')
+      )
+    }
+
     //----------------------------------------------------------------------
     // Public
     //----------------------------------------------------------------------
@@ -137,9 +143,15 @@ export = createStorybookRule({
      * @param {import('eslint').Rule.Node} node
      */
 
+    let isImportingFromStorybookExpect = true
     let invocationsThatShouldBeAwaited = [] as Array<{ node: Node; method: Identifier }>
 
     return {
+      ImportDeclaration(node) {
+        if (!isExpectFromStorybookImported(node)) {
+          isImportingFromStorybookExpect = false
+        }
+      },
       CallExpression(node: CallExpression) {
         const method = getMethodThatShouldBeAwaited(node)
         if (method && !isAwaitExpression(node.parent) && !isAwaitExpression(node.parent?.parent)) {
@@ -147,7 +159,7 @@ export = createStorybookRule({
         }
       },
       'Program:exit': function () {
-        if (invocationsThatShouldBeAwaited.length) {
+        if (isImportingFromStorybookExpect && invocationsThatShouldBeAwaited.length) {
           invocationsThatShouldBeAwaited.forEach(({ node, method }) => {
             const parentFnNode = getClosestFunctionAncestor(node)
             const parentFnNeedsAsync =
