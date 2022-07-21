@@ -62,7 +62,7 @@ ruleTester.run('await-interactions', rule, {
     dedent`
       import { userEvent } from '../utils'
       import { within } from '@storybook/testing-library'
-      
+
       Basic.play = async (context) => {
         const canvas = within(context)
         userEvent.click(canvas.getByRole('button'))
@@ -105,6 +105,28 @@ ruleTester.run('await-interactions', rule, {
     `,
   ],
   invalid: [
+    {
+      code: dedent`
+        import { expect } from '@storybook/jest'
+        Basic.play = async ({ args }) => {
+          // should complain
+          expect(args.onClick).toHaveBeenCalled()
+        }
+      `,
+      output: dedent`
+        import { expect } from '@storybook/jest'
+        Basic.play = async ({ args }) => {
+          // should complain
+          await expect(args.onClick).toHaveBeenCalled()
+        }
+      `,
+      errors: [
+        {
+          messageId: 'interactionShouldBeAwaited',
+          data: { method: 'toHaveBeenCalled' },
+        },
+      ],
+    },
     {
       code: dedent`
         WithModalOpen.play = ({ canvasElement }) => {

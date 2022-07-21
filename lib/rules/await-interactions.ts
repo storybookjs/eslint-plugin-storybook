@@ -18,6 +18,7 @@ import {
   isFunctionDeclaration,
   isFunctionExpression,
   isProgram,
+  isImportSpecifier
 } from '../utils/ast'
 import { ReportFixFunction } from '@typescript-eslint/experimental-utils/dist/ts-eslint'
 
@@ -130,9 +131,17 @@ export = createStorybookRule({
       return getClosestFunctionAncestor(parent)
     }
 
+    const isUserEventFromStorybookImported = (node: ImportDeclaration) => {
+      return (
+        (node.source.value === '@storybook/testing-library' &&
+        node.specifiers.find((spec) => isImportSpecifier(spec) && spec.imported.name === 'userEvent' && spec.local.name === 'userEvent') !== undefined)
+      )
+    }
+
     const isExpectFromStorybookImported = (node: ImportDeclaration) => {
       return (
-        node.source.value.startsWith('@storybook/')
+        node.source.value === '@storybook/jest' &&
+        node.specifiers.find((spec) => isImportSpecifier(spec) && spec.imported.name === 'expect') !== undefined
       )
     }
 
@@ -143,14 +152,12 @@ export = createStorybookRule({
      * @param {import('eslint').Rule.Node} node
      */
 
-    let isImportingFromStorybookExpect = true
+    let isImportedFromStorybook = true
     let invocationsThatShouldBeAwaited = [] as Array<{ node: Node; method: Identifier }>
 
     return {
       ImportDeclaration(node) {
-        if (!isExpectFromStorybookImported(node)) {
-          isImportingFromStorybookExpect = false
-        }
+        isImportedFromStorybook = isUserEventFromStorybookImported(node) || isExpectFromStorybookImported(node)
       },
       CallExpression(node: CallExpression) {
         const method = getMethodThatShouldBeAwaited(node)
@@ -159,7 +166,7 @@ export = createStorybookRule({
         }
       },
       'Program:exit': function () {
-        if (isImportingFromStorybookExpect && invocationsThatShouldBeAwaited.length) {
+        if (isImportedFromStorybook && invocationsThatShouldBeAwaited.length) {
           invocationsThatShouldBeAwaited.forEach(({ node, method }) => {
             const parentFnNode = getClosestFunctionAncestor(node)
             const parentFnNeedsAsync =
