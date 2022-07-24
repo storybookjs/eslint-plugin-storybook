@@ -68,7 +68,7 @@ module.exports = {
 
 ### Configure
 
-Some Storybook folders use a different name for their config directory other than `.storybook`. This rule will not be applied there by default. If you want to have it, then you must add an override in your `.eslintrc.js` file, defining your config directory:
+Some Storybook folders use a different name for their config directory other than `.storybook`. This rule will not be applied there by default. Also, this rule will use the package.json in the folder where ESLint is running, which is in most cases the root folder of the project. If you have custom location for your storybook config directory and/or a different location of your package.json, then you must add an override in your `.eslintrc.js` file, defining your config directory:
 
 ```js
 {
@@ -77,11 +77,14 @@ Some Storybook folders use a different name for their config directory other tha
         files: ['your-config-dir/main.@(js|cjs|mjs|ts)'],
         rules: {
           'storybook/no-uninstalled-addons': 'error',
+          { packageJsonLocation: './folder/package.json'}
         },
       },
     ],
 }
 ```
+
+Note that the path must be relative to where ESLint runs from, which is usually relative to the root of the project.
 
 ## When Not To Use It
 

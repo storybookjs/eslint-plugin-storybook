@@ -38,11 +38,23 @@ export = createStorybookRule({
       addonIsNotInstalled: `The {{ addonName }} is not installed. Did you forget to install it?`,
     },
 
-    schema: [], // Add a schema if the rule has options. Otherwise remove this
+    schema: [
+      {
+        type: 'object',
+        properties: {
+          packageJsonLocation: {
+            type: 'string',
+          },
+        },
+      },
+    ], // Add a schema if the rule has options. Otherwise remove this
   },
 
   create(context) {
     // variables should be defined here
+    const packageJsonLocation = context.options.reduce((acc, val) => {
+      return val['packageJsonLocation'] || acc
+    }, '')
 
     //----------------------------------------------------------------------
     // Helpers
@@ -98,7 +110,7 @@ export = createStorybookRule({
         packageJson.devDependencies = parsedFile.devDependencies || {}
       } catch (e) {
         throw new Error(
-          'Could not fetch package.json - it is probably not in the same directory as the .storybook folder'
+          `The provided path in your eslintrc.json - ${path} is not a valid path to a package.json file or your package.json file is not in the same folder as ESLint is running from.`
         )
       }
 
@@ -142,16 +154,14 @@ export = createStorybookRule({
     function reportUninstalledAddons(addonsProp: ArrayExpression) {
       // when this is running for .storybook/main.js, we get the path to the folder which contains the package.json of the
       // project. This will be handy for monorepos that may be running ESLint in a node process in another folder.
-      const projectRoot = context.getPhysicalFilename
-        ? resolve(context.getPhysicalFilename(), '../../')
-        : './'
+      const getProjectRoot = () =>
+        context.getPhysicalFilename ? resolve(context.getPhysicalFilename(), '../../') : './'
       let packageJsonObject: Record<string, any>
       try {
-        packageJsonObject = getPackageJson(`${projectRoot}/package.json`)
+        packageJsonObject = getPackageJson(packageJsonLocation || `./package.json`)
       } catch (e) {
         // if we cannot find the package.json, we cannot check if the addons are installed
-        console.error(e)
-        return
+        throw new Error(e as string)
       }
 
       const depsAndDevDeps = mergeDepsWithDevDeps(packageJsonObject)
