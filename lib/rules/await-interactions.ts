@@ -3,7 +3,7 @@
  * @author Yann Braga
  */
 
-import type { ImportDeclaration, CallExpression, Identifier, Node } from '@typescript-eslint/types/dist/ast-spec'
+import type { ImportDeclaration, CallExpression, Identifier, Node, VariableDeclarator } from '@typescript-eslint/types/dist/ast-spec'
 
 import { createStorybookRule } from '../utils/create-storybook-rule'
 import { CategoryId } from '../utils/constants'
@@ -156,8 +156,11 @@ export = createStorybookRule({
     let invocationsThatShouldBeAwaited = [] as Array<{ node: Node; method: Identifier }>
 
     return {
-      ImportDeclaration(node) {
+      ImportDeclaration(node: ImportDeclaration) {
         isImportedFromStorybook = isUserEventFromStorybookImported(node) || isExpectFromStorybookImported(node)
+      },
+      VariableDeclarator(node: VariableDeclarator) {
+        isImportedFromStorybook = isImportedFromStorybook && ((node as any).id.name !== 'userEvent')
       },
       CallExpression(node: CallExpression) {
         const method = getMethodThatShouldBeAwaited(node)

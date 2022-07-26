@@ -68,6 +68,13 @@ ruleTester.run('await-interactions', rule, {
         userEvent.click(canvas.getByRole('button'))
       }
     `,
+    dedent`
+      Basic.play = async () => {
+        const userEvent = { test: () => {} }
+        // should not complain
+        userEvent.test()
+      }
+    `,
     // // @TODO: https://github.com/storybookjs/eslint-plugin-storybook/issues/28
     // dedent`
     //   Block.parameters = {
@@ -108,14 +115,14 @@ ruleTester.run('await-interactions', rule, {
     {
       code: dedent`
         import { expect } from '@storybook/jest'
-        Basic.play = async ({ args }) => {
+        WithModalOpen.play = async ({ args }) => {
           // should complain
           expect(args.onClick).toHaveBeenCalled()
         }
       `,
       output: dedent`
         import { expect } from '@storybook/jest'
-        Basic.play = async ({ args }) => {
+        WithModalOpen.play = async ({ args }) => {
           // should complain
           await expect(args.onClick).toHaveBeenCalled()
         }
