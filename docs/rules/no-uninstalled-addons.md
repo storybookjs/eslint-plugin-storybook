@@ -8,13 +8,13 @@
 
 ## Rule Details
 
-This rule checks if all addons in the storybook main.js file are properly listed in the root package.json of the npm project.
+This rule checks if all addons registered in `.storybook/main.js` are properly listed in the root package.json of your project.
 
 For instance, if the `@storybook/addon-links` is in the `.storybook/main.js` but is not listed in the `package.json` of the project, this rule will notify the user to add the addon to the package.json and install it.
 
-As an important side note, this rule will check for the package.json in the same level of the .storybook folder.
+As an important side note, this rule will check for the `package.json` in the **root level** of your project. You can customize the location of the `package.json` by [setting the `packageJsonPath` option](#configure).
 
-Another very important side note: your ESLint config must allow the linting of the .storybook folder. By default, ESLint ignores all dot-files so this folder will be ignored. In order to allow this rule to lint the .storybook/main.js file, it's important to configure ESLint to lint this file. This can be achieved by writing something like:
+Another very important side note: your ESLint config must allow the linting of the `.storybook` folder. By default, ESLint ignores all dot-files so this folder will be ignored. In order to allow this rule to lint the `.storybook/main.js` file, it's important to configure ESLint to lint this file. This can be achieved by writing something like:
 
 ```
 // Inside your .eslintignore file
@@ -68,7 +68,21 @@ module.exports = {
 
 ### Configure
 
-Some Storybook folders use a different name for their config directory other than `.storybook`. This rule will not be applied there by default. If you want to have it, then you must add an override in your `.eslintrc.js` file, defining your config directory:
+This rule assumes that the `package.json` is located in the root of your project. You can customize this by setting the `packageJsonPath` option of the rule:
+
+```js
+module.exports = {
+  rules: {
+    'storybook/no-uninstalled-addons': ['error', { packageJsonLocation: './folder/package.json' }],
+  },
+}
+```
+
+Note that the path must be relative to where ESLint runs from, which is usually relative to the root of the project.
+
+### What if I use a different storybook config directory?
+
+Some Storybook folders use a different name for their config directory other than `.storybook`. This rule will not be applied there by default. If you have a custom location for your storybook config directory, then you must add an override in your `.eslintrc.js` file, defining your config directory:
 
 ```js
 {
@@ -76,7 +90,7 @@ Some Storybook folders use a different name for their config directory other tha
       {
         files: ['your-config-dir/main.@(js|cjs|mjs|ts)'],
         rules: {
-          'storybook/no-uninstalled-addons': 'error',
+          'storybook/no-uninstalled-addons': 'error'
         },
       },
     ],
