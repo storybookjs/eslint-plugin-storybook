@@ -1,3 +1,24 @@
+# v0.6.2 (Tue Aug 02 2022)
+
+### Release Notes
+
+#### feat(no-uninstalled-addons): add option for a custom package.json location ([#102](https://github.com/storybookjs/eslint-plugin-storybook/pull/102))
+
+#### feat(no-uninstalled-addons): add option for a custom package.json location ([#102](https://github.com/storybookjs/eslint-plugin-storybook/pull/102))
+
+---
+
+#### 🐛 Bug Fix
+
+- feat(no-uninstalled-addons): add option for a custom package.json location [#102](https://github.com/storybookjs/eslint-plugin-storybook/pull/102) ([@andrelas1](https://github.com/andrelas1) [@yannbf](https://github.com/yannbf))
+
+#### Authors: 2
+
+- Andre Luis Araujo Santos ([@andrelas1](https://github.com/andrelas1))
+- Yann Braga ([@yannbf](https://github.com/yannbf))
+
+---
+
 # v0.6.1 (Tue Jul 12 2022)
 
 #### 🐛 Bug Fix
