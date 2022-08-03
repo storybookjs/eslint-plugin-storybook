@@ -1,3 +1,15 @@
+# v0.6.3 (Wed Aug 03 2022)
+
+#### 🐛 Bug Fix
+
+- deps: move ts-dedent to dependencies [#104](https://github.com/storybookjs/eslint-plugin-storybook/pull/104) ([@yannbf](https://github.com/yannbf))
+
+#### Authors: 1
+
+- Yann Braga ([@yannbf](https://github.com/yannbf))
+
+---
+
 # v0.6.2 (Tue Aug 02 2022)
 
 ### Release Notes
