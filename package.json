@@ -47,7 +47,8 @@
   "dependencies": {
     "@storybook/csf": "^0.0.1",
     "@typescript-eslint/experimental-utils": "^5.3.0",
-    "requireindex": "^1.1.0"
+    "requireindex": "^1.1.0",
+    "ts-dedent": "^2.2.0"
   },
   "devDependencies": {
     "@auto-it/released": "^10.32.2",
@@ -68,7 +69,6 @@
     "prettier": "^2.4.0",
     "prompts": "^2.4.2",
     "rimraf": "^3.0.2",
-    "ts-dedent": "^2.2.0",
     "ts-jest": "^27.0.7",
     "ts-migrate": "^0.1.26",
     "ts-node": "^10.4.0",
