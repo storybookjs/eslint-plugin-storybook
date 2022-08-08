@@ -1,3 +1,15 @@
+# v0.6.4 (Mon Aug 08 2022)
+
+#### 🐛 Bug Fix
+
+- no-uninstalled-addons: improve local addons filter [#105](https://github.com/storybookjs/eslint-plugin-storybook/pull/105) ([@yannbf](https://github.com/yannbf))
+
+#### Authors: 1
+
+- Yann Braga ([@yannbf](https://github.com/yannbf))
+
+---
+
 # v0.6.3 (Wed Aug 03 2022)
 
 #### 🐛 Bug Fix
