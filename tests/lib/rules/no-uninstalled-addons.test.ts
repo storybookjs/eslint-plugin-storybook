@@ -93,6 +93,10 @@ ruleTester.run('no-uninstalled-addons', rule, {
           addons: [
             "../my-local-addon",
             "../my-local-addon/index.cjs",
+            "/Users/foo/my-local-addon/index.js",
+            "/mount/foo/my-local-addon/index.js",
+            "C:\\Users\\foo\\my-local-addon/index.js",
+            "D:\\Users\\foo\\my-local-addon/index.js",
           ]
         }
     `,

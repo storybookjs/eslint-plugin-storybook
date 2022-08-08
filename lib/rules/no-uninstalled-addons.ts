@@ -84,6 +84,17 @@ export = createStorybookRule({
       return installedAddons.includes(addonName)
     }
 
+    const filterLocalAddons = (addon: string) => {
+      const isLocalAddon = (addon: string) =>
+        addon.startsWith('.') ||
+        addon.startsWith('/') ||
+        // for local Windows files e.g. (C: F: D:)
+        /\w:.*/.test(addon) ||
+        addon.startsWith('\\')
+
+      return !isLocalAddon(addon)
+    }
+
     type AreThereAddonsNotInstalled = (
       addons: string[],
       installedSbAddons: string[]
@@ -91,7 +102,7 @@ export = createStorybookRule({
     const areThereAddonsNotInstalled: AreThereAddonsNotInstalled = (addons, installedSbAddons) => {
       const result = addons
         // remove local addons (e.g. ./my-addon/register.js)
-        .filter((addon) => !addon.startsWith('.'))
+        .filter(filterLocalAddons)
         .filter((addon) => !isAddonInstalled(addon, installedSbAddons))
         .map((addon) => ({ name: addon }))
       return result.length ? result : false
