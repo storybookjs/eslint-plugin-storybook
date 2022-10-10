@@ -103,7 +103,7 @@ ruleTester.run('story-exports', rule, {
       // `,
       errors: [
         {
-          messageId: 'shouldHaveStoryExport',
+          messageId: 'shouldHaveStoryExportWithFilters',
         },
       ],
     },
@@ -132,7 +132,7 @@ ruleTester.run('story-exports', rule, {
       // `,
       errors: [
         {
-          messageId: 'shouldHaveStoryExport',
+          messageId: 'shouldHaveStoryExportWithFilters',
         },
       ],
     },
@@ -155,7 +155,7 @@ ruleTester.run('story-exports', rule, {
       // `,
       errors: [
         {
-          messageId: 'shouldHaveStoryExport',
+          messageId: 'shouldHaveStoryExportWithFilters',
         },
       ],
     },

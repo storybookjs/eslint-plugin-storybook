@@ -33,6 +33,8 @@ export = createStorybookRule({
     },
     messages: {
       shouldHaveStoryExport: 'The file should have at least one story export',
+      shouldHaveStoryExportWithFilters:
+        'The file should have at least one story export. Make sure the includeStories/excludeStories you defined are correct, otherwise Storybook will not use any stories for this file.',
       addStoryExport: 'Add a story export',
     },
     fixable: undefined, // change to 'code' once we have autofixes
@@ -94,9 +96,11 @@ export = createStorybookRule({
         // @TODO: bring apply this autofix with CSF3 release
         // const fix = (fixer) => fixer.insertTextAfter(node, `\n\nexport const Default = {}`)
 
+        const hasFilter =
+          nonStoryExportsConfig.includeStories || nonStoryExportsConfig.excludeStories
         const report = {
           node,
-          messageId: 'shouldHaveStoryExport',
+          messageId: hasFilter ? 'shouldHaveStoryExportWithFilters' : 'shouldHaveStoryExport',
           // fix,
         } as const
 
