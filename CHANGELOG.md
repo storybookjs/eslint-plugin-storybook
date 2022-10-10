@@ -1,3 +1,32 @@
+# v0.6.5 (Mon Oct 10 2022)
+
+### Release Notes
+
+#### story-exports: provide better feedback when using filters ([#107](https://github.com/storybookjs/eslint-plugin-storybook/pull/107))
+
+The `story-exports` rule now detects whether you are using `includeStories/excludeStories` and provides a more helpful message in case there are not exported stories. A possible scenario is you have a typo in your `includeStories` which will result in Storybook not including it:
+
+```js
+export default {
+  title: 'Button',
+  includeStories: ['myStory'], // <-- notice the lowercase m, which won't match with the story name
+};
+
+export const MyStory = {};
+```
+
+---
+
+#### 🐛 Bug Fix
+
+- story-exports: provide better feedback when using filters [#107](https://github.com/storybookjs/eslint-plugin-storybook/pull/107) ([@yannbf](https://github.com/yannbf))
+
+#### Authors: 1
+
+- Yann Braga ([@yannbf](https://github.com/yannbf))
+
+---
+
 # v0.6.4 (Mon Aug 08 2022)
 
 #### 🐛 Bug Fix
