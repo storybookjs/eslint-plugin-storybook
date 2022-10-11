@@ -4,7 +4,8 @@
  */
 
 import { readFileSync } from 'fs'
-import { resolve } from 'path'
+import dedent from 'ts-dedent'
+import { resolve, relative } from 'path'
 
 import { createStorybookRule } from '../utils/create-storybook-rule'
 import { CategoryId } from '../utils/constants'
@@ -35,14 +36,26 @@ export = createStorybookRule({
       recommended: 'error', // or 'error'
     },
     messages: {
-      addonIsNotInstalled: `The {{ addonName }} is not installed. Did you forget to install it?`,
+      addonIsNotInstalled: `The {{ addonName }} is not installed in {{packageJsonPath}}. Did you forget to install it or is your package.json in a different location?`,
     },
 
-    schema: [], // Add a schema if the rule has options. Otherwise remove this
+    schema: [
+      {
+        type: 'object',
+        properties: {
+          packageJsonLocation: {
+            type: 'string',
+          },
+        },
+      },
+    ], // Add a schema if the rule has options. Otherwise remove this
   },
 
   create(context) {
     // variables should be defined here
+    const packageJsonLocation = context.options.reduce((acc, val) => {
+      return val['packageJsonLocation'] || acc
+    }, '')
 
     //----------------------------------------------------------------------
     // Helpers
@@ -71,6 +84,17 @@ export = createStorybookRule({
       return installedAddons.includes(addonName)
     }
 
+    const filterLocalAddons = (addon: string) => {
+      const isLocalAddon = (addon: string) =>
+        addon.startsWith('.') ||
+        addon.startsWith('/') ||
+        // for local Windows files e.g. (C: F: D:)
+        /\w:.*/.test(addon) ||
+        addon.startsWith('\\')
+
+      return !isLocalAddon(addon)
+    }
+
     type AreThereAddonsNotInstalled = (
       addons: string[],
       installedSbAddons: string[]
@@ -78,7 +102,7 @@ export = createStorybookRule({
     const areThereAddonsNotInstalled: AreThereAddonsNotInstalled = (addons, installedSbAddons) => {
       const result = addons
         // remove local addons (e.g. ./my-addon/register.js)
-        .filter((addon) => !addon.startsWith('.'))
+        .filter(filterLocalAddons)
         .filter((addon) => !isAddonInstalled(addon, installedSbAddons))
         .map((addon) => ({ name: addon }))
       return result.length ? result : false
@@ -98,7 +122,10 @@ export = createStorybookRule({
         packageJson.devDependencies = parsedFile.devDependencies || {}
       } catch (e) {
         throw new Error(
-          'Could not fetch package.json - it is probably not in the same directory as the .storybook folder'
+          dedent`The provided path in your eslintrc.json - ${path} is not a valid path to a package.json file or your package.json file is not in the same folder as ESLint is running from.
+
+          Read more at: https://github.com/storybookjs/eslint-plugin-storybook/blob/main/docs/rules/no-uninstalled-addons.md
+          `
         )
       }
 
@@ -140,18 +167,13 @@ export = createStorybookRule({
     }
 
     function reportUninstalledAddons(addonsProp: ArrayExpression) {
-      // when this is running for .storybook/main.js, we get the path to the folder which contains the package.json of the
-      // project. This will be handy for monorepos that may be running ESLint in a node process in another folder.
-      const projectRoot = context.getPhysicalFilename
-        ? resolve(context.getPhysicalFilename(), '../../')
-        : './'
+      const packageJsonPath = resolve(packageJsonLocation || `./package.json`)
       let packageJsonObject: Record<string, any>
       try {
-        packageJsonObject = getPackageJson(`${projectRoot}/package.json`)
+        packageJsonObject = getPackageJson(packageJsonPath)
       } catch (e) {
         // if we cannot find the package.json, we cannot check if the addons are installed
-        console.error(e)
-        return
+        throw new Error(e as string)
       }
 
       const depsAndDevDeps = mergeDepsWithDevDeps(packageJsonObject)
@@ -164,11 +186,18 @@ export = createStorybookRule({
         const elemsWithErrors = listOfAddonElements.filter(
           (elem) => !!result.find((addon) => addon.name === elem.value)
         )
+
+        const rootDir = process.cwd().split('/').pop()
+        const packageJsonPath = `${rootDir}/${relative(process.cwd(), packageJsonLocation)}`
+
         elemsWithErrors.forEach((elem) => {
           context.report({
             node: elem.node,
             messageId: 'addonIsNotInstalled',
-            data: { addonName: elem.value },
+            data: {
+              addonName: elem.value,
+              packageJsonPath,
+            },
           })
         })
       }

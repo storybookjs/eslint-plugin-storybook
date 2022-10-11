@@ -1,3 +1,77 @@
+# v0.6.5 (Mon Oct 10 2022)
+
+### Release Notes
+
+#### story-exports: provide better feedback when using filters ([#107](https://github.com/storybookjs/eslint-plugin-storybook/pull/107))
+
+The `story-exports` rule now detects whether you are using `includeStories/excludeStories` and provides a more helpful message in case there are not exported stories. A possible scenario is you have a typo in your `includeStories` which will result in Storybook not including it:
+
+```js
+export default {
+  title: 'Button',
+  includeStories: ['myStory'], // <-- notice the lowercase m, which won't match with the story name
+};
+
+export const MyStory = {};
+```
+
+---
+
+#### 🐛 Bug Fix
+
+- story-exports: provide better feedback when using filters [#107](https://github.com/storybookjs/eslint-plugin-storybook/pull/107) ([@yannbf](https://github.com/yannbf))
+
+#### Authors: 1
+
+- Yann Braga ([@yannbf](https://github.com/yannbf))
+
+---
+
+# v0.6.4 (Mon Aug 08 2022)
+
+#### 🐛 Bug Fix
+
+- no-uninstalled-addons: improve local addons filter [#105](https://github.com/storybookjs/eslint-plugin-storybook/pull/105) ([@yannbf](https://github.com/yannbf))
+
+#### Authors: 1
+
+- Yann Braga ([@yannbf](https://github.com/yannbf))
+
+---
+
+# v0.6.3 (Wed Aug 03 2022)
+
+#### 🐛 Bug Fix
+
+- deps: move ts-dedent to dependencies [#104](https://github.com/storybookjs/eslint-plugin-storybook/pull/104) ([@yannbf](https://github.com/yannbf))
+
+#### Authors: 1
+
+- Yann Braga ([@yannbf](https://github.com/yannbf))
+
+---
+
+# v0.6.2 (Tue Aug 02 2022)
+
+### Release Notes
+
+#### feat(no-uninstalled-addons): add option for a custom package.json location ([#102](https://github.com/storybookjs/eslint-plugin-storybook/pull/102))
+
+#### feat(no-uninstalled-addons): add option for a custom package.json location ([#102](https://github.com/storybookjs/eslint-plugin-storybook/pull/102))
+
+---
+
+#### 🐛 Bug Fix
+
+- feat(no-uninstalled-addons): add option for a custom package.json location [#102](https://github.com/storybookjs/eslint-plugin-storybook/pull/102) ([@andrelas1](https://github.com/andrelas1) [@yannbf](https://github.com/yannbf))
+
+#### Authors: 2
+
+- Andre Luis Araujo Santos ([@andrelas1](https://github.com/andrelas1))
+- Yann Braga ([@yannbf](https://github.com/yannbf))
+
+---
+
 # v0.6.1 (Tue Jul 12 2022)
 
 #### 🐛 Bug Fix

@@ -93,6 +93,10 @@ ruleTester.run('no-uninstalled-addons', rule, {
           addons: [
             "../my-local-addon",
             "../my-local-addon/index.cjs",
+            "/Users/foo/my-local-addon/index.js",
+            "/mount/foo/my-local-addon/index.js",
+            "C:\\Users\\foo\\my-local-addon/index.js",
+            "D:\\Users\\foo\\my-local-addon/index.js",
           ]
         }
     `,
@@ -133,6 +137,7 @@ ruleTester.run('no-uninstalled-addons', rule, {
           type: AST_NODE_TYPES.Literal,
           data: {
             addonName: '@storybook/not-installed-addon',
+            packageJsonPath: 'eslint-plugin-storybook/',
           },
         },
       ],
@@ -156,6 +161,7 @@ ruleTester.run('no-uninstalled-addons', rule, {
           type: AST_NODE_TYPES.Literal,
           data: {
             addonName: '@storybook/not-installed-addon',
+            packageJsonPath: 'eslint-plugin-storybook/',
           },
         },
       ],
@@ -178,6 +184,7 @@ ruleTester.run('no-uninstalled-addons', rule, {
           type: AST_NODE_TYPES.Literal,
           data: {
             addonName: '@storybook/addon-esentials',
+            packageJsonPath: 'eslint-plugin-storybook/',
           },
         },
       ],
@@ -198,6 +205,7 @@ ruleTester.run('no-uninstalled-addons', rule, {
           type: AST_NODE_TYPES.Literal,
           data: {
             addonName: '@storybook/adon-essentials',
+            packageJsonPath: 'eslint-plugin-storybook/',
           },
         },
       ],
@@ -220,6 +228,7 @@ ruleTester.run('no-uninstalled-addons', rule, {
           type: AST_NODE_TYPES.Literal,
           data: {
             addonName: 'addon-withut-the-prefix',
+            packageJsonPath: 'eslint-plugin-storybook/',
           },
         },
         {
@@ -227,6 +236,7 @@ ruleTester.run('no-uninstalled-addons', rule, {
           type: AST_NODE_TYPES.Literal,
           data: {
             addonName: '@storybook/addon-esentials',
+            packageJsonPath: 'eslint-plugin-storybook/',
           },
         },
       ],
@@ -249,6 +259,7 @@ ruleTester.run('no-uninstalled-addons', rule, {
           type: AST_NODE_TYPES.Literal,
           data: {
             addonName: 'addon-withut-the-prefix',
+            packageJsonPath: 'eslint-plugin-storybook/',
           },
         },
         {
@@ -256,6 +267,7 @@ ruleTester.run('no-uninstalled-addons', rule, {
           type: AST_NODE_TYPES.Literal,
           data: {
             addonName: '@storybook/addon-esentials',
+            packageJsonPath: 'eslint-plugin-storybook/',
           },
         },
       ],
@@ -277,6 +289,7 @@ ruleTester.run('no-uninstalled-addons', rule, {
           type: AST_NODE_TYPES.Literal,
           data: {
             addonName: 'addon-withut-the-prefix',
+            packageJsonPath: 'eslint-plugin-storybook/',
           },
         },
         {
@@ -284,6 +297,7 @@ ruleTester.run('no-uninstalled-addons', rule, {
           type: AST_NODE_TYPES.Literal,
           data: {
             addonName: '@storybook/addon-esentials',
+            packageJsonPath: 'eslint-plugin-storybook/',
           },
         },
       ],
