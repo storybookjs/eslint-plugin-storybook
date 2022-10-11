@@ -1,3 +1,16 @@
+# v0.6.6 (Tue Oct 11 2022)
+
+#### 🐛 Bug Fix
+
+- fix: await interactions rule scope. [#100](https://github.com/storybookjs/eslint-plugin-storybook/pull/100) ([@zhyd1997](https://github.com/zhyd1997) [@yannbf](https://github.com/yannbf))
+
+#### Authors: 2
+
+- Yadong Zhang ([@zhyd1997](https://github.com/zhyd1997))
+- Yann Braga ([@yannbf](https://github.com/yannbf))
+
+---
+
 # v0.6.5 (Mon Oct 10 2022)
 
 ### Release Notes
