@@ -3,7 +3,13 @@
  * @author Yann Braga
  */
 
-import type { ImportDeclaration, CallExpression, Identifier, Node, VariableDeclarator } from '@typescript-eslint/types/dist/ast-spec'
+import type {
+  ImportDeclaration,
+  CallExpression,
+  Identifier,
+  Node,
+  VariableDeclarator,
+} from '@typescript-eslint/types/dist/ast-spec'
 
 import { createStorybookRule } from '../utils/create-storybook-rule'
 import { CategoryId } from '../utils/constants'
@@ -18,7 +24,7 @@ import {
   isFunctionDeclaration,
   isFunctionExpression,
   isProgram,
-  isImportSpecifier
+  isImportSpecifier,
 } from '../utils/ast'
 import { ReportFixFunction } from '@typescript-eslint/experimental-utils/dist/ts-eslint'
 
@@ -133,15 +139,22 @@ export = createStorybookRule({
 
     const isUserEventFromStorybookImported = (node: ImportDeclaration) => {
       return (
-        (node.source.value === '@storybook/testing-library' &&
-        node.specifiers.find((spec) => isImportSpecifier(spec) && spec.imported.name === 'userEvent' && spec.local.name === 'userEvent') !== undefined)
+        node.source.value === '@storybook/testing-library' &&
+        node.specifiers.find(
+          (spec) =>
+            isImportSpecifier(spec) &&
+            spec.imported.name === 'userEvent' &&
+            spec.local.name === 'userEvent'
+        ) !== undefined
       )
     }
 
     const isExpectFromStorybookImported = (node: ImportDeclaration) => {
       return (
         node.source.value === '@storybook/jest' &&
-        node.specifiers.find((spec) => isImportSpecifier(spec) && spec.imported.name === 'expect') !== undefined
+        node.specifiers.find(
+          (spec) => isImportSpecifier(spec) && spec.imported.name === 'expect'
+        ) !== undefined
       )
     }
 
@@ -157,10 +170,12 @@ export = createStorybookRule({
 
     return {
       ImportDeclaration(node: ImportDeclaration) {
-        isImportedFromStorybook = isUserEventFromStorybookImported(node) || isExpectFromStorybookImported(node)
+        isImportedFromStorybook =
+          isUserEventFromStorybookImported(node) || isExpectFromStorybookImported(node)
       },
       VariableDeclarator(node: VariableDeclarator) {
-        isImportedFromStorybook = isImportedFromStorybook && ((node as any).id.name !== 'userEvent')
+        isImportedFromStorybook =
+          isImportedFromStorybook && isIdentifier(node.id) && node.id.name !== 'userEvent'
       },
       CallExpression(node: CallExpression) {
         const method = getMethodThatShouldBeAwaited(node)
