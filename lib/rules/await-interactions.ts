@@ -3,7 +3,13 @@
  * @author Yann Braga
  */
 
-import type { CallExpression, Identifier, Node } from '@typescript-eslint/types/dist/ast-spec'
+import type {
+  ImportDeclaration,
+  CallExpression,
+  Identifier,
+  Node,
+  VariableDeclarator,
+} from '@typescript-eslint/types/dist/ast-spec'
 
 import { createStorybookRule } from '../utils/create-storybook-rule'
 import { CategoryId } from '../utils/constants'
@@ -18,6 +24,7 @@ import {
   isFunctionDeclaration,
   isFunctionExpression,
   isProgram,
+  isImportSpecifier,
 } from '../utils/ast'
 import { ReportFixFunction } from '@typescript-eslint/experimental-utils/dist/ts-eslint'
 
@@ -130,6 +137,27 @@ export = createStorybookRule({
       return getClosestFunctionAncestor(parent)
     }
 
+    const isUserEventFromStorybookImported = (node: ImportDeclaration) => {
+      return (
+        node.source.value === '@storybook/testing-library' &&
+        node.specifiers.find(
+          (spec) =>
+            isImportSpecifier(spec) &&
+            spec.imported.name === 'userEvent' &&
+            spec.local.name === 'userEvent'
+        ) !== undefined
+      )
+    }
+
+    const isExpectFromStorybookImported = (node: ImportDeclaration) => {
+      return (
+        node.source.value === '@storybook/jest' &&
+        node.specifiers.find(
+          (spec) => isImportSpecifier(spec) && spec.imported.name === 'expect'
+        ) !== undefined
+      )
+    }
+
     //----------------------------------------------------------------------
     // Public
     //----------------------------------------------------------------------
@@ -137,9 +165,18 @@ export = createStorybookRule({
      * @param {import('eslint').Rule.Node} node
      */
 
+    let isImportedFromStorybook = true
     let invocationsThatShouldBeAwaited = [] as Array<{ node: Node; method: Identifier }>
 
     return {
+      ImportDeclaration(node: ImportDeclaration) {
+        isImportedFromStorybook =
+          isUserEventFromStorybookImported(node) || isExpectFromStorybookImported(node)
+      },
+      VariableDeclarator(node: VariableDeclarator) {
+        isImportedFromStorybook =
+          isImportedFromStorybook && isIdentifier(node.id) && node.id.name !== 'userEvent'
+      },
       CallExpression(node: CallExpression) {
         const method = getMethodThatShouldBeAwaited(node)
         if (method && !isAwaitExpression(node.parent) && !isAwaitExpression(node.parent?.parent)) {
@@ -147,7 +184,7 @@ export = createStorybookRule({
         }
       },
       'Program:exit': function () {
-        if (invocationsThatShouldBeAwaited.length) {
+        if (isImportedFromStorybook && invocationsThatShouldBeAwaited.length) {
           invocationsThatShouldBeAwaited.forEach(({ node, method }) => {
             const parentFnNode = getClosestFunctionAncestor(node)
             const parentFnNeedsAsync =

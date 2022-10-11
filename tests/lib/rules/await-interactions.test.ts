@@ -59,13 +59,22 @@ ruleTester.run('await-interactions', rule, {
         await waitForElementToBeRemoved(() => userEvent.hover(canvas.getByTestId('password-error-info')))
       }
     `,
-    // // @TODO: https://github.com/storybookjs/eslint-plugin-storybook/issues/47
-    // dedent`
-    //   import { userEvent } from '../utils'
-    //   Basic.play = async () => {
-    //     userEvent.click(canvas.getByRole('button'))
-    //   }
-    // `,
+    dedent`
+      import { userEvent } from '../utils'
+      import { within } from '@storybook/testing-library'
+
+      Basic.play = async (context) => {
+        const canvas = within(context)
+        userEvent.click(canvas.getByRole('button'))
+      }
+    `,
+    dedent`
+      Basic.play = async () => {
+        const userEvent = { test: () => {} }
+        // should not complain
+        userEvent.test()
+      }
+    `,
     // // @TODO: https://github.com/storybookjs/eslint-plugin-storybook/issues/28
     // dedent`
     //   Block.parameters = {
@@ -103,6 +112,28 @@ ruleTester.run('await-interactions', rule, {
     `,
   ],
   invalid: [
+    {
+      code: dedent`
+        import { expect } from '@storybook/jest'
+        WithModalOpen.play = async ({ args }) => {
+          // should complain
+          expect(args.onClick).toHaveBeenCalled()
+        }
+      `,
+      output: dedent`
+        import { expect } from '@storybook/jest'
+        WithModalOpen.play = async ({ args }) => {
+          // should complain
+          await expect(args.onClick).toHaveBeenCalled()
+        }
+      `,
+      errors: [
+        {
+          messageId: 'interactionShouldBeAwaited',
+          data: { method: 'toHaveBeenCalled' },
+        },
+      ],
+    },
     {
       code: dedent`
         WithModalOpen.play = ({ canvasElement }) => {
