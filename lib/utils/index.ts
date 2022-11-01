@@ -93,10 +93,14 @@ export const getAllNamedExports = (node: ExportNamedDeclaration) => {
 
   const decl = node.declaration
   if (isVariableDeclaration(decl)) {
-    const { id } = decl.declarations[0]
-    // e.g. `export const MyStory`
-    if (isIdentifier(id)) {
-      return [id]
+    const declaration = decl.declarations[0]
+
+    if (declaration) {
+      const { id } = declaration
+      // e.g. `export const MyStory`
+      if (isIdentifier(id)) {
+        return [id]
+      }
     }
   }
 

@@ -56,9 +56,17 @@ export = createStorybookRule({
 
     const getSpecifiers = (node: ImportDeclaration) => {
       const { specifiers } = node
+      if (!specifiers[0]) {
+        return null
+      }
 
       const start = specifiers[0].range[0]
-      let end = specifiers[specifiers.length - 1].range[1]
+      const previousSpecifier = specifiers[specifiers.length - 1]
+      if (!previousSpecifier) {
+        return null
+      }
+
+      let end = previousSpecifier.range[1]
 
       // this weird hack is necessary because the specifier range
       // does not include the closing brace:
@@ -104,8 +112,11 @@ export = createStorybookRule({
                 '@storybook/testing-library'
               )
               if (hasDefaultImport(node.specifiers)) {
-                const { range, text } = getSpecifiers(node)
-                yield fixer.replaceTextRange(range, fixSpecifiers(text))
+                const specifiers = getSpecifiers(node)
+                if (specifiers) {
+                  const { range, text } = specifiers
+                  yield fixer.replaceTextRange(range, fixSpecifiers(text))
+                }
               }
             },
             suggest: [
@@ -117,8 +128,11 @@ export = createStorybookRule({
                     '@storybook/testing-library'
                   )
                   if (hasDefaultImport(node.specifiers)) {
-                    const { range, text } = getSpecifiers(node)
-                    yield fixer.replaceTextRange(range, fixSpecifiers(text))
+                    const specifiers = getSpecifiers(node)
+                    if (specifiers) {
+                      const { range, text } = specifiers
+                      yield fixer.replaceTextRange(range, fixSpecifiers(text))
+                    }
                   }
                 },
               },
