@@ -85,7 +85,7 @@ export = createStorybookRule({
 
                   for (let i = 0; i < referenceCount; i++) {
                     const ref = variable!.references[i]
-                    if (!ref.init) {
+                    if (ref && !ref.init) {
                       yield fixer.replaceTextRange(ref.identifier.range, pascal)
                     }
                   }
@@ -129,7 +129,9 @@ export = createStorybookRule({
 
         const decl = node.declaration
         if (isVariableDeclaration(decl)) {
-          const { id } = decl.declarations[0]
+          const declaration = decl.declarations[0]
+          if (declaration == null) return
+          const { id } = declaration
           if (isIdentifier(id)) {
             namedExports.push(id)
           }
