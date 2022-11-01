@@ -1,3 +1,16 @@
+# v0.6.7 (Tue Nov 01 2022)
+
+#### 🐛 Bug Fix
+
+- fix: add declaration checks to avoid destructuring undefined [#99](https://github.com/storybookjs/eslint-plugin-storybook/pull/99) ([@stefanprobst](https://github.com/stefanprobst) [@yannbf](https://github.com/yannbf))
+
+#### Authors: 2
+
+- [@stefanprobst](https://github.com/stefanprobst)
+- Yann Braga ([@yannbf](https://github.com/yannbf))
+
+---
+
 # v0.6.6 (Tue Oct 11 2022)
 
 #### 🐛 Bug Fix
