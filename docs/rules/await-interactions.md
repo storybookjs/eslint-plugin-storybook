@@ -1,10 +1,10 @@
-# await-interactions
+# Interactions should be awaited (`storybook/await-interactions`)
 
-<!-- RULE-CATEGORIES:START -->
+💼 This rule is enabled in the following configs: `addon-interactions`, ✅ `recommended`.
 
-**Included in these configurations**: <ul><li>addon-interactions</li><li>recommended</li></ul>
+🔧💡 This rule is automatically fixable by the [`--fix` CLI option](https://eslint.org/docs/latest/user-guide/command-line-interface#--fix) and manually fixable by [editor suggestions](https://eslint.org/docs/developer-guide/working-with-rules#providing-suggestions).
 
-<!-- RULE-CATEGORIES:END -->
+<!-- end auto-generated rule header -->
 
 ## Rule Details
 

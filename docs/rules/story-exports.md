@@ -1,10 +1,8 @@
-# story-exports
+# A story file must contain at least one story export (`storybook/story-exports`)
 
-<!-- RULE-CATEGORIES:START -->
+💼 This rule is enabled in the following configs: `csf`, `csf-strict`, ✅ `recommended`.
 
-**Included in these configurations**: <ul><li>recommended</li><li>csf</li></ul>
-
-<!-- RULE-CATEGORIES:END -->
+<!-- end auto-generated rule header -->
 
 ## Rule Details
 
@@ -38,4 +36,4 @@ This rule should only be applied in your `.stories.*` files. Please ensure you a
 
 ## Further Reading
 
-More information about defining stories here: https://storybook.js.org/docs/react/writing-stories/introduction#defining-stories
+More information about defining stories here: <https://storybook.js.org/docs/react/writing-stories/introduction#defining-stories>

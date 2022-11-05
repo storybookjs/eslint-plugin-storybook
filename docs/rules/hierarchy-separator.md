@@ -1,10 +1,10 @@
-# Deprecated hierarchy separator (hierarchy-separator)
+# Deprecated hierarchy separator in title property (`storybook/hierarchy-separator`)
 
-<!-- RULE-CATEGORIES:START -->
+⚠️ This rule _warns_ in the following configs: `csf`, `csf-strict`, ✅ `recommended`.
 
-**Included in these configurations**: <ul><li>csf</li><li>recommended</li></ul>
+🔧💡 This rule is automatically fixable by the [`--fix` CLI option](https://eslint.org/docs/latest/user-guide/command-line-interface#--fix) and manually fixable by [editor suggestions](https://eslint.org/docs/developer-guide/working-with-rules#providing-suggestions).
 
-<!-- RULE-CATEGORIES:END -->
+<!-- end auto-generated rule header -->
 
 ## Rule Details
 

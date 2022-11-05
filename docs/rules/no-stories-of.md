@@ -1,10 +1,8 @@
-# storiesOf is deprecated and should not be used (no-stories-of)
+# The storiesOf API is deprecated and should not be used (`storybook/no-stories-of`)
 
-<!-- RULE-CATEGORIES:START -->
+💼 This rule is enabled in the `csf-strict` config.
 
-**Included in these configurations**: <ul><li>csf-strict</li></ul>
-
-<!-- RULE-CATEGORIES:END -->
+<!-- end auto-generated rule header -->
 
 ## Rule Details
 
@@ -47,7 +45,7 @@ export const Primary = {
 
 ## Further Reading
 
-For more information about the change from `storiesOf` to `CSF`, read here: https://github.com/storybookjs/storybook/blob/master/lib/core/docs/storiesOf.md
+For more information about the change from `storiesOf` to `CSF`, read here: <https://github.com/storybookjs/storybook/blob/master/lib/core/docs/storiesOf.md>
 
 To automatically migrate all of your codebase, run this codemod in the root folder of your project:
 

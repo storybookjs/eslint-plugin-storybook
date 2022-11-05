@@ -1,10 +1,10 @@
-# Prefer pascal case for story names (prefer-pascal-case)
+# Stories should use PascalCase (`storybook/prefer-pascal-case`)
 
-<!-- RULE-CATEGORIES:START -->
+⚠️ This rule _warns_ in the ✅ `recommended` config.
 
-**Included in these configurations**: <ul><li>recommended</li></ul>
+🔧💡 This rule is automatically fixable by the [`--fix` CLI option](https://eslint.org/docs/latest/user-guide/command-line-interface#--fix) and manually fixable by [editor suggestions](https://eslint.org/docs/developer-guide/working-with-rules#providing-suggestions).
 
-<!-- RULE-CATEGORIES:END -->
+<!-- end auto-generated rule header -->
 
 ## Rule Details
 

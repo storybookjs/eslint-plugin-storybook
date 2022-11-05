@@ -169,8 +169,7 @@ const generateRule = async () => {
     dedent(`
       # ${ruleId}
 
-      <!-- RULE-CATEGORIES:START -->
-      <!-- RULE-CATEGORIES:END -->
+      <!-- end auto-generated rule header -->
 
       ## Rule Details
 

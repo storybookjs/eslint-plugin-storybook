@@ -1,10 +1,8 @@
-# Component property must be set in meta (csf-component)
+# The component property should be set (`storybook/csf-component`)
 
-<!-- RULE-CATEGORIES:START -->
+⚠️ This rule _warns_ in the following configs: `csf`, `csf-strict`.
 
-**Included in these configurations**: <ul><li>csf</li></ul>
-
-<!-- RULE-CATEGORIES:END -->
+<!-- end auto-generated rule header -->
 
 ## Rule Details
 

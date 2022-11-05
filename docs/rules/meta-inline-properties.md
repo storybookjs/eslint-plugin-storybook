@@ -1,7 +1,6 @@
-# Meta should only have inline properties (meta-inline-properties)
+# Meta should only have inline properties (`storybook/meta-inline-properties`)
 
-<!-- RULE-CATEGORIES:START -->
-<!-- RULE-CATEGORIES:END -->
+<!-- end auto-generated rule header -->
 
 ## Rule Details
 
@@ -29,6 +28,10 @@ export default {
   component: Button,
 }
 ```
+
+## Options
+
+* csfVersion
 
 ## Further Reading
 

@@ -1,10 +1,10 @@
-# Meta should not have a title property (no-title-property-in-meta)
+# Do not define a title in meta (`storybook/no-title-property-in-meta`)
 
-<!-- RULE-CATEGORIES:START -->
+💼 This rule is enabled in the `csf-strict` config.
 
-**Included in these configurations**: <ul><li>csf-strict</li></ul>
+🔧💡 This rule is automatically fixable by the [`--fix` CLI option](https://eslint.org/docs/latest/user-guide/command-line-interface#--fix) and manually fixable by [editor suggestions](https://eslint.org/docs/developer-guide/working-with-rules#providing-suggestions).
 
-<!-- RULE-CATEGORIES:END -->
+<!-- end auto-generated rule header -->
 
 ## Rule Details
 

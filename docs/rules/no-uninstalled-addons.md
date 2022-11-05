@@ -1,10 +1,8 @@
-# no-uninstalled-addons
+# This rule identifies storybook addons that are invalid because they are either not installed or contain a typo in their name (`storybook/no-uninstalled-addons`)
 
-<!-- RULE-CATEGORIES:START -->
+💼 This rule is enabled in the following configs: `addon-interactions`, `csf`, `csf-strict`, ✅ `recommended`.
 
-**Included in these configurations**: <ul><li>recommended</li></ul>
-
-<!-- RULE-CATEGORIES:END -->
+<!-- end auto-generated rule header -->
 
 ## Rule Details
 
@@ -103,4 +101,4 @@ This rule is very handy to be used because if the user tries to start storybook 
 
 ## Further Reading
 
-Check the issue in GitHub: https://github.com/storybookjs/eslint-plugin-storybook/issues/95
+Check the issue in GitHub: <https://github.com/storybookjs/eslint-plugin-storybook/issues/95>

@@ -1,10 +1,8 @@
-# context-in-play-function
+# Pass a context when invoking play function of another story (`storybook/context-in-play-function`)
 
-<!-- RULE-CATEGORIES:START -->
+💼 This rule is enabled in the following configs: `addon-interactions`, ✅ `recommended`.
 
-**Included in these configurations**: <ul><li>recommended</li><li>addon-interactions</li></ul>
-
-<!-- RULE-CATEGORIES:END -->
+<!-- end auto-generated rule header -->
 
 ## Rule Details
 
