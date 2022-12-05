@@ -1,3 +1,16 @@
+# v0.6.8 (Mon Dec 05 2022)
+
+#### 🐛 Bug Fix
+
+- Support typescript 4.9 [#110](https://github.com/storybookjs/eslint-plugin-storybook/pull/110) ([@yannbf](https://github.com/yannbf) [@kasperpeulen](https://github.com/kasperpeulen))
+
+#### Authors: 2
+
+- Kasper Peulen ([@kasperpeulen](https://github.com/kasperpeulen))
+- Yann Braga ([@yannbf](https://github.com/yannbf))
+
+---
+
 # v0.6.7 (Tue Nov 01 2022)
 
 #### 🐛 Bug Fix
