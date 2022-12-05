@@ -46,7 +46,7 @@
   },
   "dependencies": {
     "@storybook/csf": "^0.0.1",
-    "@typescript-eslint/experimental-utils": "^5.3.0",
+    "@typescript-eslint/experimental-utils": "^5.45.0",
     "requireindex": "^1.1.0",
     "ts-dedent": "^2.2.0"
   },
