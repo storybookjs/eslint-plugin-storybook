@@ -8,6 +8,7 @@ import {
   isObjectExpression,
   isSpreadElement,
   isTSAsExpression,
+  isTSSatisfiesExpression,
   isVariableDeclaration,
   isVariableDeclarator,
 } from './ast'
@@ -27,7 +28,7 @@ export const getMetaObjectExpression = (
       meta = decl.node.init
     }
   }
-  if (isTSAsExpression(meta)) {
+  if (isTSAsExpression(meta) || isTSSatisfiesExpression(meta)) {
     meta = meta.expression
   }
 
