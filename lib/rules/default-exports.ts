@@ -4,12 +4,11 @@
  */
 
 import path from 'path'
-import { Program, Node } from '@typescript-eslint/types/dist/ast-spec'
+import { TSESLint, TSESTree } from '@typescript-eslint/utils'
 
 import { CategoryId } from '../utils/constants'
 import { isImportDeclaration, isLiteral, isIdentifier } from '../utils/ast'
 import { createStorybookRule } from '../utils/create-storybook-rule'
-import { ReportFixFunction } from '@typescript-eslint/experimental-utils/dist/ts-eslint'
 
 //------------------------------------------------------------------------------
 // Rule Definition
@@ -42,9 +41,9 @@ export = createStorybookRule({
     //----------------------------------------------------------------------
 
     // any helper functions should go here or else delete this section
-    const getComponentName = (node: Program, filePath: string) => {
+    const getComponentName = (node: TSESTree.Program, filePath: string) => {
       const name = path.basename(filePath).split('.')[0]
-      const imported = node.body.find((stmt: Node) => {
+      const imported = node.body.find((stmt: TSESTree.Node) => {
         if (
           isImportDeclaration(stmt) &&
           isLiteral(stmt.source) &&
@@ -77,7 +76,7 @@ export = createStorybookRule({
       ExportDefaultDeclaration: function () {
         hasDefaultExport = true
       },
-      'Program:exit': function (program: Program) {
+      'Program:exit': function (program: TSESTree.Program) {
         if (!hasDefaultExport && !hasStoriesOfImport) {
           const componentName = getComponentName(program, context.getFilename())
           const firstNonImportStatement = program.body.find((n) => !isImportDeclaration(n))
@@ -88,7 +87,7 @@ export = createStorybookRule({
             messageId: 'shouldHaveDefaultExport',
           } as const
 
-          const fix: ReportFixFunction = (fixer) => {
+          const fix: TSESLint.ReportFixFunction = (fixer) => {
             const metaDeclaration = componentName
               ? `export default { component: ${componentName} }\n`
               : 'export default {}\n'

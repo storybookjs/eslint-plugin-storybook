@@ -1,11 +1,7 @@
 import { IncludeExcludeOptions, isExportStory } from '@storybook/csf'
-import {
-  ExportDefaultDeclaration,
-  ExportNamedDeclaration,
-  Identifier,
-  ObjectExpression,
-} from '@typescript-eslint/types/dist/ast-spec'
-import { ASTUtils } from '@typescript-eslint/experimental-utils'
+
+import { ASTUtils, TSESTree, TSESLint } from '@typescript-eslint/utils'
+
 import {
   isFunctionDeclaration,
   isIdentifier,
@@ -15,16 +11,15 @@ import {
   isVariableDeclaration,
   isVariableDeclarator,
 } from './ast'
-import { RuleContext } from '@typescript-eslint/experimental-utils/dist/ts-eslint'
 
 export const docsUrl = (ruleName: string) =>
   `https://github.com/storybookjs/eslint-plugin-storybook/blob/main/docs/rules/${ruleName}.md`
 
 export const getMetaObjectExpression = (
-  node: ExportDefaultDeclaration,
-  context: Readonly<RuleContext<string, readonly unknown[]>>
+  node: TSESTree.ExportDefaultDeclaration,
+  context: Readonly<TSESLint.RuleContext<string, readonly unknown[]>>
 ) => {
-  let meta: ExportDefaultDeclaration['declaration'] | null = node.declaration
+  let meta: TSESTree.ExportDefaultDeclaration['declaration'] | null = node.declaration
   if (isIdentifier(meta)) {
     const variable = ASTUtils.findVariable(context.getScope(), meta.name)
     const decl = variable && variable.defs.find((def) => isVariableDeclarator(def.node))
@@ -40,7 +35,7 @@ export const getMetaObjectExpression = (
 }
 
 export const getDescriptor = (
-  metaDeclaration: ObjectExpression,
+  metaDeclaration: TSESTree.ObjectExpression,
   propertyName: string
 ): string[] | RegExp | undefined => {
   const property =
@@ -76,11 +71,11 @@ export const getDescriptor = (
 }
 
 export const isValidStoryExport = (
-  node: Identifier,
+  node: TSESTree.Identifier,
   nonStoryExportsConfig: IncludeExcludeOptions
 ) => isExportStory(node.name, nonStoryExportsConfig) && node.name !== '__namedExportsOrder'
 
-export const getAllNamedExports = (node: ExportNamedDeclaration) => {
+export const getAllNamedExports = (node: TSESTree.ExportNamedDeclaration) => {
   // e.g. `export { MyStory }`
   if (!node.declaration && node.specifiers) {
     return node.specifiers.reduce((acc, specifier) => {
@@ -88,7 +83,7 @@ export const getAllNamedExports = (node: ExportNamedDeclaration) => {
         acc.push(specifier.exported)
       }
       return acc
-    }, [] as Identifier[])
+    }, [] as TSESTree.Identifier[])
   }
 
   const decl = node.declaration

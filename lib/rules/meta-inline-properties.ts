@@ -3,17 +3,14 @@
  * @author Yann Braga
  */
 
-import {
-  Identifier,
-  MethodDefinition,
-  PrivateIdentifier,
-  Property,
-} from '@typescript-eslint/types/dist/ast-spec'
+import { TSESTree } from '@typescript-eslint/utils'
 import { getMetaObjectExpression } from '../utils'
 import { CategoryId } from '../utils/constants'
 import { createStorybookRule } from '../utils/create-storybook-rule'
 
-type TDynamicProperty = (MethodDefinition | Property) & { key: Identifier | PrivateIdentifier }
+type TDynamicProperty = (TSESTree.MethodDefinition | TSESTree.Property) & {
+  key: TSESTree.Identifier | TSESTree.PrivateIdentifier
+}
 
 //------------------------------------------------------------------------------
 // Rule Definition
@@ -57,7 +54,7 @@ export = createStorybookRule({
     // Helpers
     //----------------------------------------------------------------------
     const isInline = <T>(node: T | TDynamicProperty): node is T => {
-      if (!('value' in node)) {
+      if (!(node && typeof node === 'object' && 'value' in node)) {
         return false
       }
 

@@ -3,8 +3,7 @@
  * @author Yann Braga
  */
 
-import { ASTUtils } from '@typescript-eslint/experimental-utils'
-import { ExportNamedDeclaration, Identifier } from '@typescript-eslint/types/dist/ast-spec'
+import { ASTUtils, TSESTree } from "@typescript-eslint/utils";
 import { IncludeExcludeOptions, isExportStory } from '@storybook/csf'
 
 import { getDescriptor, getMetaObjectExpression } from '../utils'
@@ -55,7 +54,7 @@ export = createStorybookRule({
         .replace(new RegExp(/\w/), (s) => s.toUpperCase())
     }
 
-    const checkAndReportError = (id: Identifier, nonStoryExportsConfig = {}) => {
+    const checkAndReportError = (id: TSESTree.Identifier, nonStoryExportsConfig = {}) => {
       const { name } = id
       if (!isExportStory(name, nonStoryExportsConfig) || name === '__namedExportsOrder') {
         return null
@@ -103,7 +102,7 @@ export = createStorybookRule({
 
     let meta
     let nonStoryExportsConfig: IncludeExcludeOptions
-    let namedExports: Identifier[] = []
+    let namedExports: TSESTree.Identifier[] = []
     let hasStoriesOfImport = false
 
     return {
@@ -123,7 +122,7 @@ export = createStorybookRule({
           } catch (err) {}
         }
       },
-      ExportNamedDeclaration: function (node: ExportNamedDeclaration) {
+      ExportNamedDeclaration: function (node: TSESTree.ExportNamedDeclaration) {
         // if there are specifiers, node.declaration should be null
         if (!node.declaration) return
 

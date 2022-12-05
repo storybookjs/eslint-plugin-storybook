@@ -3,10 +3,10 @@
  * @author Yann Braga
  */
 
+import { TSESTree } from "@typescript-eslint/utils";
 import { getMetaObjectExpression } from '../utils'
 import { CategoryId } from '../utils/constants'
 import { createStorybookRule } from '../utils/create-storybook-rule'
-import { Range } from '@typescript-eslint/types/dist/ast-spec'
 import { isSpreadElement } from '../utils/ast'
 
 //------------------------------------------------------------------------------
@@ -57,7 +57,7 @@ export = createStorybookRule({
                     titleNode.range[1] + 1
                   )
                   const hasComma = propertyTextWithExtraCharacter.slice(-1) === ','
-                  const propertyRange: Range = [
+                  const propertyRange: TSESTree.Range = [
                     titleNode.range[0],
                     hasComma ? titleNode.range[1] + 1 : titleNode.range[1],
                   ]

@@ -7,7 +7,7 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-import { AST_NODE_TYPES } from '@typescript-eslint/types'
+import { AST_NODE_TYPES } from '@typescript-eslint/utils'
 import dedent from 'ts-dedent'
 
 import rule from '../../../lib/rules/hierarchy-separator'

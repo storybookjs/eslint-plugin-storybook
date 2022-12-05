@@ -3,7 +3,7 @@
  * @author Yann Braga
  */
 
-import { MethodDefinition, Property } from '@typescript-eslint/types/dist/ast-spec'
+import { TSESTree } from "@typescript-eslint/utils";
 import { getMetaObjectExpression } from '../utils'
 import { isLiteral, isSpreadElement } from '../utils/ast'
 import { CategoryId } from '../utils/constants'
@@ -42,7 +42,7 @@ export = createStorybookRule({
 
         const titleNode = meta.properties.find(
           (prop) => !isSpreadElement(prop) && 'name' in prop.key && prop.key?.name === 'title'
-        ) as MethodDefinition | Property | undefined
+        ) as TSESTree.MethodDefinition | TSESTree.Property | undefined
 
         if (!titleNode || !isLiteral(titleNode.value)) {
           return

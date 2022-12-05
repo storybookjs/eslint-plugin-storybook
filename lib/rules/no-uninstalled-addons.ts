@@ -18,7 +18,7 @@ import {
   isVariableDeclarator,
   isVariableDeclaration,
 } from '../utils/ast'
-import { Property, ArrayExpression } from '@typescript-eslint/types/dist/ast-spec'
+import { TSESTree } from "@typescript-eslint/utils";
 
 //------------------------------------------------------------------------------
 // Rule Definition
@@ -133,7 +133,7 @@ export = createStorybookRule({
     }
 
     const extractAllAddonsFromTheStorybookConfig = (
-      addonsExpression: ArrayExpression | undefined
+      addonsExpression: TSESTree.ArrayExpression | undefined
     ) => {
       if (addonsExpression?.elements) {
         // extract all nodes taht are a string inside the addons array
@@ -147,9 +147,9 @@ export = createStorybookRule({
         const nodesWithAddonsInObj = addonsExpression.elements
           .map((elem) => (isObjectExpression(elem) ? elem : { properties: [] }))
           .map((elem) => {
-            const property: Property = elem.properties.find(
+            const property: TSESTree.Property = elem.properties.find(
               (prop) => isProperty(prop) && isIdentifier(prop.key) && prop.key.name === 'name'
-            ) as Property
+            ) as TSESTree.Property
             return isLiteral(property?.value)
               ? { value: property.value.value, node: property.value }
               : undefined
@@ -166,7 +166,7 @@ export = createStorybookRule({
       return { listOfAddons: [], listOfAddonElements: [] }
     }
 
-    function reportUninstalledAddons(addonsProp: ArrayExpression) {
+    function reportUninstalledAddons(addonsProp: TSESTree.ArrayExpression) {
       const packageJsonPath = resolve(packageJsonLocation || `./package.json`)
       let packageJsonObject: Record<string, any>
       try {
@@ -211,7 +211,7 @@ export = createStorybookRule({
       AssignmentExpression: function (node) {
         if (isObjectExpression(node.right)) {
           const addonsProp = node.right.properties.find(
-            (prop): prop is Property =>
+            (prop): prop is TSESTree.Property =>
               isProperty(prop) && isIdentifier(prop.key) && prop.key.name === 'addons'
           )
 
@@ -223,7 +223,7 @@ export = createStorybookRule({
       ExportDefaultDeclaration: function (node) {
         if (isObjectExpression(node.declaration)) {
           const addonsProp = node.declaration.properties.find(
-            (prop): prop is Property =>
+            (prop): prop is TSESTree.Property =>
               isProperty(prop) && isIdentifier(prop.key) && prop.key.name === 'addons'
           )
 

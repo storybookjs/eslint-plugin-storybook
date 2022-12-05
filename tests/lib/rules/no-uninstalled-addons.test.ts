@@ -7,7 +7,7 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-import { AST_NODE_TYPES } from '@typescript-eslint/experimental-utils'
+import { AST_NODE_TYPES } from '@typescript-eslint/utils'
 
 import rule from '../../../lib/rules/no-uninstalled-addons'
 import ruleTester from '../../utils/rule-tester'
