@@ -23,6 +23,7 @@ ruleTester.run('hierarchy-separator', rule, {
     "export default { title: 'Examples.Components' }",
     "export default { title: 'Examples/Components/Button' }",
     "export default { title: 'Examples/Components/Button' } as ComponentMeta<typeof Button>",
+    "export default { title: 'Examples.Components' } satisfies Meta<typeof Button>",
     'export default { ...props } as ComponentMeta<typeof Button>',
   ],
 
