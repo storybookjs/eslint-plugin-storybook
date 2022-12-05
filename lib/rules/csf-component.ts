@@ -3,7 +3,7 @@
  * @author Yann Braga
  */
 
-import { ExportDefaultDeclaration } from '@typescript-eslint/types/dist/ast-spec'
+import { TSESTree } from "@typescript-eslint/utils";
 import { getMetaObjectExpression } from '../utils'
 import { CategoryId } from '../utils/constants'
 import { createStorybookRule } from '../utils/create-storybook-rule'
@@ -43,7 +43,7 @@ export = createStorybookRule({
     //----------------------------------------------------------------------
 
     return {
-      ExportDefaultDeclaration(node: ExportDefaultDeclaration) {
+      ExportDefaultDeclaration(node: TSESTree.ExportDefaultDeclaration) {
         const meta = getMetaObjectExpression(node, context)
 
         if (!meta) {

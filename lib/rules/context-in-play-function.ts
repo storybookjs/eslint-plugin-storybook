@@ -3,7 +3,7 @@
  * @author Yann Braga
  */
 
-import type { CallExpression, Node } from '@typescript-eslint/types/dist/ast-spec'
+import { TSESTree } from "@typescript-eslint/utils";
 
 import { createStorybookRule } from '../utils/create-storybook-rule'
 import { CategoryId } from '../utils/constants'
@@ -45,7 +45,7 @@ export = createStorybookRule({
 
     // any helper functions should go here or else delete this section
 
-    const isPlayFunctionFromAnotherStory = (expr: CallExpression) => {
+    const isPlayFunctionFromAnotherStory = (expr: TSESTree.CallExpression) => {
       if (
         isTSNonNullExpression(expr.callee) &&
         isMemberExpression(expr.callee.expression) &&
@@ -67,7 +67,7 @@ export = createStorybookRule({
     }
 
     // Expression passing an argument called context OR spreading a variable called context
-    const isNotPassingContextCorrectly = (expr: CallExpression) => {
+    const isNotPassingContextCorrectly = (expr: TSESTree.CallExpression) => {
       const firstExpressionArgument = expr.arguments[0]
 
       if (!firstExpressionArgument) {
@@ -100,10 +100,10 @@ export = createStorybookRule({
     // Public
     //----------------------------------------------------------------------
 
-    let invocationsWithoutProperContext = [] as Node[]
+    let invocationsWithoutProperContext: TSESTree.Node[] = [];
 
     return {
-      CallExpression(node: CallExpression) {
+      CallExpression(node: TSESTree.CallExpression) {
         if (isPlayFunctionFromAnotherStory(node) && isNotPassingContextCorrectly(node)) {
           invocationsWithoutProperContext.push(node)
         }

@@ -3,13 +3,7 @@
  * @author Yann Braga
  */
 
-import type {
-  ImportDeclaration,
-  CallExpression,
-  Identifier,
-  Node,
-  VariableDeclarator,
-} from '@typescript-eslint/types/dist/ast-spec'
+import { TSESTree, TSESLint } from '@typescript-eslint/utils'
 
 import { createStorybookRule } from '../utils/create-storybook-rule'
 import { CategoryId } from '../utils/constants'
@@ -26,7 +20,6 @@ import {
   isProgram,
   isImportSpecifier,
 } from '../utils/ast'
-import { ReportFixFunction } from '@typescript-eslint/experimental-utils/dist/ts-eslint'
 
 //------------------------------------------------------------------------------
 // Rule Definition
@@ -70,7 +63,7 @@ export = createStorybookRule({
       'play',
     ]
 
-    const getMethodThatShouldBeAwaited = (expr: CallExpression) => {
+    const getMethodThatShouldBeAwaited = (expr: TSESTree.CallExpression) => {
       const shouldAwait = (name: string) => {
         return FUNCTIONS_TO_BE_AWAITED.includes(name) || name.startsWith('findBy')
       }
@@ -122,7 +115,7 @@ export = createStorybookRule({
       return null
     }
 
-    const getClosestFunctionAncestor = (node: Node): Node | undefined => {
+    const getClosestFunctionAncestor = (node: TSESTree.Node): TSESTree.Node | undefined => {
       const parent = node.parent
 
       if (!parent || isProgram(parent)) return undefined
@@ -137,7 +130,7 @@ export = createStorybookRule({
       return getClosestFunctionAncestor(parent)
     }
 
-    const isUserEventFromStorybookImported = (node: ImportDeclaration) => {
+    const isUserEventFromStorybookImported = (node: TSESTree.ImportDeclaration) => {
       return (
         node.source.value === '@storybook/testing-library' &&
         node.specifiers.find(
@@ -149,7 +142,7 @@ export = createStorybookRule({
       )
     }
 
-    const isExpectFromStorybookImported = (node: ImportDeclaration) => {
+    const isExpectFromStorybookImported = (node: TSESTree.ImportDeclaration) => {
       return (
         node.source.value === '@storybook/jest' &&
         node.specifiers.find(
@@ -166,18 +159,21 @@ export = createStorybookRule({
      */
 
     let isImportedFromStorybook = true
-    let invocationsThatShouldBeAwaited = [] as Array<{ node: Node; method: Identifier }>
+    let invocationsThatShouldBeAwaited = [] as Array<{
+      node: TSESTree.Node
+      method: TSESTree.Identifier
+    }>
 
     return {
-      ImportDeclaration(node: ImportDeclaration) {
+      ImportDeclaration(node: TSESTree.ImportDeclaration) {
         isImportedFromStorybook =
           isUserEventFromStorybookImported(node) || isExpectFromStorybookImported(node)
       },
-      VariableDeclarator(node: VariableDeclarator) {
+      VariableDeclarator(node: TSESTree.VariableDeclarator) {
         isImportedFromStorybook =
           isImportedFromStorybook && isIdentifier(node.id) && node.id.name !== 'userEvent'
       },
-      CallExpression(node: CallExpression) {
+      CallExpression(node: TSESTree.CallExpression) {
         const method = getMethodThatShouldBeAwaited(node)
         if (method && !isAwaitExpression(node.parent) && !isAwaitExpression(node.parent?.parent)) {
           invocationsThatShouldBeAwaited.push({ node, method })
@@ -190,7 +186,7 @@ export = createStorybookRule({
             const parentFnNeedsAsync =
               parentFnNode && !('async' in parentFnNode && parentFnNode.async)
 
-            const fixFn: ReportFixFunction = (fixer) => {
+            const fixFn: TSESLint.ReportFixFunction = (fixer) => {
               const fixerResult = [fixer.insertTextBefore(node, 'await ')]
 
               if (parentFnNeedsAsync) {

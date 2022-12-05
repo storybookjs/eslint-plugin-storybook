@@ -7,7 +7,7 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-import { AST_NODE_TYPES } from '@typescript-eslint/types'
+import { AST_NODE_TYPES } from '@typescript-eslint/utils'
 
 import rule from '../../../lib/rules/csf-component'
 import ruleTester from '../../utils/rule-tester'

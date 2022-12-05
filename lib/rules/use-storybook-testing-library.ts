@@ -3,15 +3,10 @@
  * @author Yann Braga
  */
 
-import {
-  Range,
-  StringLiteral,
-  ImportDeclaration,
-  ImportClause,
-} from '@typescript-eslint/types/dist/ast-spec'
 import { isImportDefaultSpecifier } from '../utils/ast'
 import { CategoryId } from '../utils/constants'
 import { createStorybookRule } from '../utils/create-storybook-rule'
+import { TSESTree } from "@typescript-eslint/utils";
 
 //------------------------------------------------------------------------------
 // Rule Definition
@@ -42,7 +37,7 @@ export = createStorybookRule({
     //----------------------------------------------------------------------
     // Helpers
     //----------------------------------------------------------------------
-    const getRangeWithoutQuotes = (source: StringLiteral): Range => {
+    const getRangeWithoutQuotes = (source: TSESTree.StringLiteral): TSESTree.Range => {
       return [
         // Not sure how to improve this. If I use node.source.range
         // it will eat the quotes and we do not want to specify whether the quotes are single or double
@@ -51,10 +46,10 @@ export = createStorybookRule({
       ]
     }
 
-    const hasDefaultImport = (specifiers: ImportClause[]) =>
+    const hasDefaultImport = (specifiers: TSESTree.ImportClause[]) =>
       specifiers.find((s) => isImportDefaultSpecifier(s))
 
-    const getSpecifiers = (node: ImportDeclaration) => {
+    const getSpecifiers = (node: TSESTree.ImportDeclaration) => {
       const { specifiers } = node
       if (!specifiers[0]) {
         return null
@@ -81,7 +76,7 @@ export = createStorybookRule({
       }
       const text = fullText.substring(start, end)
 
-      return { range: [start, end] as Range, text }
+      return { range: [start, end] as TSESTree.Range, text }
     }
 
     const fixSpecifiers = (specifiersText: string) => {

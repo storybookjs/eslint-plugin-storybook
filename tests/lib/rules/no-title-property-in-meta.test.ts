@@ -7,7 +7,7 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-import { AST_NODE_TYPES } from '@typescript-eslint/types'
+import { AST_NODE_TYPES } from '@typescript-eslint/utils'
 import dedent from 'ts-dedent'
 
 import rule from '../../../lib/rules/no-title-property-in-meta'
@@ -22,6 +22,8 @@ ruleTester.run('no-title-property-in-meta', rule, {
     'export default {  }',
     'export default { component: Button }',
     'export default { component: Button } as ComponentMeta<typeof Button>',
+    'export default { component: Button } as Meta<typeof Button>',
+    'export default { component: Button } satisfies Meta<typeof Button>',
     'export default { ...props }',
   ],
 
@@ -55,6 +57,48 @@ ruleTester.run('no-title-property-in-meta', rule, {
               messageId: 'removeTitleInMeta',
               output: dedent`
                 const meta = { component: Button,  }
+                export default meta
+              `,
+            },
+          ],
+        },
+      ],
+    },
+    {
+      code: dedent`
+        const meta = { component: Button, title: 'Button' } as Meta<typeof Button>
+        export default meta
+      `,
+      errors: [
+        {
+          messageId: 'noTitleInMeta',
+          type: AST_NODE_TYPES.Property,
+          suggestions: [
+            {
+              messageId: 'removeTitleInMeta',
+              output: dedent`
+                const meta = { component: Button,  } as Meta<typeof Button>
+                export default meta
+              `,
+            },
+          ],
+        },
+      ],
+    },
+    {
+      code: dedent`
+        const meta = { component: Button, title: 'Button' } satisfies Meta<typeof Button>
+        export default meta
+      `,
+      errors: [
+        {
+          messageId: 'noTitleInMeta',
+          type: AST_NODE_TYPES.Property,
+          suggestions: [
+            {
+              messageId: 'removeTitleInMeta',
+              output: dedent`
+                const meta = { component: Button,  } satisfies Meta<typeof Button>
                 export default meta
               `,
             },

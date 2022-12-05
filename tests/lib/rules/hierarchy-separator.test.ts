@@ -7,7 +7,7 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-import { AST_NODE_TYPES } from '@typescript-eslint/types'
+import { AST_NODE_TYPES } from '@typescript-eslint/utils'
 import dedent from 'ts-dedent'
 
 import rule from '../../../lib/rules/hierarchy-separator'
@@ -23,6 +23,7 @@ ruleTester.run('hierarchy-separator', rule, {
     "export default { title: 'Examples.Components' }",
     "export default { title: 'Examples/Components/Button' }",
     "export default { title: 'Examples/Components/Button' } as ComponentMeta<typeof Button>",
+    "export default { title: 'Examples.Components' } satisfies Meta<typeof Button>",
     'export default { ...props } as ComponentMeta<typeof Button>',
   ],
 

@@ -7,7 +7,6 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-import { AST_NODE_TYPES } from '@typescript-eslint/types'
 import dedent from 'ts-dedent'
 
 import rule from '../../../lib/rules/default-exports'

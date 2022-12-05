@@ -3,7 +3,6 @@
  * @author Yann Braga
  */
 
-import type { Program } from '@typescript-eslint/types/dist/ast-spec'
 
 import { createStorybookRule } from '../utils/create-storybook-rule'
 import { CategoryId } from '../utils/constants'
@@ -15,7 +14,7 @@ import {
 } from '../utils'
 import { isImportDeclaration } from '../utils/ast'
 import { IncludeExcludeOptions } from '@storybook/csf'
-import { ObjectExpression, Identifier } from '@typescript-eslint/types/dist/ast-spec'
+import { TSESTree } from "@typescript-eslint/utils";
 
 //------------------------------------------------------------------------------
 // Rule Definition
@@ -54,8 +53,8 @@ export = createStorybookRule({
 
     let hasStoriesOfImport = false
     let nonStoryExportsConfig: IncludeExcludeOptions = {}
-    let meta: ObjectExpression | null
-    let namedExports: Identifier[] = []
+    let meta: TSESTree.ObjectExpression | null
+    let namedExports: TSESTree.Identifier[] = []
 
     return {
       ImportSpecifier(node) {
@@ -77,7 +76,7 @@ export = createStorybookRule({
       ExportNamedDeclaration: function (node) {
         namedExports.push(...getAllNamedExports(node))
       },
-      'Program:exit': function (program: Program) {
+      'Program:exit': function (program: TSESTree.Program) {
         if (hasStoriesOfImport || !meta) {
           return
         }
