@@ -3,7 +3,7 @@
  * @author Yann Braga
  */
 
-import { TSESTree } from "@typescript-eslint/utils";
+import { TSESTree } from '@typescript-eslint/utils'
 import { getMetaObjectExpression } from '../utils'
 import { CategoryId } from '../utils/constants'
 import { createStorybookRule } from '../utils/create-storybook-rule'

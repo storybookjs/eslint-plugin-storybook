@@ -18,7 +18,7 @@ import {
   isVariableDeclarator,
   isVariableDeclaration,
 } from '../utils/ast'
-import { TSESTree } from "@typescript-eslint/utils";
+import { TSESTree } from '@typescript-eslint/utils'
 
 //------------------------------------------------------------------------------
 // Rule Definition
@@ -66,7 +66,7 @@ export = createStorybookRule({
       return !!item
     }
 
-    type MergeDepsWithDevDeps = (packageJson: Record<string, string>) => string[]
+    type MergeDepsWithDevDeps = (packageJson: PackageJsonDependencies) => string[]
     const mergeDepsWithDevDeps: MergeDepsWithDevDeps = (packageJson) => {
       const deps = Object.keys(packageJson.dependencies || {})
       const devDeps = Object.keys(packageJson.devDependencies || {})
@@ -108,7 +108,12 @@ export = createStorybookRule({
       return result.length ? result : false
     }
 
-    type GetPackageJson = (path: string) => Record<string, any>
+    type PackageJsonDependencies = {
+      devDependencies: Record<string, string>
+      dependencies: Record<string, string>
+    }
+
+    type GetPackageJson = (path: string) => PackageJsonDependencies
 
     const getPackageJson: GetPackageJson = (path) => {
       const packageJson = {
@@ -168,7 +173,7 @@ export = createStorybookRule({
 
     function reportUninstalledAddons(addonsProp: TSESTree.ArrayExpression) {
       const packageJsonPath = resolve(packageJsonLocation || `./package.json`)
-      let packageJsonObject: Record<string, any>
+      let packageJsonObject: PackageJsonDependencies
       try {
         packageJsonObject = getPackageJson(packageJsonPath)
       } catch (e) {

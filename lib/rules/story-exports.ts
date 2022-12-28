@@ -3,7 +3,6 @@
  * @author Yann Braga
  */
 
-
 import { createStorybookRule } from '../utils/create-storybook-rule'
 import { CategoryId } from '../utils/constants'
 import {
@@ -14,7 +13,7 @@ import {
 } from '../utils'
 import { isImportDeclaration } from '../utils/ast'
 import { IncludeExcludeOptions } from '@storybook/csf'
-import { TSESTree } from "@typescript-eslint/utils";
+import { TSESTree } from '@typescript-eslint/utils'
 
 //------------------------------------------------------------------------------
 // Rule Definition
@@ -54,7 +53,7 @@ export = createStorybookRule({
     let hasStoriesOfImport = false
     let nonStoryExportsConfig: IncludeExcludeOptions = {}
     let meta: TSESTree.ObjectExpression | null
-    let namedExports: TSESTree.Identifier[] = []
+    const namedExports: TSESTree.Identifier[] = []
 
     return {
       ImportSpecifier(node) {
@@ -70,7 +69,9 @@ export = createStorybookRule({
               excludeStories: getDescriptor(meta, 'excludeStories'),
               includeStories: getDescriptor(meta, 'includeStories'),
             }
-          } catch (err) {}
+          } catch (err) {
+            //
+          }
         }
       },
       ExportNamedDeclaration: function (node) {

@@ -78,7 +78,7 @@ export = createStorybookRule({
         }
 
         const ruleProperties = ['title', 'args']
-        let dynamicProperties: TDynamicProperty[] = []
+        const dynamicProperties: TDynamicProperty[] = []
 
         const metaNodes = meta.properties.filter(
           (prop) => 'key' in prop && 'name' in prop.key && ruleProperties.includes(prop.key.name)

@@ -57,7 +57,6 @@ export const getDescriptor = (
         if (!['StringLiteral', 'Literal'].includes(t.type)) {
           throw new Error(`Unexpected descriptor element: ${t.type}`)
         }
-        // @ts-ignore
         return t.value
       })
     case 'Literal':

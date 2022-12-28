@@ -7,7 +7,7 @@ import { CategoryId } from '../utils/constants'
 import { isIdentifier, isImportSpecifier } from '../utils/ast'
 
 import { createStorybookRule } from '../utils/create-storybook-rule'
-import { TSESTree } from "@typescript-eslint/utils";
+import { TSESTree } from '@typescript-eslint/utils'
 
 //------------------------------------------------------------------------------
 // Rule Definition
@@ -56,7 +56,7 @@ export = createStorybookRule<TDefaultOptions, string>({
     //----------------------------------------------------------------------
 
     let isImportingFromStorybookExpect = false
-    let expectInvocations: TSESTree.Identifier[] = []
+    const expectInvocations: TSESTree.Identifier[] = []
 
     return {
       ImportDeclaration(node) {

@@ -26,19 +26,19 @@ for (const categoryId of categoryIds) {
   for (const rule of rules) {
     const ruleCategories = rule.meta.docs.categories
     // Throw if rule does not have a category
-    if (!ruleCategories.length) {
+    if (!ruleCategories?.length) {
       throw new Error(`Rule "${rule.ruleId}" does not have any category.`)
     }
 
     if (ruleCategories.includes(categoryId)) {
-      categoriesConfig[categoryId].rules.push(rule)
+      categoriesConfig[categoryId].rules?.push(rule)
     }
   }
 }
 
 export const categories = categoryIds
   .map((categoryId) => {
-    if (!categoriesConfig[categoryId].rules.length) {
+    if (!categoriesConfig[categoryId].rules?.length) {
       throw new Error(
         `Category "${categoryId}" has no rules. Make sure that at least one rule is linked to this category.`
       )
@@ -47,11 +47,11 @@ export const categories = categoryIds
     return {
       categoryId,
       title: categoriesConfig[categoryId],
-      rules: categoriesConfig[categoryId].rules.filter((rule) => !rule.meta.deprecated),
+      rules: categoriesConfig[categoryId].rules?.filter((rule) => !rule.meta.deprecated) ?? [],
     }
   })
   .filter((category) => {
-    return category.rules.length >= 1
+    return (category.rules?.length ?? 0) >= 1
   })
 
 export type TCategory = typeof categories extends (infer TCat)[] ? TCat : never
