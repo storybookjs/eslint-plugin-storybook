@@ -11,6 +11,7 @@ import { AST_NODE_TYPES } from '@typescript-eslint/utils'
 
 import rule from '../../../lib/rules/no-uninstalled-addons'
 import ruleTester from '../../utils/rule-tester'
+import { sep } from 'path';
 
 jest.mock('fs', () => ({
   ...jest.requireActual('fs'),
@@ -137,7 +138,7 @@ ruleTester.run('no-uninstalled-addons', rule, {
           type: AST_NODE_TYPES.Literal,
           data: {
             addonName: '@storybook/not-installed-addon',
-            packageJsonPath: 'eslint-plugin-storybook/',
+            packageJsonPath: `eslint-plugin-storybook${sep}`,
           },
         },
       ],
@@ -161,7 +162,7 @@ ruleTester.run('no-uninstalled-addons', rule, {
           type: AST_NODE_TYPES.Literal,
           data: {
             addonName: '@storybook/not-installed-addon',
-            packageJsonPath: 'eslint-plugin-storybook/',
+            packageJsonPath: `eslint-plugin-storybook${sep}`,
           },
         },
       ],
@@ -184,7 +185,7 @@ ruleTester.run('no-uninstalled-addons', rule, {
           type: AST_NODE_TYPES.Literal,
           data: {
             addonName: '@storybook/addon-esentials',
-            packageJsonPath: 'eslint-plugin-storybook/',
+            packageJsonPath: `eslint-plugin-storybook${sep}`,
           },
         },
       ],
@@ -205,7 +206,7 @@ ruleTester.run('no-uninstalled-addons', rule, {
           type: AST_NODE_TYPES.Literal,
           data: {
             addonName: '@storybook/adon-essentials',
-            packageJsonPath: 'eslint-plugin-storybook/',
+            packageJsonPath: `eslint-plugin-storybook${sep}`,
           },
         },
       ],
@@ -228,7 +229,7 @@ ruleTester.run('no-uninstalled-addons', rule, {
           type: AST_NODE_TYPES.Literal,
           data: {
             addonName: 'addon-withut-the-prefix',
-            packageJsonPath: 'eslint-plugin-storybook/',
+            packageJsonPath: `eslint-plugin-storybook${sep}`,
           },
         },
         {
@@ -236,7 +237,7 @@ ruleTester.run('no-uninstalled-addons', rule, {
           type: AST_NODE_TYPES.Literal,
           data: {
             addonName: '@storybook/addon-esentials',
-            packageJsonPath: 'eslint-plugin-storybook/',
+            packageJsonPath: `eslint-plugin-storybook${sep}`,
           },
         },
       ],
@@ -259,7 +260,7 @@ ruleTester.run('no-uninstalled-addons', rule, {
           type: AST_NODE_TYPES.Literal,
           data: {
             addonName: 'addon-withut-the-prefix',
-            packageJsonPath: 'eslint-plugin-storybook/',
+            packageJsonPath: `eslint-plugin-storybook${sep}`,
           },
         },
         {
@@ -267,7 +268,7 @@ ruleTester.run('no-uninstalled-addons', rule, {
           type: AST_NODE_TYPES.Literal,
           data: {
             addonName: '@storybook/addon-esentials',
-            packageJsonPath: 'eslint-plugin-storybook/',
+            packageJsonPath: `eslint-plugin-storybook${sep}`,
           },
         },
       ],
@@ -289,7 +290,7 @@ ruleTester.run('no-uninstalled-addons', rule, {
           type: AST_NODE_TYPES.Literal,
           data: {
             addonName: 'addon-withut-the-prefix',
-            packageJsonPath: 'eslint-plugin-storybook/',
+            packageJsonPath: `eslint-plugin-storybook${sep}`,
           },
         },
         {
@@ -297,7 +298,7 @@ ruleTester.run('no-uninstalled-addons', rule, {
           type: AST_NODE_TYPES.Literal,
           data: {
             addonName: '@storybook/addon-esentials',
-            packageJsonPath: 'eslint-plugin-storybook/',
+            packageJsonPath: `eslint-plugin-storybook${sep}`,
           },
         },
       ],
