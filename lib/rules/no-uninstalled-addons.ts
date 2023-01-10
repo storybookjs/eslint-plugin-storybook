@@ -5,7 +5,7 @@
 
 import { readFileSync } from 'fs'
 import dedent from 'ts-dedent'
-import { resolve, relative } from 'path'
+import { resolve, relative, sep } from 'path'
 
 import { createStorybookRule } from '../utils/create-storybook-rule'
 import { CategoryId } from '../utils/constants'
@@ -187,8 +187,8 @@ export = createStorybookRule({
           (elem) => !!result.find((addon) => addon.name === elem.value)
         )
 
-        const rootDir = process.cwd().split('/').pop()
-        const packageJsonPath = `${rootDir}/${relative(process.cwd(), packageJsonLocation)}`
+        const rootDir = process.cwd().split(sep).pop()
+        const packageJsonPath = `${rootDir}${sep}${relative(process.cwd(), packageJsonLocation)}`
 
         elemsWithErrors.forEach((elem) => {
           context.report({
