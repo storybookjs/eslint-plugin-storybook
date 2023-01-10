@@ -1,5 +1,6 @@
 import { resolve } from 'path'
 import { TSESLint } from '@typescript-eslint/utils'
+import { RuleTester } from 'eslint'
 
 const DEFAULT_TEST_CASE_CONFIG = {
   filename: 'MyComponent.stories.js',
@@ -32,7 +33,7 @@ class StorybookRuleTester extends TSESLint.RuleTester {
   }
 }
 
-export const createRuleTester = (
+const createRuleTester = (
   parserOptions: Partial<TSESLint.ParserOptions> = {}
 ): TSESLint.RuleTester => {
   return new StorybookRuleTester({
@@ -47,5 +48,24 @@ export const createRuleTester = (
     },
   })
 }
+
+export const parserOptions = {
+  filePath: '__placeholder__.mdx',
+  ecmaFeatures: {
+    jsx: true,
+  },
+  ecmaVersion: 'latest',
+  sourceType: 'module',
+  tokens: true,
+  comment: true,
+  // required for @typescript-eslint/parser
+  // reference: https://github.com/typescript-eslint/typescript-eslint/pull/2028
+  loc: true,
+  range: true,
+}
+
+export const parser = require.resolve('eslint-mdx')
+
+export const mdxRuleTester = new RuleTester()
 
 export default createRuleTester()
