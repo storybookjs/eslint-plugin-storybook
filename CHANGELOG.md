@@ -1,3 +1,16 @@
+# v0.6.10 (Tue Jan 10 2023)
+
+#### 🐛 Bug Fix
+
+- chore: fix ESLint and TypeScript issues [#113](https://github.com/storybookjs/eslint-plugin-storybook/pull/113) ([@Dschungelabenteuer](https://github.com/Dschungelabenteuer) [@yannbf](https://github.com/yannbf))
+
+#### Authors: 2
+
+- n028 ([@Dschungelabenteuer](https://github.com/Dschungelabenteuer))
+- Yann Braga ([@yannbf](https://github.com/yannbf))
+
+---
+
 # v0.6.9 (Tue Jan 10 2023)
 
 #### 🐛 Bug Fix
