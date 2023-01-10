@@ -6,8 +6,11 @@
 import { ASTUtils, TSESTree } from '@typescript-eslint/utils'
 import { IncludeExcludeOptions, isExportStory } from '@storybook/csf'
 
-import { getDescriptor, getMetaObjectExpression } from '../utils'
-import { isIdentifier, isVariableDeclaration } from '../utils/ast'
+import {
+  getDescriptor,
+  getExportNamedIdentifierDeclarations,
+  getMetaObjectExpression,
+} from '../utils'
 import { CategoryId } from '../utils/constants'
 import { createStorybookRule } from '../utils/create-storybook-rule'
 
@@ -102,7 +105,7 @@ export = createStorybookRule({
 
     let meta
     let nonStoryExportsConfig: IncludeExcludeOptions
-    const namedExports: TSESTree.Identifier[] = []
+    let namedExports: TSESTree.Identifier[] = []
     let hasStoriesOfImport = false
 
     return {
@@ -127,16 +130,8 @@ export = createStorybookRule({
       ExportNamedDeclaration: function (node: TSESTree.ExportNamedDeclaration) {
         // if there are specifiers, node.declaration should be null
         if (!node.declaration) return
-
-        const decl = node.declaration
-        if (isVariableDeclaration(decl)) {
-          const declaration = decl.declarations[0]
-          if (declaration == null) return
-          const { id } = declaration
-          if (isIdentifier(id)) {
-            namedExports.push(id)
-          }
-        }
+        const declarations = (getExportNamedIdentifierDeclarations(node) ?? []).map(({ id }) => id)
+        namedExports = [...namedExports, ...declarations]
       },
       'Program:exit': function () {
         if (namedExports.length && !hasStoriesOfImport) {

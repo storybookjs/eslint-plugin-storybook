@@ -3,9 +3,8 @@
  * @author Yann Braga
  */
 
-import { TSESTree } from '@typescript-eslint/utils'
-import { getMetaObjectExpression } from '../utils'
-import { isLiteral, isSpreadElement } from '../utils/ast'
+import { getMetaObjectExpression, getObjectBareProperty } from '../utils'
+import { isLiteral } from '../utils/ast'
 import { CategoryId } from '../utils/constants'
 import { createStorybookRule } from '../utils/create-storybook-rule'
 
@@ -40,9 +39,7 @@ export = createStorybookRule({
           return null
         }
 
-        const titleNode = meta.properties.find(
-          (prop) => !isSpreadElement(prop) && 'name' in prop.key && prop.key?.name === 'title'
-        ) as TSESTree.MethodDefinition | TSESTree.Property | undefined
+        const titleNode = getObjectBareProperty(meta.properties, 'title')
 
         if (!titleNode || !isLiteral(titleNode.value)) {
           return

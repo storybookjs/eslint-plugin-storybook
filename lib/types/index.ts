@@ -41,3 +41,9 @@ export type StorybookRuleMeta<TMessageIds extends string> = Omit<
 // }
 
 export type NamedVariable = TSESTree.VariableDeclarator & { id: TSESTree.Identifier }
+
+export type ObjectLiteralItem = Exclude<TSESTree.ObjectLiteralElement, TSESTree.SpreadElement>
+
+export type StoryDescriptor = string[] | RegExp
+
+export type Maybe<T> = T | null | undefined

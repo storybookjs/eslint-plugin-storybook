@@ -4,10 +4,9 @@
  */
 
 import { TSESTree } from '@typescript-eslint/utils'
-import { getMetaObjectExpression } from '../utils'
+import { getMetaObjectExpression, getObjectBareProperty } from '../utils'
 import { CategoryId } from '../utils/constants'
 import { createStorybookRule } from '../utils/create-storybook-rule'
-import { isSpreadElement } from '../utils/ast'
 
 //------------------------------------------------------------------------------
 // Rule Definition
@@ -39,9 +38,7 @@ export = createStorybookRule({
           return null
         }
 
-        const titleNode = meta.properties.find(
-          (prop) => !isSpreadElement(prop) && 'name' in prop.key && prop.key?.name === 'title'
-        )
+        const titleNode = getObjectBareProperty(meta.properties, 'title')
 
         if (titleNode) {
           context.report({

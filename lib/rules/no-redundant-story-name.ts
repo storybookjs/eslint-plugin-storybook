@@ -4,16 +4,17 @@
  */
 
 import { storyNameFromExport } from '@storybook/csf'
+import {
+  getExportNamedIdentifierDeclaration,
+  getObjectBareProperty,
+  getObjectBarePropertyValue,
+} from '../utils'
 
 import {
   isExpressionStatement,
-  isLiteral,
   isIdentifier,
   isObjectExpression,
-  isProperty,
-  isVariableDeclaration,
   isMetaProperty,
-  isSpreadElement,
 } from '../utils/ast'
 import { CategoryId } from '../utils/constants'
 import { createStorybookRule } from '../utils/create-storybook-rule'
@@ -50,34 +51,17 @@ export = createStorybookRule({
     return {
       // CSF3
       ExportNamedDeclaration: function (node) {
-        // if there are specifiers, node.declaration should be null
-        if (!node.declaration) return
+        const declaration = getExportNamedIdentifierDeclaration(node)
+        if (declaration && isObjectExpression(declaration.init)) {
+          const storyNameNode =
+            getObjectBareProperty(declaration.init.properties, 'name') ||
+            getObjectBareProperty(declaration.init.properties, 'storyName')
 
-        const decl = node.declaration
-        if (isVariableDeclaration(decl)) {
-          const declaration = decl.declarations[0]
-          if (declaration == null) return
-          const { id, init } = declaration
-          if (isIdentifier(id) && isObjectExpression(init)) {
-            const storyNameNode = init.properties.find(
-              (prop) =>
-                isProperty(prop) &&
-                isIdentifier(prop.key) &&
-                (prop.key?.name === 'name' || prop.key?.name === 'storyName')
-            )
+          if (storyNameNode) {
+            const resolvedStoryName = storyNameFromExport(declaration.id.name)
+            const storyName = getObjectBarePropertyValue(storyNameNode)
 
-            if (!storyNameNode) {
-              return
-            }
-
-            const { name } = id
-            const resolvedStoryName = storyNameFromExport(name)
-
-            if (
-              !isSpreadElement(storyNameNode) &&
-              isLiteral(storyNameNode.value) &&
-              storyNameNode.value.value === resolvedStoryName
-            ) {
+            if (storyName === resolvedStoryName) {
               context.report({
                 node: storyNameNode,
                 messageId: 'storyNameIsRedundant',

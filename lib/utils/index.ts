@@ -1,7 +1,7 @@
 import { IncludeExcludeOptions, isExportStory } from '@storybook/csf'
 
 import { ASTUtils, TSESTree, TSESLint } from '@typescript-eslint/utils'
-import { NamedVariable } from '../types'
+import { NamedVariable, ObjectLiteralItem, StoryDescriptor } from '../types'
 
 import {
   isFunctionDeclaration,
@@ -38,39 +38,36 @@ export const getMetaObjectExpression = (
   return isObjectExpression(meta) ? meta : null
 }
 
+/**
+ * Descriptors support regexes and arrays of strings
+ * https://github.com/storybookjs/storybook/blob/next/code/lib/csf-tools/src/CsfFile.ts#L16
+ */
 export const getDescriptor = (
   metaDeclaration: TSESTree.ObjectExpression,
   propertyName: string
-): string[] | RegExp | undefined => {
-  const property =
-    metaDeclaration &&
-    metaDeclaration.properties.find(
-      (p) => 'key' in p && 'name' in p.key && p.key.name === propertyName
-    )
+): StoryDescriptor | undefined => {
+  const value =
+    metaDeclaration && getObjectBareProperty(metaDeclaration.properties, propertyName)?.value
 
-  if (!property || isSpreadElement(property)) {
+  if (!value) {
     return undefined
   }
 
-  const { type } = property.value
-
-  switch (type) {
+  switch (value.type) {
     case 'ArrayExpression':
-      return property.value.elements.map((t) => {
-        if (!['StringLiteral', 'Literal'].includes(t.type)) {
-          throw new Error(`Unexpected descriptor element: ${t.type}`)
+      return value.elements.map((element) => {
+        if (!isLiteral(element) || typeof element.value !== 'string') {
+          throw new Error(`Unexpected descriptor array element: ${element.type}`)
         }
-        // @ts-expect-error TODO: t should be only StringLiteral or Literal, and the type is not resolving correctly
-        return t.value
+        return element.value
       })
     case 'Literal':
-      // // TODO: Investigation needed. Type systems says, that "RegExpLiteral" does not exist
-      // // @ts-ignore
-      // case 'RegExpLiteral':
-      //   // @ts-ignore
-      return property.value.value as any
+      if (!(value.value instanceof RegExp)) {
+        throw new Error(`Unexpected descriptor: ${value.type}`)
+      }
+      return value.value
     default:
-      throw new Error(`Unexpected descriptor: ${type}`)
+      throw new Error(`Unexpected descriptor: ${value.type}`)
   }
 }
 
@@ -83,8 +80,8 @@ export const getAllNamedExports = (node: TSESTree.ExportNamedDeclaration) => {
   const namedReferences = getExportNamedReferences(node)
   if (namedReferences) return namedReferences
 
-  const namedIdentifier = getExportNamedIdentifierDeclaration(node)
-  if (namedIdentifier?.id) return [namedIdentifier.id]
+  const namedIdentifiers = getExportNamedIdentifierDeclarations(node)
+  if (namedIdentifiers) return namedIdentifiers.map(({ id }) => id)
 
   const namedFunction = getExportNamedFunctionDeclaration(node)
   if (namedFunction?.id) return [namedFunction.id]
@@ -92,7 +89,7 @@ export const getAllNamedExports = (node: TSESTree.ExportNamedDeclaration) => {
   return []
 }
 
-/** e.g. `export { First, Two }` => `['First', 'Two']`*/
+/** e.g. `export { First, Two } `*/
 export const getExportNamedReferences = (
   node: TSESTree.ExportNamedDeclaration
 ): TSESTree.Identifier[] | undefined => {
@@ -106,7 +103,7 @@ export const getExportNamedReferences = (
   }
 }
 
-/** e.g `export function MyStory() { } => 'MyStory'` */
+/** e.g. `export function MyStory() { } => 'MyStory'` */
 export const getExportNamedFunctionDeclaration = (
   node: TSESTree.ExportNamedDeclaration
 ): TSESTree.FunctionDeclaration | undefined => {
@@ -116,26 +113,40 @@ export const getExportNamedFunctionDeclaration = (
   }
 }
 
-/** e.g `export const MyStory = () => {}` => `"MyStory"` */
-export const getExportNamedIdentifierDeclaration = (
-  node: TSESTree.ExportNamedDeclaration
-): NamedVariable | undefined => {
+/** e.g. `export const MyStory = () => {}` => `"MyStory", MyOtherStory = () => {}` */
+export const getExportNamedIdentifierDeclarations = (
+  node: TSESTree.ExportNamedDeclaration,
+  name?: string
+): NamedVariable[] | undefined => {
   const { declaration } = node
+  const matchesNameFilter = (exportName: string) => !name || exportName === name
   if (isVariableDeclaration(declaration)) {
-    const [decl] = declaration.declarations
-    if (decl && isIdentifier(decl.id)) {
-      return decl as NamedVariable
+    const declarations = declaration.declarations.filter(
+      (decl) => isIdentifier(decl.id) && matchesNameFilter(decl.id.name)
+    ) as NamedVariable[]
+    if (declarations.length > 0) {
+      return declarations
     }
   }
 }
 
-export const getObjectLiteralProperty = (
-  properties: TSESTree.ObjectLiteralElement[],
-  name: string
-) =>
-  properties.find(
-    (property) => isProperty(property) && isIdentifier(property.key) && property.key.name === name
-  )
+export const getExportNamedIdentifierDeclaration = (
+  node: TSESTree.ExportNamedDeclaration,
+  name?: string
+): NamedVariable | undefined => {
+  const [declaration] = getExportNamedIdentifierDeclarations(node, name) ?? []
+  return declaration
+}
 
-export const getObjectLiteralPropertyValue = (property: TSESTree.ObjectLiteralElement) =>
-  !isSpreadElement(property) && isLiteral(property.value) && property.value.value
+/** e.g. `{ myProperty: {…}, myMethod(){…} }` */
+export const getObjectBareProperty = (properties: TSESTree.ObjectLiteralElement[], name: string) =>
+  properties.find(
+    (property) =>
+      isProperty(property) &&
+      isIdentifier(property.key) &&
+      !isSpreadElement(property) &&
+      property.key.name === name
+  ) as ObjectLiteralItem | undefined
+
+export const getObjectBarePropertyValue = (property: ObjectLiteralItem) =>
+  isLiteral(property.value) && property.value.value
