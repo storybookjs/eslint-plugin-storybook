@@ -1,3 +1,15 @@
+# v0.6.9 (Tue Jan 10 2023)
+
+#### 🐛 Bug Fix
+
+- fix(no-uninstalled-addons) Support Windows paths [#112](https://github.com/storybookjs/eslint-plugin-storybook/pull/112) ([@Dschungelabenteuer](https://github.com/Dschungelabenteuer))
+
+#### Authors: 1
+
+- n028 ([@Dschungelabenteuer](https://github.com/Dschungelabenteuer))
+
+---
+
 # v0.6.8 (Mon Dec 05 2022)
 
 #### 🐛 Bug Fix
