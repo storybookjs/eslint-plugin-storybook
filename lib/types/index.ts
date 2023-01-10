@@ -1,4 +1,4 @@
-import { TSESLint } from '@typescript-eslint/utils'
+import { TSESLint, TSESTree } from '@typescript-eslint/utils'
 import { CategoryId } from '../utils/constants'
 
 export type RuleModule = TSESLint.RuleModule<'', []> & {
@@ -39,3 +39,5 @@ export type StorybookRuleMeta<TMessageIds extends string> = Omit<
 //   schema: [],
 //   docs,
 // }
+
+export type NamedVariable = TSESTree.VariableDeclarator & { id: TSESTree.Identifier }

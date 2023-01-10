@@ -1,11 +1,14 @@
 import { IncludeExcludeOptions, isExportStory } from '@storybook/csf'
 
 import { ASTUtils, TSESTree, TSESLint } from '@typescript-eslint/utils'
+import { NamedVariable } from '../types'
 
 import {
   isFunctionDeclaration,
   isIdentifier,
+  isLiteral,
   isObjectExpression,
+  isProperty,
   isSpreadElement,
   isTSAsExpression,
   isTSSatisfiesExpression,
@@ -61,10 +64,11 @@ export const getDescriptor = (
         return t.value
       })
     case 'Literal':
-    // @ts-expect-error TODO: Investigation needed. Type systems says, that "RegExpLiteral" does not exist
-    case 'RegExpLiteral':
-      // @ts-ignore
-      return property.value.value
+      // // TODO: Investigation needed. Type systems says, that "RegExpLiteral" does not exist
+      // // @ts-ignore
+      // case 'RegExpLiteral':
+      //   // @ts-ignore
+      return property.value.value as any
     default:
       throw new Error(`Unexpected descriptor: ${type}`)
   }
@@ -76,7 +80,22 @@ export const isValidStoryExport = (
 ) => isExportStory(node.name, nonStoryExportsConfig) && node.name !== '__namedExportsOrder'
 
 export const getAllNamedExports = (node: TSESTree.ExportNamedDeclaration) => {
-  // e.g. `export { MyStory }`
+  const namedReferences = getExportNamedReferences(node)
+  if (namedReferences) return namedReferences
+
+  const namedIdentifier = getExportNamedIdentifierDeclaration(node)
+  if (namedIdentifier?.id) return [namedIdentifier.id]
+
+  const namedFunction = getExportNamedFunctionDeclaration(node)
+  if (namedFunction?.id) return [namedFunction.id]
+
+  return []
+}
+
+/** e.g. `export { First, Two }` => `['First', 'Two']`*/
+export const getExportNamedReferences = (
+  node: TSESTree.ExportNamedDeclaration
+): TSESTree.Identifier[] | undefined => {
   if (!node.declaration && node.specifiers) {
     return node.specifiers.reduce((acc, specifier) => {
       if (isIdentifier(specifier.exported)) {
@@ -85,26 +104,38 @@ export const getAllNamedExports = (node: TSESTree.ExportNamedDeclaration) => {
       return acc
     }, [] as TSESTree.Identifier[])
   }
-
-  const decl = node.declaration
-  if (isVariableDeclaration(decl)) {
-    const declaration = decl.declarations[0]
-
-    if (declaration) {
-      const { id } = declaration
-      // e.g. `export const MyStory`
-      if (isIdentifier(id)) {
-        return [id]
-      }
-    }
-  }
-
-  if (isFunctionDeclaration(decl)) {
-    // e.g. `export function MyStory() {}`
-    if (isIdentifier(decl.id)) {
-      return [decl.id]
-    }
-  }
-
-  return []
 }
+
+/** e.g `export function MyStory() { } => 'MyStory'` */
+export const getExportNamedFunctionDeclaration = (
+  node: TSESTree.ExportNamedDeclaration
+): TSESTree.FunctionDeclaration | undefined => {
+  const { declaration } = node
+  if (isFunctionDeclaration(declaration) && isIdentifier(declaration.id)) {
+    return declaration
+  }
+}
+
+/** e.g `export const MyStory = () => {}` => `"MyStory"` */
+export const getExportNamedIdentifierDeclaration = (
+  node: TSESTree.ExportNamedDeclaration
+): NamedVariable | undefined => {
+  const { declaration } = node
+  if (isVariableDeclaration(declaration)) {
+    const [decl] = declaration.declarations
+    if (decl && isIdentifier(decl.id)) {
+      return decl as NamedVariable
+    }
+  }
+}
+
+export const getObjectLiteralProperty = (
+  properties: TSESTree.ObjectLiteralElement[],
+  name: string
+) =>
+  properties.find(
+    (property) => isProperty(property) && isIdentifier(property.key) && property.key.name === name
+  )
+
+export const getObjectLiteralPropertyValue = (property: TSESTree.ObjectLiteralElement) =>
+  !isSpreadElement(property) && isLiteral(property.value) && property.value.value
