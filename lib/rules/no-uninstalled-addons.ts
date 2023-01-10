@@ -9,16 +9,10 @@ import { resolve, relative, sep } from 'path'
 
 import { createStorybookRule } from '../utils/create-storybook-rule'
 import { CategoryId } from '../utils/constants'
-import {
-  isObjectExpression,
-  isProperty,
-  isIdentifier,
-  isArrayExpression,
-  isLiteral,
-  isVariableDeclarator,
-  isVariableDeclaration,
-} from '../utils/ast'
+import { isObjectExpression, isArrayExpression, isLiteral } from '../utils/ast'
 import { TSESTree } from '@typescript-eslint/utils'
+import { getExportNamedIdentifierDeclaration, getObjectBareProperty } from '../utils'
+import { Maybe, NamedVariable, ObjectLiteralItem } from '../types'
 
 //------------------------------------------------------------------------------
 // Rule Definition
@@ -152,10 +146,8 @@ export = createStorybookRule({
         const nodesWithAddonsInObj = addonsExpression.elements
           .map((elem) => (isObjectExpression(elem) ? elem : { properties: [] }))
           .map((elem) => {
-            const property: TSESTree.Property = elem.properties.find(
-              (prop) => isProperty(prop) && isIdentifier(prop.key) && prop.key.name === 'name'
-            ) as TSESTree.Property
-            return isLiteral(property?.value)
+            const property = getObjectBareProperty(elem.properties, 'name')
+            return property && isLiteral(property?.value)
               ? { value: property.value.value, node: property.value }
               : undefined
           })
@@ -208,6 +200,18 @@ export = createStorybookRule({
       }
     }
 
+    function checkAddonInstall<
+      AddonsProp extends ObjectLiteralItem | NamedVariable,
+      Property = AddonsProp extends ObjectLiteralItem ? 'value' : 'init'
+    >(addonsProp: AddonsProp, prop: Property extends keyof AddonsProp ? Property : never) {
+      if (addonsProp && addonsProp[prop]) {
+        const node = addonsProp[prop] as Maybe<TSESTree.Node>
+        if (isArrayExpression(node)) {
+          reportUninstalledAddons(node)
+        }
+      }
+    }
+
     //----------------------------------------------------------------------
     // Public
     //----------------------------------------------------------------------
@@ -215,39 +219,19 @@ export = createStorybookRule({
     return {
       AssignmentExpression: function (node) {
         if (isObjectExpression(node.right)) {
-          const addonsProp = node.right.properties.find(
-            (prop): prop is TSESTree.Property =>
-              isProperty(prop) && isIdentifier(prop.key) && prop.key.name === 'addons'
-          )
-
-          if (addonsProp && addonsProp.value && isArrayExpression(addonsProp.value)) {
-            reportUninstalledAddons(addonsProp.value)
-          }
+          const addonsProp = getObjectBareProperty(node.right.properties, 'addons')
+          if (addonsProp) checkAddonInstall(addonsProp, 'value')
         }
       },
       ExportDefaultDeclaration: function (node) {
         if (isObjectExpression(node.declaration)) {
-          const addonsProp = node.declaration.properties.find(
-            (prop): prop is TSESTree.Property =>
-              isProperty(prop) && isIdentifier(prop.key) && prop.key.name === 'addons'
-          )
-
-          if (addonsProp && addonsProp.value && isArrayExpression(addonsProp.value)) {
-            reportUninstalledAddons(addonsProp.value)
-          }
+          const addonsProp = getObjectBareProperty(node.declaration.properties, 'addons')
+          if (addonsProp) checkAddonInstall(addonsProp, 'value')
         }
       },
       ExportNamedDeclaration: function (node) {
-        const addonsProp =
-          isVariableDeclaration(node.declaration) &&
-          node.declaration.declarations.find(
-            (decl) =>
-              isVariableDeclarator(decl) && isIdentifier(decl.id) && decl.id.name === 'addons'
-          )
-
-        if (addonsProp && isArrayExpression(addonsProp.init)) {
-          reportUninstalledAddons(addonsProp.init)
-        }
+        const addonsProp = getExportNamedIdentifierDeclaration(node, 'addons')
+        if (addonsProp) checkAddonInstall(addonsProp, 'init')
       },
     }
   },

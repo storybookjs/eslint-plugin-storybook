@@ -1,9 +1,10 @@
 import { AST_NODE_TYPES, TSESTree } from '@typescript-eslint/utils'
+import { Maybe } from '../types'
 export { ASTUtils } from '@typescript-eslint/utils'
 
 const isNodeOfType =
   <NodeType extends AST_NODE_TYPES>(nodeType: NodeType) =>
-  (node: TSESTree.Node | null | undefined): node is TSESTree.Node & { type: NodeType } =>
+  (node: Maybe<TSESTree.Node>): node is TSESTree.Node & { type: NodeType } =>
     node?.type === nodeType
 
 export const isAwaitExpression = isNodeOfType(AST_NODE_TYPES.AwaitExpression)
