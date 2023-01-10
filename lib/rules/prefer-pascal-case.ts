@@ -3,7 +3,7 @@
  * @author Yann Braga
  */
 
-import { ASTUtils, TSESTree } from "@typescript-eslint/utils";
+import { ASTUtils, TSESTree } from '@typescript-eslint/utils'
 import { IncludeExcludeOptions, isExportStory } from '@storybook/csf'
 
 import { getDescriptor, getMetaObjectExpression } from '../utils'
@@ -83,7 +83,7 @@ export = createStorybookRule({
                   const referenceCount = variable?.references?.length || 0
 
                   for (let i = 0; i < referenceCount; i++) {
-                    const ref = variable!.references[i]
+                    const ref = variable?.references[i]
                     if (ref && !ref.init) {
                       yield fixer.replaceTextRange(ref.identifier.range, pascal)
                     }
@@ -102,7 +102,7 @@ export = createStorybookRule({
 
     let meta
     let nonStoryExportsConfig: IncludeExcludeOptions
-    let namedExports: TSESTree.Identifier[] = []
+    const namedExports: TSESTree.Identifier[] = []
     let hasStoriesOfImport = false
 
     return {
@@ -119,7 +119,9 @@ export = createStorybookRule({
               excludeStories: getDescriptor(meta, 'excludeStories'),
               includeStories: getDescriptor(meta, 'includeStories'),
             }
-          } catch (err) {}
+          } catch (err) {
+            //
+          }
         }
       },
       ExportNamedDeclaration: function (node: TSESTree.ExportNamedDeclaration) {

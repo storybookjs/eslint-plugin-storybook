@@ -6,7 +6,7 @@
 import { isImportDefaultSpecifier } from '../utils/ast'
 import { CategoryId } from '../utils/constants'
 import { createStorybookRule } from '../utils/create-storybook-rule'
-import { TSESTree } from "@typescript-eslint/utils";
+import { TSESTree } from '@typescript-eslint/utils'
 
 //------------------------------------------------------------------------------
 // Rule Definition

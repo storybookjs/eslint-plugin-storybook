@@ -3,7 +3,7 @@
  * @author Yann Braga
  */
 
-import { TSESTree } from "@typescript-eslint/utils";
+import { TSESTree } from '@typescript-eslint/utils'
 
 import { createStorybookRule } from '../utils/create-storybook-rule'
 import { CategoryId } from '../utils/constants'
@@ -100,7 +100,7 @@ export = createStorybookRule({
     // Public
     //----------------------------------------------------------------------
 
-    let invocationsWithoutProperContext: TSESTree.Node[] = [];
+    const invocationsWithoutProperContext: TSESTree.Node[] = []
 
     return {
       CallExpression(node: TSESTree.CallExpression) {

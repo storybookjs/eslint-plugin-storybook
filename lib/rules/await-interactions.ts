@@ -159,7 +159,7 @@ export = createStorybookRule({
      */
 
     let isImportedFromStorybook = true
-    let invocationsThatShouldBeAwaited = [] as Array<{
+    const invocationsThatShouldBeAwaited = [] as Array<{
       node: TSESTree.Node
       method: TSESTree.Identifier
     }>
