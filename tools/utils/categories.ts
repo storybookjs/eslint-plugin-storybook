@@ -18,7 +18,7 @@ const categoriesConfig: TCategoriesConfig = {
   },
 }
 
-export const categoryIds = Object.keys(categoriesConfig)
+export const categoryIds = Object.keys(categoriesConfig) as CategoryId[]
 
 for (const categoryId of categoryIds) {
   categoriesConfig[categoryId].rules = []

@@ -5,16 +5,9 @@ export type RuleModule = TSESLint.RuleModule<'', []> & {
   meta: { hasSuggestions?: boolean; docs: { recommendedConfig?: 'error' | 'warn' } }
 }
 
-type RecommendedConfig<TOptions extends readonly unknown[]> =
-  | TSESLint.RuleMetaDataDocs['recommended']
-  | [TSESLint.RuleMetaDataDocs['recommended'], ...TOptions]
-
 // These 2 types are copied from @typescript-eslint/experimental-utils' CreateRuleMeta
 // and modified to our needs
-export type StorybookRuleMetaDocs<TOptions extends readonly unknown[]> = Omit<
-  TSESLint.RuleMetaDataDocs,
-  'url'
-> & {
+export type StorybookRuleMetaDocs = Omit<TSESLint.RuleMetaDataDocs, 'url'> & {
   /**
    * Whether or not this rule should be excluded from linter config
    */
@@ -24,20 +17,21 @@ export type StorybookRuleMetaDocs<TOptions extends readonly unknown[]> = Omit<
    */
   categories?: CategoryId[]
 }
-export type StorybookRuleMeta<
-  TMessageIds extends string,
-  TOptions extends readonly unknown[]
-> = Omit<TSESLint.RuleMetaData<TMessageIds>, 'docs'> & {
-  docs: StorybookRuleMetaDocs<TOptions>
+
+export type StorybookRuleMeta<TMessageIds extends string> = Omit<
+  TSESLint.RuleMetaData<TMessageIds>,
+  'docs'
+> & {
+  docs: StorybookRuleMetaDocs
 }
 
-// const docs: StorybookRuleMetaDocs<any> = {
-//   recommended: true,
+// Comment out for testing purposes:
+// const docs: StorybookRuleMetaDocs = {
 //   description: 'bla',
 //   recommended: 'error',
 // }
 
-// const meta: StorybookRuleMeta<'someId', any> = {
+// const meta: StorybookRuleMeta<'someId'> = {
 //   messages: {
 //     someId: 'yea',
 //   },

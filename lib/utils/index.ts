@@ -57,11 +57,11 @@ export const getDescriptor = (
         if (!['StringLiteral', 'Literal'].includes(t.type)) {
           throw new Error(`Unexpected descriptor element: ${t.type}`)
         }
+        // @ts-expect-error TODO: t should be only StringLiteral or Literal, and the type is not resolving correctly
         return t.value
       })
     case 'Literal':
-    // TODO: Investigation needed. Type systems says, that "RegExpLiteral" does not exist
-    // @ts-ignore
+    // @ts-expect-error TODO: Investigation needed. Type systems says, that "RegExpLiteral" does not exist
     case 'RegExpLiteral':
       // @ts-ignore
       return property.value.value

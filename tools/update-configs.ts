@@ -20,7 +20,7 @@ const externalRuleOverrides = {
 }
 
 function formatRules(rules: TCategory['rules'], exclude?: string[]) {
-  const obj = rules?.reduce(
+  const obj = rules.reduce(
     (setting, rule) => {
       if (!exclude?.includes(rule.ruleId)) {
         setting[rule.ruleId] = rule.meta.docs.recommended || 'error'
@@ -28,13 +28,13 @@ function formatRules(rules: TCategory['rules'], exclude?: string[]) {
       return setting
     },
     { ...externalRuleOverrides }
-  ) ?? { ...externalRuleOverrides }
+  )
 
   return JSON.stringify(obj, null, 2)
 }
 
 function formatSingleRule(rules: TCategory['rules'], ruleId: string) {
-  const ruleOpt = rules?.find((rule) => rule.ruleId === ruleId)?.meta.docs.recommended || 'error'
+  const ruleOpt = rules.find((rule) => rule.ruleId === ruleId)?.meta.docs.recommended || 'error'
 
   return JSON.stringify({ [ruleId]: ruleOpt }, null, 2)
 }
