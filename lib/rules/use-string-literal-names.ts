@@ -31,10 +31,8 @@ export = createStorybookRule({
       recommended: 'error',
     },
     messages: {
-      [messageId]: 'Fill me in',
+      [messageId]: 'Story names can only be overriden by string literals',
     },
-    fixable: 'code',
-    hasSuggestions: true,
     schema: [],
   },
 
