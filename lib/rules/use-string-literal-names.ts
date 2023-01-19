@@ -31,7 +31,7 @@ export = createStorybookRule({
       recommended: 'error',
     },
     messages: {
-      [messageId]: 'Story names can only be overriden by string literals',
+      [messageId]: 'Story names can only be overridden by string literals',
     },
     schema: [],
   },
