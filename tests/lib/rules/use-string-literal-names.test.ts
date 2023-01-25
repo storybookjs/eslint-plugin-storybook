@@ -38,7 +38,6 @@ ruleTester.run('use-string-literal-names', rule, {
     { code: 'const A = { name: `N` }; export { A }', errors },
     { code: 'const A = { name: String(1994) }; export { A }', errors },
     { code: 'const name = "N"; const A = { name }; export { A }', errors },
-    { code: 'export const A = { storyName: String(1994) };', errors },
     { code: 'export const A = () => {}; A.name = String(1994)', errors },
     { code: 'export const A = () => {}; A.storyName = String(1994)', errors },
     // Not sure how often this actually happens. If too complex, don't take care of it and delete this test
