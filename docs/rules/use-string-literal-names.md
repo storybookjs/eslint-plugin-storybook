@@ -8,17 +8,18 @@
 
 ## Rule Details
 
-When indexing stories extracted from CSF files, Storybook automatically titles them [based on the named export](https://storybook.js.org/docs/7.0/react/api/csf#named-story-exports). Story names can be overridden by setting the `name` property:
+When indexing stories extracted from CSF files, Storybook automatically titles them [based on the named export](https://storybook.js.org/docs/react/api/csf#named-story-exports). Story names can be overridden by setting the `name` property:
 
 ```js
 export const Simple = {
   decorators: [...],
-  name: 'So simple!',
   parameters: {...},
+  // Displays "So Simple" instead of "Simple" in Storybook's sidebar
+  name: 'So simple!',
 }
 ```
 
-One can be tempted to programmatically assign story names using code such as template literals, variable references, spread objects, function invocations, etc. However, because of limitations to static analysis, Storybook only picks `name` properties when they are string literals: it cannot evaluate code.
+One can be tempted to programmatically assign story names using code such as template literals, variable references, spread objects, function invocations, etc. However, because of limitations to static analysis, which Storybook relies on, Storybook only picks `name` properties when they are string literals: it cannot evaluate code.
 
 Examples of **incorrect** code for this rule:
 
