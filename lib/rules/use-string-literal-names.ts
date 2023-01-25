@@ -47,7 +47,9 @@ export = createStorybookRule({
       )
 
     const isStoryNamePropertyCandidate = (node: TSESTree.Property) =>
-      isIdentifier(node.key) && node.key.name === 'name' && isTopLevelObjectProperty()
+      isIdentifier(node.key) &&
+      (node.key.name === 'name' || node.key.name === 'storyName') &&
+      isTopLevelObjectProperty()
 
     return {
       Property: function (node) {
