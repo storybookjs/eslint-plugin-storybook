@@ -1,3 +1,4 @@
+/* eslint-disable no-fallthrough */
 import { IncludeExcludeOptions, isExportStory } from '@storybook/csf'
 
 import { ASTUtils, TSESTree, TSESLint } from '@typescript-eslint/utils'
@@ -63,7 +64,7 @@ export const getDescriptor = (
     case 'Literal':
     // @ts-expect-error TODO: Investigation needed. Type systems says, that "RegExpLiteral" does not exist
     case 'RegExpLiteral':
-      // @ts-ignore
+      // @ts-expect-error TODO: investigation needed
       return property.value.value
     default:
       throw new Error(`Unexpected descriptor: ${type}`)
