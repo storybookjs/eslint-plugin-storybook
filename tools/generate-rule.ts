@@ -13,17 +13,18 @@ const questions = [
     type: 'text',
     name: 'authorName',
     initial: '',
-    message: 'What is your name?',
+    message: 'What is your name? (to be given credit for the rule)',
     validate: (name: string) => (name === '' ? "Name can't be empty" : true),
   },
   {
     type: 'text',
     name: 'ruleId',
-    message: dedent(`'What is the rule ID? Follow the ESLint rule naming conventions:
+    message: dedent(`Time to name your rule! Follow the ESLint rule naming conventions:
 
       - If your rule is disallowing something, prefix it with no- such as no-eval for disallowing eval() and no-debugger for disallowing debugger.
       - If your rule is enforcing the inclusion of something, use a short name without a special prefix.
       - Use dashes between words.
+      What is the ID of this new rule?
     `),
     validate: (rule: string) => (rule === '' ? "Rule can't be empty" : true),
   },
@@ -42,12 +43,16 @@ const questions = [
 ]
 
 const generateRule = async () => {
-  const { authorName, ruleId, ruleDescription, isAutoFixable } = await prompts(questions)
-
-  if (!authorName) {
-    logger.log('Process canceled by the user.')
-    process.exit(0)
-  }
+  logger.log(
+    '👋 Welcome to the Storybook ESLint rule generator! Please answer a few questions so I can provide everything you need for your new rule.'
+  )
+  logger.log()
+  const { authorName, ruleId, ruleDescription, isAutoFixable } = await prompts(questions, {
+    onCancel: () => {
+      logger.log('Process canceled by the user.')
+      process.exit(0)
+    },
+  })
 
   const ruleFile = path.resolve(__dirname, `../lib/rules/${ruleId}.ts`)
   const testFile = path.resolve(__dirname, `../tests/lib/rules/${ruleId}.test.ts`)
@@ -61,8 +66,10 @@ const generateRule = async () => {
        * @author ${authorName}
        */
 
+      import { TSESTree } from '@typescript-eslint/utils'
       import { createStorybookRule } from '../utils/create-storybook-rule'
       import { CategoryId } from '../utils/constants'
+      import { isIdentifier, isVariableDeclaration } from '../utils/ast'
 
       //------------------------------------------------------------------------------
       // Rule Definition
@@ -72,12 +79,12 @@ const generateRule = async () => {
         name: '${ruleId}',
         defaultOptions: [],
         meta: {
-          type: null, // \`problem\`, \`suggestion\`, or \`layout\`
+          type: 'problem', // \`problem\`, \`suggestion\`, or \`layout\`
           docs: {
             description: 'Fill me in',
             // Add the categories that suit this rule.
             categories: [CategoryId.RECOMMENDED],
-            recommended: 'warn', // or 'error'
+            recommended: 'warn', // \`warn\` or \`error\`
           },
           messages: {
             anyMessageIdHere: 'Fill me in',
@@ -102,20 +109,30 @@ const generateRule = async () => {
 
           return {
             /**
-             * This is an example rule that reports an error in case a named export is called 'wrong'
-             * Use https://eslint.org/docs/developer-guide/working-with-rules for Eslint API
+             * 👉 Please read this and then delete this entire comment block.
+             * This is an example rule that reports an error in case a named export is called 'wrong'.
+             * Hopefully this will guide you to write your own rules. Make sure to always use the AST utilities and account for all possible cases.
+             *
+             * Keep in mind that sometimes AST nodes change when in javascript or typescript format. For example, the type of "declaration" from "export default {}" is ObjectExpression but in "export default {} as SomeType" is TSAsExpression.
+             *
+             * Use https://eslint.org/docs/developer-guide/working-with-rules for Eslint API reference
              * And check https://astexplorer.net/ to help write rules
-             * And delete this entire comment block
+             * Working with AST is fun. Good luck!
              */
-            ExportNamedDeclaration: function (node) {
-              const identifier = node.declaration.declarations[0].id
-              if (identifier) {
-                const { name } = identifier
-                if (name === 'wrong') {
-                  context.report({
-                    node,
-                    messageId: 'anyMessageIdHere',
-                  })
+            ExportNamedDeclaration: function (node: TSESTree.ExportNamedDeclaration) {
+              const declaration = node.declaration
+              if (!declaration) return
+              // use AST helpers to make sure the nodes are of the right type
+              if (isVariableDeclaration(declaration)) {
+                const identifier = declaration.declarations[0]?.id
+                if (isIdentifier(identifier)) {
+                  const { name } = identifier
+                  if (name === 'wrong') {
+                    context.report({
+                      node,
+                      messageId: 'anyMessageIdHere',
+                    })
+                  }
                 }
               }
             },
@@ -145,14 +162,14 @@ const generateRule = async () => {
 
         ruleTester.run('${ruleId}', rule, {
           /**
-           * This is an example test for a  rule that reports an error in case a named export is called 'wrong'
-           * Use https://eslint.org/docs/developer-guide/working-with-rules for Eslint API
-           * And delete this entire comment block
+           * 👉 Please read this and delete this entire comment block.
+           * This is an example test for a rule that reports an error in case a named export is called 'wrong'
+           * Use https://eslint.org/docs/developer-guide/working-with-rules for Eslint API reference
            */
-          valid: ['export const Correct'],
+          valid: ['export const correct = {}'],
           invalid: [
             {
-              code: 'export const wrong',
+              code: 'export const wrong = {}',
               errors: [
                 {
                   messageId: 'anyMessageIdHere', // comes from the rule file
@@ -160,7 +177,8 @@ const generateRule = async () => {
               ],
             },
           ],
-        })\n`)
+        })
+    `)
   )
 
   logger.log(`creating docs/rules/${ruleId}.md`)
