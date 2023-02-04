@@ -39,6 +39,45 @@ ruleTester.run('context-in-play-function', rule, {
         }
       }
     `,
+    dedent`
+      export const SecondStory = Template.bind({})
+      SecondStory.play = async (ctx) => {
+        await FirstStory.play(ctx)
+      }
+    `,
+    dedent`
+      export const SecondStory = Template.bind({})
+      SecondStory.play = async ({ canvasElement, ...ctx }) => {
+        await FirstStory.play({ canvasElement, ...ctx })
+      }
+    `,
+    dedent`
+      export const SecondStory = Template.bind({})
+      SecondStory.play = async (ctx) => {
+        await FirstStory.play(ctx)
+      }
+    `,
+    dedent`
+      export const SecondStory = {
+        play: async (ctx) => {
+          await FirstStory.play(ctx)
+        }
+      }
+    `,
+    dedent`
+      export const SecondStory = {
+        play: async ({ ...ctx }) => {
+          await FirstStory.play({ ...ctx })
+        }
+      }
+    `,
+    dedent`
+      export const SecondStory = {
+        play: async ({ canvasElement, ...ctx }) => {
+          await FirstStory.play({ canvasElement, ...ctx })
+        }
+      }
+    `,
   ],
   invalid: [
     {
