@@ -10,4 +10,13 @@ export = {
     'storybook/no-stories-of': 'error',
     'storybook/no-title-property-in-meta': 'error',
   },
+
+  overrides: [
+    {
+      files: ['.storybook/main.@(js|cjs|mjs|ts)'],
+      rules: {
+        'storybook/use-default-export-in-main': 'error',
+      },
+    },
+  ],
 }

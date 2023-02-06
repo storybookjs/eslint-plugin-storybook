@@ -11,6 +11,7 @@ export type TRule = ReturnType<typeof createStorybookRule> & {
       categories?: string[]
       category?: string
       excludeFromConfig?: boolean
+      isMainConfigRule?: boolean
     }
   }
 }

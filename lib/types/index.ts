@@ -16,6 +16,10 @@ export type StorybookRuleMetaDocs = Omit<TSESLint.RuleMetaDataDocs, 'url'> & {
    * Which configs the rule should be part of
    */
   categories?: CategoryId[]
+  /**
+   * Whether the rule is for main.js files rather than stories files
+   */
+  isMainConfigRule?: boolean
 }
 
 export type StorybookRuleMeta<TMessageIds extends string> = Omit<

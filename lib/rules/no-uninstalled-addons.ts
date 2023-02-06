@@ -34,6 +34,7 @@ export = createStorybookRule({
         'This rule identifies storybook addons that are invalid because they are either not installed or contain a typo in their name.',
       categories: [CategoryId.RECOMMENDED],
       recommended: 'error', // or 'error'
+      isMainConfigRule: true,
     },
     messages: {
       addonIsNotInstalled: `The {{ addonName }} is not installed in {{packageJsonPath}}. Did you forget to install it or is your package.json in a different location?`,
