@@ -1,3 +1,17 @@
+# v0.6.11 (Tue Feb 21 2023)
+
+#### 🐛 Bug Fix
+
+- Make context-in-play-function aware of context variable name [#120](https://github.com/storybookjs/eslint-plugin-storybook/pull/120) ([@beaussan](https://github.com/beaussan))
+- improve rule template [#119](https://github.com/storybookjs/eslint-plugin-storybook/pull/119) ([@yannbf](https://github.com/yannbf))
+
+#### Authors: 2
+
+- Nicolas Beaussart ([@beaussan](https://github.com/beaussan))
+- Yann Braga ([@yannbf](https://github.com/yannbf))
+
+---
+
 # v0.6.10 (Tue Jan 10 2023)
 
 #### 🐛 Bug Fix
