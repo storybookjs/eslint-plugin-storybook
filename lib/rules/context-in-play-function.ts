@@ -13,6 +13,9 @@ import {
   isTSNonNullExpression,
   isObjectExpression,
   isSpreadElement,
+  isArrowFunctionExpression,
+  isObjectPattern,
+  isRestElement,
 } from '../utils/ast'
 
 //------------------------------------------------------------------------------
@@ -66,6 +69,36 @@ export = createStorybookRule({
       return false
     }
 
+    const getParentParameterName = (node: TSESTree.Node): string | undefined => {
+      if (!isArrowFunctionExpression(node)) {
+        if (!node.parent) {
+          return undefined
+        }
+        return getParentParameterName(node.parent)
+      }
+      // No parameter found
+      if (node.params.length === 0) {
+        return undefined
+      }
+
+      if (node.params.length >= 1) {
+        const param = node.params[0]
+        if (isIdentifier(param)) {
+          return param.name
+        }
+        if (isObjectPattern(param)) {
+          const restElement = param.properties.find(isRestElement)
+          if (!restElement || !isIdentifier(restElement.argument)) {
+            // No rest element found
+            return undefined
+          }
+          return restElement.argument.name
+        }
+      }
+      return undefined
+
+    }
+
     // Expression passing an argument called context OR spreading a variable called context
     const isNotPassingContextCorrectly = (expr: TSESTree.CallExpression) => {
       const firstExpressionArgument = expr.arguments[0]
@@ -74,10 +107,16 @@ export = createStorybookRule({
         return true
       }
 
+      const contextVariableName = getParentParameterName(expr)
+
+      if (!contextVariableName) {
+        return true
+      }
+
       if (
         expr.arguments.length === 1 &&
         isIdentifier(firstExpressionArgument) &&
-        firstExpressionArgument.name === 'context'
+        firstExpressionArgument.name === contextVariableName
       ) {
         return false
       }
@@ -86,7 +125,9 @@ export = createStorybookRule({
         isObjectExpression(firstExpressionArgument) &&
         firstExpressionArgument.properties.some((prop) => {
           return (
-            isSpreadElement(prop) && isIdentifier(prop.argument) && prop.argument.name === 'context'
+            isSpreadElement(prop) &&
+            isIdentifier(prop.argument) &&
+            prop.argument.name === contextVariableName
           )
         })
       ) {
