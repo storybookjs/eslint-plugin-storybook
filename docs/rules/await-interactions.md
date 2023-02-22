@@ -27,7 +27,7 @@ Examples of **correct** code for this rule:
 ```js
 import { within, userEvent } from '@storybook/testing-library'
 
-MyStory.play = (context) => {
+MyStory.play = async (context) => {
   const canvas = within(context.canvasElement)
   // awaited 👍
   await userEvent.click(canvas.getByRole('button'))
