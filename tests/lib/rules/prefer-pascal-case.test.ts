@@ -20,6 +20,7 @@ import ruleTester from '../../utils/rule-tester'
 ruleTester.run('prefer-pascal-case', rule, {
   valid: [
     'export const Primary = {}',
+    'export const 测试 = {}',
     `export const __namedExportsOrder = ['Secondary', 'Primary']`,
     `export const _primary = {}`,
     'export const Primary: Story = {}',
