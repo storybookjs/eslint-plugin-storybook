@@ -1,32 +1,52 @@
-# meta-satisfies-type
+# Meta should be followed by `satisfies Meta` (meta-satisfies-type)
 
 <!-- RULE-CATEGORIES:START -->
 <!-- RULE-CATEGORIES:END -->
 
 ## Rule Details
 
-Meta should be followed by `satisfies Meta`.
+This rule enforces writing `satisfies Meta` after the meta object definition. This is useful to ensure that stories use the correct properties in the metadata.
+
+Additionally, `satisfies` is preferred over type annotations (`const meta: Meta = {...}`) and type assertions (`const meta = {...} as Meta`). This is because other types like `StoryObj` will check to see which properties are defined in meta and use it for increased type safety. Using type annotations or assertions hides this information from the type-checker, so satisfies should be used instead.
 
 Examples of **incorrect** code for this rule:
 
 ```js
-// fill me in
+export default {
+  title: 'Button',
+  args: { primary: true },
+  component: Button,
+}
+
+const meta: Meta<typeof Button> = {
+  title: 'Button',
+  args: { primary: true },
+  component: Button,
+}
+export default meta
 ```
 
 Examples of **correct** code for this rule:
 
 ```js
-// fill me in
+export default {
+  title: 'Button',
+  args: { primary: true },
+  component: Button,
+} satisfies Meta<typeof Button>
+
+const meta = {
+  title: 'Button',
+  args: { primary: true },
+  component: Button,
+} satisfies Meta<typeof Button>
+export default meta
 ```
-
-### Options
-
-If there are any options, describe them here. Otherwise, delete this section.
 
 ## When Not To Use It
 
-Give a short description of when it would be appropriate to turn off this rule. If not applicable, delete this section.
+If you aren't using TypeScript or you're using a version older than TypeScript 4.9, `satisfies` is not supported and you can avoid this rule.
 
 ## Further Reading
 
-If there are other links that describe the issue this rule addresses, please include them here in a bulleted list. Otherwise, delete this section.
+- [Improved type safety in Storybook 7](https://storybook.js.org/blog/improved-type-safety-in-storybook-7/?ref=storybookblog.ghost.io)
