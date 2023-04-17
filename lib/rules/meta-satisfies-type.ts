@@ -3,10 +3,11 @@
  * @author Tiger Oakes
  */
 
-import { TSESTree } from '@typescript-eslint/utils'
-import { createStorybookRule } from '../utils/create-storybook-rule'
+import { AST_NODE_TYPES, ASTUtils, TSESTree, TSESLint } from '@typescript-eslint/utils'
+import { getMetaObjectExpression } from '../utils'
 import { CategoryId } from '../utils/constants'
-import { isIdentifier, isVariableDeclaration } from '../utils/ast'
+import { createStorybookRule } from '../utils/create-storybook-rule'
+import { isTSSatisfiesExpression } from '../utils/ast'
 
 //------------------------------------------------------------------------------
 // Rule Definition
@@ -16,28 +17,78 @@ export = createStorybookRule({
   name: 'meta-satisfies-type',
   defaultOptions: [],
   meta: {
-    type: 'problem', // `problem`, `suggestion`, or `layout`
+    type: 'suggestion',
     docs: {
-      description: 'Fill me in',
-      // Add the categories that suit this rule.
-      categories: [CategoryId.RECOMMENDED],
-      recommended: 'warn', // `warn` or `error`
+      description: 'Meta should use `satisfies Meta`',
+      categories: [CategoryId.CSF],
+      recommended: 'error',
     },
     messages: {
-      anyMessageIdHere: 'Fill me in',
+      metaShouldSatisfyType: 'Meta should be followed by `satisfies Meta`',
     },
     fixable: 'code',
-    hasSuggestions: true,
-    schema: [], // Add a schema if the rule has options. Otherwise remove this
+    schema: [],
   },
 
   create(context) {
     // variables should be defined here
+    const sourceCode = context.getSourceCode()
 
     //----------------------------------------------------------------------
     // Helpers
     //----------------------------------------------------------------------
+    const getTextWithParentheses = (node: TSESTree.Node): string => {
+      // Capture parentheses before and after the node
+      let beforeCount = 0
+      let afterCount = 0
 
+      if (ASTUtils.isParenthesized(node, sourceCode)) {
+        const bodyOpeningParen = sourceCode.getTokenBefore(node, ASTUtils.isOpeningParenToken)
+        const bodyClosingParen = sourceCode.getTokenAfter(node, ASTUtils.isClosingParenToken)
+
+        if (bodyOpeningParen && bodyClosingParen) {
+          beforeCount = node.range[0] - bodyOpeningParen.range[0]
+          afterCount = bodyClosingParen.range[1] - node.range[1]
+        }
+      }
+
+      return sourceCode.getText(node, beforeCount, afterCount)
+    }
+
+    const getFixer = (meta: TSESTree.ObjectExpression): TSESLint.ReportFixFunction | undefined => {
+      const { parent } = meta
+      if (!parent) {
+        return undefined
+      }
+
+      switch (parent.type) {
+        // {} as Meta
+        case AST_NODE_TYPES.TSAsExpression:
+          return (fixer) => [
+            fixer.replaceText(parent, getTextWithParentheses(meta)),
+            fixer.insertTextAfter(
+              parent,
+              ` satisfies ${getTextWithParentheses(parent.typeAnnotation)}`
+            ),
+          ]
+        // const meta: Meta = {}
+        case AST_NODE_TYPES.VariableDeclarator: {
+          const { typeAnnotation } = parent.id
+          if (typeAnnotation) {
+            return (fixer) => [
+              fixer.remove(typeAnnotation),
+              fixer.insertTextAfter(
+                meta,
+                ` satisfies ${getTextWithParentheses(typeAnnotation.typeAnnotation)}`
+              ),
+            ]
+          }
+          return undefined
+        }
+        default:
+          return undefined
+      }
+    }
     // any helper functions should go here or else delete this section
 
     //----------------------------------------------------------------------
@@ -45,32 +96,18 @@ export = createStorybookRule({
     //----------------------------------------------------------------------
 
     return {
-      /**
-       * 👉 Please read this and then delete this entire comment block.
-       * This is an example rule that reports an error in case a named export is called 'wrong'.
-       * Hopefully this will guide you to write your own rules. Make sure to always use the AST utilities and account for all possible cases.
-       *
-       * Keep in mind that sometimes AST nodes change when in javascript or typescript format. For example, the type of "declaration" from "export default {}" is ObjectExpression but in "export default {} as SomeType" is TSAsExpression.
-       *
-       * Use https://eslint.org/docs/developer-guide/working-with-rules for Eslint API reference
-       * And check https://astexplorer.net/ to help write rules
-       * Working with AST is fun. Good luck!
-       */
-      ExportNamedDeclaration: function (node: TSESTree.ExportNamedDeclaration) {
-        const declaration = node.declaration
-        if (!declaration) return
-        // use AST helpers to make sure the nodes are of the right type
-        if (isVariableDeclaration(declaration)) {
-          const identifier = declaration.declarations[0]?.id
-          if (isIdentifier(identifier)) {
-            const { name } = identifier
-            if (name === 'wrong') {
-              context.report({
-                node,
-                messageId: 'anyMessageIdHere',
-              })
-            }
-          }
+      ExportDefaultDeclaration(node) {
+        const meta = getMetaObjectExpression(node, context)
+        if (!meta) {
+          return null
+        }
+
+        if (!meta.parent || !isTSSatisfiesExpression(meta.parent)) {
+          context.report({
+            node: meta,
+            messageId: 'metaShouldSatisfyType',
+            fix: getFixer(meta),
+          })
         }
       },
     }
