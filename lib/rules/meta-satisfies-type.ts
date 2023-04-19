@@ -5,7 +5,6 @@
 
 import { AST_NODE_TYPES, ASTUtils, TSESTree, TSESLint } from '@typescript-eslint/utils'
 import { getMetaObjectExpression } from '../utils'
-import { CategoryId } from '../utils/constants'
 import { createStorybookRule } from '../utils/create-storybook-rule'
 import { isTSSatisfiesExpression } from '../utils/ast'
 
@@ -20,7 +19,7 @@ export = createStorybookRule({
     type: 'suggestion',
     docs: {
       description: 'Meta should use `satisfies Meta`',
-      categories: [CategoryId.CSF],
+      categories: [],
       recommended: 'error',
     },
     messages: {

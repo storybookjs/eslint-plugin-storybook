@@ -1,6 +1,9 @@
 # Meta should be followed by `satisfies Meta` (meta-satisfies-type)
 
 <!-- RULE-CATEGORIES:START -->
+
+**Included in these configurations**: (none)
+
 <!-- RULE-CATEGORIES:END -->
 
 ## Rule Details
