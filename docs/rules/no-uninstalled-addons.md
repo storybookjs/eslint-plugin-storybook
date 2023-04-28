@@ -8,11 +8,11 @@
 
 ## Rule Details
 
-This rule checks if all addons registered in `.storybook/main.js` are properly listed in the root package.json of your project.
+This rule checks if all addons registered in `.storybook/main.js` are properly listed in the root `package.json` of your project.
 
-For instance, if the `@storybook/addon-links` is in the `.storybook/main.js` but is not listed in the `package.json` of the project, this rule will notify the user to add the addon to the package.json and install it.
+For instance, if the `@storybook/addon-links` is in the `.storybook/main.js` but is not listed in the `package.json` of the project, this rule will notify the user to add the addon to the `package.json` and install it.
 
-As an important side note, this rule will check for the `package.json` in the **root level** of your project. You can customize the location of the `package.json` by [setting the `packageJsonPath` option](#configure).
+As an important side note, this rule will check for the `package.json` in the **root level** of your project. You can customize the location of the `package.json` by [setting the `packageJsonLocation` option](#configure).
 
 Another very important side note: your ESLint config must allow the linting of the `.storybook` folder. By default, ESLint ignores all dot-files so this folder will be ignored. In order to allow this rule to lint the `.storybook/main.js` file, it's important to configure ESLint to lint this file. This can be achieved by writing something like:
 
@@ -68,7 +68,9 @@ module.exports = {
 
 ### Configure
 
-This rule assumes that the `package.json` is located in the root of your project. You can customize this by setting the `packageJsonPath` option of the rule:
+#### `packageJsonLocation`
+
+This rule assumes that the `package.json` is located in the root of your project. You can customize this by setting the `packageJsonLocation` option of the rule:
 
 ```js
 module.exports = {
@@ -79,6 +81,21 @@ module.exports = {
 ```
 
 Note that the path must be relative to where ESLint runs from, which is usually relative to the root of the project.
+
+#### `ignore`
+
+You can also ignore certain addons by providing an ignore array in the options:
+
+```js
+module.exports = {
+  rules: {
+    'storybook/no-uninstalled-addons': [
+      'error',
+      { packageJsonLocation: './folder/package.json', ignore: ['custom-addon'] },
+    ],
+  },
+}
+```
 
 ### What if I use a different storybook config directory?
 
@@ -103,4 +120,4 @@ This rule is very handy to be used because if the user tries to start storybook 
 
 ## Further Reading
 
-Check the issue in GitHub: https://github.com/storybookjs/eslint-plugin-storybook/issues/95
+Check the issue in GitHub: [https://github.com/storybookjs/eslint-plugin-storybook/issues/95](https://github.com/storybookjs/eslint-plugin-storybook/issues/95)

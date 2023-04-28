@@ -11,7 +11,7 @@ import { AST_NODE_TYPES } from '@typescript-eslint/utils'
 
 import rule from '../../../lib/rules/no-uninstalled-addons'
 import ruleTester from '../../utils/rule-tester'
-import { sep } from 'path';
+import { sep } from 'path'
 
 jest.mock('fs', () => ({
   ...jest.requireActual('fs'),
@@ -118,6 +118,24 @@ ruleTester.run('no-uninstalled-addons', rule, {
         ]
       }
   `,
+    {
+      code: `
+      module.exports = {
+          addons: [
+            "@storybook/addon-links",
+            "@storybook/addon-essentials",
+            "@storybook/addon-interactions",
+            "@storybook/not-installed-addon"
+          ]
+        }
+    `,
+      options: [
+        {
+          packageJsonLocation: '',
+          ignore: ['@storybook/addon-not-installed-addon'],
+        },
+      ],
+    },
   ],
   invalid: [
     {
