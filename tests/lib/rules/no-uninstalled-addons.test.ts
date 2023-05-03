@@ -125,14 +125,14 @@ ruleTester.run('no-uninstalled-addons', rule, {
             "@storybook/addon-links",
             "@storybook/addon-essentials",
             "@storybook/addon-interactions",
-            "@storybook/not-installed-addon"
+            "@storybook/not-installed-addon",
           ]
         }
     `,
       options: [
         {
           packageJsonLocation: '',
-          ignore: ['@storybook/addon-not-installed-addon'],
+          ignore: ['@storybook/not-installed-addon'],
         },
       ],
     },
