@@ -1,3 +1,21 @@
+# v0.6.12 (Wed May 03 2023)
+
+#### 🐛 Bug Fix
+
+- feat: allow ignore option in no-uninstalled-addons [#129](https://github.com/storybookjs/eslint-plugin-storybook/pull/129) ([@mandarini](https://github.com/mandarini) [@yannbf](https://github.com/yannbf))
+
+#### 📝 Documentation
+
+- docs: add async [#121](https://github.com/storybookjs/eslint-plugin-storybook/pull/121) ([@tyankatsu0105](https://github.com/tyankatsu0105))
+
+#### Authors: 3
+
+- Katerina Skroumpelou ([@mandarini](https://github.com/mandarini))
+- tyankatsu ([@tyankatsu0105](https://github.com/tyankatsu0105))
+- Yann Braga ([@yannbf](https://github.com/yannbf))
+
+---
+
 # v0.6.11 (Tue Feb 21 2023)
 
 #### 🐛 Bug Fix
