@@ -26,7 +26,12 @@ import { TSESTree } from '@typescript-eslint/utils'
 
 export = createStorybookRule({
   name: 'no-uninstalled-addons',
-  defaultOptions: [],
+  defaultOptions: [
+    {
+      packageJsonLocation: '' as string,
+      ignore: [] as string[],
+    },
+  ],
   meta: {
     type: 'problem',
     docs: {
@@ -46,16 +51,31 @@ export = createStorybookRule({
           packageJsonLocation: {
             type: 'string',
           },
+          ignore: {
+            type: 'array',
+            items: {
+              type: 'string',
+            },
+          },
         },
       },
-    ], // Add a schema if the rule has options. Otherwise remove this
+    ],
   },
 
   create(context) {
     // variables should be defined here
-    const packageJsonLocation = context.options.reduce((acc, val) => {
-      return val['packageJsonLocation'] || acc
-    }, '')
+    const { packageJsonLocation, ignore } = context.options.reduce<{
+      packageJsonLocation: string
+      ignore: string[]
+    }>(
+      (acc, val) => {
+        return {
+          packageJsonLocation: val['packageJsonLocation'] || acc.packageJsonLocation,
+          ignore: val['ignore'] || acc.ignore,
+        }
+      },
+      { packageJsonLocation: '', ignore: [] }
+    )
 
     //----------------------------------------------------------------------
     // Helpers
@@ -103,7 +123,7 @@ export = createStorybookRule({
       const result = addons
         // remove local addons (e.g. ./my-addon/register.js)
         .filter(filterLocalAddons)
-        .filter((addon) => !isAddonInstalled(addon, installedSbAddons))
+        .filter((addon) => !isAddonInstalled(addon, installedSbAddons) && !ignore.includes(addon))
         .map((addon) => ({ name: addon }))
       return result.length ? result : false
     }
