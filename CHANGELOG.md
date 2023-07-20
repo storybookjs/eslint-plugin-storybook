@@ -1,3 +1,15 @@
+# v0.6.13 (Thu Jul 20 2023)
+
+#### ⚠️ Pushed to `main`
+
+- Create CODEOWNERS ([@valentinpalkovic](https://github.com/valentinpalkovic))
+
+#### Authors: 1
+
+- Valentin Palkovic ([@valentinpalkovic](https://github.com/valentinpalkovic))
+
+---
+
 # v0.6.12 (Wed May 03 2023)
 
 #### 🐛 Bug Fix
