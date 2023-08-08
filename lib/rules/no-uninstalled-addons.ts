@@ -17,6 +17,7 @@ import {
   isLiteral,
   isVariableDeclarator,
   isVariableDeclaration,
+  isTSSatisfiesExpression,
 } from '../utils/ast'
 import { TSESTree } from '@typescript-eslint/utils'
 
@@ -228,6 +229,17 @@ export = createStorybookRule({
       }
     }
 
+    function findAddonsPropAndReport(node: TSESTree.ObjectExpression) {
+      const addonsProp = node.properties.find(
+        (prop): prop is TSESTree.Property =>
+          isProperty(prop) && isIdentifier(prop.key) && prop.key.name === 'addons'
+      )
+
+      if (addonsProp?.value && isArrayExpression(addonsProp.value)) {
+        reportUninstalledAddons(addonsProp.value)
+      }
+    }
+
     //----------------------------------------------------------------------
     // Public
     //----------------------------------------------------------------------
@@ -235,26 +247,37 @@ export = createStorybookRule({
     return {
       AssignmentExpression: function (node) {
         if (isObjectExpression(node.right)) {
-          const addonsProp = node.right.properties.find(
-            (prop): prop is TSESTree.Property =>
-              isProperty(prop) && isIdentifier(prop.key) && prop.key.name === 'addons'
-          )
-
-          if (addonsProp && addonsProp.value && isArrayExpression(addonsProp.value)) {
-            reportUninstalledAddons(addonsProp.value)
-          }
+          findAddonsPropAndReport(node.right)
         }
       },
       ExportDefaultDeclaration: function (node) {
-        if (isObjectExpression(node.declaration)) {
-          const addonsProp = node.declaration.properties.find(
-            (prop): prop is TSESTree.Property =>
-              isProperty(prop) && isIdentifier(prop.key) && prop.key.name === 'addons'
-          )
+        if (isIdentifier(node.declaration)) {
+          const variable = context
+            .getScope()
+            .variables.find((v) =>
+              node.declaration.type === 'Identifier' ? v.name === node.declaration.name : false
+            )
 
-          if (addonsProp && addonsProp.value && isArrayExpression(addonsProp.value)) {
-            reportUninstalledAddons(addonsProp.value)
+          if (
+            variable &&
+            variable.defs[0] &&
+            isVariableDeclarator(variable.defs[0].node) &&
+            isObjectExpression(variable.defs[0].node.init)
+          ) {
+            const objectNode = variable.defs[0].node.init
+            findAddonsPropAndReport(objectNode)
           }
+        }
+
+        if (isObjectExpression(node.declaration)) {
+          findAddonsPropAndReport(node.declaration)
+        }
+
+        if (
+          isTSSatisfiesExpression(node.declaration) &&
+          isObjectExpression(node.declaration.expression)
+        ) {
+          findAddonsPropAndReport(node.declaration.expression)
         }
       },
       ExportNamedDeclaration: function (node) {
