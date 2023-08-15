@@ -17,9 +17,9 @@ import {
   isLiteral,
   isVariableDeclarator,
   isVariableDeclaration,
-  isTSSatisfiesExpression,
 } from '../utils/ast'
 import { TSESTree } from '@typescript-eslint/utils'
+import { getMetaObjectExpression } from '../utils'
 
 //------------------------------------------------------------------------------
 // Rule Definition
@@ -251,33 +251,18 @@ export = createStorybookRule({
         }
       },
       ExportDefaultDeclaration: function (node) {
-        if (isIdentifier(node.declaration)) {
-          const variable = context
-            .getScope()
-            .variables.find((v) =>
-              node.declaration.type === 'Identifier' ? v.name === node.declaration.name : false
-            )
-
-          if (
-            variable &&
-            variable.defs[0] &&
-            isVariableDeclarator(variable.defs[0].node) &&
-            isObjectExpression(variable.defs[0].node.init)
-          ) {
-            const objectNode = variable.defs[0].node.init
-            findAddonsPropAndReport(objectNode)
-          }
+        const meta = getMetaObjectExpression(node, context)
+        if (!meta) {
+          return null
         }
 
-        if (isObjectExpression(node.declaration)) {
-          findAddonsPropAndReport(node.declaration)
-        }
+        const addonsProp = meta.properties.find(
+          (prop): prop is TSESTree.Property =>
+            isProperty(prop) && isIdentifier(prop.key) && prop.key.name === 'addons'
+        )
 
-        if (
-          isTSSatisfiesExpression(node.declaration) &&
-          isObjectExpression(node.declaration.expression)
-        ) {
-          findAddonsPropAndReport(node.declaration.expression)
+        if (addonsProp && addonsProp.value && isArrayExpression(addonsProp.value)) {
+          reportUninstalledAddons(addonsProp.value)
         }
       },
       ExportNamedDeclaration: function (node) {
