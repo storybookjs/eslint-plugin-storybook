@@ -252,18 +252,9 @@ export = createStorybookRule({
       },
       ExportDefaultDeclaration: function (node) {
         const meta = getMetaObjectExpression(node, context)
-        if (!meta) {
-          return null
-        }
+        if (!meta) return null
 
-        const addonsProp = meta.properties.find(
-          (prop): prop is TSESTree.Property =>
-            isProperty(prop) && isIdentifier(prop.key) && prop.key.name === 'addons'
-        )
-
-        if (addonsProp && addonsProp.value && isArrayExpression(addonsProp.value)) {
-          reportUninstalledAddons(addonsProp.value)
-        }
+        findAddonsPropAndReport(meta)
       },
       ExportNamedDeclaration: function (node) {
         const addonsProp =
