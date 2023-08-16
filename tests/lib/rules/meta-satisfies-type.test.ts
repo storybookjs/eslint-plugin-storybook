@@ -1,5 +1,5 @@
 /**
- * @fileoverview Meta should be followed by `satisfies Meta`
+ * @fileoverview Meta should use `satisfies Meta`
  * @author Tiger Oakes
  */
 
@@ -15,20 +15,58 @@ import ruleTester from '../../utils/rule-tester'
 //------------------------------------------------------------------------------
 
 ruleTester.run('meta-satisfies-type', rule, {
-  /**
-   * 👉 Please read this and delete this entire comment block.
-   * This is an example test for a rule that reports an error in case a named export is called 'wrong'
-   * Use https://eslint.org/docs/developer-guide/working-with-rules for Eslint API reference
-   */
-  valid: ['export const correct = {}'],
+  valid: [
+    "export default { title: 'Button', args: { primary: true } } satisfies Meta<typeof Button>",
+    `const meta = {
+      component: AccountForm,
+    } satisfies Meta<typeof AccountForm>;
+    export default meta;`,
+  ],
+
   invalid: [
     {
-      code: 'export const wrong = {}',
-      errors: [
-        {
-          messageId: 'anyMessageIdHere', // comes from the rule file
-        },
-      ],
+      code: `export default { title: 'Button', args: { primary: true } }`,
+      errors: [{ messageId: 'metaShouldSatisfyType' }],
+    },
+    {
+      code: `
+      const meta = {
+        component: AccountForm,
+      }
+      export default meta;
+    `,
+      errors: [{ messageId: 'metaShouldSatisfyType' }],
+    },
+    {
+      code: `
+      const meta: Meta<typeof AccountForm> = {
+        component: AccountForm,
+      }
+      export default meta;`,
+      output: `
+      const meta = {
+        component: AccountForm,
+      } satisfies Meta<typeof AccountForm>
+      export default meta;`,
+      errors: [{ messageId: 'metaShouldSatisfyType' }],
+    },
+    {
+      code: `export default { title: 'Button', args: { primary: true } } as Meta<typeof Button>`,
+      output: `export default { title: 'Button', args: { primary: true } } satisfies Meta<typeof Button>`,
+      errors: [{ messageId: 'metaShouldSatisfyType' }],
+    },
+    {
+      code: `
+      const meta = ( {
+        component: AccountForm,
+      }) as (Meta<typeof AccountForm> )
+      export default ( meta );`,
+      output: `
+      const meta = ( {
+        component: AccountForm,
+      }) satisfies (Meta<typeof AccountForm> )
+      export default ( meta );`,
+      errors: [{ messageId: 'metaShouldSatisfyType' }],
     },
   ],
 })
