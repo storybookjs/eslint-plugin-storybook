@@ -36,6 +36,23 @@ ruleTester.run('use-storybook-expect', rule, {
         },
       };
     `,
+    dedent`
+      import { expect } from '@storybook/test';
+
+      Default.play = () => {
+        expect(123).toEqual(123);
+      }
+    `,
+    dedent`
+      import { expect } from '@storybook/test';
+
+      export const Basic = {
+        ...Default,
+        play: async (context) => {
+          expect(123).toEqual(123);
+        },
+      };
+    `,
   ],
 
   invalid: [
