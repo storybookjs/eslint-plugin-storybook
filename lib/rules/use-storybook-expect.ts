@@ -45,8 +45,11 @@ export = createStorybookRule<TDefaultOptions, string>({
     //----------------------------------------------------------------------
 
     const isExpectFromStorybookImported = (node: TSESTree.ImportDeclaration) => {
+      const { value: packageName } = node.source
+      const usesExpectFromStorybook =
+        packageName === '@storybook/jest' || packageName === '@storybook/test'
       return (
-        node.source.value === '@storybook/jest' &&
+        usesExpectFromStorybook &&
         node.specifiers.find((spec) => isImportSpecifier(spec) && spec.imported.name === 'expect')
       )
     }
