@@ -1,3 +1,15 @@
+# v0.6.14 (Wed Sep 20 2023)
+
+#### 🐛 Bug Fix
+
+- use-storybook-expect: allow storybook/test imports [#141](https://github.com/storybookjs/eslint-plugin-storybook/pull/141) ([@yannbf](https://github.com/yannbf))
+
+#### Authors: 1
+
+- Yann Braga ([@yannbf](https://github.com/yannbf))
+
+---
+
 # v0.6.13 (Thu Jul 20 2023)
 
 #### ⚠️ Pushed to `main`
