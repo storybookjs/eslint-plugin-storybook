@@ -1,3 +1,15 @@
+# v0.6.15 (Sun Oct 08 2023)
+
+#### 🐛 Bug Fix
+
+- no-uninstalled-addons: support satisfies operator and default reexport [#139](https://github.com/storybookjs/eslint-plugin-storybook/pull/139) ([@hjoelh](https://github.com/hjoelh))
+
+#### Authors: 1
+
+- Joel ([@hjoelh](https://github.com/hjoelh))
+
+---
+
 # v0.6.14 (Wed Sep 20 2023)
 
 #### 🐛 Bug Fix
