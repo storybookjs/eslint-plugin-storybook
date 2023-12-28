@@ -81,7 +81,7 @@ const generateRule = async () => {
         meta: {
           type: 'problem', // \`problem\`, \`suggestion\`, or \`layout\`
           docs: {
-            description: 'Fill me in',
+            description: '${ruleDescription}',
             // Add the categories that suit this rule.
             categories: [CategoryId.RECOMMENDED],
             recommended: 'warn', // \`warn\` or \`error\`
