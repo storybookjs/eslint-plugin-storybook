@@ -138,7 +138,9 @@ const generateRule = async () => {
             },
           }
         },
-      })\n`)
+      })
+
+`)
   )
 
   logger.log(`creating tests/lib/rules/${ruleId}.test.ts`)
@@ -178,7 +180,8 @@ const generateRule = async () => {
             },
           ],
         })
-    `)
+
+`)
   )
 
   logger.log(`creating docs/rules/${ruleId}.md`)
@@ -221,7 +224,8 @@ const generateRule = async () => {
       ## Further Reading
 
       If there are other links that describe the issue this rule addresses, please include them here in a bulleted list. Otherwise, delete this section.
-    `)
+
+`)
   )
 
   const { shouldOpenInVSCode } = await prompts({
