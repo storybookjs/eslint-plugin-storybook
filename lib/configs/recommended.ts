@@ -14,6 +14,7 @@ export = {
         'storybook/context-in-play-function': 'error',
         'storybook/default-exports': 'error',
         'storybook/hierarchy-separator': 'warn',
+        'storybook/no-empty-args': 'error',
         'storybook/no-redundant-story-name': 'warn',
         'storybook/prefer-pascal-case': 'warn',
         'storybook/story-exports': 'error',
