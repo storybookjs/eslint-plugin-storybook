@@ -8,6 +8,7 @@ import { createStorybookRule } from '../utils/create-storybook-rule'
 import { CategoryId } from '../utils/constants'
 import {
   isIdentifier,
+  isMetaProperty,
   isObjectExpression,
   isProperty,
   isSpreadElement,
@@ -87,6 +88,37 @@ export = createStorybookRule({
         if (!isObjectExpression(init)) return
 
         validateObjectExpression(init)
+      },
+
+      // CSF2
+      AssignmentExpression(node) {
+        const { left, right } = node
+
+        if (
+          'property' in left &&
+          isIdentifier(left.property) &&
+          !isMetaProperty(left) &&
+          left.property.name === 'args'
+        ) {
+          if (
+            !isSpreadElement(right) &&
+            isObjectExpression(right) &&
+            right.properties.length === 0
+          ) {
+            context.report({
+              node,
+              messageId: 'detectEmptyArgs',
+              suggest: [
+                {
+                  messageId: 'removeEmptyArgs',
+                  fix(fixer) {
+                    return fixer.remove(node)
+                  },
+                },
+              ],
+            })
+          }
+        }
       },
     }
   },

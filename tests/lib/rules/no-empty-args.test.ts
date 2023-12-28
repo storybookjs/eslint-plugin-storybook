@@ -30,6 +30,16 @@ ruleTester.run('no-empty-args', rule, {
       const Default = {}
       export const PrimaryButton = { ...Default, args: { foo: 'bar' } }
     `,
+
+    // CSF2
+    `
+      export const PrimaryButton = (args) => <Button {...args} />
+      PrimaryButton.args = { primary: true }
+    `,
+    `
+      export const PrimaryButton = Template.bind({})
+      PrimaryButton.storyName = 'The Primary Button'
+    `,
   ],
   invalid: [
     // CSF3
@@ -68,6 +78,29 @@ ruleTester.run('no-empty-args', rule, {
             {
               messageId: 'removeEmptyArgs',
               output: 'export const PrimaryButton = {  }',
+            },
+          ],
+        },
+      ],
+    },
+
+    // CSF2
+    {
+      code: dedent`
+        export const PrimaryButton = (args) => <Button {...args} />
+        PrimaryButton.args = {}
+      `,
+      errors: [
+        {
+          messageId: 'detectEmptyArgs',
+          type: AST_NODE_TYPES.AssignmentExpression,
+          suggestions: [
+            {
+              messageId: 'removeEmptyArgs',
+              output: dedent`
+                export const PrimaryButton = (args) => <Button {...args} />
+
+              `,
             },
           ],
         },
