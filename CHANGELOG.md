@@ -1,3 +1,19 @@
+# v0.8.0 (Fri Feb 16 2024)
+
+#### 🚀 Enhancement
+
+- upgrades and stuff [#150](https://github.com/storybookjs/eslint-plugin-storybook/pull/150) ([@ndelangen](https://github.com/ndelangen))
+
+#### 🐛 Bug Fix
+
+- fix release [#151](https://github.com/storybookjs/eslint-plugin-storybook/pull/151) ([@ndelangen](https://github.com/ndelangen))
+
+#### Authors: 1
+
+- Norbert de Langen ([@ndelangen](https://github.com/ndelangen))
+
+---
+
 # v0.7.0 (Fri Feb 16 2024)
 
 #### 🚀 Enhancement
