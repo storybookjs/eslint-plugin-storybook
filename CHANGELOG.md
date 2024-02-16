@@ -1,3 +1,15 @@
+# v0.7.0 (Fri Feb 16 2024)
+
+#### 🚀 Enhancement
+
+- Disable rule of hooks in stories files [#149](https://github.com/storybookjs/eslint-plugin-storybook/pull/149) ([@ndelangen](https://github.com/ndelangen))
+
+#### Authors: 1
+
+- Norbert de Langen ([@ndelangen](https://github.com/ndelangen))
+
+---
+
 # v0.6.15 (Sun Oct 08 2023)
 
 #### 🐛 Bug Fix
