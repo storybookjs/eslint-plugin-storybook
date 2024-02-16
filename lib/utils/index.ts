@@ -55,6 +55,9 @@ export const getDescriptor = (
   switch (type) {
     case 'ArrayExpression':
       return property.value.elements.map((t) => {
+        if (t === null) {
+          throw new Error(`Unexpected descriptor element: ${t}`)
+        }
         if (!['StringLiteral', 'Literal'].includes(t.type)) {
           throw new Error(`Unexpected descriptor element: ${t.type}`)
         }
