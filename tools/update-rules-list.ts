@@ -34,8 +34,15 @@ const rulesList: TRulesList[] = Object.entries(rules)
         ? `<ul>${rule.meta.docs.categories.map((c) => `<li>${c}</li>`).join('')}</ul>`
         : '',
     ]
-  })
+  });
 
-writeRulesListInReadme(rulesList)
+async function run () {
+  await writeRulesListInReadme(rulesList)
 
-updateRulesDocs(rulesList)
+  await updateRulesDocs(rulesList)
+}
+
+run().catch((error) => {
+  console.error(error)
+  process.exit(1)
+});

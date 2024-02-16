@@ -12,17 +12,13 @@ jobs:
       - name: Prepare repository
         run: git fetch --unshallow --tags
 
-      - name: Use Node.js 14.x
-        uses: actions/setup-node@v1
+      - uses: pnpm/action-setup@v3
         with:
-          node-version: 14.x
-
-      - name: Install dependencies
-        uses: bahmutov/npm-install@v1
+          version: 8
 
       - name: Create Release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: |
-          yarn release
+          pnpm run release

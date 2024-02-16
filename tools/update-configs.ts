@@ -2,7 +2,7 @@
 This script updates `lib/configs/*.js` files from rule's meta data.
 */
 
-import fs from 'fs'
+import fs from 'fs/promises'
 import path from 'path'
 import { format, Options } from 'prettier'
 import prettierConfig from '../.prettierrc'
@@ -16,6 +16,7 @@ const extendsCategories = {
 }
 
 const externalRuleOverrides = {
+  'react-hooks/rules-of-hooks': 'off',
   'import/no-anonymous-default-export': 'off',
 }
 
@@ -54,7 +55,7 @@ function formatCategory(category: TCategory) {
     return `/*
       * IMPORTANT!
       * This file has been automatically generated,
-      * in order to update it's content execute "yarn update-all"
+      * in order to update it's content execute "pnpm run update-all"
       */
       export = {
         plugins: [
@@ -73,7 +74,7 @@ function formatCategory(category: TCategory) {
   return `/*
     * IMPORTANT!
     * This file has been automatically generated,
-    * in order to update it's content execute "yarn update-all"
+    * in order to update it's content execute "pnpm run update-all"
     */
     export = {
       extends: require.resolve('./${extendsCategoryId}'),
@@ -84,17 +85,25 @@ function formatCategory(category: TCategory) {
 
 const ROOT = path.resolve(__dirname, '../lib/configs/')
 
-// cleanup folder
-fs.rmdirSync(ROOT, { recursive: true })
-fs.mkdirSync(ROOT)
-
-// Update/add rule files
-categories.forEach((category) => {
-  const filePath = path.join(ROOT, `${category.categoryId}.ts`)
-  const content = format(formatCategory(category), {
-    parser: 'typescript',
-    ...(prettierConfig as Options),
-  })
-
-  fs.writeFileSync(filePath, content)
+async function run() {
+  
+  // cleanup folder
+  await fs.rmdir(ROOT, { recursive: true })
+  await fs.mkdir(ROOT)
+  
+  // Update/add rule files
+  await Promise.all(categories.map(async (category) => {
+    const filePath = path.join(ROOT, `${category.categoryId}.ts`)
+    const content = await format(formatCategory(category), {
+      parser: 'typescript',
+      ...(prettierConfig as Options),
+    })
+    
+    await fs.writeFile(filePath, content)
+  }))
+}
+  
+run().catch((error) => {
+  console.error(error)
+  process.exit(1)
 })

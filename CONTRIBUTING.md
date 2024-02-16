@@ -1,12 +1,12 @@
 ## Table of Contents
 
-- [1. About the Project](#about-the-project)
-- [2. Getting Started](#getting-started)
-  - [2.1. Creating a new rule](#creating-a-new-rule)
-    - [2.1.1. Important metadata for a rule](#important-metadata-for-a-rule)
-  - [2.2. Testing rules](#testing-rules)
-  - [2.3. Updating configs or documentation](#updating-configs-or-documentation)
-- [3. Useful resources](#useful-resources)
+- [About the project](#about-the-project)
+- [Getting started](#getting-started)
+  - [Creating a new rule](#creating-a-new-rule)
+    - [Important metadata for a rule](#important-metadata-for-a-rule)
+  - [Testing rules](#testing-rules)
+  - [Updating configs or documentation](#updating-configs-or-documentation)
+  - [Useful resources](#useful-resources)
 
 # About the project
 
@@ -21,7 +21,7 @@ First of all, thank you so much for taking the time to contribute to this projec
 Run the following command and answer the prompts:
 
 ```sh
-yarn generate-rule
+pnpm run generate-rule
 ```
 
 This command will generate the rule file, tests as well as the documentation page.
@@ -56,7 +56,7 @@ module.exports = {
 Run the following command for testing the rules:
 
 ```sh
-yarn test --watch
+pnpm run test --watch
 ```
 
 If you want to run tests for a particular rule and skip the rest, you can do so like this:

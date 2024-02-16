@@ -1,4 +1,4 @@
-import { readFileSync, writeFileSync } from 'fs'
+import { readFile, writeFile } from 'fs/promises'
 import { resolve } from 'path'
 
 import { format, resolveConfig } from 'prettier'
@@ -6,7 +6,7 @@ import { TRulesList, TRuleListWithoutName } from '../update-rules-list'
 
 import { categoryIds } from './categories'
 
-const prettierConfig = resolveConfig.sync(__dirname)
+const prettierConfig = resolveConfig(__dirname)
 const readmePath = resolve(__dirname, `../../README.md`)
 const ruleDocsPath = resolve(__dirname, `../../docs/rules`)
 
@@ -86,28 +86,28 @@ const overWriteRuleDocs = (rule: TRulesList, ruleDocFile: string) => {
   ].join('\n')
 }
 
-export const writeRulesListInReadme = (rulesList: TRulesList[]) => {
-  const readme = readFileSync(readmePath, 'utf8')
+export const writeRulesListInReadme = async (rulesList: TRulesList[]) => {
+  const readme = await readFile(readmePath, 'utf8')
   const rulesListWithoutName = rulesList.map((rule) => rule.slice(1)) as TRuleListWithoutName[]
-  const newReadme = format(overWriteRulesList(rulesListWithoutName, readme), {
+  const newReadme = await format(overWriteRulesList(rulesListWithoutName, readme), {
     parser: 'markdown',
-    ...prettierConfig,
+    ...await prettierConfig,
   })
 
-  writeFileSync(readmePath, newReadme)
+  await writeFile(readmePath, newReadme)
 }
 
-export const updateRulesDocs = (rulesList: TRulesList[]) => {
-  rulesList.forEach((rule) => {
+export const updateRulesDocs = async (rulesList: TRulesList[]) => {
+  await Promise.all(rulesList.map(async (rule) => {
     const ruleName = rule[0]
     const ruleDocFilePath = resolve(ruleDocsPath, `${ruleName}.md`)
-    const ruleDocFile = readFileSync(ruleDocFilePath, 'utf8')
+    const ruleDocFile = await readFile(ruleDocFilePath, 'utf8')
 
-    const updatedDocFile = format(overWriteRuleDocs(rule, ruleDocFile), {
+    const updatedDocFile = await format(overWriteRuleDocs(rule, ruleDocFile), {
       parser: 'markdown',
       ...prettierConfig,
     })
 
-    writeFileSync(ruleDocFilePath, updatedDocFile)
-  })
+    await writeFile(ruleDocFilePath, updatedDocFile)
+  }))
 }

@@ -238,7 +238,7 @@ const generateRule = async () => {
   }
 
   logger.log(
-    '\n🚀 All done! Make sure to run `yarn test` as you write the rule and `yarn update-all` when you are done.'
+    '\n🚀 All done! Make sure to run `pnpm run test` as you write the rule and `pnpm run update-all` when you are done.'
   )
   logger.log(`❤️  Thanks for helping this plugin get better, ${authorName.split(' ')[0]}!`)
 }
