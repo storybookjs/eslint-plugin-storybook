@@ -9,6 +9,7 @@ export = {
     {
       files: ['*.stories.@(ts|tsx|js|jsx|mjs|cjs)', '*.story.@(ts|tsx|js|jsx|mjs|cjs)'],
       rules: {
+        'react-hooks/rules-of-hooks': 'off',
         'import/no-anonymous-default-export': 'off',
         'storybook/await-interactions': 'error',
         'storybook/context-in-play-function': 'error',
