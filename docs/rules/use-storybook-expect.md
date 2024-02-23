@@ -33,7 +33,7 @@ Default.play = () => {
 
 ## When Not To Use It
 
-This rule should not be applied in test files. Please ensure you are defining the storybook rules only for story files. You can see more details [here](https://github.com/storybookjs/eslint-plugin-storybook#eslint-overrides).
+This rule should not be applied in test files. Please ensure you are defining the storybook rules only for story files. You can see more details [here](https://github.com/storybookjs/eslint-plugin-storybook#overridingdisabling-rules).
 
 ## Further Reading
 
