@@ -122,6 +122,7 @@ This plugin does not support MDX files.
 | [`storybook/story-exports`](./docs/rules/story-exports.md)                                 | A story file must contain at least one story export                                                                           |     | <ul><li>recommended</li><li>csf</li></ul>                |
 | [`storybook/use-storybook-expect`](./docs/rules/use-storybook-expect.md)                   | Use expect from `@storybook/jest`                                                                                             | 🔧  | <ul><li>addon-interactions</li><li>recommended</li></ul> |
 | [`storybook/use-storybook-testing-library`](./docs/rules/use-storybook-testing-library.md) | Do not use testing-library directly on stories                                                                                | 🔧  | <ul><li>addon-interactions</li><li>recommended</li></ul> |
+| [`storybook/use-string-literal-names`](./docs/rules/use-string-literal-names.md)           | Use string literals to override a story name                                                                                  |     | <ul><li>recommended</li></ul>                            |
 
 <!-- RULES-LIST:END -->
 

@@ -1,6 +1,8 @@
 import { TSESLint } from '@typescript-eslint/utils'
 import { CategoryId } from '../utils/constants'
 
+export type RuleContext = Readonly<TSESLint.RuleContext<string, unknown[]>>
+
 export type RuleModule = TSESLint.RuleModule<'', []> & {
   meta: { hasSuggestions?: boolean; docs: { recommendedConfig?: 'error' | 'warn' } }
 }
