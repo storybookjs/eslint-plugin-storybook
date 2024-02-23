@@ -81,7 +81,7 @@ const generateRule = async () => {
         meta: {
           type: 'problem', // \`problem\`, \`suggestion\`, or \`layout\`
           docs: {
-            description: 'Fill me in',
+            description: '${ruleDescription}',
             // Add the categories that suit this rule.
             categories: [CategoryId.RECOMMENDED],
             recommended: 'warn', // \`warn\` or \`error\`
@@ -138,7 +138,9 @@ const generateRule = async () => {
             },
           }
         },
-      })\n`)
+      })
+
+`)
   )
 
   logger.log(`creating tests/lib/rules/${ruleId}.test.ts`)
@@ -178,7 +180,8 @@ const generateRule = async () => {
             },
           ],
         })
-    `)
+
+`)
   )
 
   logger.log(`creating docs/rules/${ruleId}.md`)
@@ -197,17 +200,13 @@ const generateRule = async () => {
       Examples of **incorrect** code for this rule:
 
       \`\`\`js
-
       // fill me in
-
       \`\`\`
 
       Examples of **correct** code for this rule:
 
       \`\`\`js
-
       // fill me in
-
       \`\`\`
 
       ### Options
@@ -221,7 +220,8 @@ const generateRule = async () => {
       ## Further Reading
 
       If there are other links that describe the issue this rule addresses, please include them here in a bulleted list. Otherwise, delete this section.
-    `)
+
+`)
   )
 
   const { shouldOpenInVSCode } = await prompts({
