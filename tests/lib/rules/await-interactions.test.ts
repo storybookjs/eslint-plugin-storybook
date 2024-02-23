@@ -110,6 +110,14 @@ ruleTester.run('await-interactions', rule, {
         }
       }
     `,
+    dedent`
+      export const Story = {
+        play: async ({canvasElement}) => {
+          const user = userEvent.setup();
+          await user.click(button);
+        },
+      };
+    `,
   ],
   invalid: [
     {
@@ -370,6 +378,53 @@ ruleTester.run('await-interactions', rule, {
           messageId: 'interactionShouldBeAwaited',
           data: { method: 'play' },
         },
+        {
+          messageId: 'interactionShouldBeAwaited',
+          data: { method: 'play' },
+        },
+      ],
+    },
+    {
+      code: dedent`
+        export const Story = {
+          play: async ({canvasElement}) => {
+            const user = await userEvent.setup();
+          },
+        };
+      `,
+      output: dedent`
+      export const Story = {
+        play: async ({canvasElement}) => {
+          const user = userEvent.setup();
+        },
+      };
+      `,
+      errors: [
+        {
+          // @ts-ignore
+          messageId: 'setupShouldNotBeAwaited',
+          data: { method: 'play' },
+        },
+      ],
+    },
+    {
+      code: dedent`
+        export const Story = {
+          play: async ({canvasElement}) => {
+            const user = userEvent.setup();
+            user.click(button);
+          },
+        };
+      `,
+      output: dedent`
+        export const Story = {
+          play: async ({canvasElement}) => {
+            const user = userEvent.setup();
+            await user.click(button);
+          },
+        };
+      `,
+      errors: [
         {
           messageId: 'interactionShouldBeAwaited',
           data: { method: 'play' },
