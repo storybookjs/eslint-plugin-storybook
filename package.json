@@ -39,8 +39,10 @@
     "prettier": "prettier --write .",
     "release": "pnpm run build && auto shipit --name storybookbot --email storybookbot@gmail.com",
     "start": "tsc --watch",
-    "test": "jest",
-    "test:ci": "tsc --noEmit && jest --ci",
+    "test": "pnpm run test:unit && pnpm run test:integration",
+    "test:unit": "jest",
+    "test:integration": "jest --config jest.integration.config.js --testTimeout 60000",
+    "test:ci": "tsc --noEmit && pnpm run test:unit --ci && pnpm run test:integration --ci",
     "update-all": "pnpm run update-configs && pnpm run update-docs",
     "update-configs": "ts-node ./tools/update-configs",
     "update-docs": "ts-node ./tools/update-rules-list"
@@ -52,7 +54,6 @@
   "dependencies": {
     "@storybook/csf": "^0.0.1",
     "@typescript-eslint/utils": "^5.62.0",
-    "requireindex": "^1.2.0",
     "ts-dedent": "^2.2.0"
   },
   "devDependencies": {
@@ -60,6 +61,7 @@
     "@types/eslint": "^8.56.2",
     "@types/jest": "^29.5.12",
     "@types/node": "^18.19.17",
+    "@types/semver": "^7.5.8",
     "@types/requireindex": "^1.2.4",
     "@typescript-eslint/eslint-plugin": "^5.62.0",
     "@typescript-eslint/parser": "^5.62.0",
@@ -75,6 +77,7 @@
     "prettier": "^3.2.5",
     "prompts": "^2.4.2",
     "rimraf": "^3.0.2",
+    "semver": "^7.6.0",
     "ts-jest": "^29.1.2",
     "ts-migrate": "^0.1.35",
     "ts-node": "^10.9.2",

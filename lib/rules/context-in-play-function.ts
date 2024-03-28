@@ -96,7 +96,6 @@ export = createStorybookRule({
         }
       }
       return undefined
-
     }
 
     // Expression passing an argument called context OR spreading a variable called context

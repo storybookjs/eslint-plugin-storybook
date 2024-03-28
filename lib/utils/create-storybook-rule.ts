@@ -6,7 +6,7 @@ import { StorybookRuleMeta } from '../types'
 export function createStorybookRule<
   TOptions extends readonly unknown[],
   TMessageIds extends string,
-  TRuleListener extends TSESLint.RuleListener = TSESLint.RuleListener
+  TRuleListener extends TSESLint.RuleListener = TSESLint.RuleListener,
 >({
   create,
   meta,

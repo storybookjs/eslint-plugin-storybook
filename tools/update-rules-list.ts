@@ -11,7 +11,7 @@ export type TRulesList = readonly [
   ruleLink: string,
   docsDescription: string,
   fixable: string,
-  categories: string
+  categories: string,
 ]
 export type TRuleListWithoutName = TRulesList extends readonly [string, ...infer TRulesWithoutName]
   ? TRulesWithoutName
@@ -31,12 +31,12 @@ const rulesList: TRulesList[] = Object.entries(rules)
       rule.meta.docs.description,
       rule.meta.fixable ? emojiKey.fixable : '',
       rule.meta.docs.categories
-        ? `<ul>${rule.meta.docs.categories.map((c) => `<li>${c}</li>`).join('')}</ul>`
+        ? `<ul>${rule.meta.docs.categories.map((c) => `<li>${c}</li><li>flat/${c}</li>`).join('')}</ul>`
         : '',
     ]
-  });
+  })
 
-async function run () {
+async function run() {
   await writeRulesListInReadme(rulesList)
 
   await updateRulesDocs(rulesList)
@@ -45,4 +45,4 @@ async function run () {
 run().catch((error) => {
   console.error(error)
   process.exit(1)
-});
+})

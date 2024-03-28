@@ -1,8 +1,9 @@
 # don't ever lint node_modules
 node_modules
 # don't lint build output
-build
+dist
 # don't lint nyc coverage output
 coverage
 
 tools
+tests/integrations/**/*.stories.tsx

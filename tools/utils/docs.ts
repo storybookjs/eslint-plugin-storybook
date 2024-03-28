@@ -91,23 +91,25 @@ export const writeRulesListInReadme = async (rulesList: TRulesList[]) => {
   const rulesListWithoutName = rulesList.map((rule) => rule.slice(1)) as TRuleListWithoutName[]
   const newReadme = await format(overWriteRulesList(rulesListWithoutName, readme), {
     parser: 'markdown',
-    ...await prettierConfig,
+    ...(await prettierConfig),
   })
 
   await writeFile(readmePath, newReadme)
 }
 
 export const updateRulesDocs = async (rulesList: TRulesList[]) => {
-  await Promise.all(rulesList.map(async (rule) => {
-    const ruleName = rule[0]
-    const ruleDocFilePath = resolve(ruleDocsPath, `${ruleName}.md`)
-    const ruleDocFile = await readFile(ruleDocFilePath, 'utf8')
+  await Promise.all(
+    rulesList.map(async (rule) => {
+      const ruleName = rule[0]
+      const ruleDocFilePath = resolve(ruleDocsPath, `${ruleName}.md`)
+      const ruleDocFile = await readFile(ruleDocFilePath, 'utf8')
 
-    const updatedDocFile = await format(overWriteRuleDocs(rule, ruleDocFile), {
-      parser: 'markdown',
-      ...prettierConfig,
+      const updatedDocFile = await format(overWriteRuleDocs(rule, ruleDocFile), {
+        parser: 'markdown',
+        ...prettierConfig,
+      })
+
+      await writeFile(ruleDocFilePath, updatedDocFile)
     })
-
-    await writeFile(ruleDocFilePath, updatedDocFile)
-  }))
+  )
 }
