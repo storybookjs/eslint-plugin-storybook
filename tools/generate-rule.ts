@@ -243,7 +243,7 @@ const generateRule = async () => {
   logger.log(`❤️  Thanks for helping this plugin get better, ${authorName.split(' ')[0]}!`)
 }
 
-generateRule().catch((error) => { 
+generateRule().catch((error) => {
   logger.error('An error occurred while generating the rule:', error)
   process.exit(1)
 })
