@@ -6,48 +6,14 @@ import fs from 'fs/promises'
 import path from 'path'
 import { format, Options } from 'prettier'
 import prettierConfig from '../.prettierrc'
-
 import { categories, TCategory } from './utils/categories'
-
-const extendsCategories = {
-  csf: null,
-  recommended: null,
-  'csf-strict': 'csf',
-}
-
-const externalRuleOverrides = {
-  'react-hooks/rules-of-hooks': 'off',
-  'import/no-anonymous-default-export': 'off',
-}
-
-function formatRules(rules: TCategory['rules'], exclude?: string[]) {
-  const obj = rules.reduce(
-    (setting, rule) => {
-      if (!exclude?.includes(rule.ruleId)) {
-        setting[rule.ruleId] = rule.meta.docs.recommended || 'error'
-      }
-      return setting
-    },
-    { ...externalRuleOverrides }
-  )
-
-  return JSON.stringify(obj, null, 2)
-}
-
-function formatSingleRule(rules: TCategory['rules'], ruleId: string) {
-  const ruleOpt = rules.find((rule) => rule.ruleId === ruleId)?.meta.docs.recommended || 'error'
-
-  return JSON.stringify({ [ruleId]: ruleOpt }, null, 2)
-}
-
-const SUPPORTED_EXTENSIONS = ['ts', 'tsx', 'js', 'jsx', 'mjs', 'cjs']
-const STORIES_GLOBS = [
-  `'*.stories.@(${SUPPORTED_EXTENSIONS.join('|')})'`,
-  `'*.story.@(${SUPPORTED_EXTENSIONS.join('|')})'`,
-]
-
-// Other files that will be linted
-const MAIN_JS_FILE = [`'.storybook/main.@(js|cjs|mjs|ts)'`]
+import {
+  extendsCategories,
+  STORIES_GLOBS,
+  MAIN_JS_FILE,
+  formatRules,
+  formatSingleRule,
+} from './utils/updates'
 
 function formatCategory(category: TCategory) {
   const extendsCategoryId = extendsCategories[category.categoryId]
