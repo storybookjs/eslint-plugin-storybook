@@ -5,6 +5,7 @@
  */
 export = [
   {
+    name: 'storybook:csf:setup',
     plugins: {
       get storybook() {
         return require('../../index')
@@ -12,6 +13,7 @@ export = [
     },
   },
   {
+    name: 'storybook:csf:stories-rules',
     files: ['*.stories.@(ts|tsx|js|jsx|mjs|cjs)', '*.story.@(ts|tsx|js|jsx|mjs|cjs)'],
     rules: {
       'react-hooks/rules-of-hooks': 'off',
@@ -24,6 +26,7 @@ export = [
     },
   },
   {
+    name: 'storybook:csf:main-rules',
     files: ['.storybook/main.@(js|cjs|mjs|ts)'],
     rules: {
       'storybook/no-uninstalled-addons': 'error',

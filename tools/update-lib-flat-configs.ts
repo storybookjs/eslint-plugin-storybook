@@ -25,6 +25,7 @@ function formatCategory(category: TCategory) {
       */
       export = [
         {
+          name: 'storybook:${category.categoryId}:setup',
           plugins: {
             get storybook() {
               return require('../../index')
@@ -32,10 +33,12 @@ function formatCategory(category: TCategory) {
           }
         },
         {
+          name: 'storybook:${category.categoryId}:stories-rules',
           files: [${STORIES_GLOBS.join(', ')}],
           rules: ${formatRules(category.rules, ['storybook/no-uninstalled-addons'])}
         },
         {
+          name: 'storybook:${category.categoryId}:main-rules',
           files: [${MAIN_JS_FILE.join(', ')}],
           rules: ${formatSingleRule(category.rules, 'storybook/no-uninstalled-addons')}
         }
@@ -52,6 +55,7 @@ function formatCategory(category: TCategory) {
     export = [
       ...config,
       {
+        name: 'storybook:${category.categoryId}:rules',
         rules: ${formatRules(category.rules)}
       }
     ]

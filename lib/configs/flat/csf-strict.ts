@@ -8,6 +8,7 @@ import config from './csf'
 export = [
   ...config,
   {
+    name: 'storybook:csf-strict:rules',
     rules: {
       'react-hooks/rules-of-hooks': 'off',
       'import/no-anonymous-default-export': 'off',
