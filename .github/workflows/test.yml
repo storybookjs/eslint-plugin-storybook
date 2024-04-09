@@ -6,14 +6,20 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout codes
+        uses: actions/checkout@v4
 
+      - name: Enable corepack
+        run: corepack enable
 
-      - uses: pnpm/action-setup@v3
+      - name: Setup node
+        uses: actions/setup-node@v4
         with:
-          version: 8
-          run_install: true
+          node-version: 18
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --no-frozen-lockfile
 
       - name: Run tests
-        run: |
-          pnpm run test:ci
+        run: pnpm run test:ci

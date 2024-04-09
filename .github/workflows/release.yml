@@ -7,19 +7,26 @@ jobs:
     runs-on: ubuntu-latest
     if: "!contains(github.event.head_commit.message, 'ci skip') && !contains(github.event.head_commit.message, 'skip ci')"
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout codes
+        uses: actions/checkout@v4
 
       - name: Prepare repository
         run: git fetch --unshallow --tags
 
-      - uses: pnpm/action-setup@v3
+      - name: Enable corepack
+        run: corepack enable
+
+      - name: Setup node
+        uses: actions/setup-node@v4
         with:
-          version: 8
-          run_install: true
+          node-version: 18
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --no-frozen-lockfile
 
       - name: Create Release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-        run: |
-          pnpm run release
+        run: pnpm run release
