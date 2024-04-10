@@ -3,13 +3,14 @@
  * @author Yann Braga
  */
 
-import { ASTUtils, TSESTree } from '@typescript-eslint/utils'
+import { ASTUtils, TSESTree, TSESLint } from '@typescript-eslint/utils'
 import { IncludeExcludeOptions, isExportStory } from '@storybook/csf'
 
 import { getDescriptor, getMetaObjectExpression } from '../utils'
 import { isIdentifier, isVariableDeclaration } from '../utils/ast'
 import { CategoryId } from '../utils/constants'
 import { createStorybookRule } from '../utils/create-storybook-rule'
+import { Scope } from '@typescript-eslint/utils/dist/ts-eslint-scope'
 
 //------------------------------------------------------------------------------
 // Rule Definition
@@ -53,6 +54,23 @@ export = createStorybookRule({
         .replace(new RegExp(/\s/, 'g'), '')
         .replace(new RegExp(/\w/), (s) => s.toUpperCase())
     }
+    const getModuleScope = (): TSESLint.Scope.Scope | undefined => {
+      // @ts-expect-error TODO: when we will upgrade `@typescript-eslint/utils` v7.x from v5.x on this package, we should resolve type definion with latest version.
+      // In `@typescript-eslint/utils` v5.x, cannot resolve of `sourceCode`, because type definition is not still provide from that version.
+      const { sourceCode } = context
+
+      // Compatibility implementation for eslint v8.x and v9.x or later
+      // see https://eslint.org/blog/2023/09/preparing-custom-rules-eslint-v9/#context.getscope()
+      if (sourceCode.getScope) {
+        // for eslint v9.x or later
+        return sourceCode.scopeManager.scopes.find((scope: Scope) => scope.type === 'module')
+      } else {
+        // for eslint v8.x
+        return context
+          .getScope()
+          .childScopes.find((scope) => scope.type === 'module') as unknown as TSESLint.Scope.Scope
+      }
+    }
 
     const checkAndReportError = (id: TSESTree.Identifier, nonStoryExportsConfig = {}) => {
       const { name } = id
@@ -77,7 +95,7 @@ export = createStorybookRule({
                 const pascal = toPascalCase(name)
                 yield fixer.replaceTextRange(id.range, pascal + suffix)
 
-                const scope = context.getScope().childScopes[0]
+                const scope = getModuleScope()
                 if (scope) {
                   const variable = ASTUtils.findVariable(scope, name)
                   const referenceCount = variable?.references?.length || 0
