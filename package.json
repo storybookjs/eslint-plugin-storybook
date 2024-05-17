@@ -35,7 +35,7 @@
     "generate-rule": "ts-node ./tools/generate-rule",
     "lint": "eslint --fix .",
     "migrate": "ts-migrate-full",
-    "prepare": "husky install",
+    "prepare": "husky",
     "prettier": "prettier --write .",
     "release": "pnpm run build && auto shipit --name storybookbot --email storybookbot@gmail.com",
     "start": "tsc --watch",
@@ -81,7 +81,7 @@
     "ts-jest": "^29.1.2",
     "ts-migrate": "^0.1.35",
     "ts-node": "^10.9.2",
-    "typescript": "^5.3.3"
+    "typescript": "^5.4.5"
   },
   "peerDependencies": {
     "eslint": ">=6"
