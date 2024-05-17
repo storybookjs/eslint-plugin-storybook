@@ -2,13 +2,13 @@ Issue: #
 
 ## What Changed
 
-<!-- Insert a description below. Don't forget to run `yarn update-all` to update configuration files and their documentation! -->
+<!-- Insert a description below. Don't forget to run `pnpm run update-all` to update configuration files and their documentation! -->
 
 ## Checklist
 
 Check the ones applicable to your change:
 
-- [ ] Ran `yarn update-all`
+- [ ] Ran `pnpm run update-all`
 - [ ] Tests are updated
 - [ ] Documentation is updated
 

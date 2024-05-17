@@ -91,7 +91,10 @@ module.exports = {
   rules: {
     'storybook/no-uninstalled-addons': [
       'error',
-      { packageJsonLocation: './folder/package.json', ignore: ['custom-addon'] },
+      {
+        packageJsonLocation: './folder/package.json',
+        ignore: ['custom-addon'],
+      },
     ],
   },
 }

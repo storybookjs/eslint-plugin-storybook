@@ -19,6 +19,7 @@ import {
   isVariableDeclaration,
 } from '../utils/ast'
 import { TSESTree } from '@typescript-eslint/utils'
+import { getMetaObjectExpression } from '../utils'
 
 //------------------------------------------------------------------------------
 // Rule Definition
@@ -228,6 +229,17 @@ export = createStorybookRule({
       }
     }
 
+    function findAddonsPropAndReport(node: TSESTree.ObjectExpression) {
+      const addonsProp = node.properties.find(
+        (prop): prop is TSESTree.Property =>
+          isProperty(prop) && isIdentifier(prop.key) && prop.key.name === 'addons'
+      )
+
+      if (addonsProp?.value && isArrayExpression(addonsProp.value)) {
+        reportUninstalledAddons(addonsProp.value)
+      }
+    }
+
     //----------------------------------------------------------------------
     // Public
     //----------------------------------------------------------------------
@@ -235,27 +247,14 @@ export = createStorybookRule({
     return {
       AssignmentExpression: function (node) {
         if (isObjectExpression(node.right)) {
-          const addonsProp = node.right.properties.find(
-            (prop): prop is TSESTree.Property =>
-              isProperty(prop) && isIdentifier(prop.key) && prop.key.name === 'addons'
-          )
-
-          if (addonsProp && addonsProp.value && isArrayExpression(addonsProp.value)) {
-            reportUninstalledAddons(addonsProp.value)
-          }
+          findAddonsPropAndReport(node.right)
         }
       },
       ExportDefaultDeclaration: function (node) {
-        if (isObjectExpression(node.declaration)) {
-          const addonsProp = node.declaration.properties.find(
-            (prop): prop is TSESTree.Property =>
-              isProperty(prop) && isIdentifier(prop.key) && prop.key.name === 'addons'
-          )
+        const meta = getMetaObjectExpression(node, context)
+        if (!meta) return null
 
-          if (addonsProp && addonsProp.value && isArrayExpression(addonsProp.value)) {
-            reportUninstalledAddons(addonsProp.value)
-          }
-        }
+        findAddonsPropAndReport(meta)
       },
       ExportNamedDeclaration: function (node) {
         const addonsProp =

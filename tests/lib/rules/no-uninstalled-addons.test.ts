@@ -46,6 +46,27 @@ ruleTester.run('no-uninstalled-addons', rule, {
     }
   `,
     `
+    export default {
+      addons: [
+        "@storybook/addon-links",
+        "@storybook/addon-essentials",
+        "@storybook/addon-interactions",
+        "@storybook/preset-create-react-app"
+      ]
+    } satisfies StorybookConfig
+  `,
+    `
+     const config: StorybookConfig = {
+        addons: [
+        "@storybook/addon-links",
+        "@storybook/addon-essentials",
+        "@storybook/addon-interactions",
+        "@storybook/preset-create-react-app"
+        ]
+      }
+      export default config
+  `,
+    `
     export const addons = [
       "@storybook/addon-links",
       "@storybook/addon-essentials",
@@ -271,6 +292,69 @@ ruleTester.run('no-uninstalled-addons', rule, {
           "@storybook/addon-esentials",
         ]
       }
+      `,
+      errors: [
+        {
+          messageId: 'addonIsNotInstalled', // comes from the rule file
+          type: AST_NODE_TYPES.Literal,
+          data: {
+            addonName: 'addon-withut-the-prefix',
+            packageJsonPath: `eslint-plugin-storybook${sep}`,
+          },
+        },
+        {
+          messageId: 'addonIsNotInstalled', // comes from the rule file
+          type: AST_NODE_TYPES.Literal,
+          data: {
+            addonName: '@storybook/addon-esentials',
+            packageJsonPath: `eslint-plugin-storybook${sep}`,
+          },
+        },
+      ],
+    },
+    {
+      code: `
+      export default {
+        addons: [
+          "@storybook/addon-links",
+          "@storybook/addon-essentials",
+          "@storybook/addon-interactions",
+          "addon-withut-the-prefix",
+          "@storybook/addon-esentials",
+        ]
+      } satisfies StorybookConfig
+      `,
+      errors: [
+        {
+          messageId: 'addonIsNotInstalled', // comes from the rule file
+          type: AST_NODE_TYPES.Literal,
+          data: {
+            addonName: 'addon-withut-the-prefix',
+            packageJsonPath: `eslint-plugin-storybook${sep}`,
+          },
+        },
+        {
+          messageId: 'addonIsNotInstalled', // comes from the rule file
+          type: AST_NODE_TYPES.Literal,
+          data: {
+            addonName: '@storybook/addon-esentials',
+            packageJsonPath: `eslint-plugin-storybook${sep}`,
+          },
+        },
+      ],
+    },
+    {
+      code: `
+      const config: StorybookConfig = {
+        addons: [
+          "@storybook/addon-links",
+          "@storybook/addon-essentials",
+          "@storybook/addon-interactions",
+          "addon-withut-the-prefix",
+          "@storybook/addon-esentials",
+        ]
+      }
+      export default config
       `,
       errors: [
         {

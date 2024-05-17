@@ -1,7 +1,7 @@
 /*
  * IMPORTANT!
  * This file has been automatically generated,
- * in order to update it's content execute "yarn update-all"
+ * in order to update it's content execute "pnpm run update-all"
  */
 export = {
   plugins: ['storybook'],
@@ -9,6 +9,7 @@ export = {
     {
       files: ['*.stories.@(ts|tsx|js|jsx|mjs|cjs)', '*.story.@(ts|tsx|js|jsx|mjs|cjs)'],
       rules: {
+        'react-hooks/rules-of-hooks': 'off',
         'import/no-anonymous-default-export': 'off',
         'storybook/csf-component': 'warn',
         'storybook/default-exports': 'error',

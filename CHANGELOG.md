@@ -1,3 +1,67 @@
+# v0.8.0 (Fri Feb 16 2024)
+
+#### 🚀 Enhancement
+
+- upgrades and stuff [#150](https://github.com/storybookjs/eslint-plugin-storybook/pull/150) ([@ndelangen](https://github.com/ndelangen))
+
+#### 🐛 Bug Fix
+
+- fix release [#151](https://github.com/storybookjs/eslint-plugin-storybook/pull/151) ([@ndelangen](https://github.com/ndelangen))
+
+#### Authors: 1
+
+- Norbert de Langen ([@ndelangen](https://github.com/ndelangen))
+
+---
+
+# v0.7.0 (Fri Feb 16 2024)
+
+#### 🚀 Enhancement
+
+- Disable rule of hooks in stories files [#149](https://github.com/storybookjs/eslint-plugin-storybook/pull/149) ([@ndelangen](https://github.com/ndelangen))
+
+#### Authors: 1
+
+- Norbert de Langen ([@ndelangen](https://github.com/ndelangen))
+
+---
+
+# v0.6.15 (Sun Oct 08 2023)
+
+#### 🐛 Bug Fix
+
+- no-uninstalled-addons: support satisfies operator and default reexport [#139](https://github.com/storybookjs/eslint-plugin-storybook/pull/139) ([@hjoelh](https://github.com/hjoelh))
+
+#### Authors: 1
+
+- Joel ([@hjoelh](https://github.com/hjoelh))
+
+---
+
+# v0.6.14 (Wed Sep 20 2023)
+
+#### 🐛 Bug Fix
+
+- use-storybook-expect: allow storybook/test imports [#141](https://github.com/storybookjs/eslint-plugin-storybook/pull/141) ([@yannbf](https://github.com/yannbf))
+
+#### Authors: 1
+
+- Yann Braga ([@yannbf](https://github.com/yannbf))
+
+---
+
+# v0.6.13 (Thu Jul 20 2023)
+
+#### ⚠️ Pushed to `main`
+
+- Create CODEOWNERS ([@valentinpalkovic](https://github.com/valentinpalkovic))
+
+#### Authors: 1
+
+- Valentin Palkovic ([@valentinpalkovic](https://github.com/valentinpalkovic))
+
+---
+
 # v0.6.12 (Wed May 03 2023)
 
 #### 🐛 Bug Fix

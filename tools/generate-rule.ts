@@ -1,6 +1,6 @@
 import path from 'path'
 
-import fs from 'fs'
+import fs from 'fs/promises'
 import cp from 'child_process'
 import prompts from 'prompts'
 import dedent from 'ts-dedent'
@@ -59,7 +59,7 @@ const generateRule = async () => {
   const docFile = path.resolve(__dirname, `../docs/rules/${ruleId}.md`)
 
   logger.log(`creating lib/rules/${ruleId}.ts`)
-  fs.writeFileSync(
+  await fs.writeFile(
     ruleFile,
     dedent(`/**
        * @fileoverview ${ruleDescription}
@@ -142,7 +142,7 @@ const generateRule = async () => {
   )
 
   logger.log(`creating tests/lib/rules/${ruleId}.test.ts`)
-  fs.writeFileSync(
+  await fs.writeFile(
     testFile,
     dedent(`/**
          * @fileoverview ${ruleDescription}
@@ -182,7 +182,7 @@ const generateRule = async () => {
   )
 
   logger.log(`creating docs/rules/${ruleId}.md`)
-  fs.writeFileSync(
+  await fs.writeFile(
     docFile,
     dedent(`
       # ${ruleId}
@@ -238,9 +238,12 @@ const generateRule = async () => {
   }
 
   logger.log(
-    '\n🚀 All done! Make sure to run `yarn test` as you write the rule and `yarn update-all` when you are done.'
+    '\n🚀 All done! Make sure to run `pnpm run test` as you write the rule and `pnpm run update-all` when you are done.'
   )
   logger.log(`❤️  Thanks for helping this plugin get better, ${authorName.split(' ')[0]}!`)
 }
 
-generateRule()
+generateRule().catch((error) => { 
+  logger.error('An error occurred while generating the rule:', error)
+  process.exit(1)
+})
