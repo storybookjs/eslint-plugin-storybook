@@ -21,7 +21,7 @@ function formatCategory(category: TCategory) {
     return `/*
       * IMPORTANT!
       * This file has been automatically generated,
-      * in order to update it's content execute "pnpm run update-all"
+      * in order to update its content, execute "pnpm run update-all"
       */
       export = {
         plugins: [
@@ -40,7 +40,7 @@ function formatCategory(category: TCategory) {
   return `/*
     * IMPORTANT!
     * This file has been automatically generated,
-    * in order to update it's content execute "pnpm run update-all"
+    * in order to update its content, execute "pnpm run update-all"
     */
     export = {
       extends: require.resolve('./${extendsCategoryId}'),
