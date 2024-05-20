@@ -5,7 +5,7 @@ node_modules
 /.pnp
 .pnp.js
 
-/tests/integration/pnpm-lock.yaml
+tests/integrations/**/pnpm-lock.yaml
 
 # testing
 /coverage
