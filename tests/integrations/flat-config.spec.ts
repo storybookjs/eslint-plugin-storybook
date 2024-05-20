@@ -11,7 +11,7 @@ describe('Integration with flat config', () => {
   beforeEach(() => {
     originalCwd = process.cwd()
     process.chdir(path.join(__dirname, 'flat-config'))
-    cp.execSync('npm i -f', { stdio: 'inherit' })
+    cp.execSync('pnpm i -f', { stdio: 'inherit' })
   })
   afterEach(() => {
     originalCwd && process.chdir(originalCwd)
