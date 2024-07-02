@@ -25,7 +25,7 @@ export = createStorybookRule({
       description: 'Meta should only have inline properties',
       categories: [CategoryId.CSF, CategoryId.RECOMMENDED],
       excludeFromConfig: true,
-      recommended: 'error',
+      recommended: 'strict',
     },
     messages: {
       metaShouldHaveInlineProperties: 'Meta should only have inline properties: {{property}}',

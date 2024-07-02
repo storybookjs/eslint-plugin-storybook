@@ -22,8 +22,6 @@ export const getMetaObjectExpression = (
   context: Readonly<TSESLint.RuleContext<string, readonly unknown[]>>
 ) => {
   let meta: TSESTree.ExportDefaultDeclaration['declaration'] | null = node.declaration
-  // @ts-expect-error TODO: when we will upgrade `@typescript-eslint/utils` v7.x from v5.x on this package, we should resolve type definion with latest version.
-  // In `@typescript-eslint/utils` v5.x, cannot resolve of `sourceCode`, because type definition is not still provide from that version.
   const { sourceCode } = context
   if (isIdentifier(meta)) {
     // Compatibility implementation for eslint v8.x and v9.x or later

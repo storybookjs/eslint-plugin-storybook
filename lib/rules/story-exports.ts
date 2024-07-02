@@ -27,7 +27,7 @@ export = createStorybookRule({
     docs: {
       description: 'A story file must contain at least one story export',
       categories: [CategoryId.RECOMMENDED, CategoryId.CSF],
-      recommended: 'error',
+      recommended: 'strict',
     },
     messages: {
       shouldHaveStoryExport: 'The file should have at least one story export',

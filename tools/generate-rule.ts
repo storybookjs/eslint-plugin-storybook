@@ -84,7 +84,7 @@ const generateRule = async () => {
             description: '${ruleDescription}',
             // Add the categories that suit this rule.
             categories: [CategoryId.RECOMMENDED],
-            recommended: 'warn', // \`warn\` or \`error\`
+            recommended: 'recommended',
           },
           messages: {
             anyMessageIdHere: 'Fill me in',

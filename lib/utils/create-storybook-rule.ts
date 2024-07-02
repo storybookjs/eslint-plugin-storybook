@@ -13,7 +13,7 @@ export function createStorybookRule<
   ...remainingConfig
 }: Readonly<{
   name: string
-  meta: StorybookRuleMeta<TMessageIds>
+  meta: StorybookRuleMeta<TMessageIds, TOptions>
   defaultOptions: Readonly<TOptions>
   create: (
     context: Readonly<TSESLint.RuleContext<TMessageIds, TOptions>>,

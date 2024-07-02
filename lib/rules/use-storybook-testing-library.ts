@@ -21,7 +21,7 @@ export = createStorybookRule({
     docs: {
       description: 'Do not use testing-library directly on stories',
       categories: [CategoryId.ADDON_INTERACTIONS, CategoryId.RECOMMENDED],
-      recommended: 'error',
+      recommended: 'strict',
     },
     schema: [],
     messages: {

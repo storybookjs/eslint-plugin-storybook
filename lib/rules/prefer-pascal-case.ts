@@ -10,7 +10,6 @@ import { getDescriptor, getMetaObjectExpression } from '../utils'
 import { isIdentifier, isVariableDeclaration } from '../utils/ast'
 import { CategoryId } from '../utils/constants'
 import { createStorybookRule } from '../utils/create-storybook-rule'
-import { Scope } from '@typescript-eslint/utils/dist/ts-eslint-scope'
 
 //------------------------------------------------------------------------------
 // Rule Definition
@@ -26,7 +25,7 @@ export = createStorybookRule({
     docs: {
       description: 'Stories should use PascalCase',
       categories: [CategoryId.RECOMMENDED],
-      recommended: 'warn',
+      recommended: 'stylistic',
     },
     messages: {
       convertToPascalCase: 'Use pascal case',
@@ -55,15 +54,16 @@ export = createStorybookRule({
         .replace(new RegExp(/\w/), (s) => s.toUpperCase())
     }
     const getModuleScope = (): TSESLint.Scope.Scope | undefined => {
-      // @ts-expect-error TODO: when we will upgrade `@typescript-eslint/utils` v7.x from v5.x on this package, we should resolve type definion with latest version.
-      // In `@typescript-eslint/utils` v5.x, cannot resolve of `sourceCode`, because type definition is not still provide from that version.
       const { sourceCode } = context
 
       // Compatibility implementation for eslint v8.x and v9.x or later
       // see https://eslint.org/blog/2023/09/preparing-custom-rules-eslint-v9/#context.getscope()
+      // @ts-expect-error keep it for compatibility with eslint v8.x
       if (sourceCode.getScope) {
         // for eslint v9.x or later
-        return sourceCode.scopeManager.scopes.find((scope: Scope) => scope.type === 'module')
+        return sourceCode.scopeManager?.scopes?.find(
+          (scope: TSESLint.Scope.Scope) => scope.type === 'module'
+        )
       } else {
         // for eslint v8.x
         return context
