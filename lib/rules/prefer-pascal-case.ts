@@ -3,7 +3,7 @@
  * @author Yann Braga
  */
 
-import { ASTUtils, TSESTree } from '@typescript-eslint/utils'
+import { ASTUtils, TSESTree, TSESLint } from '@typescript-eslint/utils'
 import { IncludeExcludeOptions, isExportStory } from '@storybook/csf'
 
 import { getDescriptor, getMetaObjectExpression } from '../utils'
@@ -25,7 +25,7 @@ export = createStorybookRule({
     docs: {
       description: 'Stories should use PascalCase',
       categories: [CategoryId.RECOMMENDED],
-      recommended: 'warn',
+      recommended: 'stylistic',
     },
     messages: {
       convertToPascalCase: 'Use pascal case',
@@ -53,6 +53,24 @@ export = createStorybookRule({
         .replace(new RegExp(/\s/, 'g'), '')
         .replace(new RegExp(/\w/), (s) => s.toUpperCase())
     }
+    const getModuleScope = (): TSESLint.Scope.Scope | undefined => {
+      const { sourceCode } = context
+
+      // Compatibility implementation for eslint v8.x and v9.x or later
+      // see https://eslint.org/blog/2023/09/preparing-custom-rules-eslint-v9/#context.getscope()
+      // @ts-expect-error keep it for compatibility with eslint v8.x
+      if (sourceCode.getScope) {
+        // for eslint v9.x or later
+        return sourceCode.scopeManager?.scopes?.find(
+          (scope: TSESLint.Scope.Scope) => scope.type === 'module'
+        )
+      } else {
+        // for eslint v8.x
+        return context
+          .getScope()
+          .childScopes.find((scope) => scope.type === 'module') as unknown as TSESLint.Scope.Scope
+      }
+    }
 
     const checkAndReportError = (id: TSESTree.Identifier, nonStoryExportsConfig = {}) => {
       const { name } = id
@@ -77,7 +95,7 @@ export = createStorybookRule({
                 const pascal = toPascalCase(name)
                 yield fixer.replaceTextRange(id.range, pascal + suffix)
 
-                const scope = context.getScope().childScopes[0]
+                const scope = getModuleScope()
                 if (scope) {
                   const variable = ASTUtils.findVariable(scope, name)
                   const referenceCount = variable?.references?.length || 0

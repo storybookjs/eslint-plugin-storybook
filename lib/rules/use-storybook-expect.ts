@@ -28,7 +28,7 @@ export = createStorybookRule<TDefaultOptions, string>({
     docs: {
       description: 'Use expect from `@storybook/jest`',
       categories: [CategoryId.ADDON_INTERACTIONS, CategoryId.RECOMMENDED],
-      recommended: 'error',
+      recommended: 'strict',
     },
     messages: {
       updateImports: 'Update imports',

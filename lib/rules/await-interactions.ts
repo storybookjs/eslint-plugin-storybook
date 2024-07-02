@@ -32,7 +32,7 @@ export = createStorybookRule({
     docs: {
       description: 'Interactions should be awaited',
       categories: [CategoryId.ADDON_INTERACTIONS, CategoryId.RECOMMENDED],
-      recommended: 'error', // or 'warn'
+      recommended: 'strict',
     },
     messages: {
       interactionShouldBeAwaited: 'Interaction should be awaited: {{method}}',

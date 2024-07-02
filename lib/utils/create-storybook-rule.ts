@@ -6,14 +6,14 @@ import { StorybookRuleMeta } from '../types'
 export function createStorybookRule<
   TOptions extends readonly unknown[],
   TMessageIds extends string,
-  TRuleListener extends TSESLint.RuleListener = TSESLint.RuleListener
+  TRuleListener extends TSESLint.RuleListener = TSESLint.RuleListener,
 >({
   create,
   meta,
   ...remainingConfig
 }: Readonly<{
   name: string
-  meta: StorybookRuleMeta<TMessageIds>
+  meta: StorybookRuleMeta<TMessageIds, TOptions>
   defaultOptions: Readonly<TOptions>
   create: (
     context: Readonly<TSESLint.RuleContext<TMessageIds, TOptions>>,
