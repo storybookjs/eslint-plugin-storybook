@@ -33,8 +33,8 @@ export function formatSingleRule(rules: TCategory['rules'], ruleId: string) {
 
 export const SUPPORTED_EXTENSIONS = ['ts', 'tsx', 'js', 'jsx', 'mjs', 'cjs']
 export const STORIES_GLOBS = [
-  `'*.stories.@(${SUPPORTED_EXTENSIONS.join('|')})'`,
-  `'*.story.@(${SUPPORTED_EXTENSIONS.join('|')})'`,
+  `'**/*.stories.@(${SUPPORTED_EXTENSIONS.join('|')})'`,
+  `'**/*.story.@(${SUPPORTED_EXTENSIONS.join('|')})'`,
 ]
 
 // Other files that will be linted

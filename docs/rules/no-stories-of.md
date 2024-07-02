@@ -52,5 +52,5 @@ For more information about the change from `storiesOf` to `CSF`, read here: http
 To automatically migrate all of your codebase, run this codemod in the root folder of your project:
 
 ```sh
-npx sb@next migrate storiesof-to-csf --glob="*/**/*.stories.@(tsx|jsx|ts|js)"
+npx storybook@latest migrate storiesof-to-csf --glob="*/**/*.stories.@(tsx|jsx|ts|js)"
 ```
