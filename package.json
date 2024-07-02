@@ -97,5 +97,6 @@
       "npm",
       "released"
     ]
-  }
+  },
+  "packageManager": "pnpm@9.1.1"
 }
