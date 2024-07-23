@@ -6,3 +6,6 @@ build
 coverage
 
 tools
+
+# don't lint build output
+dist
