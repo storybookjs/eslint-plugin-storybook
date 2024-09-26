@@ -20,6 +20,7 @@ export = {
         'storybook/story-exports': 'error',
         'storybook/use-storybook-expect': 'error',
         'storybook/use-storybook-testing-library': 'error',
+        'storybook/use-string-literal-names': 'error',
       },
     },
     {
