@@ -13,9 +13,6 @@ jobs:
       - name: Prepare repository
         run: git fetch --unshallow --tags
 
-      - name: Enable corepack
-        run: corepack enable
-
       - name: Setup node
         uses: actions/setup-node@v4
         with:
@@ -24,6 +21,7 @@ jobs:
 
       - uses: pnpm/action-setup@v4
         with:
+          version: 9
           run_install: true
 
       - name: Create Release

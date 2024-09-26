@@ -19,8 +19,8 @@ importers:
         version: 2.2.0
     devDependencies:
       '@auto-it/released':
-        specifier: ^11.1.6
-        version: 11.1.6(@types/node@18.19.17)(typescript@5.4.5)
+        specifier: ^11.2.1
+        version: 11.2.1(@types/node@18.19.17)(typescript@5.4.5)
       '@types/eslint':
         specifier: ^8.56.2
         version: 8.56.2
@@ -43,8 +43,8 @@ importers:
         specifier: ^7.15.0
         version: 7.15.0(eslint@8.56.0)(typescript@5.4.5)
       auto:
-        specifier: ^11.1.6
-        version: 11.1.6(@types/node@18.19.17)(typescript@5.4.5)
+        specifier: ^11.2.1
+        version: 11.2.1(@types/node@18.19.17)(typescript@5.4.5)
       eslint:
         specifier: ^8.56.0
         version: 8.56.0
@@ -104,12 +104,12 @@ packages:
     resolution: {integrity: sha512-lFMjJTrFL3j7L9yBxwYfCq2k6qqwHyzuUl/XBnif78PWTJYyL/dfowQHWE3sp6U6ZzqWiiIZnpTMO96zhkjwtg==}
     engines: {node: '>=6.0.0'}
 
-  '@auto-it/bot-list@11.1.6':
-    resolution: {integrity: sha512-3Qdphiw9JlzYX15moLZSaP+jNuM3UAFDHTgIpsfnfIQwQDNSjZhM4rwxqsAY/r1mJAyxt16c6wbqisi7KNFD/A==}
+  '@auto-it/bot-list@11.2.1':
+    resolution: {integrity: sha512-hZpdV0Bzd6mxSVlYZtw0k/Qog3tT4NOQSYViQ/wsabZXNa2GoRr0t6aid7TuJItpMvLG9+g2TMZwjF+Q4JdGPA==}
     engines: {node: '>=10.x'}
 
-  '@auto-it/core@11.1.6':
-    resolution: {integrity: sha512-bxiUXJVyRYs7Bf4DH/JLT5pdR14RYSpoX0eBw0ilkU9qNqylTCbThuKofM7Bqn7jaQF2PDUoC72c8xCkqvHGQg==}
+  '@auto-it/core@11.2.1':
+    resolution: {integrity: sha512-lF8rHKNiFI9XTYxh1S+kw3xZfN239y54/GBzJ3tqdkNSMsE+SbpFYctG/HTTx8NLYXYTBpiQCftBL+WcXYS9UA==}
     peerDependencies:
       '@types/node': '*'
       typescript: '>=2.7'
@@ -117,18 +117,18 @@ packages:
       '@types/node':
         optional: true
 
-  '@auto-it/npm@11.1.6':
-    resolution: {integrity: sha512-eFWzR+6N1lMSXi32BunnlIdXIFikX6mieaFLmPk9VNM4vOXqsfkc7BQ0xhsZRsn5sxSR/XBwlQXoExAHybjs3g==}
+  '@auto-it/npm@11.2.1':
+    resolution: {integrity: sha512-rJXfodzQ9BxeM0xbLfoVgp8m07YXoTcrr8fPLPhlBlYK7lDZazE7AS7r8KpolNMEi0jUBXg7c6UKOVBpMzFUPA==}
 
-  '@auto-it/package-json-utils@11.1.6':
-    resolution: {integrity: sha512-RSXmO+KegaEY7uw1vt8iXL9FShiinFigKNFuIWM9oLSaSHJfeQ2ZD291i9nV+tz86bPGySBb5ktdJ3uo2pAZ+Q==}
+  '@auto-it/package-json-utils@11.2.1':
+    resolution: {integrity: sha512-iyjTymHIXuhCwMIHeoMa2+NwkEMFY4iD3pBNFL19CXOrsdma2QAj1HGUOo9cl4lGIOYoA7OMPlPaijUcfJatYA==}
     engines: {node: '>=10.x'}
 
-  '@auto-it/released@11.1.6':
-    resolution: {integrity: sha512-RHTSjq5fAQxkhcC84aWItotyPGH67o+bzSxzr9H4mzvP8OrIxj7Jsfmk8wT4rjgupCTl9fu8DiGoCGjcQpCdCw==}
+  '@auto-it/released@11.2.1':
+    resolution: {integrity: sha512-5Z5++Ov5H1+1+74ogkGldO9FIRCwJsDC06oAfwAhqg3S2VTv1uO29iUR/zTMk8uw/UuC9XZ9fBraY7CBT6myEw==}
 
-  '@auto-it/version-file@11.1.6':
-    resolution: {integrity: sha512-iDAK0IrCYFPDgkX4DGB97VFbiFEfxN+IMW1NiF+Qk7Kd3SX2899vwuFxyVvGwovX7ssuCi/4tSTrvx6PLhH6zw==}
+  '@auto-it/version-file@11.2.1':
+    resolution: {integrity: sha512-9KuDAw+6b5qxm3rZlGt6QBjlWD7+kgBzO7qeDkLBpecZp9WgAB7gmPCEp5YtMKAPKanG0iZSItNh/sP4d40CGA==}
 
   '@babel/code-frame@7.12.11':
     resolution: {integrity: sha512-Zt1yodBx1UcyiePMSkWnU4hPqhwq7hGi2nFL1LeA3EUl+q2LQx16MISgJ0+z7dnmgvP9QtIleuETGOiOH1RcIw==}
@@ -1302,8 +1302,8 @@ packages:
     resolution: {integrity: sha512-KbWgR8wOYRAPekEmMXrYYdc7BRyhn2Ftk7KWfMUnQ43hFdojWEFRxhhRUm3/OFEdPa1r0KAvTTg9YQK57xTe0g==}
     engines: {node: '>=0.8'}
 
-  auto@11.1.6:
-    resolution: {integrity: sha512-GKeZbFWPp7V9d+yWuFvaffVNyLSGFpR/+SrzXt29YKhg8axx5bKQKzbBN0eSzX5DLmhBwS81tWXS+SYpECil9Q==}
+  auto@11.2.1:
+    resolution: {integrity: sha512-h2zMFeJAvyta+T183NdL/BFNzgMPsFb5qttmJIrSFaWdR14+SuONPMdqW/2pePZKfzKGK41NT31IzXvWRkB9UQ==}
     engines: {node: '>=10.x'}
     hasBin: true
 
@@ -3566,11 +3566,11 @@ snapshots:
       '@jridgewell/gen-mapping': 0.3.3
       '@jridgewell/trace-mapping': 0.3.22
 
-  '@auto-it/bot-list@11.1.6': {}
+  '@auto-it/bot-list@11.2.1': {}
 
-  '@auto-it/core@11.1.6(@types/node@18.19.17)(typescript@5.4.5)':
+  '@auto-it/core@11.2.1(@types/node@18.19.17)(typescript@5.4.5)':
     dependencies:
-      '@auto-it/bot-list': 11.1.6
+      '@auto-it/bot-list': 11.2.1
       '@endemolshinegroup/cosmiconfig-typescript-loader': 3.0.2(cosmiconfig@7.0.0)(typescript@5.4.5)
       '@octokit/core': 3.6.0
       '@octokit/plugin-enterprise-compatibility': 1.3.0
@@ -3619,10 +3619,10 @@ snapshots:
       - encoding
       - supports-color
 
-  '@auto-it/npm@11.1.6(@types/node@18.19.17)(typescript@5.4.5)':
+  '@auto-it/npm@11.2.1(@types/node@18.19.17)(typescript@5.4.5)':
     dependencies:
-      '@auto-it/core': 11.1.6(@types/node@18.19.17)(typescript@5.4.5)
-      '@auto-it/package-json-utils': 11.1.6
+      '@auto-it/core': 11.2.1(@types/node@18.19.17)(typescript@5.4.5)
+      '@auto-it/package-json-utils': 11.2.1
       await-to-js: 3.0.0
       endent: 2.1.0
       env-ci: 5.5.0
@@ -3643,15 +3643,15 @@ snapshots:
       - supports-color
       - typescript
 
-  '@auto-it/package-json-utils@11.1.6':
+  '@auto-it/package-json-utils@11.2.1':
     dependencies:
       parse-author: 2.0.0
       parse-github-url: 1.0.2
 
-  '@auto-it/released@11.1.6(@types/node@18.19.17)(typescript@5.4.5)':
+  '@auto-it/released@11.2.1(@types/node@18.19.17)(typescript@5.4.5)':
     dependencies:
-      '@auto-it/bot-list': 11.1.6
-      '@auto-it/core': 11.1.6(@types/node@18.19.17)(typescript@5.4.5)
+      '@auto-it/bot-list': 11.2.1
+      '@auto-it/core': 11.2.1(@types/node@18.19.17)(typescript@5.4.5)
       deepmerge: 4.3.1
       fp-ts: 2.16.2
       io-ts: 2.2.21(fp-ts@2.16.2)
@@ -3664,9 +3664,9 @@ snapshots:
       - supports-color
       - typescript
 
-  '@auto-it/version-file@11.1.6(@types/node@18.19.17)(typescript@5.4.5)':
+  '@auto-it/version-file@11.2.1(@types/node@18.19.17)(typescript@5.4.5)':
     dependencies:
-      '@auto-it/core': 11.1.6(@types/node@18.19.17)(typescript@5.4.5)
+      '@auto-it/core': 11.2.1(@types/node@18.19.17)(typescript@5.4.5)
       fp-ts: 2.16.2
       io-ts: 2.2.21(fp-ts@2.16.2)
       semver: 7.6.0
@@ -5146,12 +5146,12 @@ snapshots:
 
   author-regex@1.0.0: {}
 
-  auto@11.1.6(@types/node@18.19.17)(typescript@5.4.5):
+  auto@11.2.1(@types/node@18.19.17)(typescript@5.4.5):
     dependencies:
-      '@auto-it/core': 11.1.6(@types/node@18.19.17)(typescript@5.4.5)
-      '@auto-it/npm': 11.1.6(@types/node@18.19.17)(typescript@5.4.5)
-      '@auto-it/released': 11.1.6(@types/node@18.19.17)(typescript@5.4.5)
-      '@auto-it/version-file': 11.1.6(@types/node@18.19.17)(typescript@5.4.5)
+      '@auto-it/core': 11.2.1(@types/node@18.19.17)(typescript@5.4.5)
+      '@auto-it/npm': 11.2.1(@types/node@18.19.17)(typescript@5.4.5)
+      '@auto-it/released': 11.2.1(@types/node@18.19.17)(typescript@5.4.5)
+      '@auto-it/version-file': 11.2.1(@types/node@18.19.17)(typescript@5.4.5)
       await-to-js: 3.0.0
       chalk: 4.1.2
       command-line-application: 0.10.1

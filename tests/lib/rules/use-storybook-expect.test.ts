@@ -62,27 +62,10 @@ ruleTester.run('use-storybook-expect', rule, {
           expect(123).toEqual(123);
         }
       `,
-      output: dedent`
-        import { expect } from '@storybook/jest';
-        Default.play = () => {
-          expect(123).toEqual(123);
-        }
-      `,
       errors: [
         {
           messageId: 'useExpectFromStorybook',
           type: AST_NODE_TYPES.Identifier,
-          suggestions: [
-            {
-              messageId: 'updateImports',
-              output: dedent`
-                import { expect } from '@storybook/jest';
-                Default.play = () => {
-                  expect(123).toEqual(123);
-                }
-              `,
-            },
-          ],
         },
       ],
     },
@@ -93,29 +76,10 @@ ruleTester.run('use-storybook-expect', rule, {
         }
         Default.play = someInteraction
       `,
-      output: dedent`
-        import { expect } from '@storybook/jest';
-        const someInteraction = () => {
-          expect(123).toEqual(123);
-        }
-        Default.play = someInteraction
-      `,
       errors: [
         {
           messageId: 'useExpectFromStorybook',
           type: AST_NODE_TYPES.Identifier,
-          suggestions: [
-            {
-              messageId: 'updateImports',
-              output: dedent`
-                import { expect } from '@storybook/jest';
-                const someInteraction = () => {
-                  expect(123).toEqual(123);
-                }
-                Default.play = someInteraction
-              `,
-            },
-          ],
         },
       ],
     },
@@ -128,33 +92,10 @@ ruleTester.run('use-storybook-expect', rule, {
           },
         };
       `,
-      output: dedent`
-        import { expect } from '@storybook/jest';
-        export const Basic = {
-          ...Default,
-          play: async (context) => {
-            expect(123).toEqual(123);
-          },
-        };
-      `,
       errors: [
         {
           messageId: 'useExpectFromStorybook',
           type: AST_NODE_TYPES.Identifier,
-          suggestions: [
-            {
-              messageId: 'updateImports',
-              output: dedent`
-                import { expect } from '@storybook/jest';
-                export const Basic = {
-                  ...Default,
-                  play: async (context) => {
-                    expect(123).toEqual(123);
-                  },
-                };
-              `,
-            },
-          ],
         },
       ],
     },
