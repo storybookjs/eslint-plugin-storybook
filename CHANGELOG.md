@@ -1,3 +1,23 @@
+# v0.9.0 (Thu Sep 26 2024)
+
+#### 🚀 Enhancement
+
+- use-storybook-expect: remove auto fix suggestion [#165](https://github.com/storybookjs/eslint-plugin-storybook/pull/165) ([@yannbf](https://github.com/yannbf))
+
+#### 🐛 Bug Fix
+
+- Tweak `generate-rule` [#147](https://github.com/storybookjs/eslint-plugin-storybook/pull/147) ([@yinm](https://github.com/yinm))
+- Update links in docs [#130](https://github.com/storybookjs/eslint-plugin-storybook/pull/130) ([@hoonweiting](https://github.com/hoonweiting) [@yannbf](https://github.com/yannbf))
+- Remove uninformative 'Further Reading' sections from rule docs [#131](https://github.com/storybookjs/eslint-plugin-storybook/pull/131) ([@hoonweiting](https://github.com/hoonweiting))
+
+#### Authors: 3
+
+- Wei Ting ([@hoonweiting](https://github.com/hoonweiting))
+- Yann Braga ([@yannbf](https://github.com/yannbf))
+- Yusuke Iinuma ([@yinm](https://github.com/yinm))
+
+---
+
 # v0.8.0 (Fri Feb 16 2024)
 
 #### 🚀 Enhancement
