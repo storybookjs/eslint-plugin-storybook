@@ -26,14 +26,14 @@ export = createStorybookRule<TDefaultOptions, string>({
     hasSuggestions: true,
     schema: [],
     docs: {
-      description: 'Use expect from `@storybook/jest`',
+      description: 'Use expect from `@storybook/test` or `@storybook/jest`',
       categories: [CategoryId.ADDON_INTERACTIONS, CategoryId.RECOMMENDED],
       recommended: 'error',
     },
     messages: {
       updateImports: 'Update imports',
       useExpectFromStorybook:
-        'Do not use expect from jest directly in the story. You should use from `@storybook/jest` instead.',
+        'Do not use global expect directly in the story. You should import it from `@storybook/test` or `@storybook/jest` instead.',
     },
   },
 
@@ -82,23 +82,6 @@ export = createStorybookRule<TDefaultOptions, string>({
             context.report({
               node,
               messageId: 'useExpectFromStorybook',
-              fix: function (fixer) {
-                return fixer.insertTextAfterRange(
-                  [0, 0],
-                  "import { expect } from '@storybook/jest';\n"
-                )
-              },
-              suggest: [
-                {
-                  messageId: 'updateImports',
-                  fix: function (fixer) {
-                    return fixer.insertTextAfterRange(
-                      [0, 0],
-                      "import { expect } from '@storybook/jest';\n"
-                    )
-                  },
-                },
-              ],
             })
           })
         }
