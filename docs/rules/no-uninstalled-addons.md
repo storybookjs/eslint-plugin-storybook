@@ -21,7 +21,7 @@ Another very important side note: your ESLint config must allow the linting of t
 !.storybook
 ```
 
-For more info, check this [ESLint documentation](https://eslint.org/docs/latest/user-guide/configuring/ignoring-code#:~:text=In%20addition%20to,contents%2C%20are%20ignored).
+For more info, check this [ESLint documentation](https://eslint.org/docs/latest/use/configure/ignore-deprecated#:~:text=In%20addition%20to,contents%20are%20ignored).
 
 Examples of **incorrect** code for this rule:
 
