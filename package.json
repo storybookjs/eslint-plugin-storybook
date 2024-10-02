@@ -50,7 +50,7 @@
     "*.{js,css,md}": "prettier --write"
   },
   "dependencies": {
-    "@storybook/csf": "^0.0.1",
+    "@storybook/csf": "^0.1.11",
     "@typescript-eslint/utils": "^5.62.0",
     "requireindex": "^1.2.0",
     "ts-dedent": "^2.2.0"
