@@ -2,7 +2,7 @@
   "compilerOptions": {
     "outDir": "./dist/",
     "target": "es6",
-    "module": "commonjs",
+    "module": "Node16",
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "strict": true,
@@ -18,6 +18,6 @@
     "ecmaVersion": 8,
     "sourceType": "module"
   },
-  "include": ["lib/**/*.ts"],
+  "include": ["lib/**/*.ts", "tests/**/*.ts"],
   "exclude": ["node_modules"]
 }

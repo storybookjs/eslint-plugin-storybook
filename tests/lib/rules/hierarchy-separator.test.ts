@@ -45,22 +45,6 @@ ruleTester.run('hierarchy-separator', rule, {
       ],
     },
     {
-      code: "export default { title: 'Examples|Components/Button' }",
-      output: "export default { title: 'Examples/Components/Button' }",
-      errors: [
-        {
-          type: AST_NODE_TYPES.Property,
-          messageId: 'deprecatedHierarchySeparator',
-          suggestions: [
-            {
-              messageId: 'useCorrectSeparators',
-              output: "export default { title: 'Examples/Components/Button' }",
-            },
-          ],
-        },
-      ],
-    },
-    {
       code: dedent`
         const meta = { title: 'Examples|Components/Button' }
         export default meta

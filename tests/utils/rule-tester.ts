@@ -1,11 +1,11 @@
-import { resolve } from 'path'
 import { TSESLint } from '@typescript-eslint/utils'
+import { RuleTester } from '@typescript-eslint/rule-tester'
 
 const DEFAULT_TEST_CASE_CONFIG = {
   filename: 'MyComponent.stories.js',
 }
 
-class StorybookRuleTester extends TSESLint.RuleTester {
+class StorybookRuleTester extends RuleTester {
   run<TMessageIds extends string, TOptions extends Readonly<unknown[]>>(
     ruleName: string,
     rule: TSESLint.RuleModule<TMessageIds, TOptions>,
@@ -32,20 +32,8 @@ class StorybookRuleTester extends TSESLint.RuleTester {
   }
 }
 
-export const createRuleTester = (
-  parserOptions: Partial<TSESLint.ParserOptions> = {}
-): TSESLint.RuleTester => {
-  return new StorybookRuleTester({
-    parser: resolve('./node_modules/@typescript-eslint/parser'),
-    parserOptions: {
-      ecmaVersion: 2018,
-      sourceType: 'module',
-      ecmaFeatures: {
-        jsx: true,
-      },
-      ...parserOptions,
-    },
-  })
+export const createRuleTester = (): RuleTester => {
+  return new StorybookRuleTester()
 }
 
 export default createRuleTester()
