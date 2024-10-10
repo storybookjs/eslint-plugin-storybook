@@ -1,23 +1,4 @@
 {
-  "compilerOptions": {
-    "outDir": "./dist/",
-    "target": "es6",
-    "module": "commonjs",
-    "esModuleInterop": true,
-    "forceConsistentCasingInFileNames": true,
-    "strict": true,
-    "skipLibCheck": true,
-    "noUncheckedIndexedAccess": true,
-  },
-  "ts-node": {
-    "transpileOnly": true
-  },
-  "parser": "@typescript-eslint/parser",
-  "parserOptions": {
-    "ecmaFeatures": { "jsx": true },
-    "ecmaVersion": 8,
-    "sourceType": "module"
-  },
-  "include": ["lib/**/*.ts"],
-  "exclude": ["node_modules"]
+  "extends": "./tsconfig.build.json",
+  "include": ["lib/**/*.ts", "tests/**/*.ts"]
 }

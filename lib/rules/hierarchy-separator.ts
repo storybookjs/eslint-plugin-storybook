@@ -23,7 +23,7 @@ export = createStorybookRule({
     docs: {
       description: 'Deprecated hierarchy separator in title property',
       categories: [CategoryId.CSF, CategoryId.RECOMMENDED],
-      recommended: 'warn',
+      recommended: 'recommended',
     },
     messages: {
       useCorrectSeparators: 'Use correct separators',

@@ -18,7 +18,7 @@ export = createStorybookRule({
     docs: {
       description: 'storiesOf is deprecated and should not be used',
       categories: [CategoryId.CSF_STRICT],
-      recommended: 'error',
+      recommended: 'strict',
     },
     messages: {
       doNotUseStoriesOf: 'storiesOf is deprecated and should not be used',
