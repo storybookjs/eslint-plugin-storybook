@@ -24,14 +24,14 @@
       "email": "rafaelrozon.developer@gmail.com"
     }
   ],
-  "main": "dist/lib/index.js",
+  "main": "dist/index.js",
   "files": [
     "dist/**/*",
     "README.md"
   ],
   "scripts": {
     "prebuild": "rimraf dist",
-    "build": "tsc",
+    "build": "tsc -p tsconfig.build.json",
     "generate-rule": "ts-node ./tools/generate-rule",
     "lint": "eslint --fix .",
     "migrate": "ts-migrate-full",
