@@ -148,6 +148,61 @@ ruleTester.run('await-interactions', rule, {
     },
     {
       code: dedent`
+        import { expect, findByText } from '@storybook/test'
+        WithModalOpen.play = async ({ args }) => {
+          // should complain
+          expect(args.onClick).toHaveBeenCalled()
+          const element = findByText(canvasElement, 'asdf')
+        }
+      `,
+      output: dedent`
+        import { expect, findByText } from '@storybook/test'
+        WithModalOpen.play = async ({ args }) => {
+          // should complain
+          await expect(args.onClick).toHaveBeenCalled()
+          const element = await findByText(canvasElement, 'asdf')
+        }
+      `,
+      only: true,
+      errors: [
+        {
+          messageId: 'interactionShouldBeAwaited',
+          data: { method: 'toHaveBeenCalled' },
+          suggestions: [
+            {
+              messageId: 'fixSuggestion',
+              output: dedent`
+                import { expect, findByText } from '@storybook/test'
+                WithModalOpen.play = async ({ args }) => {
+                  // should complain
+                  await expect(args.onClick).toHaveBeenCalled()
+                  const element = findByText(canvasElement, 'asdf')
+                }
+              `,
+            },
+          ],
+        },
+        {
+          messageId: 'interactionShouldBeAwaited',
+          data: { method: 'findByText' },
+          suggestions: [
+            {
+              messageId: 'fixSuggestion',
+              output: dedent`
+                import { expect, findByText } from '@storybook/test'
+                WithModalOpen.play = async ({ args }) => {
+                  // should complain
+                  expect(args.onClick).toHaveBeenCalled()
+                  const element = await findByText(canvasElement, 'asdf')
+                }
+              `,
+            },
+          ],
+        },
+      ],
+    },
+    {
+      code: dedent`
         WithModalOpen.play = ({ canvasElement }) => {
           const canvas = within(canvasElement)
 
