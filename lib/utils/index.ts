@@ -22,8 +22,12 @@ export const getMetaObjectExpression = (
   context: Readonly<TSESLint.RuleContext<string, readonly unknown[]>>
 ) => {
   let meta: TSESTree.ExportDefaultDeclaration['declaration'] | null = node.declaration
+  const { sourceCode } = context
   if (isIdentifier(meta)) {
-    const variable = ASTUtils.findVariable(context.getScope(), meta.name)
+    // Compatibility implementation for eslint v8.x and v9.x or later
+    // see https://eslint.org/blog/2023/09/preparing-custom-rules-eslint-v9/#context.getscope()
+    const scope = sourceCode.getScope ? sourceCode.getScope(node) : context.getScope()
+    const variable = ASTUtils.findVariable(scope, meta.name)
     const decl = variable && variable.defs.find((def) => isVariableDeclarator(def.node))
     if (decl && isVariableDeclarator(decl.node)) {
       meta = decl.node.init

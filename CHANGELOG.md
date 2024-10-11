@@ -190,9 +190,9 @@ The `story-exports` rule now detects whether you are using `includeStories/exclu
 export default {
   title: 'Button',
   includeStories: ['myStory'], // <-- notice the lowercase m, which won't match with the story name
-};
+}
 
-export const MyStory = {};
+export const MyStory = {}
 ```
 
 ---
@@ -569,7 +569,7 @@ export const MyStory = {};
 
 - no-title-property-in-meta: fix dangling comma and highlighting [#32](https://github.com/storybookjs/eslint-plugin-storybook/pull/32) ([@yannbf](https://github.com/yannbf))
 - Update docs [#35](https://github.com/storybookjs/eslint-plugin-storybook/pull/35) ([@kylegach](https://github.com/kylegach) [@yannbf](https://github.com/yannbf))
-- prefer-pascal-case: ignore __namedExportsOrder [#34](https://github.com/storybookjs/eslint-plugin-storybook/pull/34) ([@yannbf](https://github.com/yannbf))
+- prefer-pascal-case: ignore \_\_namedExportsOrder [#34](https://github.com/storybookjs/eslint-plugin-storybook/pull/34) ([@yannbf](https://github.com/yannbf))
 - hierarchy-separator: fix node highlight [#33](https://github.com/storybookjs/eslint-plugin-storybook/pull/33) ([@yannbf](https://github.com/yannbf))
 - no-redundant-story-name: add CSF2 support [#31](https://github.com/storybookjs/eslint-plugin-storybook/pull/31) ([@yannbf](https://github.com/yannbf))
 - prefer-pascal-case: add non-story exports check [#30](https://github.com/storybookjs/eslint-plugin-storybook/pull/30) ([@yannbf](https://github.com/yannbf))

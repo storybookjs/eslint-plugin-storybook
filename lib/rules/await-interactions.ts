@@ -32,7 +32,7 @@ export = createStorybookRule({
     docs: {
       description: 'Interactions should be awaited',
       categories: [CategoryId.ADDON_INTERACTIONS, CategoryId.RECOMMENDED],
-      recommended: 'error', // or 'warn'
+      recommended: 'strict',
     },
     messages: {
       interactionShouldBeAwaited: 'Interaction should be awaited: {{method}}',
@@ -132,7 +132,8 @@ export = createStorybookRule({
 
     const isUserEventFromStorybookImported = (node: TSESTree.ImportDeclaration) => {
       return (
-        node.source.value === '@storybook/testing-library' &&
+        (node.source.value === '@storybook/testing-library' ||
+          node.source.value === '@storybook/test') &&
         node.specifiers.find(
           (spec) =>
             isImportSpecifier(spec) &&
@@ -144,7 +145,7 @@ export = createStorybookRule({
 
     const isExpectFromStorybookImported = (node: TSESTree.ImportDeclaration) => {
       return (
-        node.source.value === '@storybook/jest' &&
+        (node.source.value === '@storybook/jest' || node.source.value === '@storybook/test') &&
         node.specifiers.find(
           (spec) => isImportSpecifier(spec) && spec.imported.name === 'expect'
         ) !== undefined
