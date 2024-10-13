@@ -136,6 +136,60 @@ ruleTester.run('await-interactions', rule, {
     },
     {
       code: dedent`
+        import { expect } from '@storybook/test'
+        WithModalOpen.play = async ({ args }) => {
+          // should complain
+          expect(args.onClick).toHaveBeenCalled()
+        }
+      `,
+      output: dedent`
+        import { expect } from '@storybook/test'
+        WithModalOpen.play = async ({ args }) => {
+          // should complain
+          await expect(args.onClick).toHaveBeenCalled()
+        }
+      `,
+      errors: [
+        {
+          messageId: 'interactionShouldBeAwaited',
+          data: { method: 'toHaveBeenCalled' },
+        },
+      ],
+    },
+    {
+      code: dedent`
+				import { userEvent } from '@storybook/test'
+
+        WithModalOpen.play = async ({ canvasElement }) => {
+          const canvas = within(canvasElement)
+
+          const foodItem = canvas.findByText(/Cheeseburger/i)
+          userEvent.click(foodItem)
+        }
+      `,
+      output: dedent`
+				import { userEvent } from '@storybook/test'
+
+        WithModalOpen.play = async ({ canvasElement }) => {
+          const canvas = within(canvasElement)
+
+          const foodItem = await canvas.findByText(/Cheeseburger/i)
+          await userEvent.click(foodItem)
+        }
+      `,
+      errors: [
+        {
+          messageId: 'interactionShouldBeAwaited',
+          data: { method: 'findByText' },
+        },
+        {
+          messageId: 'interactionShouldBeAwaited',
+          data: { method: 'userEvent' },
+        },
+      ],
+    },
+    {
+      code: dedent`
         WithModalOpen.play = ({ canvasElement }) => {
           const canvas = within(canvasElement)
 

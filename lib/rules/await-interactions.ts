@@ -132,7 +132,7 @@ export = createStorybookRule({
 
     const isUserEventFromStorybookImported = (node: TSESTree.ImportDeclaration) => {
       return (
-        node.source.value === '@storybook/testing-library' &&
+        ['@storybook/test', '@storybook/testing-library'].includes(node.source.value) &&
         node.specifiers.find(
           (spec) =>
             isImportSpecifier(spec) &&
@@ -144,7 +144,7 @@ export = createStorybookRule({
 
     const isExpectFromStorybookImported = (node: TSESTree.ImportDeclaration) => {
       return (
-        node.source.value === '@storybook/jest' &&
+        ['@storybook/test', '@storybook/jest'].includes(node.source.value) &&
         node.specifiers.find(
           (spec) => isImportSpecifier(spec) && spec.imported.name === 'expect'
         ) !== undefined
