@@ -52,7 +52,7 @@
     "*.{js,css,md}": "prettier --write"
   },
   "dependencies": {
-    "@storybook/csf": "^0.0.1",
+    "@storybook/csf": "^0.1.11",
     "@typescript-eslint/utils": "^8.8.1",
     "ts-dedent": "^2.2.0"
   },
@@ -67,7 +67,7 @@
     "@typescript-eslint/parser": "^8.8.1",
     "@typescript-eslint/rule-tester": "^8.8.1",
     "auto": "^11.2.1",
-    "eslint": "^8.56.0",
+    "eslint": "^8.57.1",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-eslint-plugin": "^6.2.0",
     "eslint-plugin-node": "^11.1.0",
