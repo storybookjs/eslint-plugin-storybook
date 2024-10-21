@@ -2,7 +2,7 @@
 
 <!-- RULE-CATEGORIES:START -->
 
-**Included in these configurations**: <ul><li>csf</li><li>recommended</li></ul>
+**Included in these configurations**: <ul><li>csf</li><li>flat/csf</li><li>recommended</li><li>flat/recommended</li></ul>
 
 <!-- RULE-CATEGORIES:END -->
 

@@ -45,6 +45,12 @@ ruleTester.run('default-exports', rule, {
       errors: [
         {
           messageId: 'shouldHaveDefaultExport',
+          suggestions: [
+            {
+              messageId: 'fixSuggestion',
+              output: 'export default {}\nexport const Primary = () => <button>hello</button>',
+            },
+          ],
         },
       ],
     },
@@ -61,6 +67,13 @@ ruleTester.run('default-exports', rule, {
       errors: [
         {
           messageId: 'shouldHaveDefaultExport',
+          suggestions: [
+            {
+              messageId: 'fixSuggestion',
+              output:
+                "import { MyComponent, Foo } from './MyComponent'\nexport default { component: MyComponent }\nexport const Primary = () => <button>hello</button>",
+            },
+          ],
         },
       ],
     },
@@ -77,6 +90,13 @@ ruleTester.run('default-exports', rule, {
       errors: [
         {
           messageId: 'shouldHaveDefaultExport',
+          suggestions: [
+            {
+              messageId: 'fixSuggestion',
+              output:
+                "import MyComponent from './MyComponent'\nexport default { component: MyComponent }\nexport const Primary = () => <button>hello</button>",
+            },
+          ],
         },
       ],
     },
@@ -93,6 +113,13 @@ ruleTester.run('default-exports', rule, {
       errors: [
         {
           messageId: 'shouldHaveDefaultExport',
+          suggestions: [
+            {
+              messageId: 'fixSuggestion',
+              output:
+                "import { MyComponentProps } from './MyComponent'\nexport default {}\nexport const Primary = () => <button>hello</button>",
+            },
+          ],
         },
       ],
     },

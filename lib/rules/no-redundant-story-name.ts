@@ -32,7 +32,7 @@ export = createStorybookRule({
     docs: {
       description: 'A story should not have a redundant name property',
       categories: [CategoryId.CSF, CategoryId.RECOMMENDED],
-      recommended: 'warn',
+      recommended: 'recommended',
     },
     messages: {
       removeRedundantName: 'Remove redundant name',

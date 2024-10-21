@@ -131,6 +131,73 @@ ruleTester.run('await-interactions', rule, {
         {
           messageId: 'interactionShouldBeAwaited',
           data: { method: 'toHaveBeenCalled' },
+          suggestions: [
+            {
+              messageId: 'fixSuggestion',
+              output: dedent`
+                import { expect } from '@storybook/jest'
+                WithModalOpen.play = async ({ args }) => {
+                  // should complain
+                  await expect(args.onClick).toHaveBeenCalled()
+                }
+              `,
+            },
+          ],
+        },
+      ],
+    },
+    {
+      code: dedent`
+        import { expect, findByText } from '@storybook/test'
+        WithModalOpen.play = async ({ args }) => {
+          // should complain
+          expect(args.onClick).toHaveBeenCalled()
+          const element = findByText(canvasElement, 'asdf')
+        }
+      `,
+      output: dedent`
+        import { expect, findByText } from '@storybook/test'
+        WithModalOpen.play = async ({ args }) => {
+          // should complain
+          await expect(args.onClick).toHaveBeenCalled()
+          const element = await findByText(canvasElement, 'asdf')
+        }
+      `,
+      only: true,
+      errors: [
+        {
+          messageId: 'interactionShouldBeAwaited',
+          data: { method: 'toHaveBeenCalled' },
+          suggestions: [
+            {
+              messageId: 'fixSuggestion',
+              output: dedent`
+                import { expect, findByText } from '@storybook/test'
+                WithModalOpen.play = async ({ args }) => {
+                  // should complain
+                  await expect(args.onClick).toHaveBeenCalled()
+                  const element = findByText(canvasElement, 'asdf')
+                }
+              `,
+            },
+          ],
+        },
+        {
+          messageId: 'interactionShouldBeAwaited',
+          data: { method: 'findByText' },
+          suggestions: [
+            {
+              messageId: 'fixSuggestion',
+              output: dedent`
+                import { expect, findByText } from '@storybook/test'
+                WithModalOpen.play = async ({ args }) => {
+                  // should complain
+                  expect(args.onClick).toHaveBeenCalled()
+                  const element = await findByText(canvasElement, 'asdf')
+                }
+              `,
+            },
+          ],
         },
       ],
     },
@@ -153,6 +220,18 @@ ruleTester.run('await-interactions', rule, {
         {
           messageId: 'interactionShouldBeAwaited',
           data: { method: 'findByText' },
+          suggestions: [
+            {
+              messageId: 'fixSuggestion',
+              output: dedent`
+                WithModalOpen.play = async ({ canvasElement }) => {
+                  const canvas = within(canvasElement)
+
+                  const foodItem = await canvas.findByText(/Cheeseburger/i)
+                }
+              `,
+            },
+          ],
         },
       ],
     },
@@ -160,10 +239,8 @@ ruleTester.run('await-interactions', rule, {
       code: dedent`
         WithModalOpen.play = async ({ canvasElement }) => {
           const canvas = within(canvasElement)
-
           const foodItem = canvas.findByText(/Cheeseburger/i)
           userEvent.click(foodItem)
-
           const modalButton = canvas.findByLabelText('increase quantity by one')
           userEvent.click(modalButton)
         }
@@ -171,10 +248,8 @@ ruleTester.run('await-interactions', rule, {
       output: dedent`
         WithModalOpen.play = async ({ canvasElement }) => {
           const canvas = within(canvasElement)
-
           const foodItem = await canvas.findByText(/Cheeseburger/i)
           await userEvent.click(foodItem)
-
           const modalButton = await canvas.findByLabelText('increase quantity by one')
           await userEvent.click(modalButton)
         }
@@ -183,18 +258,74 @@ ruleTester.run('await-interactions', rule, {
         {
           messageId: 'interactionShouldBeAwaited',
           data: { method: 'findByText' },
+          suggestions: [
+            {
+              messageId: 'fixSuggestion',
+              output: dedent`
+                WithModalOpen.play = async ({ canvasElement }) => {
+                  const canvas = within(canvasElement)
+                  const foodItem = await canvas.findByText(/Cheeseburger/i)
+                  userEvent.click(foodItem)
+                  const modalButton = canvas.findByLabelText('increase quantity by one')
+                  userEvent.click(modalButton)
+                }
+            `,
+            },
+          ],
         },
         {
           messageId: 'interactionShouldBeAwaited',
           data: { method: 'userEvent' },
+          suggestions: [
+            {
+              messageId: 'fixSuggestion',
+              output: dedent`
+                WithModalOpen.play = async ({ canvasElement }) => {
+                  const canvas = within(canvasElement)
+                  const foodItem = canvas.findByText(/Cheeseburger/i)
+                  await userEvent.click(foodItem)
+                  const modalButton = canvas.findByLabelText('increase quantity by one')
+                  userEvent.click(modalButton)
+                }
+               `,
+            },
+          ],
         },
         {
           messageId: 'interactionShouldBeAwaited',
           data: { method: 'findByLabelText' },
+          suggestions: [
+            {
+              messageId: 'fixSuggestion',
+              output: dedent`
+                WithModalOpen.play = async ({ canvasElement }) => {
+                  const canvas = within(canvasElement)
+                  const foodItem = canvas.findByText(/Cheeseburger/i)
+                  userEvent.click(foodItem)
+                  const modalButton = await canvas.findByLabelText('increase quantity by one')
+                  userEvent.click(modalButton)
+                }
+               `,
+            },
+          ],
         },
         {
           messageId: 'interactionShouldBeAwaited',
           data: { method: 'userEvent' },
+          suggestions: [
+            {
+              messageId: 'fixSuggestion',
+              output: dedent`
+                WithModalOpen.play = async ({ canvasElement }) => {
+                  const canvas = within(canvasElement)
+                  const foodItem = canvas.findByText(/Cheeseburger/i)
+                  userEvent.click(foodItem)
+                  const modalButton = canvas.findByLabelText('increase quantity by one')
+                  await userEvent.click(modalButton)
+                }
+               `,
+            },
+          ],
         },
       ],
     },
@@ -221,18 +352,74 @@ ruleTester.run('await-interactions', rule, {
         {
           messageId: 'interactionShouldBeAwaited',
           data: { method: 'findByText' },
+          suggestions: [
+            {
+              messageId: 'fixSuggestion',
+              output: dedent`
+                WithModalOpen.play = async ({ canvasElement }) => {
+                  const element: HTMLButtonElement = await within(canvasElement).findByText(/Hello/i)
+                  userEvent.click(element, undefined, { clickCount: 2 })
+                  userEvent.click(within(canvasElement).findByText(/Hello/i), undefined, {
+                    clickCount: 2,
+                  })
+                }
+              `,
+            },
+          ],
         },
         {
           messageId: 'interactionShouldBeAwaited',
           data: { method: 'userEvent' },
+          suggestions: [
+            {
+              messageId: 'fixSuggestion',
+              output: dedent`
+                WithModalOpen.play = async ({ canvasElement }) => {
+                  const element: HTMLButtonElement = within(canvasElement).findByText(/Hello/i)
+                  await userEvent.click(element, undefined, { clickCount: 2 })
+                  userEvent.click(within(canvasElement).findByText(/Hello/i), undefined, {
+                    clickCount: 2,
+                  })
+                }
+              `,
+            },
+          ],
         },
         {
           messageId: 'interactionShouldBeAwaited',
           data: { method: 'userEvent' },
+          suggestions: [
+            {
+              messageId: 'fixSuggestion',
+              output: dedent`
+                WithModalOpen.play = async ({ canvasElement }) => {
+                  const element: HTMLButtonElement = within(canvasElement).findByText(/Hello/i)
+                  userEvent.click(element, undefined, { clickCount: 2 })
+                  await userEvent.click(within(canvasElement).findByText(/Hello/i), undefined, {
+                    clickCount: 2,
+                  })
+                }
+              `,
+            },
+          ],
         },
         {
           messageId: 'interactionShouldBeAwaited',
           data: { method: 'findByText' },
+          suggestions: [
+            {
+              messageId: 'fixSuggestion',
+              output: dedent`
+                WithModalOpen.play = async ({ canvasElement }) => {
+                  const element: HTMLButtonElement = within(canvasElement).findByText(/Hello/i)
+                  userEvent.click(element, undefined, { clickCount: 2 })
+                  userEvent.click(await within(canvasElement).findByText(/Hello/i), undefined, {
+                    clickCount: 2,
+                  })
+                }
+              `,
+            },
+          ],
         },
       ],
     },
@@ -265,22 +452,107 @@ ruleTester.run('await-interactions', rule, {
         {
           messageId: 'interactionShouldBeAwaited',
           data: { method: 'findByText' },
+          suggestions: [
+            {
+              messageId: 'fixSuggestion',
+              output: dedent`
+              export const WithModalOpen = {
+                play: async ({ canvasElement, args }) => {
+                  const element: HTMLButtonElement = await within(canvasElement).findByText(/Hello/i)
+                  userEvent.click(element, undefined, { clickCount: 2 })
+                  userEvent.click(within(canvasElement).findByText(/Hello/i), undefined, {
+                    clickCount: 2,
+                  })
+                  expect(args.onSubmit).toHaveBeenCalled()
+                }
+              }
+            `,
+            },
+          ],
         },
         {
           messageId: 'interactionShouldBeAwaited',
           data: { method: 'userEvent' },
+          suggestions: [
+            {
+              messageId: 'fixSuggestion',
+              output: dedent`
+              export const WithModalOpen = {
+                play: async ({ canvasElement, args }) => {
+                  const element: HTMLButtonElement = within(canvasElement).findByText(/Hello/i)
+                  await userEvent.click(element, undefined, { clickCount: 2 })
+                  userEvent.click(within(canvasElement).findByText(/Hello/i), undefined, {
+                    clickCount: 2,
+                  })
+                  expect(args.onSubmit).toHaveBeenCalled()
+                }
+              }
+            `,
+            },
+          ],
         },
         {
           messageId: 'interactionShouldBeAwaited',
           data: { method: 'userEvent' },
+          suggestions: [
+            {
+              messageId: 'fixSuggestion',
+              output: dedent`
+              export const WithModalOpen = {
+                play: async ({ canvasElement, args }) => {
+                  const element: HTMLButtonElement = within(canvasElement).findByText(/Hello/i)
+                  userEvent.click(element, undefined, { clickCount: 2 })
+                  await userEvent.click(within(canvasElement).findByText(/Hello/i), undefined, {
+                    clickCount: 2,
+                  })
+                  expect(args.onSubmit).toHaveBeenCalled()
+                }
+              }
+            `,
+            },
+          ],
         },
         {
           messageId: 'interactionShouldBeAwaited',
           data: { method: 'findByText' },
+          suggestions: [
+            {
+              messageId: 'fixSuggestion',
+              output: dedent`
+              export const WithModalOpen = {
+                play: async ({ canvasElement, args }) => {
+                  const element: HTMLButtonElement = within(canvasElement).findByText(/Hello/i)
+                  userEvent.click(element, undefined, { clickCount: 2 })
+                  userEvent.click(await within(canvasElement).findByText(/Hello/i), undefined, {
+                    clickCount: 2,
+                  })
+                  expect(args.onSubmit).toHaveBeenCalled()
+                }
+              }
+            `,
+            },
+          ],
         },
         {
           messageId: 'interactionShouldBeAwaited',
           data: { method: 'toHaveBeenCalled' },
+          suggestions: [
+            {
+              messageId: 'fixSuggestion',
+              output: dedent`
+              export const WithModalOpen = {
+                play: async ({ canvasElement, args }) => {
+                  const element: HTMLButtonElement = within(canvasElement).findByText(/Hello/i)
+                  userEvent.click(element, undefined, { clickCount: 2 })
+                  userEvent.click(within(canvasElement).findByText(/Hello/i), undefined, {
+                    clickCount: 2,
+                  })
+                  await expect(args.onSubmit).toHaveBeenCalled()
+                }
+              }
+            `,
+            },
+          ],
         },
       ],
     },
@@ -319,26 +591,146 @@ ruleTester.run('await-interactions', rule, {
         {
           messageId: 'interactionShouldBeAwaited',
           data: { method: 'waitForElementToBeRemoved' },
+          suggestions: [
+            {
+              messageId: 'fixSuggestion',
+              output: dedent`
+              export const AfterLoadingState = {
+                play: async ({ canvasElement, args }) => {
+                  const canvas = within(canvasElement)
+                  await waitForElementToBeRemoved(async () => {
+                    canvas.findByText('Loading...')
+                  }, { timeout: 2000 })
+                  const button = canvas.findByText('Loaded!')
+                  userEvent.click(button)
+                  waitFor(async () => {
+                    expect(args.onSubmit).toHaveBeenCalled()
+                  })
+                }
+              }
+            `,
+            },
+          ],
         },
         {
           messageId: 'interactionShouldBeAwaited',
           data: { method: 'findByText' },
+          suggestions: [
+            {
+              messageId: 'fixSuggestion',
+              output: dedent`
+              export const AfterLoadingState = {
+                play: async ({ canvasElement, args }) => {
+                  const canvas = within(canvasElement)
+                  waitForElementToBeRemoved(async () => {
+                    await canvas.findByText('Loading...')
+                  }, { timeout: 2000 })
+                  const button = canvas.findByText('Loaded!')
+                  userEvent.click(button)
+                  waitFor(async () => {
+                    expect(args.onSubmit).toHaveBeenCalled()
+                  })
+                }
+              }
+            `,
+            },
+          ],
         },
         {
           messageId: 'interactionShouldBeAwaited',
           data: { method: 'findByText' },
+          suggestions: [
+            {
+              messageId: 'fixSuggestion',
+              output: dedent`
+              export const AfterLoadingState = {
+                play: async ({ canvasElement, args }) => {
+                  const canvas = within(canvasElement)
+                  waitForElementToBeRemoved(async () => {
+                    canvas.findByText('Loading...')
+                  }, { timeout: 2000 })
+                  const button = await canvas.findByText('Loaded!')
+                  userEvent.click(button)
+                  waitFor(async () => {
+                    expect(args.onSubmit).toHaveBeenCalled()
+                  })
+                }
+              }
+            `,
+            },
+          ],
         },
         {
           messageId: 'interactionShouldBeAwaited',
           data: { method: 'userEvent' },
+          suggestions: [
+            {
+              messageId: 'fixSuggestion',
+              output: dedent`
+              export const AfterLoadingState = {
+                play: async ({ canvasElement, args }) => {
+                  const canvas = within(canvasElement)
+                  waitForElementToBeRemoved(async () => {
+                    canvas.findByText('Loading...')
+                  }, { timeout: 2000 })
+                  const button = canvas.findByText('Loaded!')
+                  await userEvent.click(button)
+                  waitFor(async () => {
+                    expect(args.onSubmit).toHaveBeenCalled()
+                  })
+                }
+              }
+            `,
+            },
+          ],
         },
         {
           messageId: 'interactionShouldBeAwaited',
           data: { method: 'waitFor' },
+          suggestions: [
+            {
+              messageId: 'fixSuggestion',
+              output: dedent`
+              export const AfterLoadingState = {
+                play: async ({ canvasElement, args }) => {
+                  const canvas = within(canvasElement)
+                  waitForElementToBeRemoved(async () => {
+                    canvas.findByText('Loading...')
+                  }, { timeout: 2000 })
+                  const button = canvas.findByText('Loaded!')
+                  userEvent.click(button)
+                  await waitFor(async () => {
+                    expect(args.onSubmit).toHaveBeenCalled()
+                  })
+                }
+              }
+            `,
+            },
+          ],
         },
         {
           messageId: 'interactionShouldBeAwaited',
           data: { method: 'toHaveBeenCalled' },
+          suggestions: [
+            {
+              messageId: 'fixSuggestion',
+              output: dedent`
+              export const AfterLoadingState = {
+                play: async ({ canvasElement, args }) => {
+                  const canvas = within(canvasElement)
+                  waitForElementToBeRemoved(async () => {
+                    canvas.findByText('Loading...')
+                  }, { timeout: 2000 })
+                  const button = canvas.findByText('Loaded!')
+                  userEvent.click(button)
+                  waitFor(async () => {
+                    await expect(args.onSubmit).toHaveBeenCalled()
+                  })
+                }
+              }
+            `,
+            },
+          ],
         },
       ],
     },
@@ -365,14 +757,56 @@ ruleTester.run('await-interactions', rule, {
         {
           messageId: 'interactionShouldBeAwaited',
           data: { method: 'play' },
+          suggestions: [
+            {
+              messageId: 'fixSuggestion',
+              output: dedent`
+                export const FourthStory = {
+                  play: async (context) => {
+                    await FirstStory.play(context)
+                    SecondStory.play!(context)
+                    ThirdStory.play?.(context)
+                  }
+                }
+              `,
+            },
+          ],
         },
         {
           messageId: 'interactionShouldBeAwaited',
           data: { method: 'play' },
+          suggestions: [
+            {
+              messageId: 'fixSuggestion',
+              output: dedent`
+                export const FourthStory = {
+                  play: async (context) => {
+                    FirstStory.play(context)
+                    await SecondStory.play!(context)
+                    ThirdStory.play?.(context)
+                  }
+                }
+              `,
+            },
+          ],
         },
         {
           messageId: 'interactionShouldBeAwaited',
           data: { method: 'play' },
+          suggestions: [
+            {
+              messageId: 'fixSuggestion',
+              output: dedent`
+                export const FourthStory = {
+                  play: async (context) => {
+                    FirstStory.play(context)
+                    SecondStory.play!(context)
+                    await ThirdStory.play?.(context)
+                  }
+                }
+              `,
+            },
+          ],
         },
       ],
     },

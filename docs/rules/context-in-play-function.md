@@ -2,7 +2,7 @@
 
 <!-- RULE-CATEGORIES:START -->
 
-**Included in these configurations**: <ul><li>recommended</li><li>addon-interactions</li></ul>
+**Included in these configurations**: <ul><li>recommended</li><li>flat/recommended</li><li>addon-interactions</li><li>flat/addon-interactions</li></ul>
 
 <!-- RULE-CATEGORIES:END -->
 

@@ -2,7 +2,7 @@
 
 <!-- RULE-CATEGORIES:START -->
 
-**Included in these configurations**: <ul><li>csf</li><li>recommended</li></ul>
+**Included in these configurations**: <ul><li>csf</li><li>flat/csf</li><li>recommended</li><li>flat/recommended</li></ul>
 
 <!-- RULE-CATEGORIES:END -->
 
@@ -35,5 +35,5 @@ For more details about this change: https://github.com/storybookjs/storybook/blo
 To automatically migrate all of your codebase and fix this issue, run this codemod in the root folder of your project:
 
 ```sh
-npx sb@next migrate upgrade-hierarchy-separators --glob="*/**/*.stories.@(tsx|jsx|ts|js)"
+npx storybook@latest migrate upgrade-hierarchy-separators --glob="*/**/*.stories.@(tsx|jsx|ts|js)"
 ```

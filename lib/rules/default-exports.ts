@@ -22,7 +22,7 @@ export = createStorybookRule({
     docs: {
       description: 'Story files should have a default export',
       categories: [CategoryId.CSF, CategoryId.RECOMMENDED],
-      recommended: 'error',
+      recommended: 'strict',
     },
     messages: {
       shouldHaveDefaultExport: 'The file should have a default export.',
