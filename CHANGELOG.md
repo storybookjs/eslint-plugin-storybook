@@ -1,3 +1,17 @@
+# v0.10.0 (Mon Oct 21 2024)
+
+#### 🚀 Enhancement
+
+- feat: support flat config [#156](https://github.com/storybookjs/eslint-plugin-storybook/pull/156) ([@kazupon](https://github.com/kazupon) [@yannbf](https://github.com/yannbf) [@kasperpeulen](https://github.com/kasperpeulen))
+
+#### Authors: 3
+
+- Kasper Peulen ([@kasperpeulen](https://github.com/kasperpeulen))
+- kazuya kawaguchi ([@kazupon](https://github.com/kazupon))
+- Yann Braga ([@yannbf](https://github.com/yannbf))
+
+---
+
 # v0.9.0 (Thu Sep 26 2024)
 
 #### 🚀 Enhancement
