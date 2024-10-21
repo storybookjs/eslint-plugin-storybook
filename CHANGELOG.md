@@ -1,3 +1,15 @@
+# v0.10.1 (Mon Oct 21 2024)
+
+#### 🐛 Bug Fix
+
+- Bump CSF version to remove lodash transitive dep [#171](https://github.com/storybookjs/eslint-plugin-storybook/pull/171) ([@kasperpeulen](https://github.com/kasperpeulen))
+
+#### Authors: 1
+
+- Kasper Peulen ([@kasperpeulen](https://github.com/kasperpeulen))
+
+---
+
 # v0.10.0 (Mon Oct 21 2024)
 
 #### 🚀 Enhancement
