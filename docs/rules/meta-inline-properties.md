@@ -1,6 +1,9 @@
 # Meta should only have inline properties (meta-inline-properties)
 
 <!-- RULE-CATEGORIES:START -->
+
+**Included in these configurations**: N/A
+
 <!-- RULE-CATEGORIES:END -->
 
 ## Rule Details

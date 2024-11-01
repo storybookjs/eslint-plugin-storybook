@@ -28,11 +28,13 @@ const rulesList: TRulesList[] = Object.entries(rules)
     return [
       rule.name,
       createRuleLink(rule.name),
-      rule.meta.docs.description,
+      rule.meta.docs?.description || '',
       rule.meta.fixable ? emojiKey.fixable : '',
-      rule.meta.docs.categories
-        ? `<ul>${rule.meta.docs.categories.map((c) => `<li>${c}</li><li>flat/${c}</li>`).join('')}</ul>`
-        : '',
+      rule.meta.docs?.excludeFromConfig
+        ? 'N/A'
+        : rule.meta.docs?.categories
+          ? `<ul>${rule.meta.docs?.categories.map((c) => `<li>${c}</li><li>flat/${c}</li>`).join('')}</ul>`
+          : '',
     ]
   })
 

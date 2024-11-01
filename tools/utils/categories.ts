@@ -24,13 +24,13 @@ for (const categoryId of categoryIds) {
   categoriesConfig[categoryId].rules = []
 
   for (const rule of rules) {
-    const ruleCategories = rule.meta.docs.categories
+    const ruleCategories = rule.meta.docs?.categories
     // Throw if rule does not have a category
     if (!ruleCategories?.length) {
       throw new Error(`Rule "${rule.ruleId}" does not have any category.`)
     }
 
-    if (ruleCategories.includes(categoryId)) {
+    if (ruleCategories.includes(categoryId) && rule.meta.docs?.excludeFromConfig !== true) {
       categoriesConfig[categoryId].rules?.push(rule)
     }
   }

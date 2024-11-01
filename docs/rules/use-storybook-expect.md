@@ -8,26 +8,29 @@
 
 ## Rule Details
 
-Storybook provides a browser compatible version of Jest's expect via the [@storybook/jest](https://github.com/storybookjs/jest) library.
-When [writing interactions](https://storybook.js.org/docs/react/essentials/interactions) and asserting values, you should always use `expect` from the `@storybook/jest` library.
+Storybook provides a browser compatible version of `expect` via the [@storybook/test](https://github.com/storybookjs/storybook/tree/next/code/lib/test) library (formerly available in the legacy [@storybook/jest](https://github.com/storybookjs/jest) library).
+When [writing interactions](https://storybook.js.org/docs/essentials/interactions) and asserting values, you should always use `expect` from the `@storybook/test` library.
 
 Examples of **incorrect** code for this rule:
 
 ```js
-Default.play = () => {
+Default.play = async () => {
   // using global expect from Jest. Will break on the browser
-  expect(123).toEqual(123)
+  await expect(123).toEqual(123)
 }
 ```
 
 Examples of **correct** code for this rule:
 
 ```js
+// correct import.
+import { expect } from '@storybook/test'
+// or this, which is now considered legacy
 import { expect } from '@storybook/jest'
 
-Default.play = () => {
+Default.play = async () => {
   // using imported expect from storybook package
-  expect(123).toEqual(123)
+  await expect(123).toEqual(123)
 }
 ```
 

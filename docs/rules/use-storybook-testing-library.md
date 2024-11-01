@@ -8,8 +8,8 @@
 
 ## Rule Details
 
-Storybook provides an instrumented version of testing library in the [@storybook/testing-library](https://github.com/storybookjs/testing-library/) package.
-When [writing interactions](https://storybook.js.org/docs/react/essentials/interactions), make sure to use the helper functions from `@storybook/testing-library`, so that addon-interactions can intercept these helper functions and allow you to step through them when debugging.
+Storybook provides an instrumented version of testing library in the [@storybook/test](https://github.com/storybookjs/storybook/tree/next/code/lib/test) library (formerly available in [@storybook/testing-library](https://github.com/storybookjs/testing-library/) library).
+When [writing interactions](https://storybook.js.org/docs/essentials/interactions), make sure to use the helper functions from `@storybook/test`, so that addon-interactions can intercept these helper functions and allow you to step through them when debugging.
 
 Examples of **incorrect** code for this rule:
 
@@ -26,6 +26,8 @@ Examples of **correct** code for this rule:
 
 ```js
 // correct import.
+import { within } from '@storybook/test'
+// or this, which is now considered legacy
 import { within } from '@storybook/testing-library'
 
 Default.play = async (context) => {
