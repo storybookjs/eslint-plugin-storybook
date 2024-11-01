@@ -8,7 +8,7 @@
 
 ## Rule Details
 
-In [CSF](https://storybook.js.org/docs/react/writing-stories/introduction#component-story-format), a story file should contain a _default export_ that describes the component, and _named exports_ that describe the stories. This rule enforces the definition of a default export in story files.
+In [CSF](https://storybook.js.org/docs/writing-stories#component-story-format), a story file should contain a _default export_ that describes the component, and _named exports_ that describe the stories. This rule enforces the definition of a default export in story files.
 
 Examples of **incorrect** code for this rule:
 
@@ -36,4 +36,4 @@ If you're using Storybook 6.5 and [CSF in MDX](https://github.com/storybookjs/st
 
 ## Further Reading
 
-More information about defining stories here: https://storybook.js.org/docs/react/writing-stories/introduction#defining-stories
+More information about defining stories here: https://storybook.js.org/docs/writing-stories#defining-stories

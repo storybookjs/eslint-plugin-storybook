@@ -6,6 +6,7 @@ export default [
     files: ['**/*.stories.@(ts|tsx|js|jsx|mjs|cjs)', '**/*.story.@(ts|tsx|js|jsx|mjs|cjs)'],
     rules: {
       'storybook/story-exports': 'warn',
+      'storybook/meta-inline-properties': 'warn',
     },
   },
 ]
