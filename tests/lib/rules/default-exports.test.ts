@@ -48,7 +48,10 @@ ruleTester.run('default-exports', rule, {
           suggestions: [
             {
               messageId: 'fixSuggestion',
-              output: 'export default {}\nexport const Primary = () => <button>hello</button>',
+              output: dedent`
+                export default {}
+                export const Primary = () => <button>hello</button>
+              `,
             },
           ],
         },
@@ -70,8 +73,11 @@ ruleTester.run('default-exports', rule, {
           suggestions: [
             {
               messageId: 'fixSuggestion',
-              output:
-                "import { MyComponent, Foo } from './MyComponent'\nexport default { component: MyComponent }\nexport const Primary = () => <button>hello</button>",
+              output: dedent`
+                import { MyComponent, Foo } from './MyComponent'
+                export default { component: MyComponent }
+                export const Primary = () => <button>hello</button>
+              `,
             },
           ],
         },
@@ -93,8 +99,11 @@ ruleTester.run('default-exports', rule, {
           suggestions: [
             {
               messageId: 'fixSuggestion',
-              output:
-                "import MyComponent from './MyComponent'\nexport default { component: MyComponent }\nexport const Primary = () => <button>hello</button>",
+              output: dedent`
+                import MyComponent from './MyComponent'
+                export default { component: MyComponent }
+                export const Primary = () => <button>hello</button>
+                `,
             },
           ],
         },
@@ -116,8 +125,39 @@ ruleTester.run('default-exports', rule, {
           suggestions: [
             {
               messageId: 'fixSuggestion',
-              output:
-                "import { MyComponentProps } from './MyComponent'\nexport default {}\nexport const Primary = () => <button>hello</button>",
+              output: dedent`
+                import { MyComponentProps } from './MyComponent'
+                export default {}
+                export const Primary = () => <button>hello</button>`,
+            },
+          ],
+        },
+      ],
+    },
+    {
+      code: dedent`
+        import { MyComponentProps } from './MyComponent';
+        export const Primary = () => <button>hello</button>;
+        const meta = { args: { foo: 'bar' } };
+      `,
+      output: dedent`
+        import { MyComponentProps } from './MyComponent';
+        export const Primary = () => <button>hello</button>;
+        const meta = { args: { foo: 'bar' } };
+        export default meta;
+      `,
+      errors: [
+        {
+          messageId: 'shouldHaveDefaultExport',
+          suggestions: [
+            {
+              messageId: 'fixSuggestion',
+              output: dedent`
+                import { MyComponentProps } from './MyComponent';
+                export const Primary = () => <button>hello</button>;
+                const meta = { args: { foo: 'bar' } };
+                export default meta;
+              `,
             },
           ],
         },
