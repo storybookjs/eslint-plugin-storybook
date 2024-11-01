@@ -57,7 +57,7 @@ And finally, add this to your `.eslintignore` file:
 
 This allows for this plugin to also lint your configuration files inside the .storybook folder, so that you always have a correct configuration and don't face any issues regarding mistyped addon names, for instance.
 
-> For more info on why this line is required in the .eslintignore file, check this [ESLint documentation](https://eslint.org/docs/latest/user-guide/configuring/ignoring-code#:~:text=In%20addition%20to,contents%2C%20are%20ignored).
+> For more info on why this line is required in the .eslintignore file, check this [ESLint documentation](https://eslint.org/docs/latest/use/configure/ignore-deprecated#:~:text=In%20addition%20to,contents%20are%20ignored).
 
 If you are using [flat config style](https://eslint.org/docs/latest/use/configure/configuration-files-new), add this to your configuration file:
 
