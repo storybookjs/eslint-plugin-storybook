@@ -30,11 +30,12 @@ describe('Integration with legacy config', () => {
     }
 
     const result = JSON.parse(
-      cp.execSync(`${ESLINT} a.stories.tsx --max-warnings 1 --format=json`, {
+      cp.execSync(`${ESLINT} a.stories.tsx --max-warnings 2 --format=json`, {
         encoding: 'utf-8',
       })
     )
     expect(result.length).toBe(1)
     expect(result[0].messages[0].messageId).toBe('shouldHaveStoryExport')
+    expect(result[0].messages[1].messageId).toBe('metaShouldHaveInlineProperties')
   })
 })
