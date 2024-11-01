@@ -106,7 +106,7 @@ export const updateRulesDocs = async (rulesList: TRulesList[]) => {
 
       const updatedDocFile = await format(overWriteRuleDocs(rule, ruleDocFile), {
         parser: 'markdown',
-        ...prettierConfig,
+        ...(await prettierConfig),
       })
 
       await writeFile(ruleDocFilePath, updatedDocFile)
