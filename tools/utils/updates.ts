@@ -15,7 +15,7 @@ export function formatRules(rules: TCategory['rules'], exclude?: string[]) {
   const obj = rules.reduce(
     (setting, rule) => {
       if (!exclude?.includes(rule.ruleId)) {
-        setting[rule.ruleId] = rule.meta.docs.recommended || 'error'
+        setting[rule.ruleId] = rule.meta.severity || 'error'
       }
       return setting
     },
@@ -26,7 +26,7 @@ export function formatRules(rules: TCategory['rules'], exclude?: string[]) {
 }
 
 export function formatSingleRule(rules: TCategory['rules'], ruleId: string) {
-  const ruleOpt = rules.find((rule) => rule.ruleId === ruleId)?.meta.docs.recommended || 'error'
+  const ruleOpt = rules.find((rule) => rule.ruleId === ruleId)?.meta.severity || 'error'
 
   return JSON.stringify({ [ruleId]: ruleOpt }, null, 2)
 }

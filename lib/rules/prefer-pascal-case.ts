@@ -22,10 +22,10 @@ export = createStorybookRule({
     type: 'suggestion',
     fixable: 'code',
     hasSuggestions: true,
+    severity: 'warn',
     docs: {
       description: 'Stories should use PascalCase',
       categories: [CategoryId.RECOMMENDED],
-      recommended: 'stylistic',
     },
     messages: {
       convertToPascalCase: 'Use pascal case',
@@ -137,6 +137,7 @@ export = createStorybookRule({
               excludeStories: getDescriptor(meta, 'excludeStories'),
               includeStories: getDescriptor(meta, 'includeStories'),
             }
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
           } catch (err) {
             //
           }

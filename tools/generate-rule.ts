@@ -80,11 +80,11 @@ const generateRule = async () => {
         defaultOptions: [],
         meta: {
           type: 'problem', // \`problem\`, \`suggestion\`, or \`layout\`
+          severity: 'error', // or 'warn'
           docs: {
             description: '${ruleDescription}',
             // Add the categories that suit this rule.
             categories: [CategoryId.RECOMMENDED],
-            recommended: 'recommended',
           },
           messages: {
             anyMessageIdHere: 'Fill me in',

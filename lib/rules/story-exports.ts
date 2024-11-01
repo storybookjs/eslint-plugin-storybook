@@ -24,10 +24,10 @@ export = createStorybookRule({
   defaultOptions: [],
   meta: {
     type: 'problem',
+    severity: 'error',
     docs: {
       description: 'A story file must contain at least one story export',
       categories: [CategoryId.RECOMMENDED, CategoryId.CSF],
-      recommended: 'strict',
     },
     messages: {
       shouldHaveStoryExport: 'The file should have at least one story export',
@@ -69,6 +69,7 @@ export = createStorybookRule({
               excludeStories: getDescriptor(meta, 'excludeStories'),
               includeStories: getDescriptor(meta, 'includeStories'),
             }
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
           } catch (err) {
             //
           }

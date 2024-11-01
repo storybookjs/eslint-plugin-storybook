@@ -42,6 +42,7 @@ import { CategoryId } from '../utils/constants'
 
 module.exports = {
   meta: {
+    severity: 'error', // whether the rule should yield 'warn' or 'error'
     docs: {
       categories: [CategoryId.RECOMMENDED], // You should always use an existing category from the CategoryId enum], or create a new one there
       excludeFromConfig: true, // If the rule is not ready to be shipped in any category, set this flag to true, otherwise remove it
@@ -82,7 +83,7 @@ ruleTester.run('my-rule-name', rule, {
 When you make changes to rules or create/delete rules, the configuration files and documentation have to be updated. For that, run the following command:
 
 ```sh
-yarn update-all
+pnpm run update-all
 ```
 
 ### Useful resources

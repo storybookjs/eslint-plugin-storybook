@@ -8,6 +8,7 @@ export = [
     name: 'storybook:recommended:setup',
     plugins: {
       get storybook() {
+        // eslint-disable-next-line @typescript-eslint/no-require-imports
         return require('../../index')
       },
     },

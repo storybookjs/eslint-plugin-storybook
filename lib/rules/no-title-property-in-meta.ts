@@ -20,10 +20,10 @@ export = createStorybookRule({
     type: 'problem',
     fixable: 'code',
     hasSuggestions: true,
+    severity: 'error',
     docs: {
       description: 'Do not define a title in meta',
       categories: [CategoryId.CSF_STRICT],
-      recommended: 'strict',
     },
     messages: {
       removeTitleInMeta: 'Remove title property from meta',
