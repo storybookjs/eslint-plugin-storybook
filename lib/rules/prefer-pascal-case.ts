@@ -22,10 +22,10 @@ export = createStorybookRule({
     type: 'suggestion',
     fixable: 'code',
     hasSuggestions: true,
+    severity: 'warn',
     docs: {
       description: 'Stories should use PascalCase',
       categories: [CategoryId.RECOMMENDED],
-      recommended: 'stylistic',
     },
     messages: {
       convertToPascalCase: 'Use pascal case',

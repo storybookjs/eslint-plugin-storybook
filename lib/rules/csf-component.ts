@@ -18,10 +18,10 @@ export = createStorybookRule({
   defaultOptions: [],
   meta: {
     type: 'suggestion',
+    severity: 'warn',
     docs: {
       description: 'The component property should be set',
       categories: [CategoryId.CSF],
-      recommended: 'recommended',
     },
     messages: {
       missingComponentProperty: 'Missing component property.',

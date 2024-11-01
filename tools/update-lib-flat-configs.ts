@@ -28,6 +28,7 @@ function formatCategory(category: TCategory) {
           name: 'storybook:${category.categoryId}:setup',
           plugins: {
             get storybook() {
+              // eslint-disable-next-line @typescript-eslint/no-require-imports
               return require('../../index')
             }
           }

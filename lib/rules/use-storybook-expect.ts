@@ -24,14 +24,14 @@ export = createStorybookRule<TDefaultOptions, string>({
     type: 'suggestion',
     fixable: 'code',
     schema: [],
+    severity: 'error',
     docs: {
       description: 'Use expect from `@storybook/test` or `@storybook/jest`',
       categories: [CategoryId.ADDON_INTERACTIONS, CategoryId.RECOMMENDED],
-      recommended: 'strict',
     },
     messages: {
       useExpectFromStorybook:
-        'Do not use global expect directly in the story. You should import it from `@storybook/test` or `@storybook/jest` instead.',
+        'Do not use global expect directly in the story. You should import it from `@storybook/test` (preferrably) or `@storybook/jest` instead.',
     },
   },
 

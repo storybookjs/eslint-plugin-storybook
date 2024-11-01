@@ -21,11 +21,11 @@ export = createStorybookRule({
   defaultOptions: [{ csfVersion: 3 }],
   meta: {
     type: 'problem',
+    severity: 'error',
     docs: {
       description: 'Meta should only have inline properties',
       categories: [CategoryId.CSF, CategoryId.RECOMMENDED],
       excludeFromConfig: true,
-      recommended: 'strict',
     },
     messages: {
       metaShouldHaveInlineProperties: 'Meta should only have inline properties: {{property}}',

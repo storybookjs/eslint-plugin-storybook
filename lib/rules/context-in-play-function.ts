@@ -27,10 +27,10 @@ export = createStorybookRule({
   defaultOptions: [],
   meta: {
     type: 'problem',
+    severity: 'error',
     docs: {
       description: 'Pass a context when invoking play function of another story',
       categories: [CategoryId.RECOMMENDED, CategoryId.ADDON_INTERACTIONS],
-      recommended: 'strict',
     },
     messages: {
       passContextToPlayFunction: 'Pass a context when invoking play function of another story',

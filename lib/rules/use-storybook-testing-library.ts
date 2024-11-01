@@ -18,16 +18,16 @@ export = createStorybookRule({
     type: 'suggestion',
     fixable: 'code',
     hasSuggestions: true,
+    severity: 'error',
     docs: {
       description: 'Do not use testing-library directly on stories',
       categories: [CategoryId.ADDON_INTERACTIONS, CategoryId.RECOMMENDED],
-      recommended: 'strict',
     },
     schema: [],
     messages: {
       updateImports: 'Update imports',
       dontUseTestingLibraryDirectly:
-        'Do not use `{{library}}` directly in the story. You should import the functions from `@storybook/testing-library` instead.',
+        'Do not use `{{library}}` directly in the story. You should import the functions from `@storybook/test` (preferrably) or `@storybook/testing-library` instead.',
     },
   },
 

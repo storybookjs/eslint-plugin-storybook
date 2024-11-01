@@ -19,10 +19,10 @@ export = createStorybookRule({
   defaultOptions: [],
   meta: {
     type: 'problem',
+    severity: 'error',
     docs: {
       description: 'Story files should have a default export',
       categories: [CategoryId.CSF, CategoryId.RECOMMENDED],
-      recommended: 'strict',
     },
     messages: {
       shouldHaveDefaultExport: 'The file should have a default export.',
