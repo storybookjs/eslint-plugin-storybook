@@ -14,7 +14,9 @@ describe('Integration with flat config', () => {
     cp.execSync('pnpm i -f', { stdio: 'inherit' })
   })
   afterEach(() => {
-    originalCwd && process.chdir(originalCwd)
+    if (originalCwd) {
+      process.chdir(originalCwd)
+    }
   })
 
   it('should work with config', () => {

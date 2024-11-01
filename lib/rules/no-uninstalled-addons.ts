@@ -146,7 +146,8 @@ export = createStorybookRule({
         const parsedFile = JSON.parse(file)
         packageJson.dependencies = parsedFile.dependencies || {}
         packageJson.devDependencies = parsedFile.devDependencies || {}
-      } catch (e) {
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      } catch (err) {
         throw new Error(
           dedent`The provided path in your eslintrc.json - ${path} is not a valid path to a package.json file or your package.json file is not in the same folder as ESLint is running from.
 

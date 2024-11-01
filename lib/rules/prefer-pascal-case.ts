@@ -137,6 +137,7 @@ export = createStorybookRule({
               excludeStories: getDescriptor(meta, 'excludeStories'),
               includeStories: getDescriptor(meta, 'includeStories'),
             }
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
           } catch (err) {
             //
           }
