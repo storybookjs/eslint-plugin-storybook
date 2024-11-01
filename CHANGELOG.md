@@ -1,3 +1,16 @@
+# v0.10.2 (Fri Nov 01 2024)
+
+#### 🐛 Bug Fix
+
+- Fix: Bring back non-categorized rules [#176](https://github.com/storybookjs/eslint-plugin-storybook/pull/176) ([@yannbf](https://github.com/yannbf))
+- Build: Refactor, fix issues reported by eslint and format md files [#175](https://github.com/storybookjs/eslint-plugin-storybook/pull/175) ([@yannbf](https://github.com/yannbf))
+
+#### Authors: 1
+
+- Yann Braga ([@yannbf](https://github.com/yannbf))
+
+---
+
 # v0.10.1 (Mon Oct 21 2024)
 
 #### 🐛 Bug Fix
