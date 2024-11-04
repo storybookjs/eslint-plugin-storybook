@@ -1,6 +1,7 @@
 import rules from './utils/rules'
 
 import { emojiKey, writeRulesListInReadme, updateRulesDocs } from './utils/docs'
+import { extendsCategories } from './utils/updates'
 
 /*
 This script updates the rules table in `README.md`from rule's meta data.
@@ -25,6 +26,19 @@ const rulesList: TRulesList[] = Object.entries(rules)
     return ruleNameA.localeCompare(ruleNameB)
   })
   .map(([_, rule]) => {
+    const ruleCategories: string[] = rule.meta.docs?.categories ?? []
+    const extendedCategories: string[] = []
+
+    Object.entries(extendsCategories).map(([category, extendedCategory]) => {
+      if (
+        extendedCategory &&
+        !ruleCategories.includes(category) &&
+        ruleCategories.includes(extendedCategory)
+      ) {
+        ruleCategories.push(category)
+      }
+    })
+
     return [
       rule.name,
       createRuleLink(rule.name),
@@ -32,8 +46,8 @@ const rulesList: TRulesList[] = Object.entries(rules)
       rule.meta.fixable ? emojiKey.fixable : '',
       rule.meta.docs?.excludeFromConfig
         ? 'N/A'
-        : rule.meta.docs?.categories
-          ? `<ul>${rule.meta.docs?.categories.map((c) => `<li>${c}</li><li>flat/${c}</li>`).join('')}</ul>`
+        : ruleCategories
+          ? `<ul>${ruleCategories.map((c) => `<li>${c}</li><li>flat/${c}</li>`).join('')}</ul>`
           : '',
     ]
   })
