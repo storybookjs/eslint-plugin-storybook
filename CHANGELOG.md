@@ -1,3 +1,21 @@
+# v0.11.0 (Mon Nov 04 2024)
+
+#### 🚀 Enhancement
+
+- Generate Typescript types for flat configs [#180](https://github.com/storybookjs/eslint-plugin-storybook/pull/180) ([@yannbf](https://github.com/yannbf))
+
+#### 🐛 Bug Fix
+
+- Update docs to be more clear about extended categories [#179](https://github.com/storybookjs/eslint-plugin-storybook/pull/179) ([@yannbf](https://github.com/yannbf))
+- chore: Update the link for eslintignore doc [#163](https://github.com/storybookjs/eslint-plugin-storybook/pull/163) ([@tunawasabi](https://github.com/tunawasabi))
+
+#### Authors: 2
+
+- wasabi ([@tunawasabi](https://github.com/tunawasabi))
+- Yann Braga ([@yannbf](https://github.com/yannbf))
+
+---
+
 # v0.10.2 (Fri Nov 01 2024)
 
 #### 🐛 Bug Fix
