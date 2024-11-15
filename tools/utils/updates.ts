@@ -22,13 +22,13 @@ export function formatRules(rules: TCategory['rules'], exclude?: string[]) {
     { ...externalRuleOverrides }
   )
 
-  return JSON.stringify(obj, null, 2)
+  return JSON.stringify(obj, null, 2) + ' as const'
 }
 
 export function formatSingleRule(rules: TCategory['rules'], ruleId: string) {
   const ruleOpt = rules.find((rule) => rule.ruleId === ruleId)?.meta.severity || 'error'
 
-  return JSON.stringify({ [ruleId]: ruleOpt }, null, 2)
+  return JSON.stringify({ [ruleId]: ruleOpt }, null, 2) + ' as const'
 }
 
 export const SUPPORTED_EXTENSIONS = ['ts', 'tsx', 'js', 'jsx', 'mjs', 'cjs']
