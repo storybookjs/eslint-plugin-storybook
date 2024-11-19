@@ -16,13 +16,13 @@ export = {
         'storybook/hierarchy-separator': 'warn',
         'storybook/no-redundant-story-name': 'warn',
         'storybook/story-exports': 'error',
-      },
+      } as const,
     },
     {
       files: ['.storybook/main.@(js|cjs|mjs|ts)'],
       rules: {
         'storybook/no-uninstalled-addons': 'error',
-      },
+      } as const,
     },
   ],
 }

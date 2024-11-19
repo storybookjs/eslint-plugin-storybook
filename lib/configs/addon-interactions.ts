@@ -15,13 +15,13 @@ export = {
         'storybook/context-in-play-function': 'error',
         'storybook/use-storybook-expect': 'error',
         'storybook/use-storybook-testing-library': 'error',
-      },
+      } as const,
     },
     {
       files: ['.storybook/main.@(js|cjs|mjs|ts)'],
       rules: {
         'storybook/no-uninstalled-addons': 'error',
-      },
+      } as const,
     },
   ],
 }

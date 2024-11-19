@@ -14,6 +14,6 @@ export = [
       'import/no-anonymous-default-export': 'off',
       'storybook/no-stories-of': 'error',
       'storybook/no-title-property-in-meta': 'error',
-    },
+    } as const,
   },
 ]
