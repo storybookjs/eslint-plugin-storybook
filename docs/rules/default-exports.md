@@ -20,6 +20,17 @@ export const Primary = {}
 Examples of **correct** code for this rule:
 
 ```js
+const meta = {
+  title: 'Button',
+  args: { primary: true },
+  component: Button,
+}
+export const meta
+
+export const Primary = {}
+```
+
+```js
 export default {
   title: 'Button',
   args: { primary: true },

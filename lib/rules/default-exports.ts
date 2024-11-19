@@ -34,13 +34,9 @@ export = createStorybookRule({
   },
 
   create(context) {
-    // variables should be defined here
-
     //----------------------------------------------------------------------
     // Helpers
     //----------------------------------------------------------------------
-
-    // any helper functions should go here or else delete this section
     const getComponentName = (node: TSESTree.Program, filePath: string) => {
       const name = path.basename(filePath).split('.')[0]
       const imported = node.body.find((stmt: TSESTree.Node) => {
@@ -62,12 +58,24 @@ export = createStorybookRule({
     //----------------------------------------------------------------------
 
     let hasDefaultExport = false
+    let localMetaNode: TSESTree.Node
     let hasStoriesOfImport = false
 
     return {
       ImportSpecifier(node) {
         if (node.imported.name === 'storiesOf') {
           hasStoriesOfImport = true
+        }
+      },
+      VariableDeclaration(node) {
+        // Take `const meta = {};` into consideration
+        if (
+          node.kind === 'const' &&
+          node.declarations.length === 1 &&
+          node.declarations[0]?.id.type === 'Identifier' &&
+          node.declarations[0]?.id.name === 'meta'
+        ) {
+          localMetaNode = node
         }
       },
       ExportDefaultSpecifier: function () {
@@ -78,9 +86,9 @@ export = createStorybookRule({
       },
       'Program:exit': function (program: TSESTree.Program) {
         if (!hasDefaultExport && !hasStoriesOfImport) {
-          const componentName = getComponentName(program, context.getFilename())
+          const componentName = getComponentName(program, context.filename)
           const firstNonImportStatement = program.body.find((n) => !isImportDeclaration(n))
-          const node = firstNonImportStatement || program.body[0] || program
+          const node = firstNonImportStatement ?? program.body[0] ?? program
 
           const report = {
             node,
@@ -88,10 +96,18 @@ export = createStorybookRule({
           } as const
 
           const fix: TSESLint.ReportFixFunction = (fixer) => {
-            const metaDeclaration = componentName
-              ? `export default { component: ${componentName} }\n`
-              : 'export default {}\n'
-            return fixer.insertTextBefore(node, metaDeclaration)
+            const sourceCode = context.sourceCode.getText()
+            // only add semicolons if needed
+            const semiCharacter = sourceCode.includes(';') ? ';' : ''
+            if (localMetaNode) {
+              const exportStatement = `\nexport default meta${semiCharacter}`
+              return fixer.insertTextAfter(localMetaNode, exportStatement)
+            } else {
+              const exportStatement = componentName
+                ? `export default { component: ${componentName} }${semiCharacter}\n`
+                : `export default {}${semiCharacter}\n`
+              return fixer.insertTextBefore(node, exportStatement)
+            }
           }
 
           context.report({
