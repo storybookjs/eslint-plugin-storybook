@@ -1,3 +1,15 @@
+# v0.11.1 (Tue Nov 19 2024)
+
+#### 🐛 Bug Fix
+
+- Type configs using literal types [#182](https://github.com/storybookjs/eslint-plugin-storybook/pull/182) ([@ethanwu10](https://github.com/ethanwu10))
+
+#### Authors: 1
+
+- Ethan Wu ([@ethanwu10](https://github.com/ethanwu10))
+
+---
+
 # v0.11.0 (Mon Nov 04 2024)
 
 #### 🚀 Enhancement
