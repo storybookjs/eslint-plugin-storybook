@@ -65,7 +65,7 @@ If you are using [flat config style](https://eslint.org/docs/latest/use/configur
 export default [
   // ...
   {
-    // Inside your .eslintignore file
+    // Inside your flat config file
     ignores: ['!.storybook'],
   },
 ]
