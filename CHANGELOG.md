@@ -1,3 +1,16 @@
+# v0.11.2 (Thu Jan 02 2025)
+
+#### 🐛 Bug Fix
+
+- fix(peer-deps): update eslint version range to `>=8` [#186](https://github.com/storybookjs/eslint-plugin-storybook/pull/186) ([@zacowan](https://github.com/zacowan) [@yannbf](https://github.com/yannbf))
+
+#### Authors: 2
+
+- Yann Braga ([@yannbf](https://github.com/yannbf))
+- Zachary Cowan ([@zacowan](https://github.com/zacowan))
+
+---
+
 # v0.11.1 (Tue Nov 19 2024)
 
 #### 🐛 Bug Fix
