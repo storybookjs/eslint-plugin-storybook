@@ -71,6 +71,16 @@ export default [
 ]
 ```
 
+## ESLint compatibility
+
+Use the following table to use the correct version of this package, based on the version of ESLint you're using:
+
+| ESLint version | Storybook plugin version |
+| -------------- | ------------------------ |
+| ^9.0.0         | ^0.10.0                  |
+| ^8.57.0        | ^0.10.0                  |
+| ^7.0.0         | ~0.9.0                   |
+
 ## Usage
 
 ### Configuration (`.eslintrc`)
