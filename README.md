@@ -59,13 +59,12 @@ This allows for this plugin to also lint your configuration files inside the .st
 
 > For more info on why this line is required in the .eslintignore file, check this [ESLint documentation](https://eslint.org/docs/latest/use/configure/ignore-deprecated#:~:text=In%20addition%20to,contents%20are%20ignored).
 
-If you are using [flat config style](https://eslint.org/docs/latest/use/configure/configuration-files-new), add this to your configuration file:
+If you are using [flat config style](https://eslint.org/docs/latest/use/configure/configuration-files-new), add this to your configuration file instead:
 
 ```js
 export default [
   // ...
   {
-    // Inside your flat config file
     ignores: ['!.storybook'],
   },
 ]
