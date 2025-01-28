@@ -85,7 +85,8 @@
     "typescript": "^5.4.5"
   },
   "peerDependencies": {
-    "eslint": ">=8"
+    "eslint": ">=8",
+    "typescript": "^5.4.5"
   },
   "engines": {
     "node": ">= 18"
