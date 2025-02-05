@@ -26,8 +26,12 @@ ruleTester.run('default-exports', rule, {
       export default meta
     `,
     `
-      const meta: ComponentMeta<typeof Button> = { title: 'Button', component: Button }
-      export default meta
+    const meta: ComponentMeta<typeof Button> = { title: 'Button', component: Button }
+    export default meta
+    `,
+    `
+      import { config } from '#.storybook/preview'
+      const meta = config.meta({})
     `,
     `
       import { storiesOf } from '@storybook/react'
