@@ -121,7 +121,7 @@ Optionally, you can override, add or disable rules settings. You likely don't wa
 
 ### Configuration (`eslint.config.[c|m]?js`)
 
-Use `eslint.config.[c|m]?js` file to configure rules. This is the default in ESLint v9, but can be used starting from ESLint v8.57.0. See also: https://eslint.org/docs/latest/use/configure/configuration-files-new.
+Use `eslint.config.[c|m]?js` file to configure rules using the [flat config style](https://eslint.org/docs/latest/use/configure/configuration-files-new). This is the default in ESLint v9, but can be used starting from ESLint v8.57.0. See also: https://eslint.org/docs/latest/use/configure/configuration-files-new.
 
 ```js
 import storybook from 'eslint-plugin-storybook'
