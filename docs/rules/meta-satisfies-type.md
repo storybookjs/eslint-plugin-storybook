@@ -14,13 +14,15 @@ Additionally, `satisfies` is preferred over type annotations (`const meta: Meta 
 
 Examples of **incorrect** code for this rule:
 
-```js
+```ts
 export default {
   title: 'Button',
   args: { primary: true },
   component: Button,
 }
+```
 
+```ts
 const meta: Meta<typeof Button> = {
   title: 'Button',
   args: { primary: true },
@@ -31,13 +33,15 @@ export default meta
 
 Examples of **correct** code for this rule:
 
-```js
+```ts
 export default {
   title: 'Button',
   args: { primary: true },
   component: Button,
 } satisfies Meta<typeof Button>
+```
 
+```ts
 const meta = {
   title: 'Button',
   args: { primary: true },
