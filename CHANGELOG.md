@@ -1,3 +1,27 @@
+# v0.11.3 (Sat Feb 15 2025)
+
+#### 🐛 Bug Fix
+
+- Upgrade corepack/pnpm [#191](https://github.com/storybookjs/eslint-plugin-storybook/pull/191) ([@kasperpeulen](https://github.com/kasperpeulen))
+- default-exports: Support CSF factory style meta [#187](https://github.com/storybookjs/eslint-plugin-storybook/pull/187) ([@yannbf](https://github.com/yannbf))
+
+#### 📝 Documentation
+
+- docs: Explicitly mention flat config for findability [#190](https://github.com/storybookjs/eslint-plugin-storybook/pull/190) ([@Sidnioulz](https://github.com/Sidnioulz))
+
+#### 🔩 Dependency Updates
+
+- fix(deps): add typescript as a peer dependency [#189](https://github.com/storybookjs/eslint-plugin-storybook/pull/189) ([@TomKalina](https://github.com/TomKalina))
+
+#### Authors: 4
+
+- Kasper Peulen ([@kasperpeulen](https://github.com/kasperpeulen))
+- Steve Dodier-Lazaro ([@Sidnioulz](https://github.com/Sidnioulz))
+- Tonda (Tomáš) Kalina ([@TomKalina](https://github.com/TomKalina))
+- Yann Braga ([@yannbf](https://github.com/yannbf))
+
+---
+
 # v0.11.2 (Thu Jan 02 2025)
 
 #### 🐛 Bug Fix
