@@ -15,6 +15,38 @@ import { createStorybookRule } from '../utils/create-storybook-rule'
 // Rule Definition
 //------------------------------------------------------------------------------
 
+function testDigit(char: string) {
+  const charCode = char.charCodeAt(0);
+  return charCode >= 48 && charCode <= 57;
+}
+
+function testUpperCase(char: string) {
+  const upperCase = char.toUpperCase();
+  return char === upperCase && upperCase !== char.toLowerCase();
+}
+
+function testLowerCase(char: string) {
+  const lowerCase = char.toLowerCase();
+  return char === lowerCase && lowerCase !== char.toUpperCase();
+}
+
+function testPascalCase(name: string) {
+  if (!testUpperCase(name.charAt(0))) {
+    return false;
+  }
+  const anyNonAlphaNumeric = Array.prototype.some.call(
+    name.slice(1),
+    (char) => char.toLowerCase() === char.toUpperCase() && !testDigit(char)
+  );
+  if (anyNonAlphaNumeric) {
+    return false;
+  }
+  return Array.prototype.some.call(
+    name.slice(1),
+    (char) => testLowerCase(char) || testDigit(char)
+  );
+}
+
 export = createStorybookRule({
   name: 'prefer-pascal-case',
   defaultOptions: [],
@@ -41,7 +73,7 @@ export = createStorybookRule({
     // Helpers
     //----------------------------------------------------------------------
 
-    const isPascalCase = (str: string) => /^[A-Z]+([a-z0-9]?)+/.test(str)
+    const isPascalCase = (str: string) => testPascalCase(str)
     const toPascalCase = (str: string) => {
       return str
         .replace(new RegExp(/[-_]+/, 'g'), ' ')
