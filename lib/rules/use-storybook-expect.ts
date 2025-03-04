@@ -26,7 +26,7 @@ export = createStorybookRule<TDefaultOptions, string>({
     schema: [],
     severity: 'error',
     docs: {
-      description: 'Use expect from `@storybook/test` or `@storybook/jest`',
+      description: 'Use expect from `@storybook/test`, `storybook/test` or `@storybook/jest`',
       categories: [CategoryId.ADDON_INTERACTIONS, CategoryId.RECOMMENDED],
     },
     messages: {
@@ -45,7 +45,9 @@ export = createStorybookRule<TDefaultOptions, string>({
     const isExpectFromStorybookImported = (node: TSESTree.ImportDeclaration) => {
       const { value: packageName } = node.source
       const usesExpectFromStorybook =
-        packageName === '@storybook/jest' || packageName === '@storybook/test'
+        packageName === '@storybook/jest' ||
+        packageName === '@storybook/test' ||
+        packageName === 'storybook/test'
       return (
         usesExpectFromStorybook &&
         node.specifiers.find((spec) => isImportSpecifier(spec) && spec.imported.name === 'expect')

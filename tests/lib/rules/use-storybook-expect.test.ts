@@ -53,6 +53,13 @@ ruleTester.run('use-storybook-expect', rule, {
         },
       };
     `,
+    dedent`
+      import { expect } from 'storybook/test';
+
+      Default.play = () => {
+        expect(123).toEqual(123);
+      }
+    `,
   ],
 
   invalid: [
