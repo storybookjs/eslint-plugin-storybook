@@ -50,6 +50,18 @@ MyStory.play = (context) => {
 }
 ```
 
+```js
+import { within, userEvent } from '@storybook/testing-library'
+
+MyStory.play = ({ context, canvasElement }) => {
+  const canvas = within(canvasElement)
+  // passing self referencing context property 👍
+  await MyOtherStory.play(context)
+
+  await userEvent.click(canvas.getByRole('button'))
+}
+```
+
 ## When Not To Use It
 
 This rule should not be applied in test files. Please ensure you are defining the storybook rules only for story files. You can see more details [here](https://github.com/storybookjs/eslint-plugin-storybook#overridingdisabling-rules).
