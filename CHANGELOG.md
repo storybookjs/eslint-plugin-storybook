@@ -1,3 +1,15 @@
+# v0.11.4 (Wed Mar 05 2025)
+
+#### 🐛 Bug Fix
+
+- feat: Support storybook/test for expect imports [#194](https://github.com/storybookjs/eslint-plugin-storybook/pull/194) ([@valentinpalkovic](https://github.com/valentinpalkovic))
+
+#### Authors: 1
+
+- Valentin Palkovic ([@valentinpalkovic](https://github.com/valentinpalkovic))
+
+---
+
 # v0.11.3 (Sat Feb 15 2025)
 
 #### 🐛 Bug Fix
