@@ -8,19 +8,16 @@ importers:
 
   .:
     dependencies:
-      '@storybook/csf':
-        specifier: ^0.1.11
-        version: 0.1.13
       '@typescript-eslint/utils':
         specifier: ^8.8.1
         version: 8.26.1(eslint@8.57.1)(typescript@5.8.2)
-      ts-dedent:
-        specifier: ^2.2.0
-        version: 2.2.0
     devDependencies:
       '@auto-it/released':
         specifier: ^11.2.1
         version: 11.3.0(@types/node@18.19.80)(typescript@5.8.2)
+      '@storybook/csf':
+        specifier: ^0.1.11
+        version: 0.1.13
       '@types/eslint':
         specifier: ^8.56.2
         version: 8.56.12
@@ -78,6 +75,9 @@ importers:
       semver:
         specifier: ^7.6.0
         version: 7.7.1
+      ts-dedent:
+        specifier: ^2.2.0
+        version: 2.2.0
       ts-migrate:
         specifier: ^0.1.35
         version: 0.1.35(@babel/preset-env@7.26.9(@babel/core@7.26.10))(typescript@5.8.2)
