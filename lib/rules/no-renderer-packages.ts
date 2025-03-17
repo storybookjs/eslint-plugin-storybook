@@ -1,6 +1,6 @@
 /**
  * @fileoverview Do not import renderer packages directly in stories
- * @author Claude AI
+ * @author Norbert de Langen
  */
 
 import { CategoryId } from '../utils/constants'
