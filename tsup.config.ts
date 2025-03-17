@@ -8,5 +8,6 @@ export default defineConfig({
   target: 'es6',
   outDir: 'dist',
   treeshake: true,
-  sourcemap: true,
-}) 
+  sourcemap: false,
+  minify: true,
+})
