@@ -55,11 +55,11 @@
     "@typescript-eslint/utils": "^8.8.1"
   },
   "devDependencies": {
-    "@storybook/csf": "^0.1.11",
-    "ts-dedent": "^2.2.0",
     "@auto-it/released": "^11.2.1",
+    "@storybook/csf": "^0.1.11",
     "@types/eslint": "^8.56.2",
     "@types/node": "^18.19.17",
+    "@types/prompts": "^2.4.9",
     "@types/requireindex": "^1.2.4",
     "@types/semver": "^7.5.8",
     "@typescript-eslint/eslint-plugin": "^8.8.1",
@@ -77,6 +77,7 @@
     "prettier": "^3.2.5",
     "prompts": "^2.4.2",
     "semver": "^7.6.0",
+    "ts-dedent": "^2.2.0",
     "ts-migrate": "^0.1.35",
     "ts-node": "^10.9.2",
     "tsup": "^8.4.0",

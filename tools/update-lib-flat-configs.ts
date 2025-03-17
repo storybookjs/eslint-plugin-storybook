@@ -5,7 +5,7 @@ This script updates `lib/configs/flat/*.js` files from rule's meta data.
 import fs from 'fs/promises'
 import path from 'path'
 import { format, Options } from 'prettier'
-const prettierConfig = require('../.prettierrc.js') as Options
+import prettierConfig from '../.prettierrc.js'
 import { categories, TCategory } from './utils/categories'
 import {
   extendsCategories,
