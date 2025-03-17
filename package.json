@@ -51,11 +51,11 @@
     "*.{js,css,md}": "prettier --write"
   },
   "dependencies": {
-    "@storybook/csf": "^0.1.11",
-    "@typescript-eslint/utils": "^8.8.1",
-    "ts-dedent": "^2.2.0"
+    "@typescript-eslint/utils": "^8.8.1"
   },
   "devDependencies": {
+    "@storybook/csf": "^0.1.11",
+    "ts-dedent": "^2.2.0",
     "@auto-it/released": "^11.2.1",
     "@types/eslint": "^8.56.2",
     "@types/node": "^18.19.17",
