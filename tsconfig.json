@@ -1,4 +1,19 @@
 {
-  "extends": "./tsconfig.build.json",
-  "include": ["lib/**/*.ts", "tests/**/*.ts"]
+  "compilerOptions": {
+    "target": "es6",
+    "module": "Node16",
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "strict": true,
+    "skipLibCheck": true,
+    "noUncheckedIndexedAccess": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true
+  },
+  "ts-node": {
+    "transpileOnly": true
+  },
+  "include": ["lib/**/*.ts", "tests/**/*.ts", "tools/**/*.ts"],
+  "exclude": ["node_modules", "dist"]
 }

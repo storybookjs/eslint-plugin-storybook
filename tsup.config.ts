@@ -1,0 +1,12 @@
+import { defineConfig } from 'tsup'
+
+export default defineConfig({
+  entry: ['lib/index.ts'],
+  format: ['cjs'],
+  dts: true,
+  clean: true,
+  target: 'es6',
+  outDir: 'dist',
+  treeshake: true,
+  sourcemap: true,
+}) 
