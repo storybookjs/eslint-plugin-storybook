@@ -87,6 +87,18 @@ export = createStorybookRule({
           return param.name
         }
         if (isObjectPattern(param)) {
+          if (
+            param.properties.find((prop) => {
+              return (
+                prop.type === 'Property' &&
+                prop.key.type === 'Identifier' &&
+                prop.key.name === 'context'
+              )
+            })
+          ) {
+            return 'context'
+          }
+
           const restElement = param.properties.find(isRestElement)
           if (!restElement || !isIdentifier(restElement.argument)) {
             // No rest element found

@@ -72,6 +72,13 @@ ruleTester.run('context-in-play-function', rule, {
         }
       }
     `,
+    dedent`
+      export const SecondStory = {
+        play: async ({ context, canvasElement }) => {
+          await FirstStory.play(context)
+        }
+      }
+    `,
   ],
   invalid: [
     {
