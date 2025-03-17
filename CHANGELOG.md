@@ -1,3 +1,15 @@
+# v0.11.6 (Mon Mar 17 2025)
+
+#### 🐛 Bug Fix
+
+- fix: allows self-referencing context in play function [#192](https://github.com/storybookjs/eslint-plugin-storybook/pull/192) ([@makotot](https://github.com/makotot))
+
+#### Authors: 1
+
+- Makoto Tateno ([@makotot](https://github.com/makotot))
+
+---
+
 # v0.11.5 (Mon Mar 17 2025)
 
 #### 🐛 Bug Fix
