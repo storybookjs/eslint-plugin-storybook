@@ -137,6 +137,7 @@ export = createStorybookRule({
         node.specifiers.find(
           (spec) =>
             isImportSpecifier(spec) &&
+            'name' in spec.imported &&
             spec.imported.name === 'userEvent' &&
             spec.local.name === 'userEvent'
         ) !== undefined
@@ -147,7 +148,8 @@ export = createStorybookRule({
       return (
         (node.source.value === '@storybook/jest' || node.source.value === '@storybook/test') &&
         node.specifiers.find(
-          (spec) => isImportSpecifier(spec) && spec.imported.name === 'expect'
+          (spec) =>
+            isImportSpecifier(spec) && 'name' in spec.imported && spec.imported.name === 'expect'
         ) !== undefined
       )
     }

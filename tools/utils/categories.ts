@@ -1,44 +1,49 @@
 import rules, { TRules } from './rules'
 import { CategoryId } from '../../lib/utils/constants'
 
-type TCategoriesConfig = Record<string, { text: string; rules?: TRules }>
+type TCategoriesConfig = Record<string, { text: string; rules: TRules }>
 
 const categoriesConfig: TCategoriesConfig = {
   [CategoryId.CSF]: {
     text: 'CSF Rules',
+    rules: [],
   },
   [CategoryId.CSF_STRICT]: {
     text: 'Strict CSF Rules',
+    rules: [],
   },
   [CategoryId.ADDON_INTERACTIONS]: {
     text: 'Rules for writing interactions in Storybook',
+    rules: [],
   },
   [CategoryId.RECOMMENDED]: {
     text: 'Base rules recommended by Storybook',
+    rules: [],
   },
 }
 
 export const categoryIds = Object.keys(categoriesConfig) as CategoryId[]
 
 for (const categoryId of categoryIds) {
-  categoriesConfig[categoryId].rules = []
+  const category = categoriesConfig[categoryId] as (typeof categoriesConfig)[CategoryId]
+  category.rules = []
 
   for (const rule of rules) {
     const ruleCategories = rule.meta.docs?.categories
-    // Throw if rule does not have a category
     if (!ruleCategories?.length) {
       throw new Error(`Rule "${rule.ruleId}" does not have any category.`)
     }
 
     if (ruleCategories.includes(categoryId) && rule.meta.docs?.excludeFromConfig !== true) {
-      categoriesConfig[categoryId].rules?.push(rule)
+      category.rules.push(rule)
     }
   }
 }
 
 export const categories = categoryIds
   .map((categoryId) => {
-    if (!categoriesConfig[categoryId].rules?.length) {
+    const category = categoriesConfig[categoryId] as (typeof categoriesConfig)[CategoryId]
+    if (!category.rules.length) {
       throw new Error(
         `Category "${categoryId}" has no rules. Make sure that at least one rule is linked to this category.`
       )
@@ -46,12 +51,10 @@ export const categories = categoryIds
 
     return {
       categoryId,
-      title: categoriesConfig[categoryId],
-      rules: categoriesConfig[categoryId].rules?.filter((rule) => !rule.meta.deprecated) ?? [],
+      title: category,
+      rules: category.rules.filter((rule) => !rule.meta.deprecated),
     }
   })
-  .filter((category) => {
-    return (category.rules?.length ?? 0) >= 1
-  })
+  .filter((category) => category.rules.length >= 1)
 
 export type TCategory = typeof categories extends (infer TCat)[] ? TCat : never

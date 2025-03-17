@@ -125,7 +125,7 @@ export = createStorybookRule({
 
     return {
       ImportSpecifier(node) {
-        if (node.imported.name === 'storiesOf') {
+        if ('name' in node.imported && node.imported.name === 'storiesOf') {
           hasStoriesOfImport = true
         }
       },
