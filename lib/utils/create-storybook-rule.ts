@@ -14,13 +14,14 @@ export function createStorybookRule<
 }: Readonly<{
   name: string
   meta: StorybookRuleMeta<TMessageIds>
-  defaultOptions: Readonly<TOptions>
+  defaultOptions: TOptions
   create: (
     context: Readonly<TSESLint.RuleContext<TMessageIds, TOptions>>,
     optionsWithDefault: Readonly<TOptions>
   ) => TRuleListener
 }>) {
-  return ESLintUtils.RuleCreator<StorybookRuleMetaDocs>(docsUrl)({
+  const ruleCreator = ESLintUtils.RuleCreator(docsUrl)
+  return ruleCreator({
     ...remainingConfig,
     create,
     meta: {
@@ -28,6 +29,7 @@ export function createStorybookRule<
       docs: {
         ...meta.docs!,
       },
+      defaultOptions: remainingConfig.defaultOptions,
     },
   })
 }

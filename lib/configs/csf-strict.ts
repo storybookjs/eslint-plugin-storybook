@@ -4,7 +4,7 @@
  * in order to update its content, execute "pnpm run update-all"
  */
 export = {
-  extends: require.resolve('./csf'),
+  extends: require.resolve('eslint-plugin-storybook/dist/configs/csf'),
   rules: {
     'react-hooks/rules-of-hooks': 'off',
     'import/no-anonymous-default-export': 'off',

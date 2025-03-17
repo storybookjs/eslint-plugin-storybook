@@ -21,6 +21,7 @@ import defaultExports from './rules/default-exports'
 import hierarchySeparator from './rules/hierarchy-separator'
 import metaInlineProperties from './rules/meta-inline-properties'
 import noRedundantStoryName from './rules/no-redundant-story-name'
+import noRendererPackages from './rules/no-renderer-packages'
 import noStoriesOf from './rules/no-stories-of'
 import noTitlePropertyInMeta from './rules/no-title-property-in-meta'
 import noUninstalledAddons from './rules/no-uninstalled-addons'
@@ -52,6 +53,7 @@ export = {
     'hierarchy-separator': hierarchySeparator,
     'meta-inline-properties': metaInlineProperties,
     'no-redundant-story-name': noRedundantStoryName,
+    'no-renderer-packages': noRendererPackages,
     'no-stories-of': noStoriesOf,
     'no-title-property-in-meta': noTitlePropertyInMeta,
     'no-uninstalled-addons': noUninstalledAddons,

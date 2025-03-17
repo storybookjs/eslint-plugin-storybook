@@ -2,13 +2,20 @@ import path from 'path'
 
 import fs from 'fs/promises'
 import cp from 'child_process'
-import prompts from 'prompts'
+import prompts, { PromptObject } from 'prompts'
 import dedent from 'ts-dedent'
 
 const logger = console
 
+type Answers = {
+  authorName: string
+  ruleId: string
+  ruleDescription: string
+  isAutoFixable: boolean
+}
+
 // CLI questions
-const questions = [
+const questions: PromptObject<keyof Answers>[] = [
   {
     type: 'text',
     name: 'authorName',

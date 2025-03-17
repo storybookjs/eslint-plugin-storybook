@@ -50,7 +50,10 @@ export = createStorybookRule<TDefaultOptions, string>({
         packageName === 'storybook/test'
       return (
         usesExpectFromStorybook &&
-        node.specifiers.find((spec) => isImportSpecifier(spec) && spec.imported.name === 'expect')
+        node.specifiers.find(
+          (spec) =>
+            isImportSpecifier(spec) && 'name' in spec.imported && spec.imported.name === 'expect'
+        )
       )
     }
 

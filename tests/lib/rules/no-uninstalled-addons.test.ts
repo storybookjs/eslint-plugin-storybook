@@ -12,9 +12,10 @@ import { AST_NODE_TYPES } from '@typescript-eslint/utils'
 import rule from '../../../lib/rules/no-uninstalled-addons'
 import ruleTester from '../../utils/rule-tester'
 import { sep } from 'path'
+import { vi } from 'vitest'
 
-jest.mock('fs', () => ({
-  ...jest.requireActual('fs'),
+vi.mock('fs', () => ({
+  ...vi.importActual('fs'),
   readFileSync: () => `
     {
       "devDependencies": {
@@ -172,8 +173,7 @@ ruleTester.run('no-uninstalled-addons', rule, {
       `,
       errors: [
         {
-          messageId: 'addonIsNotInstalled', // comes from the rule file
-          // type: AST_NODE_TYPES.AssignmentExpression,
+          messageId: 'addonIsNotInstalled',
           type: AST_NODE_TYPES.Literal,
           data: {
             addonName: '@storybook/not-installed-addon',
@@ -197,7 +197,7 @@ ruleTester.run('no-uninstalled-addons', rule, {
       `,
       errors: [
         {
-          messageId: 'addonIsNotInstalled', // comes from the rule file
+          messageId: 'addonIsNotInstalled',
           type: AST_NODE_TYPES.Literal,
           data: {
             addonName: '@storybook/not-installed-addon',
@@ -220,7 +220,7 @@ ruleTester.run('no-uninstalled-addons', rule, {
       `,
       errors: [
         {
-          messageId: 'addonIsNotInstalled', // comes from the rule file
+          messageId: 'addonIsNotInstalled',
           type: AST_NODE_TYPES.Literal,
           data: {
             addonName: '@storybook/addon-esentials',
@@ -241,7 +241,7 @@ ruleTester.run('no-uninstalled-addons', rule, {
       `,
       errors: [
         {
-          messageId: 'addonIsNotInstalled', // comes from the rule file
+          messageId: 'addonIsNotInstalled',
           type: AST_NODE_TYPES.Literal,
           data: {
             addonName: '@storybook/adon-essentials',
@@ -264,7 +264,7 @@ ruleTester.run('no-uninstalled-addons', rule, {
       `,
       errors: [
         {
-          messageId: 'addonIsNotInstalled', // comes from the rule file
+          messageId: 'addonIsNotInstalled',
           type: AST_NODE_TYPES.Literal,
           data: {
             addonName: 'addon-withut-the-prefix',
@@ -272,7 +272,7 @@ ruleTester.run('no-uninstalled-addons', rule, {
           },
         },
         {
-          messageId: 'addonIsNotInstalled', // comes from the rule file
+          messageId: 'addonIsNotInstalled',
           type: AST_NODE_TYPES.Literal,
           data: {
             addonName: '@storybook/addon-esentials',
@@ -295,7 +295,7 @@ ruleTester.run('no-uninstalled-addons', rule, {
       `,
       errors: [
         {
-          messageId: 'addonIsNotInstalled', // comes from the rule file
+          messageId: 'addonIsNotInstalled',
           type: AST_NODE_TYPES.Literal,
           data: {
             addonName: 'addon-withut-the-prefix',
@@ -303,7 +303,7 @@ ruleTester.run('no-uninstalled-addons', rule, {
           },
         },
         {
-          messageId: 'addonIsNotInstalled', // comes from the rule file
+          messageId: 'addonIsNotInstalled',
           type: AST_NODE_TYPES.Literal,
           data: {
             addonName: '@storybook/addon-esentials',
@@ -326,7 +326,7 @@ ruleTester.run('no-uninstalled-addons', rule, {
       `,
       errors: [
         {
-          messageId: 'addonIsNotInstalled', // comes from the rule file
+          messageId: 'addonIsNotInstalled',
           type: AST_NODE_TYPES.Literal,
           data: {
             addonName: 'addon-withut-the-prefix',
@@ -334,7 +334,7 @@ ruleTester.run('no-uninstalled-addons', rule, {
           },
         },
         {
-          messageId: 'addonIsNotInstalled', // comes from the rule file
+          messageId: 'addonIsNotInstalled',
           type: AST_NODE_TYPES.Literal,
           data: {
             addonName: '@storybook/addon-esentials',
@@ -358,7 +358,7 @@ ruleTester.run('no-uninstalled-addons', rule, {
       `,
       errors: [
         {
-          messageId: 'addonIsNotInstalled', // comes from the rule file
+          messageId: 'addonIsNotInstalled',
           type: AST_NODE_TYPES.Literal,
           data: {
             addonName: 'addon-withut-the-prefix',
@@ -366,7 +366,7 @@ ruleTester.run('no-uninstalled-addons', rule, {
           },
         },
         {
-          messageId: 'addonIsNotInstalled', // comes from the rule file
+          messageId: 'addonIsNotInstalled',
           type: AST_NODE_TYPES.Literal,
           data: {
             addonName: '@storybook/addon-esentials',
@@ -388,7 +388,7 @@ ruleTester.run('no-uninstalled-addons', rule, {
       `,
       errors: [
         {
-          messageId: 'addonIsNotInstalled', // comes from the rule file
+          messageId: 'addonIsNotInstalled',
           type: AST_NODE_TYPES.Literal,
           data: {
             addonName: 'addon-withut-the-prefix',
@@ -396,7 +396,7 @@ ruleTester.run('no-uninstalled-addons', rule, {
           },
         },
         {
-          messageId: 'addonIsNotInstalled', // comes from the rule file
+          messageId: 'addonIsNotInstalled',
           type: AST_NODE_TYPES.Literal,
           data: {
             addonName: '@storybook/addon-esentials',

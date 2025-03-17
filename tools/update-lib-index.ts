@@ -7,7 +7,7 @@ This script updates `lib/index.js` file from rule's meta data.
 import fs from 'fs/promises'
 import path from 'path'
 import { format, Options } from 'prettier'
-import prettierConfig from '../.prettierrc'
+import prettierConfig from '../.prettierrc.js'
 import rules from './utils/rules'
 import { categoryIds } from './utils/categories'
 
