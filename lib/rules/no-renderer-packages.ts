@@ -7,36 +7,36 @@ import { CategoryId } from '../utils/constants'
 import { createStorybookRule } from '../utils/create-storybook-rule'
 import { TSESTree } from '@typescript-eslint/utils'
 
-const rendererPackages: Record<string, string> = {
-  '@storybook/html': 'html',
-  '@storybook/polymer': 'polymer',
-  '@storybook/preact': 'preact',
-  '@storybook/react': 'react',
-  '@storybook/server': 'server',
-  '@storybook/svelte': 'svelte',
-  '@storybook/vue': 'vue',
-  '@storybook/vue3': 'vue3',
-  '@storybook/web-components': 'web-components',
-}
+type RendererPackage =
+  | '@storybook/html'
+  | '@storybook/preact'
+  | '@storybook/react'
+  | '@storybook/server'
+  | '@storybook/svelte'
+  | '@storybook/vue3'
+  | '@storybook/web-components'
 
-const frameworkPackages: Record<string, string> = {
-  '@storybook/experimental-nextjs-vite': 'experimental-nextjs-vite',
-  '@storybook/html-vite': 'html-vite',
-  '@storybook/html-webpack5': 'html-webpack5',
-  '@storybook/nextjs': 'nextjs',
-  '@storybook/preact-vite': 'preact-vite',
-  '@storybook/preact-webpack5': 'preact-webpack5',
-  '@storybook/react-native-web-vite': 'react-native-web-vite',
-  '@storybook/react-vite': 'react-vite',
-  '@storybook/react-webpack5': 'react-webpack5',
-  '@storybook/server-webpack5': 'server-webpack5',
-  '@storybook/svelte-vite': 'svelte-vite',
-  '@storybook/svelte-webpack5': 'svelte-webpack5',
-  '@storybook/sveltekit': 'sveltekit',
-  '@storybook/vue3-vite': 'vue3-vite',
-  '@storybook/vue3-webpack5': 'vue3-webpack5',
-  '@storybook/web-components-vite': 'web-components-vite',
-  '@storybook/web-components-webpack5': 'web-components-webpack5',
+const rendererToFrameworks: Record<RendererPackage, string[]> = {
+  '@storybook/html': ['@storybook/html-vite', '@storybook/html-webpack5'],
+  '@storybook/preact': ['@storybook/preact-vite', '@storybook/preact-webpack5'],
+  '@storybook/react': [
+    '@storybook/nextjs',
+    '@storybook/react-vite',
+    '@storybook/react-webpack5',
+    '@storybook/react-native-web-vite',
+    '@storybook/experimental-nextjs-vite',
+  ],
+  '@storybook/server': ['@storybook/server-webpack5'],
+  '@storybook/svelte': [
+    '@storybook/svelte-vite',
+    '@storybook/svelte-webpack5',
+    '@storybook/sveltekit',
+  ],
+  '@storybook/vue3': ['@storybook/vue3-vite', '@storybook/vue3-webpack5'],
+  '@storybook/web-components': [
+    '@storybook/web-components-vite',
+    '@storybook/web-components-webpack5',
+  ],
 }
 
 //------------------------------------------------------------------------------
@@ -64,29 +64,12 @@ export = createStorybookRule<Options, MessageIds>({
   },
 
   create(context) {
-    //----------------------------------------------------------------------
-    // Helpers
-    //----------------------------------------------------------------------
-
-    const getSuggestedFrameworkPackages = (rendererName: string): string[] => {
-      const rendererType = rendererPackages[rendererName]
-      if (!rendererType) return []
-
-      return Object.entries(frameworkPackages)
-        .filter(([pkg]) => pkg.includes(rendererType))
-        .map(([pkg]) => pkg)
-    }
-
-    //----------------------------------------------------------------------
-    // Public
-    //----------------------------------------------------------------------
-
     return {
       ImportDeclaration(node: TSESTree.ImportDeclaration) {
         const packageName = node.source.value
 
-        if (typeof packageName === 'string' && rendererPackages[packageName]) {
-          const suggestions = getSuggestedFrameworkPackages(packageName)
+        if (typeof packageName === 'string' && packageName in rendererToFrameworks) {
+          const suggestions = rendererToFrameworks[packageName as RendererPackage]
 
           context.report({
             node,
