@@ -1,3 +1,15 @@
+# v0.11.5 (Mon Mar 17 2025)
+
+#### 🐛 Bug Fix
+
+- fix(peer-deps): Add support for typescript 5.8 [#195](https://github.com/storybookjs/eslint-plugin-storybook/pull/195) ([@mrginglymus](https://github.com/mrginglymus))
+
+#### Authors: 1
+
+- Bill Collins ([@mrginglymus](https://github.com/mrginglymus))
+
+---
+
 # v0.11.4 (Wed Mar 05 2025)
 
 #### 🐛 Bug Fix
