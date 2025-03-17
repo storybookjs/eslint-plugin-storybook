@@ -34,6 +34,7 @@
     "dev": "tsup --watch",
     "generate-rule": "ts-node ./tools/generate-rule",
     "lint": "eslint --fix .",
+    "check": "tsc --noEmit",
     "migrate": "ts-migrate-full",
     "prepare": "husky",
     "prettier": "prettier --write .",
@@ -41,7 +42,7 @@
     "test": "pnpm run test:unit && pnpm run test:integration",
     "test:unit": "vitest run",
     "test:integration": "vitest run --config vitest.integration.config.ts",
-    "test:ci": "tsc --noEmit && pnpm run test:unit --run && pnpm run test:integration --run",
+    "test:ci": "pnpm run check && pnpm run test:unit --run && pnpm run test:integration --run",
     "update-all": "pnpm run update-configs && pnpm run update-docs",
     "update-configs": "ts-node ./tools/update-configs",
     "update-docs": "ts-node ./tools/update-rules-list"
