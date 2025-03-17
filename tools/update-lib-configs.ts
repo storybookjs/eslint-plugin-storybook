@@ -43,7 +43,7 @@ function formatCategory(category: TCategory) {
     * in order to update its content, execute "pnpm run update-all"
     */
     export = {
-      extends: require.resolve('./${extendsCategoryId}'),
+      extends: require.resolve('eslint-plugin-storybook/dist/configs/${extendsCategoryId}'),
       rules: ${formatRules(category.rules)}
     }
   `

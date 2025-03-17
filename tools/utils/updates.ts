@@ -1,12 +1,13 @@
 import { categories, TCategory } from './categories'
+import { CategoryId } from '../../lib/utils/constants'
 
-export const extendsCategories = {
+export const extendsCategories: Partial<Record<CategoryId, string | null>> = {
   csf: null,
   recommended: null,
   'csf-strict': 'csf',
 }
 
-const externalRuleOverrides = {
+const externalRuleOverrides: { [key: string]: string } = {
   'react-hooks/rules-of-hooks': 'off',
   'import/no-anonymous-default-export': 'off',
 }

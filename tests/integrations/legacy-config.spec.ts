@@ -1,3 +1,4 @@
+import { describe, it, expect, beforeEach, afterEach } from 'vitest'
 import cp from 'child_process'
 import path from 'path'
 import semver from 'semver'
