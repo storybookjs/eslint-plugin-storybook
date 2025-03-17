@@ -64,11 +64,12 @@ ruleTester.run('no-renderer-packages', rule, {
       errors: [
         {
           messageId: 'noRendererPackages',
-          type: AST_NODE_TYPES.ImportDeclaration,
           data: {
             rendererPackage: '@storybook/react',
-            suggestions: '@storybook/react-vite, @storybook/react-webpack5',
+            suggestions:
+              '@storybook/preact-vite, @storybook/preact-webpack5, @storybook/react-native-web-vite, @storybook/react-vite, @storybook/react-webpack5',
           },
+          type: AST_NODE_TYPES.ImportDeclaration,
         },
       ],
     },
