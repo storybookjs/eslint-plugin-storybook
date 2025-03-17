@@ -21,5 +21,11 @@ jobs:
       - name: Build
         run: pnpm run build
 
-      - name: Run tests
-        run: pnpm run test:ci
+      - name: Run Check
+        run: pnpm run check
+
+      - name: Run tests:unit
+        run: pnpm run test:unit
+
+      - name: Run tests:integration
+        run: pnpm run test:integration
