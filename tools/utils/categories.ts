@@ -26,7 +26,7 @@ for (const categoryId of categoryIds) {
   for (const rule of rules) {
     const ruleCategories = rule.meta.docs?.categories
 
-    if (ruleCategories?.includes(categoryId)) {
+    if (ruleCategories?.includes(categoryId) && rule.meta.docs?.excludeFromConfig !== true) {
       categoriesConfig[categoryId].rules?.push(rule)
     }
   }
