@@ -5,10 +5,15 @@
  */
 export = {
   extends: require.resolve('./csf'),
-  rules: {
-    'react-hooks/rules-of-hooks': 'off',
-    'import/no-anonymous-default-export': 'off',
-    'storybook/no-stories-of': 'error',
-    'storybook/no-title-property-in-meta': 'error',
-  } as const,
+  overrides: [
+    {
+      files: ['**/*.stories.@(ts|tsx|js|jsx|mjs|cjs)', '**/*.story.@(ts|tsx|js|jsx|mjs|cjs)'],
+      rules: {
+        'react-hooks/rules-of-hooks': 'off',
+        'import/no-anonymous-default-export': 'off',
+        'storybook/no-stories-of': 'error',
+        'storybook/no-title-property-in-meta': 'error',
+      } as const,
+    },
+  ],
 }
