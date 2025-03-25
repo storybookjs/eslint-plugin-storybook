@@ -1,3 +1,17 @@
+# v0.12.0 (Tue Mar 25 2025)
+
+#### 🚀 Enhancement
+
+- Add meta-satisfies-type rule (rebased) [#200](https://github.com/storybookjs/eslint-plugin-storybook/pull/200) ([@NotWoods](https://github.com/NotWoods) [@Sidnioulz](https://github.com/Sidnioulz) [@kasperpeulen](https://github.com/kasperpeulen))
+
+#### Authors: 3
+
+- Kasper Peulen ([@kasperpeulen](https://github.com/kasperpeulen))
+- Steve Dodier-Lazaro ([@Sidnioulz](https://github.com/Sidnioulz))
+- Tiger Oakes ([@NotWoods](https://github.com/NotWoods))
+
+---
+
 # v0.11.6 (Mon Mar 17 2025)
 
 #### 🐛 Bug Fix
