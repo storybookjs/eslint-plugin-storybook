@@ -20,6 +20,7 @@ import csfComponent from './rules/csf-component'
 import defaultExports from './rules/default-exports'
 import hierarchySeparator from './rules/hierarchy-separator'
 import metaInlineProperties from './rules/meta-inline-properties'
+import metaSatisfiesType from './rules/meta-satisfies-type'
 import noRedundantStoryName from './rules/no-redundant-story-name'
 import noRendererPackages from './rules/no-renderer-packages'
 import noStoriesOf from './rules/no-stories-of'
@@ -52,6 +53,7 @@ export = {
     'default-exports': defaultExports,
     'hierarchy-separator': hierarchySeparator,
     'meta-inline-properties': metaInlineProperties,
+    'meta-satisfies-type': metaSatisfiesType,
     'no-redundant-story-name': noRedundantStoryName,
     'no-renderer-packages': noRendererPackages,
     'no-stories-of': noStoriesOf,

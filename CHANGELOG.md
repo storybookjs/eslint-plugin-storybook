@@ -1,3 +1,41 @@
+# v0.12.0 (Tue Mar 25 2025)
+
+#### 🚀 Enhancement
+
+- Add meta-satisfies-type rule (rebased) [#200](https://github.com/storybookjs/eslint-plugin-storybook/pull/200) ([@NotWoods](https://github.com/NotWoods) [@Sidnioulz](https://github.com/Sidnioulz) [@kasperpeulen](https://github.com/kasperpeulen))
+
+#### Authors: 3
+
+- Kasper Peulen ([@kasperpeulen](https://github.com/kasperpeulen))
+- Steve Dodier-Lazaro ([@Sidnioulz](https://github.com/Sidnioulz))
+- Tiger Oakes ([@NotWoods](https://github.com/NotWoods))
+
+---
+
+# v0.11.6 (Mon Mar 17 2025)
+
+#### 🐛 Bug Fix
+
+- fix: allows self-referencing context in play function [#192](https://github.com/storybookjs/eslint-plugin-storybook/pull/192) ([@makotot](https://github.com/makotot))
+
+#### Authors: 1
+
+- Makoto Tateno ([@makotot](https://github.com/makotot))
+
+---
+
+# v0.11.5 (Mon Mar 17 2025)
+
+#### 🐛 Bug Fix
+
+- fix(peer-deps): Add support for typescript 5.8 [#195](https://github.com/storybookjs/eslint-plugin-storybook/pull/195) ([@mrginglymus](https://github.com/mrginglymus))
+
+#### Authors: 1
+
+- Bill Collins ([@mrginglymus](https://github.com/mrginglymus))
+
+---
+
 # v0.11.4 (Wed Mar 05 2025)
 
 #### 🐛 Bug Fix
