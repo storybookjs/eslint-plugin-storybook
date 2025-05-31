@@ -84,14 +84,21 @@ ruleTester.run('only-csf3', rule, {
         export const Primary = Template.bind({})
         Primary.args = { label: 'Button' }
       `,
+      output: dedent`
+        const Template = (args) => <Button {...args} />
+        export const Primary = {
+          render: Template,
+          args: { label: 'Button' },
+        }
+      `,
       errors: [
         {
           messageId: 'noCSF2Format',
           data: {
             storyName: 'Primary',
-            pattern: 'property assignment (.args)',
+            pattern: 'template bind',
           },
-          type: AST_NODE_TYPES.AssignmentExpression,
+          type: AST_NODE_TYPES.CallExpression,
         },
       ],
     },
@@ -101,6 +108,13 @@ ruleTester.run('only-csf3', rule, {
       code: dedent`
         export function Secondary(args) {
           return <Button {...args} />
+        }
+      `,
+      output: dedent`
+        export const Secondary = {
+          render: function(args) {
+            return <Button {...args} />
+          },
         }
       `,
       errors: [
@@ -115,46 +129,18 @@ ruleTester.run('only-csf3', rule, {
       ],
     },
 
-    // CSF2: Property assignment
-    {
-      code: dedent`
-        export const Primary = Template.bind({})
-        Primary.parameters = { foo: 'bar' }
-      `,
-      errors: [
-        {
-          messageId: 'noCSF2Format',
-          data: {
-            storyName: 'Primary',
-            pattern: 'property assignment (.parameters)',
-          },
-          type: AST_NODE_TYPES.AssignmentExpression,
-        },
-      ],
-    },
-
-    // CSF2: Arrow function
-    {
-      code: dedent`
-        export const Primary = () => <Button>Click me</Button>
-      `,
-      errors: [
-        {
-          messageId: 'noCSF2Format',
-          data: {
-            storyName: 'Primary',
-            pattern: 'arrow function',
-          },
-          type: AST_NODE_TYPES.ArrowFunctionExpression,
-        },
-      ],
-    },
-
     // CSF2: Function expression
     {
       code: dedent`
         export const Secondary = function(args) {
           return <Button {...args}>Click me</Button>
+        }
+      `,
+      output: dedent`
+        export const Secondary = {
+          render: function(args) {
+            return <Button {...args}>Click me</Button>
+          },
         }
       `,
       errors: [
@@ -169,26 +155,6 @@ ruleTester.run('only-csf3', rule, {
       ],
     },
 
-    // CSF2: Multiple property assignments (should only report once)
-    {
-      code: dedent`
-        export const Complex = Template.bind({})
-        Complex.args = { label: 'Complex' }
-        Complex.play = async () => { /* test interactions */ }
-        Complex.parameters = { layout: 'centered' }
-      `,
-      errors: [
-        {
-          messageId: 'noCSF2Format',
-          data: {
-            storyName: 'Complex',
-            pattern: 'property assignment (.args)',
-          },
-          type: AST_NODE_TYPES.AssignmentExpression,
-        },
-      ],
-    },
-
     // CSF2: Mixed with CSF3 (should detect both)
     {
       code: dedent`
@@ -197,6 +163,16 @@ ruleTester.run('only-csf3', rule, {
         }
         export function Invalid(args) {
           return <Button {...args} />
+        }
+      `,
+      output: dedent`
+        export const Valid = {
+          args: { label: 'Valid' },
+        }
+        export const Invalid = {
+          render: function(args) {
+            return <Button {...args} />
+          },
         }
       `,
       errors: [
@@ -211,22 +187,53 @@ ruleTester.run('only-csf3', rule, {
       ],
     },
 
-    // CSF2: Nested stories (inside describe block)
+    // CSF2: Property assignment mixed with CSF3
     {
       code: dedent`
-        describe('Button', () => {
-          export const Primary = () => <Button>Click me</Button>
-          Primary.args = { label: 'Primary' }
-        })
+        export const Primary = {}
+        Primary.parameters = { foo: 'bar' }
+      `,
+      output: dedent`
+        export const Primary = {
+          parameters: { foo: 'bar' },
+        }
       `,
       errors: [
         {
           messageId: 'noCSF2Format',
           data: {
             storyName: 'Primary',
-            pattern: 'property assignment (.args)',
+            pattern: 'property assignment (.parameters)',
           },
           type: AST_NODE_TYPES.AssignmentExpression,
+        },
+      ],
+    },
+
+    // CSF2: Complex story with multiple properties
+    {
+      code: dedent`
+        export const Complex = Template.bind({})
+        Complex.args = { label: 'Complex' }
+        Complex.parameters = { layout: 'centered' }
+        Complex.play = async () => { /* test interactions */ }
+      `,
+      output: dedent`
+        export const Complex = {
+          render: Template,
+          args: { label: 'Complex' },
+          parameters: { layout: 'centered' },
+          play: async () => { /* test interactions */ },
+        }
+      `,
+      errors: [
+        {
+          messageId: 'noCSF2Format',
+          data: {
+            storyName: 'Complex',
+            pattern: 'template bind',
+          },
+          type: AST_NODE_TYPES.CallExpression,
         },
       ],
     },

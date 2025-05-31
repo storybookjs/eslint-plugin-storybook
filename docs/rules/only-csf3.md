@@ -32,6 +32,17 @@ export const Tertiary = () => <Button>Click me</Button>
 export const WithArgs = Template.bind({})
 WithArgs.args = { label: 'With Args' }
 WithArgs.parameters = { layout: 'centered' }
+
+// ❌ CSF2: Template.bind({}) with multiple stories
+const Template = (args) => <Button {...args} />
+
+export const Primary = Template.bind({})
+Primary.args = { label: 'Primary', variant: 'primary' }
+Primary.parameters = { backgrounds: { default: 'light' } }
+
+export const Secondary = Template.bind({})
+Secondary.args = { label: 'Secondary', variant: 'secondary' }
+Secondary.parameters = { backgrounds: { default: 'dark' } }
 ```
 
 Examples of **correct** code:
@@ -47,6 +58,21 @@ export const Primary = {
 // ✅ CSF3: Object literal with render function
 export const Secondary = {
   render: (args) => <Button {...args}>Secondary</Button>,
+}
+
+// ✅ CSF3: Multiple stories sharing render logic
+const render = (args) => <Button {...args} />
+
+export const Primary = {
+  render,
+  args: { label: 'Primary', variant: 'primary' },
+  parameters: { backgrounds: { default: 'light' } },
+}
+
+export const Secondary = {
+  render,
+  args: { label: 'Secondary', variant: 'secondary' },
+  parameters: { backgrounds: { default: 'dark' } },
 }
 ```
 
@@ -68,8 +94,8 @@ Primary.args = { label: 'Primary' }
 
 // ✅ CSF3
 export const Primary = {
-  args: { label: 'Primary' },
   render: (args) => <Button {...args} />,
+  args: { label: 'Primary' },
 }
 ```
 
@@ -104,6 +130,7 @@ Primary.decorators = [
 
 // ✅ CSF3
 export const Primary = {
+  render: (args) => <Button {...args} />,
   args: { label: 'Primary' },
   parameters: { layout: 'centered' },
   decorators: [
@@ -113,7 +140,6 @@ export const Primary = {
       </div>
     ),
   ],
-  render: (args) => <Button {...args} />,
 }
 ```
 
