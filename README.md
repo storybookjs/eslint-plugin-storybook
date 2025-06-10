@@ -135,6 +135,19 @@ export default [
 ]
 ```
 
+In case you are using utility functions from tools like `tseslint`, you might need to set the plugin a little differently:
+
+```ts
+import storybook from "eslint-plugin-storybook";
+
+import somePlugin from 'some-plugin';
+import tseslint from 'typescript-eslint';
+export default tseslint.config(
+  somePlugin,
+  storybook.configs["flat/recommended"] // notice that it is not destructured
+);"
+```
+
 #### Overriding/disabling rules
 
 Optionally, you can override, add or disable rules settings. You likely don't want these settings to be applied in every file, so make sure that you add a flat config section in your `eslint.config.[m|c]?js` file that applies the overrides only to your stories files.
