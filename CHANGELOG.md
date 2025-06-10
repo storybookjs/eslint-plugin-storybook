@@ -1,3 +1,15 @@
+# v0.12.1 (Tue Jun 10 2025)
+
+#### ⚠️ Pushed to `main`
+
+- update README [skip-ci] ([@yannbf](https://github.com/yannbf))
+
+#### Authors: 1
+
+- Yann Braga ([@yannbf](https://github.com/yannbf))
+
+---
+
 # v0.12.0 (Tue Mar 25 2025)
 
 #### 🚀 Enhancement
