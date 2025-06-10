@@ -44,8 +44,8 @@
     "test:integration": "jest --config jest.integration.config.js --testTimeout 60000",
     "test:ci": "tsc --noEmit && pnpm run test:unit --ci && pnpm run test:integration --ci",
     "update-all": "pnpm run update-configs && pnpm run update-docs",
-    "update-configs": "ts-node ./tools/update-configs",
-    "update-docs": "ts-node ./tools/update-rules-list"
+    "update-configs": "ts-node ./tools/update-configs.ts",
+    "update-docs": "ts-node ./tools/update-rules-list.ts"
   },
   "lint-staged": {
     "*.js": "eslint --cache --fix",

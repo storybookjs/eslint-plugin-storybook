@@ -57,6 +57,7 @@ function formatCategory(category: TCategory) {
       ...config,
       {
         name: 'storybook:${category.categoryId}:rules',
+        files: [${STORIES_GLOBS.join(', ')}],
         rules: ${formatRules(category.rules)}
       }
     ]
