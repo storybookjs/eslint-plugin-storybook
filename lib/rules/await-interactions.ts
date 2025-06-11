@@ -76,6 +76,16 @@ export = createStorybookRule({
       if (
         isMemberExpression(expr.callee) &&
         isIdentifier(expr.callee.object) &&
+        isIdentifier(expr.callee.property) &&
+        expr.callee.object.name === 'userEvent' &&
+        expr.callee.property.name === 'setup'
+      ) {
+        return null
+      }
+
+      if (
+        isMemberExpression(expr.callee) &&
+        isIdentifier(expr.callee.object) &&
         shouldAwait(expr.callee.object.name)
       ) {
         return expr.callee.object
