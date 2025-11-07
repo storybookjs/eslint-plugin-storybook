@@ -44,7 +44,10 @@ function formatCategory(category: TCategory) {
     */
     export = {
       extends: require.resolve('./${extendsCategoryId}'),
-      rules: ${formatRules(category.rules)}
+      overrides: [{
+        files: [${STORIES_GLOBS.join(', ')}],
+        rules: ${formatRules(category.rules)}
+      },]
     }
   `
 }
